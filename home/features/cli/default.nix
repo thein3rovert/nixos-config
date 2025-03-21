@@ -1,5 +1,9 @@
 {pkgs, ...}: {
 
+    imports = [
+    ./zsh.nix
+  ];
+
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
@@ -7,7 +11,7 @@
 
   programs.eza = {
     enable = true;
-    enableFishIntegration = true;
+    enableZshIntegration = true;
     enableBashIntegration = true;
     extraOptions = ["-l" "--icons" "--git" "-a"];
   };
