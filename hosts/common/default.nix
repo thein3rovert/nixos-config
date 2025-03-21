@@ -1,7 +1,16 @@
 # Common configuration for all hosts
 
 { lib, inputs, outputs, ... }: {
-  imports = [./users;]
+  imports = [./users
+   inputs.home-manager.nixosModules.home-manager
+  ];
+  #Enable suer packages and make the input and oputput of the flake available to home manager
+    home-manager = {
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs outputs;};
+  };
+
+  
   nixpkgs = {
     # You can add overlays here
     overlays = [
