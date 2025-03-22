@@ -16,10 +16,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    nix-colors.url = "github:misterio77/nix-colors";
+
+        ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
+
+     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     #nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
   };
 
-  outputs = { self, home-manager, nixpkgs, ... }@inputs:
+  outputs = { self, home-manager, nixpkgs,nix-colors, ghostty, ... }@inputs:
     let
       inherit (self) outputs;
       systems = [
@@ -36,8 +44,11 @@
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/nixos ];
+          specialArgs = { inherit inputs outputs nix-colors; };
+          modules = [ ./hosts/nixos
+           { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+
+          ];
         };
       };
       homeConfigurations = {

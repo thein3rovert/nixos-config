@@ -24,7 +24,7 @@ in
               bindkey '^f' autosuggest-accept
               # OH-MY-POSH
               if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-                eval "$(oh-my-posh init zsh --config ~/.poshthemes/catppuccin_macchiato.omp.json )"
+                eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json )"
               fi
 
               export NIX_PATH="nixpkgs=channel:nixos-unstable"

@@ -27,6 +27,7 @@
   #  ];
     packages = [inputs.home-manager.packages.${pkgs.system}.default];
   };
+  users.extraGroups.docker.members = ["thein3rovert"];
   home-manager.users.thein3rovert =
     import ../../../home/thein3rovert/${config.networking.hostName}.nix;
 }

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -54,28 +54,55 @@
   # Configure console keymap
   console.keyMap = "uk";
 
-
-
-
-
-
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-     #zed-editor
-     git
-     neovim
-     vscode
-     evolve-core
-  ];
+environment.systemPackages = with pkgs; [
+  # ------------------------------
+  # Essential Tools
+  # ------------------------------
+  vim                     # Text editor (Don't forget to add an editor to edit configuration.nix! Nano is also installed by default.)
+  wget                    # Utility for downloading files from the web
+
+  evolve-core             # Core of the Evolve tool (purpose-specific package)
+
+  # ------------------------------
+  # CLI (Command Line Interface)
+  # ------------------------------
+  vim                     # Text editor
+  git                     # Version control tool
+  neovim                  # Modern text editor (alternative to vim)
+  kitty                   # Terminal emulator
+  # ddcutil                 # Brightness control (works via CLI)
+  sshfs                   # SSH file system (mount remote directories)
+  lazydocker              # CLI Docker management tool
+  nh                      # Neko (text-based game)
+  nix-ld                  # Nix dynamic library management tool
+  nil
+  nixd
+  # ------------------------------
+  # GUI (Graphical User Interface)
+  # ------------------------------
+  # dunst                   # Notification daemon (GUI notifications)
+  # libnotify              # Library for notifications (works with GUI tools)
+  # blueberry              # Bluetooth configuration tool (GUI)
+  # qt5ct                   # Qt5 configuration tool (GUI-based)
+  # qt6.qtwayland           # Wayland support for Qt6 (GUI apps)
+  # qt6Packages.qtstyleplugin-kvantum # Kvantum style plugin for Qt6 (GUI-based)
+  # libsForQt5.qtstyleplugin-kvantum # Kvantum style plugin for Qt5 (GUI-based)
+  # gtk-engine-murrine      # GTK2 engine for theming (GUI)
+  # tokyonight-gtk-theme    # GTK theme (for GUI)
+
+  # ------------------------------
+  # Other (Utilities or configurations not strictly CLI or GUI)
+  # ------------------------------
+  xdg-user-dirs           # Utility for managing user directories
+  xdg-utils               # Utilities for working with XDG base directories
+  inputs.zen-browser.packages."${system}".default  # Zen Browser package (system-specific)
+];
+
 
 
 

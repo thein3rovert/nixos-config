@@ -1,4 +1,4 @@
-{ config, ... }: { imports = [ ./home.nix ../common ../features/cli ]; 
+{ config, ... }: { imports = [ ./home.nix ../common ../features/cli ../features/coding];
 
 features = {
   cli = {

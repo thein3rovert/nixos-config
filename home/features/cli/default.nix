@@ -28,5 +28,6 @@
     ripgrep
     tldr
     zip
+    oh-my-posh
   ];
 }

@@ -20,6 +20,6 @@
     # ./fonts.nix
     # ./vsftpd.nix
       ./programs.nix
-    #    ./dev -- fix zed later
+      ./dev
   ];
 }
