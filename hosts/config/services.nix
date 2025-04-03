@@ -22,7 +22,6 @@
   #  services.thermald.enable = false;
   #  services.hypridle.enable = true;
   #  services.power-profiles-daemon.enable = true;  # Using TLP now - see battery.nix
-
   services.gnome.gnome-keyring.enable = true; # Not in main config
   services.gnome.gnome-remote-desktop.enable = true; # Not in main config
   services.pipewire = {

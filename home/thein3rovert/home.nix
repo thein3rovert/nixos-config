@@ -2,7 +2,7 @@
 #
 # home-manager init ./
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs,... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -60,6 +60,7 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+     NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1;
   };
 
   # Let Home Manager install and manage itself.

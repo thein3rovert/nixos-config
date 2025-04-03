@@ -103,6 +103,16 @@ environment.systemPackages = with pkgs; [
   inputs.zen-browser.packages."${system}".default  # Zen Browser package (system-specific)
 ];
 
+  nmod.fonts = {
+    emoji = true;
+    nerd = true;
+  };
+  systemd.services.kanata = {
+  description = "Kanata Keyboard Manager";
+  wantedBy = [ "multi-user.target" ];
+  serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
+  serviceConfig.Restart = "always";
+};
 
 
 

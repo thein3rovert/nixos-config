@@ -21,5 +21,6 @@
     # ./vsftpd.nix
       ./programs.nix
       ./dev
+      ./fonts
   ];
 }
