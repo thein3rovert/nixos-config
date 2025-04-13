@@ -59,8 +59,12 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Session Variables
+  environment.sessionVariables = {
+    FLAKE = "/home/thein3rovert/thein3rovert-flake"; # Specify nix path for nh used for easy rebuild
+  };
+
+  # List packages installed in system profile. To search, run
   environment.systemPackages = with pkgs; [
     # ------------------------------
     # Essential Tools
@@ -80,7 +84,11 @@
     # ddcutil                 # Brightness control (works via CLI)
     sshfs # SSH file system (mount remote directories)
     lazydocker # CLI Docker management tool
-    nh # Neko (text-based game)
+
+    nh # Alternate to nix rebuild
+    nvd # Assist nh with colorful output
+    nix-output-monitor
+
     nix-ld # Nix dynamic library management tool
     nil
     nixd
