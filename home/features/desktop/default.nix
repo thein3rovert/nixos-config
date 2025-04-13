@@ -16,5 +16,9 @@
     obs-studio
     wpsoffice
     sticky-notes
+    textsnatcher
+    hyprcursor
+    hyprshot
+    zathura
   ];
 }

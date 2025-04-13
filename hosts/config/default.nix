@@ -5,13 +5,13 @@
     ./boot.nix
     # ./kernel.nix
     # ./intel-gpu.nix
-      ./services.nix
+    ./services.nix
     # ./printer.nix
-    # ./opengl.nix
+    ./opengl.nix
     # ./packages.nix
     # ./portals.nix
     # ./buildtools.nix
-    # ./security.nix
+    ./security.nix
     ./hardware.nix
     # ./nixSettings.nix -- Now moved to common folder
     # ./uxplay.nix
@@ -19,8 +19,8 @@
     # ./vm.nix
     # ./fonts.nix
     # ./vsftpd.nix
-      ./programs.nix
-      ./dev
-      ./fonts
+    ./programs.nix
+    ./dev
+    ./fonts
   ];
 }

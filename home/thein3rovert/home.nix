@@ -2,7 +2,13 @@
 #
 # home-manager init ./
 
-{ config, lib, pkgs, inputs,... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -26,6 +32,18 @@
     kitty
     wofi
     zed-editor
+
+    # Make sure to move all this to the right config files later
+    wlogout
+    hyprlock
+
+    blueman
+
+    pavucontrol
+    playerctl
+
+    brightnessctl
+
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -60,7 +78,7 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
-     NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1;
+    NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM = 1;
   };
 
   # Let Home Manager install and manage itself.
