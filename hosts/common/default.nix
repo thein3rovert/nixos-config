@@ -1,16 +1,23 @@
 # Common configuration for all hosts
 
-{ lib, inputs, outputs, pkgs, ... }: {
-  imports = [./users
-   inputs.home-manager.nixosModules.home-manager
+{
+  lib,
+  inputs,
+  outputs,
+  pkgs,
+  ...
+}:
+{
+  imports = [
+    ./users
+    inputs.home-manager.nixosModules.home-manager
   ];
   #Enable suer packages and make the input and oputput of the flake available to home manager
-    home-manager = {
+  home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = { inherit inputs outputs; };
   };
 
-  
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -49,8 +56,9 @@
       options = "--delete-older-than 30d";
     };
     optimise.automatic = true;
-    registry = (lib.mapAttrs (_: flake: { inherit flake; }))
-      ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+    registry = (lib.mapAttrs (_: flake: { inherit flake; })) (
+      (lib.filterAttrs (_: lib.isType "flake")) inputs
+    );
     nixPath = [ "/etc/nix/path" ];
   };
   users.defaultUserShell = pkgs.zsh;

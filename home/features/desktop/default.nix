@@ -20,5 +20,6 @@
     hyprcursor
     hyprshot
     zathura
+    anytype
   ];
 }

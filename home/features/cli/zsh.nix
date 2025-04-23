@@ -85,6 +85,9 @@ in
         h = "history";
         hg = "history | grep ";
 
+        # Editor
+        zed = "zeditor"; # Zed editor
+
       };
     };
 

@@ -80,6 +80,16 @@
     # EDITOR = "emacs";
     NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM = 1;
   };
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      cloud = {
+        hostname = "thein3rovert.dev";
+        identityFile = "~/.ssh/id_ed25519";
+        user = "thein3rovert-cloud";
+      };
+    };
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
