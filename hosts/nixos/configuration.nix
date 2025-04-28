@@ -16,7 +16,11 @@
     ../config # Contains hardware files
 
   ];
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = [
+    "ntfs"
+    "vfat"
+    "ext4"
+  ];
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -112,6 +116,7 @@
     xdg-utils # Utilities for working with XDG base directories
     inputs.zen-browser.packages."${system}".default # Zen Browser package (system-specific)
     networkmanagerapplet
+    fuse # file system management for grub
   ];
 
   nmod.fonts = {

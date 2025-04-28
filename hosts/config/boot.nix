@@ -20,9 +20,12 @@
 
   # Kernel modules to load at boot
   boot.kernelModules = [ "i2c-dev" ]; # Load i2c-dev module for I2C device support
-  boot.blacklistedKernelModules = [ "rtw88" ];
+  boot.blacklistedKernelModules = [
+    "rtw88"
+    "v4l2loopback"
+  ];
 
-    ## For updating my driver
+  ## For updating my driver
   boot.extraModulePackages = with config.boot.kernelPackages; [ rtw88 ];
   # Disable power managemnet
   boot.kernelParams = [
@@ -36,3 +39,4 @@
   # For more advanced configuration, refer to the video tutorial
   # https://www.youtube.com/watch?v=nJ6glhP7JI0
 }
+
