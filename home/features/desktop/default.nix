@@ -20,8 +20,8 @@
     hyprcursor
     hyprshot
     zathura
-    anytype
     banana-cursor
     nwg-look
+    discord
   ];
 }
