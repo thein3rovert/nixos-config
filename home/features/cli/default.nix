@@ -71,10 +71,11 @@
     cargo # Rust package manager and build tool
 
     # Node.js
-    nodejs_23
+    nodejs_24
 
     wl-clipboard
     xclip
+    tmux
 
   ];
 

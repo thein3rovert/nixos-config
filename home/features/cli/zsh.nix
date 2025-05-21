@@ -20,7 +20,7 @@ in
         ];
         theme = "dst";
       };
-      initExtra = ''
+      initContent = ''
                       bindkey '^f' autosuggest-accept
                       # OH-MY-POSH
                       if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
