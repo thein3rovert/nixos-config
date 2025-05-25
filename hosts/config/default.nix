@@ -20,6 +20,7 @@
     # ./fonts.nix
     # ./vsftpd.nix
     ./programs.nix
+    ./freshrss.nix
     ./dev
     ./fonts
   ];
