@@ -121,6 +121,12 @@ in
         # Editor
         zed = "zeditor"; # Zed editor
 
+        # Aliases: tmux
+        tn = "tmux new-session -s";
+        tl = "tmux list-sessions";
+        ta = "tmux attach-session -t";
+        tk = "tmux kill-session -t";
+
       };
     };
 
