@@ -15,7 +15,6 @@
     spotify
     obs-studio
     wpsoffice
-    sticky-notes
     textsnatcher
     hyprcursor
     hyprshot
@@ -23,5 +22,6 @@
     banana-cursor
     nwg-look
     discord
+    sticky-notes
   ];
 }
