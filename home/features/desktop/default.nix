@@ -23,5 +23,6 @@
     nwg-look
     discord
     sticky-notes
+    todoist-electron
   ];
 }
