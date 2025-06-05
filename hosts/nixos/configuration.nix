@@ -102,6 +102,7 @@
     dunst # Notification daemon (GUI notifications)
     # libnotify              # Library for notifications (works with GUI tools)
     blueberry # Bluetooth configuration tool (GUI)
+    sticky-notes
     # qt5ct                   # Qt5 configuration tool (GUI-based)
     # qt6.qtwayland           # Wayland support for Qt6 (GUI apps)
     # qt6Packages.qtstyleplugin-kvantum # Kvantum style plugin for Qt6 (GUI-based)

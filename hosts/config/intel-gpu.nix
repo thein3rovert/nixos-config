@@ -19,10 +19,15 @@ lib.mkIf ("${gpuType}" == "intel") {
   hardware.graphics = {
     extraPackages = with pkgs; [
       intel-media-driver
+
+      # Native Intel drivers best for GPUs
       vaapiIntel
       vaapiVdpau
       libvdpau-va-gl
+
+      # Core Intel driver
+      libva
+      libva-utils
     ];
   };
 }
-

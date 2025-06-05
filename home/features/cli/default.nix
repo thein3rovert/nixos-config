@@ -77,6 +77,9 @@
     xclip
     tmux
 
+    # Azure
+    azure-cli
+
   ];
 
 }
