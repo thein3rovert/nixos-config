@@ -19,15 +19,26 @@
 
     nix-colors.url = "github:misterio77/nix-colors";
 
-        ghostty = {
+    ghostty = {
       url = "github:ghostty-org/ghostty";
     };
 
-     zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    agenix.url = "github:ryantm/agenix";
+
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     #nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
   };
 
-  outputs = { self, home-manager, nixpkgs,nix-colors, ghostty, ... }@inputs:
+  outputs =
+    {
+      self,
+      home-manager,
+      nixpkgs,
+      nix-colors,
+      ghostty,
+      agenix,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       systems = [
@@ -38,15 +49,17 @@
         "x86_64-darwin"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
-    in {
-      packages =
-        forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    in
+    {
+      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs nix-colors; };
-          modules = [ ./hosts/nixos
-           { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+          modules = [
+            ./hosts/nixos
+            { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+            agenix.nixosModules.default
 
           ];
         };
