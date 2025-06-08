@@ -16,7 +16,7 @@
     # ./nixSettings.nix -- Now moved to common folder
     # ./uxplay.nix
     # ./battery.nix
-    # ./vm.nix
+    ./vm.nix
     # ./fonts.nix
     # ./vsftpd.nix
     ./programs.nix
