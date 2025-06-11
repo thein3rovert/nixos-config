@@ -108,7 +108,7 @@
           imports = [
             ./hosts/demo
             inputs.disko.nixosModules.disko
-            agenix.nixosModules.defaults
+            # agenix.nixosModules.defaults
           ];
         };
       };
