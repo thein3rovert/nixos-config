@@ -54,6 +54,7 @@
     }
   ];
 
+  programs.zsh.enable = true;
   time.timeZone = "Europe/London";
 
   system.stateVersion = "24.11";

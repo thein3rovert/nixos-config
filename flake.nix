@@ -27,6 +27,11 @@
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     #nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -37,6 +42,7 @@
       nix-colors,
       ghostty,
       agenix,
+      disko,
       ...
     }@inputs:
     let
