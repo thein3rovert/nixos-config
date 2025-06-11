@@ -88,29 +88,29 @@
         };
       };
 
-      # colmena = {
-      #   meta = {
-      #     nixpkgs = import nixpkgs {
-      #       system = "x86_64-linux";
-      #     };
-      #     specialArgs = { inherit inputs outputs; };
-      #   };
-      #
-      #   # Deployment Nodes
-      #   demo = {
-      #     deployment = {
-      #       targetHost = "demo";
-      #       targetPort = 22;
-      #       targetUser = "thein3rovert";
-      #       buildOnTarget = true;
-      #       tags = [ "homelab" ]; # TODO: Change tag later
-      #     };
-      #     imports = [
-      #       ./hosts/demo
-      #       inputs.disko.nixosModules.disko
-      #       agenix.nixosModules.defaults
-      #     ];
-      #   };
-      # };
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+          };
+          specialArgs = { inherit inputs outputs; };
+        };
+
+        # Deployment Nodes
+        demo = {
+          deployment = {
+            targetHost = "demo";
+            targetPort = 22;
+            targetUser = "thein3rovert";
+            buildOnTarget = true;
+            tags = [ "homelab" ]; # TODO: Change tag later
+          };
+          imports = [
+            ./hosts/demo
+            inputs.disko.nixosModules.disko
+            agenix.nixosModules.defaults
+          ];
+        };
+      };
     };
 }
