@@ -55,7 +55,8 @@
     }
   ];
 
-  programs.zsh.enable = true;
+  users.users.thein3rovert.ignoreShellProgramCheck = true;
+  # programs.zsh.enable = true;
   time.timeZone = "Europe/London";
 
   system.stateVersion = "24.11";

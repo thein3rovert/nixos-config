@@ -20,6 +20,8 @@
   # environment.
   home.packages = with pkgs; [
     cowsay
+    xclip
+
   ];
 
   home.file = {

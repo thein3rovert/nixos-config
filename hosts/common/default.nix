@@ -61,5 +61,5 @@
     );
     nixPath = [ "/etc/nix/path" ];
   };
-  users.defaultUserShell = pkgs.zsh;
+  # users.defaultUserShell = pkgs.zsh;
 }
