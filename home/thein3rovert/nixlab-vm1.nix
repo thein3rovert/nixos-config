@@ -1,0 +1,33 @@
+#INFO: This is a test for rewmote reployment with colema
+# This is a replica for home.nix for the demo server
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+
+{
+  # Home Manager needs a bit of information about you and the paths it should
+  # manage.
+  home.username = lib.mkDefault "thein3rovert";
+  home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
+
+  home.stateVersion = "24.05"; # Please read the comment before changing.
+
+  # The home.packages option allows you to install Nix packages into your
+  # environment.
+  home.packages = with pkgs; [
+    cowsay
+  ];
+
+  home.file = {
+  };
+
+  home.sessionVariables = {
+    NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM = 1;
+  };
+
+  programs.home-manager.enable = true;
+}

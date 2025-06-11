@@ -63,6 +63,16 @@
 
           ];
         };
+        demo = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/demo
+            inputs.disko.nixosModules.disko
+            agenix.nixosModules.default
+          ];
+        };
+
       };
       homeConfigurations = {
         "thein3rovert@nixos" = home-manager.lib.homeManagerConfiguration {
@@ -71,5 +81,30 @@
           modules = [ ./home/thein3rovert/nixos.nix ];
         };
       };
+
+      # colmena = {
+      #   meta = {
+      #     nixpkgs = import nixpkgs {
+      #       system = "x86_64-linux";
+      #     };
+      #     specialArgs = { inherit inputs outputs; };
+      #   };
+      #
+      #   # Deployment Nodes
+      #   demo = {
+      #     deployment = {
+      #       targetHost = "demo";
+      #       targetPort = 22;
+      #       targetUser = "thein3rovert";
+      #       buildOnTarget = true;
+      #       tags = [ "homelab" ]; # TODO: Change tag later
+      #     };
+      #     imports = [
+      #       ./hosts/demo
+      #       inputs.disko.nixosModules.disko
+      #       agenix.nixosModules.defaults
+      #     ];
+      #   };
+      # };
     };
 }
