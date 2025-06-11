@@ -88,6 +88,12 @@
         identityFile = "~/.ssh/id_ed25519";
         user = "thein3rovert-cloud";
       };
+      demo = {
+        hostname = "192.168.122.36";
+        identityFile = "~/.ssh/id_ed25519";
+        user = "thein3rovert";
+      };
+
     };
   };
 

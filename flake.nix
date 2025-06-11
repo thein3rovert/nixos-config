@@ -32,6 +32,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # ADDED: Colmena input
+    colmena.url = "github:zhaofengli/colmena";
   };
 
   outputs =
@@ -43,6 +45,7 @@
       ghostty,
       agenix,
       disko,
+      colmena,
       ...
     }@inputs:
     let
