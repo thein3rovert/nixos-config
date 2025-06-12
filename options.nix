@@ -20,7 +20,7 @@ in
   gitUsername = "thein3rovert";
   gitEmail = "danielolabi@gmail.com";
 
-  browser = "firefox";
+  browser = "zen";
   terminal = "kitty"; # This sets the terminal that is used by the hyprland terminal keybinding
 
   # System Settings
