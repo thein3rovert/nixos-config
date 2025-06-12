@@ -12,8 +12,7 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  # Enable users packages and make the input and output
-  # of the flake available to home manager
+  # Make flake input/output available to home manager
   home-manager = {
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs outputs; };
@@ -26,21 +25,19 @@
       outputs.overlays.modifications
       outputs.overlays.stable-packages
     ];
-
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
     };
   };
 
+  # User allowed to use the flake command
   nix = {
     settings = {
       experimental-features = "nix-command flakes";
       trusted-users = [
         "root"
         "thein3rovert"
-      ]; # Set users that are allowed to use the flake command
+      ];
     };
 
     # Automatic System Cleaning
