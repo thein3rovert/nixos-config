@@ -62,6 +62,7 @@
     {
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
+
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs nix-colors; };
@@ -69,20 +70,19 @@
             ./hosts/nixos
             { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
             agenix.nixosModules.default
-
           ];
         };
         demo = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
           system = "x86_64-linux";
+          specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/demo
             inputs.disko.nixosModules.disko
             agenix.nixosModules.default
           ];
         };
-
       };
+
       homeConfigurations = {
         "thein3rovert@nixos" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
@@ -96,7 +96,6 @@
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
           };
-          specialArgs = { inherit inputs outputs; };
         };
 
         # Deployment Nodes
@@ -113,7 +112,10 @@
             inputs.disko.nixosModules.disko
             # agenix.nixosModules.defaults
           ];
+          time.timeZone = "Europe/London";
         };
       };
+      # ADDED: New colmenaHive output
+      colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     };
 }

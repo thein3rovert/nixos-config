@@ -2,26 +2,37 @@
 
 {
   imports = [
+    # Core system configurations
     ./boot.nix
-    # ./kernel.nix
+    ./hardware.nix
+    ./security.nix
+    ./vm.nix
+
+    # Graphics and GPU
     ./intel-gpu.nix
-    ./services.nix
-    # ./printer.nix
     ./opengl.nix
+
+    # Services and programs
+    ./services.nix
+    ./programs.nix
+    ./freshrss.nix
+
+    # Development tools and environments
+    ./dev
+
+    # Fonts and UI (commented or active as per current usage)
+    ./fonts
+    # ./fonts.nix
+    # ./uxplay.nix
+    # ./battery.nix
+
+    # Optional or currently unused features
+    # ./kernel.nix
+    # ./printer.nix
     # ./packages.nix
     # ./portals.nix
     # ./buildtools.nix
-    ./security.nix
-    ./hardware.nix
-    # ./nixSettings.nix -- Now moved to common folder
-    # ./uxplay.nix
-    # ./battery.nix
-    ./vm.nix
-    # ./fonts.nix
+    # ./nixSettings.nix  # Now moved to common folder
     # ./vsftpd.nix
-    ./programs.nix
-    ./freshrss.nix
-    ./dev
-    ./fonts
   ];
 }
