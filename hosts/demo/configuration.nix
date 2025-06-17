@@ -28,6 +28,8 @@
     pkgs.curl
     pkgs.gitMinimal
     pkgs.kitty
+    pkgs.cowsay
+
   ];
 
   users.users.thein3rovert = {

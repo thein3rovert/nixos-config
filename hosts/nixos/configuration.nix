@@ -8,9 +8,9 @@
   inputs,
   ...
 }:
-let
-  inherit (import ../../options.nix) theTimezone hostname;
-in
+# let
+#   inherit (import ../../options.nix) theTimezone hostname;
+# in
 
 {
   imports = [
@@ -32,7 +32,7 @@ in
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "${hostname}"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -44,8 +44,8 @@ in
 
   # Set your time zone.zramSwap
 
-  # time.timeZone = "Europe/London";
-  time.timeZone = "${theTimezone}";
+  time.timeZone = "Europe/London";
+  # time.timeZone = "${theTimezone}";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";

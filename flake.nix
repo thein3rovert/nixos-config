@@ -33,7 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # ADDED: Colmena input
-    colmena.url = "github:zhaofengli/colmena";
+    # colmena.url = "github:zhaofengli/colmena";
   };
 
   outputs =
@@ -45,7 +45,7 @@
       ghostty,
       agenix,
       disko,
-      colmena,
+      # colmena,
       ...
     }@inputs:
     let
@@ -107,15 +107,15 @@
             buildOnTarget = true;
             tags = [ "homelab" ]; # TODO: Change tag later
           };
+          nixpkgs.system = "x86_64-linux";
           imports = [
             ./hosts/demo
             inputs.disko.nixosModules.disko
             # agenix.nixosModules.defaults
           ];
-          time.timeZone = "Europe/London";
         };
       };
       # ADDED: New colmenaHive output
-      colmenaHive = colmena.lib.makeHive self.outputs.colmena;
+      # colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     };
 }
