@@ -33,7 +33,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # ADDED: Colmena input
-    # colmena.url = "github:zhaofengli/colmena";
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -45,6 +48,7 @@
       ghostty,
       agenix,
       disko,
+      colmena,
       # colmena,
       ...
     }@inputs:
@@ -96,6 +100,7 @@
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
           };
+          specialArgs = { inherit inputs outputs; };
         };
 
         # Deployment Nodes
@@ -115,7 +120,7 @@
           ];
         };
       };
-      # ADDED: New colmenaHive output
-      # colmenaHive = colmena.lib.makeHive self.outputs.colmena;
+      # # ADDED: New colmenaHive output
+      #  colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     };
 }

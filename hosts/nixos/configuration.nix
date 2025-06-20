@@ -8,9 +8,9 @@
   inputs,
   ...
 }:
-# let
-#   inherit (import ../../options.nix) theTimezone hostname;
-# in
+let
+  inherit (import ../../options.nix) theTimezone hostname;
+in
 
 {
   imports = [
@@ -44,8 +44,8 @@
 
   # Set your time zone.zramSwap
 
-  time.timeZone = "Europe/London";
-  # time.timeZone = "${theTimezone}";
+  # time.timeZone = "Europe/London";
+  time.timeZone = "${theTimezone}";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
