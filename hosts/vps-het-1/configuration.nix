@@ -5,7 +5,6 @@
     # External Modules configuration
     #   INFO: Uncomment after migrating services
     # ../config
-    ../services
 
     # System Configuration
     ./hardware-configuration.nix
@@ -14,7 +13,7 @@
 
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
-  networking.hostName = "nixos";
+  networking.hostName = "vps-het-1";
   networking.domain = "";
 
   # Configure console keymap
