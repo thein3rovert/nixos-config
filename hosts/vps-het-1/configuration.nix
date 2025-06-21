@@ -1,0 +1,64 @@
+{ pkgs, ... }:
+{
+  imports = [
+
+    # External Modules configuration
+    #   INFO: Uncomment after migrating services
+    # ../config
+    # ../services
+
+    # System Configuration
+    ./hardware-configuration.nix
+  ];
+  users.groups.sudo = { };
+
+  boot.tmp.cleanOnBoot = true;
+  zramSwap.enable = true;
+  networking.hostName = "nixos";
+  networking.domain = "";
+
+  # Configure console keymap
+  console.keyMap = "uk";
+
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    python3
+    fastfetch
+    # ------------------------------
+    # CLI (Command Line Interface)
+    # ------------------------------
+    vim # Text editor
+    git # Version control tool
+    nh # Alternate to nix rebuild
+    nvd # Assist nh with colorful output
+    nix-output-monitor
+    nix-ld # Nix dynamic library management tool
+    nil
+    nixd
+  ];
+  users.users.thein3rovert-cloud = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "sudo"
+    ];
+    description = "thein3rovert-cloud-server";
+    openssh.authorizedKeys.keys = [
+      ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
+    ];
+  };
+
+  environment.sessionVariables = {
+    XDG_RUNTIME_DIR = "/run/user/1000";
+    DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";
+  };
+  boot.kernelPackages = pkgs.linuxPackages_6_6;
+  #boot.isContainer = true;
+
+  # Allowing nix flake to work
+  users.users.root.openssh.authorizedKeys.keys = [
+    ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
+  ];
+  system.stateVersion = "23.11";
+}

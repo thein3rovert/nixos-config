@@ -85,6 +85,17 @@
             agenix.nixosModules.default
           ];
         };
+
+        # === SERVER CONFIGURATIONS ===
+
+        # vps-het-1 = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = { inherit inputs outputs; };
+        #   modules = [
+        #     ./hosts/vps-het-1
+        #     agenix.nixosModules.default
+        #   ];
+        # };
       };
 
       homeConfigurations = {
