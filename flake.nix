@@ -104,6 +104,12 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/thein3rovert/nixos.nix ];
         };
+        "thein3rovert-cloud@vps-het-1" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home/thein3rovert/vps-het-1.nix ];
+        };
+
       };
 
       colmena = {
