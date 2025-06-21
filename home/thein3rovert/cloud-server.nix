@@ -9,7 +9,7 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = lib.mkDefault "thein3rovert";
+  home.username = lib.mkDefault "thein3rovert-cloud";
   home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
   home.stateVersion = "24.05"; # Please read the comment before changing.

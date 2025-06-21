@@ -1,6 +1,6 @@
 {
   imports = [
-    # ../common
+    ../common
     ./services
     ./configuration.nix
     ./secrets.nix
