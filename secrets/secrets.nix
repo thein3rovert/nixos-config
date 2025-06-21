@@ -2,11 +2,14 @@ let
 
   # === SYSTEM ===
   nixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL60abQ+uQoKBdYylRMzMbqSBKMeCj0cU9hJMT7O0gn6"; # Main system
-
+  vps-het-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF5A5HhG7exq5I0uQv8/BJHPsGbV4u6lqLaXeVaUaJwW";
   # === USERS ===
   thein3rovert = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe";
 
-  systems = [ nixos ];
+  systems = [
+    nixos
+    vps-het-1
+  ];
   users = [ thein3rovert ];
 in
 {
