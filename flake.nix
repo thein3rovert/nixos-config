@@ -136,6 +136,24 @@
             # agenix.nixosModules.defaults
           ];
         };
+
+        vps-het-1 = {
+          deployment = {
+            targetHost = "cloud"; # Use the actual hostname or IP
+            targetPort = 22;
+            targetUser = "thein3rovert-cloud";
+            buildOnTarget = true;
+            tags = [
+              "vps"
+              "production"
+            ];
+          };
+          nixpkgs.system = "x86_64-linux";
+          imports = [
+            ./hosts/vps-het-1
+            agenix.nixosModules.default
+          ];
+        };
       };
       # # ADDED: New colmenaHive output
       #  colmenaHive = colmena.lib.makeHive self.outputs.colmena;

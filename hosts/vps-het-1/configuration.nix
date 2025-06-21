@@ -58,5 +58,11 @@
   users.users.root.openssh.authorizedKeys.keys = [
     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
   ];
+
+  services.openssh = {
+    enable = true;
+    settings.PermitRootLogin = "yes";
+    allowSFTP = true;
+  };
   system.stateVersion = "23.11";
 }
