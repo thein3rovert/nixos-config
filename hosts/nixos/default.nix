@@ -42,4 +42,10 @@
     ./configuration.nix
     ./secrets.nix
   ];
+
+  extraServices = {
+    podman.enable = true;
+    # virtualisation.enable = true;
+  };
+
 }
