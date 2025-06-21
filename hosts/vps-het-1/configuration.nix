@@ -4,8 +4,7 @@
 
     # External Modules configuration
     #   INFO: Uncomment after migrating services
-    # ../config
-
+    #
     # System Configuration
     ./hardware-configuration.nix
   ];
