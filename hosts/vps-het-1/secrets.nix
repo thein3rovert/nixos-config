@@ -14,6 +14,11 @@
         owner = "thein3rovert-cloud";
         path = "/home/thein3rovert-cloud/secrets/.freshrss-env";
       };
+      traefik = {
+        file = ../../secrets/traefik-env.age;
+        owner = "traefik";
+        path = "/home/thein3rovert-cloud/secrets/.traefik-env";
+      };
     };
   };
 }

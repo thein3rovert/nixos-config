@@ -116,24 +116,26 @@
       '';
       deps = [ ];
     };
+
     # Use h-nix to encrypt the secret later
-    traefikEnv = {
-      text = ''
-        echo "Creating Traefik env file..."
-        cat > /var/lib/traefik/env << 'EOF'
-        GODADDY_API_KEY=gHptA64FJeuJ_HkrKrHr4rM7XQnmGXWF3ax
-        GODADDY_API_SECRET=VKZXBZRrMANKakB5Sk8jmP
-        EOF
-        chmod 600 /var/lib/traefik/env
-      '';
-      deps = [ "traefikDirectories" ];
-    };
+    # traefikEnv = {
+    #   text = ''
+    #     echo "Creating Traefik env file..."
+    #     cat > /var/lib/traefik/env << 'EOF'
+    #     GODADDY_API_KEY=<API-KEY>
+    #     GODADDY_API_SECRET=<API-SECRET>
+    #     EOF
+    #     chmod 600 /var/lib/traefik/env
+    #   '';
+    #   deps = [ "traefikDirectories" ];
+    # };
+
   };
 
   # Service configuration
   systemd.services.traefik = {
     serviceConfig = {
-      EnvironmentFile = [ "/var/lib/traefik/env" ];
+      EnvironmentFile = [ "${config.age.secrets.traefik.path}" ];
       User = "traefik";
       Group = "traefik";
     };
