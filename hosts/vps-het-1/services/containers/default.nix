@@ -4,7 +4,7 @@
     ./slash.nix
     # ./pgadmin.nix
     ./linkding.nix
-    # ./freshrss.nix
+    ./freshrss.nix
     ./glance.nix
   ];
 
