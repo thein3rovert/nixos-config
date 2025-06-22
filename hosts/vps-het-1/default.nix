@@ -1,8 +1,8 @@
 {
   imports = [
-    ../common
-    ./services
+    # ../common
+    # ./services
     ./configuration.nix
-    ./secrets.nix
+    # ./secrets.nix
   ];
 }

@@ -83,8 +83,8 @@
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      cloud = {
-        hostname = "thein3rovert.dev";
+      vps-het-1 = {
+        hostname = "95.216.211.225";
         identityFile = "~/.ssh/id_ed25519";
         user = "thein3rovert-cloud";
       };

@@ -33,7 +33,6 @@
   # === New Home Manager user ===
   # ===   TODO: Remove home manager for remote hosts
   users.users.thein3rovert-cloud = {
-    initialHashedPassword = "$6$rQvi90NkzNONdnBJ$PS.Ta1PN.AjLIQq99fyf6lZDjw/EbobCn/evNxksOrThHaN7aab9EPqZpYYy496/a582qB/ePPimmPL8D95q90";
     isNormalUser = true;
     extraGroups = [
       "wheel"
