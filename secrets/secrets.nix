@@ -20,4 +20,5 @@ in
   "secret2.age".publicKeys = systems ++ users;
   "linkding-env.age".publicKeys = systems ++ users;
   "freshrss-env.age".publicKeys = systems ++ users;
+  "traefik-env.age".publicKeys = systems ++ users;
 }
