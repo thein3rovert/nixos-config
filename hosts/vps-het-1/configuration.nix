@@ -28,8 +28,6 @@
   console.keyMap = "uk";
 
   environment.systemPackages = with pkgs; [
-    git
-    # vim
     # python3
     fastfetch
     micro
@@ -39,13 +37,10 @@
     # CLI (Command Line Interface)
     # ------------------------------
     vim # Text editor
-    # git # Version control tool
-    # nh # Alternate to nix rebuild
-    # nvd # Assist nh with colorful output
-    # nix-output-monitor
-    # nix-ld # Nix dynamic library management tool
-    # nil
-    # nixd
+    git # Version control tool
+    nix-ld # Nix dynamic library management tool
+    nil
+    nixd
   ];
   users.users.thein3rovert-cloud = {
     isNormalUser = true;
@@ -76,9 +71,20 @@
     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
   ];
 
+  # Enable FHS compatibility for VS Code Server
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib
+    openssl
+    libkrb5
+    util-linux
+    glibc
+  ];
+
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "yes";
+    settings.PermitRootLogin = "no";
     allowSFTP = true;
   };
 
