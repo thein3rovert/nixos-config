@@ -16,8 +16,21 @@
       defaultNetwork.settings.dns_enabled = true; # Dns enable for the container network
     };
   };
+
+  # ===  TODO: Research on the user of custom network ===
+  systemd.services.create-podman-networks = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.podman}/bin/podman network exists web || \
+      ${pkgs.podman}/bin/podman network create web --subnet=10.89.0.0/24 --internal
+    '';
+  };
   # Enable the Podman service
-  systemd.services.podman.wantedBy = [ "multi-user.target" ];
   environment.systemPackages = with pkgs; [ podman-compose ];
   users.users.thein3rovert-cloud.extraGroups = [
     "docker"
