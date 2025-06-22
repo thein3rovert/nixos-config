@@ -1,37 +1,23 @@
 let
+  # === SYSTEMS ===
   nixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL60abQ+uQoKBdYylRMzMbqSBKMeCj0cU9hJMT7O0gn6"; # Main system
-  #vps-het-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF5A5HhG7exq5I0uQv8/BJHPsGbV4u6lqLaXeVaUaJwW";
-  vps-het-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAMePGuz68j21bIQC8KospK3bs9xvTocngpY6h035Gh";
-  thein3rovert = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe";
+  vps-het-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAMePGuz68j21bIQC8KospK3bs9xvTocngpY6h035Gh"; # vps system
+
+  # === USERS ===
+  thein3rovert-cloud = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKU41SZ5MS0hOVb79aCu7E8w7+i6rbMr7JpSXcEXbti7"; # vps user
+  thein3rovert = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe"; # Main user
+
   systems = [
     nixos
     vps-het-1
   ];
-  users = [ thein3rovert ];
+  users = [
+    thein3rovert
+    thein3rovert-cloud
+  ];
 in
 {
   "secret2.age".publicKeys = systems ++ users;
   "linkding-env.age".publicKeys = systems ++ users;
   "freshrss-env.age".publicKeys = systems ++ users;
 }
-
-# let
-#   # === SYSTEM ===
-#   nixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL60abQ+uQoKBdYylRMzMbqSBKMeCj0cU9hJMT7O0gn6"; # Main system
-#   vps-het-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF5A5HhG7exq5I0uQv8/BJHPsGbV4u6lqLaXeVaUaJwW";
-#   # === USERS ===
-#   thein3rovert = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe";
-#   thein3rovert-cloud = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKpJqLA+ZOmc0Rc+gz4+p5O6xJhx/PwZfO7jy6UuK2rz danielolaibi@gmail.com";
-#   systems = [
-#     nixos
-#   ];
-#
-#   users = [
-#     thein3rovert
-#   ];
-# in
-# {
-#   "secret1.age".publicKeys = systems ++ users;
-#   # "linkding-env.age".publicKeys = systems ++ users;
-#   # "freshrss-env.age".publicKeys = systems ++ users;
-# }
