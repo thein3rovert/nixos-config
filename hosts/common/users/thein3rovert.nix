@@ -32,24 +32,25 @@
 
   # === New Home Manager user ===
   # ===   TODO: Remove home manager for remote hosts
-  users.users.thein3rovert-cloud = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "sudo"
-    ];
-    description = "thein3rovert-cloud-server";
-    openssh.authorizedKeys.keys = [
-      ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
-    ];
 
-    packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
-  };
-  users.extraGroups.docker.members = [
-    "thein3rovert"
-    "thein3rovert-cloud"
-  ];
+  # users.users.thein3rovert-cloud = {
+  #   isNormalUser = true;
+  #   extraGroups = [
+  #     "wheel"
+  #     "sudo"
+  #   ];
+  #   description = "thein3rovert-cloud-server";
+  #   openssh.authorizedKeys.keys = [
+  #     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
+  #   ];
+  #
+  #   packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
+  # };
+  # users.extraGroups.docker.members = [
+  #   "thein3rovert"
+  #   "thein3rovert-cloud"
+  # ];
   home-manager.users.thein3rovert = import ../../../home/thein3rovert/${config.networking.hostName}.nix;
   # ===   INFO: Might not work as it need to look for vps-het-1.nix
-  home-manager.users.thein3rovert-cloud = import ../../../home/thein3rovert/${config.networking.hostName}.nix;
+  # home-manager.users.thein3rovert-cloud = import ../../../home/thein3rovert/${config.networking.hostName}.nix;
 }
