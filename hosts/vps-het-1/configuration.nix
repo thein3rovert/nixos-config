@@ -56,6 +56,11 @@
     ];
   };
 
+  # TODO: Be sure to remove this later
+  environment.sessionVariables = {
+    TERMINAL = "kitty"; # Since you prefer xterm over kitty
+    NIX_LOG = "info";
+  };
   # environment.sessionVariables = {
   #   XDG_RUNTIME_DIR = "/run/user/1000";
   #   DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";

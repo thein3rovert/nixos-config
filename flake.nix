@@ -151,7 +151,7 @@
           nixpkgs.system = "x86_64-linux";
           imports = [
             ./hosts/vps-het-1
-            # agenix.nixosModules.default
+            agenix.nixosModules.default
             inputs.disko.nixosModules.disko
           ];
         };

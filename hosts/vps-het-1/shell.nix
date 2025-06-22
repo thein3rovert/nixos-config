@@ -36,18 +36,12 @@
     interactiveShellInit = ''
       bindkey '^[[Z'   complete-word       # tab          | complete
       bindkey '^I'     autosuggest-accept  # shift + tab  | autosuggest
-    '';
 
-    initContent = ''
-       bindkey '^f' autosuggest-accept
-       # # OH-MY-POSH
-       # if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-       #   eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json )"
-       # fi
+      bindkey '^f' autosuggest-accept
 
-       export NIX_PATH="nixpkgs=channel:nixos-unstable"
-       export NIX_LOG="info"
-      export TERMINAL="xterm-256color"        
+      export NIX_PATH="nixpkgs=channel:nixos-unstable"
+      export NIX_LOG="info"
+      export TERMINAL="kitty"
     '';
 
   };

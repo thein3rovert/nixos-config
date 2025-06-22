@@ -3,9 +3,9 @@
   imports = [
     ./slash.nix
     # ./pgadmin.nix
-    # ./linkding.nix
+    ./linkding.nix
     # ./freshrss.nix
-    # ./glance.nix
+    ./glance.nix
   ];
 
   # Web network for podman has been created belowscript not needed after
