@@ -11,7 +11,7 @@ in
     environment = {
       LD_DISABLE_BACKGROUND_TASKS = "true";
     };
-    # environmentFiles = [ config.age.secrets.linkding.path ];
+    environmentFiles = [ config.age.secrets.linkding.path ];
   };
 
   # Traefik routing configuration
