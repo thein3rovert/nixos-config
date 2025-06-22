@@ -32,6 +32,9 @@
     # vim
     # python3
     fastfetch
+    micro
+    tmux
+    neovim
     # ------------------------------
     # CLI (Command Line Interface)
     # ------------------------------
