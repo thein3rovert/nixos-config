@@ -1,7 +1,7 @@
 {
   imports = [
     # ./containers
-    # ./podman.nix
+    ./podman.nix
     ./traefik.nix
     # ./postgres.nix
   ];
