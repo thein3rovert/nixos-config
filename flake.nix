@@ -105,7 +105,8 @@
             inherit inputs outputs self;
           };
           modules = [
-            ./hosts/demo
+            ./hosts/wellsjaha
+            inputs.disko.nixosModules.disko
 
           ];
         };
