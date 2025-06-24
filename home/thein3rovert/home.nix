@@ -94,6 +94,13 @@
         user = "thein3rovert";
       };
 
+      # === Test Server ===
+      wellsjaha = {
+        hostname = "192.168.122.142";
+        identityFile = "~/.ssh/id_ed25519";
+        user = "thein3rovert";
+      };
+
     };
   };
 

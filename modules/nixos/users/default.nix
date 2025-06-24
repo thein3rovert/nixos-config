@@ -18,7 +18,7 @@
         # programs.zsh.enable = true;
 
         users = {
-          defaultUserShell = "bash";
+          # defaultUserShell = "bash";
           mutableUsers = false;
 
           # users.root.openssh.authorizedKeys.keyFiles =

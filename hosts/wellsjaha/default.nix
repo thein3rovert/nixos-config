@@ -2,17 +2,27 @@
 {
   config,
   self,
+  modulesPath,
   ...
 }:
 {
   imports = [
-
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    ./disk-config.nix
   ];
 
+  services.qemuGuest.enable = true;
   environment.variables.GDK_SCALE = "1.25";
   networking.hostName = "wellsjaha";
   system.stateVersion = "25.05";
   time.timeZone = "Europe/London";
+
+  # ===TODO:: Move to share user management later
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
@@ -43,5 +53,11 @@
     #   enable = true;
     #   password = "$y$j9T$OXQYhj4IWjRJWWYsSwcqf.$lCcdq9S7m0EAdej9KMHWj9flH8K2pUb2gitNhLTlLG/";
     # };
+  };
+
+  services.openssh = {
+    enable = true;
+    settings.PermitRootLogin = "no";
+    allowSFTP = true;
   };
 }

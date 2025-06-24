@@ -226,6 +226,7 @@
             ./hosts/wellsjaha
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
+            self.nixosModules.users
             # self.inputs.home-manager.nixosModules.home-manager
           ];
         };
