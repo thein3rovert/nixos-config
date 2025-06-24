@@ -18,9 +18,10 @@
       #     builtins.attrNames (builtins.readDir "${self.inputs.secrets}/publicKeys")
       #   )
       # );
-      # TODO: Find and Replace ID and Keep shell as BASH
+
+      # TODO: Keep shell as BASH
       # shell = pkgs.zsh;
-      # uid = 1000;
+      uid = 1000;
     };
   };
 }

@@ -5,28 +5,29 @@
   modulesPath,
   ...
 }:
+
 {
+  # === Imports ===
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
-    ./disk-config.nix
+    (modulesPath + "/installer/scan/not-detected.nix") # Hardware scan
+    (modulesPath + "/profiles/qemu-guest.nix") # QEMU guest profile
+    ./disk-config.nix # Custom disk config
   ];
 
-  services.qemuGuest.enable = true;
-  environment.variables.GDK_SCALE = "1.25";
-  networking.hostName = "wellsjaha";
-  system.stateVersion = "25.05";
-  time.timeZone = "Europe/London";
+  # === System Settings ===
+  system.stateVersion = "25.05"; # Required for NixOS system version compatibility
+  networking.hostName = "wellsjaha"; # Hostname
+  time.timeZone = "Europe/London"; # System timezone
 
-  # ===TODO:: Move to share user management later
+  # === Boot Loader ===
+  #TODO:: Move to shared user management later
   boot.loader.grub = {
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
 
-  # Select internationalisation properties.
+  # === Internationalisation (i18n) ===
   i18n.defaultLocale = "en_GB.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_GB.UTF-8";
     LC_IDENTIFICATION = "en_GB.UTF-8";
@@ -39,9 +40,16 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # Configure console keymap
-  console.keyMap = "uk";
+  # === Console ===
+  console.keyMap = "uk"; # UK keyboard layout
 
+  # === Environment Variables ===
+  environment.variables.GDK_SCALE = "1.25"; # UI scaling (for GTK apps)
+
+  # === QEMU Guest Services ===
+  services.qemuGuest.enable = true;
+
+  # === User Management ===
   # === Password using "mkpasswd --method=yescrypt" ===
   myUsers = {
     thein3rovert = {
@@ -55,9 +63,11 @@
     # };
   };
 
+  # === SSH Configuration ===
+  #TODO:: Move to common or dedicated folder
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "no";
-    allowSFTP = true;
+    settings.PermitRootLogin = "no"; # Disable root login over SSH
+    allowSFTP = true; # Enable SFTP access
   };
 }

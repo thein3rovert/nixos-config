@@ -19,13 +19,12 @@
     agenix.url = "github:ryantm/agenix";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    #nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # ADDED: Colmena input
+
     colmena = {
       url = "github:zhaofengli/colmena";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -155,10 +154,13 @@
 
       #INFO: Ignore error "unknown flake output 'homeManagerModules'" as
       # it's not in use yet
+
+      # === Home Manager Custom Modules ===
       homeManagerModules = {
         thein3rovert-cloud = ./home/thein3rovert-cloud;
         # default = ./modules/home # INFO:  Since i dont have default yet, have to remove every "self.homeManagerModules.default"
       };
+      # === Nixos Custom Modules ===
       nixosModules = {
         users = ./modules/nixos/users;
       };
@@ -173,6 +175,7 @@
           specialArgs = { inherit self inputs outputs; };
         };
 
+        #INFO: === Deployment ===
         # === NODE ONE ===
         demo = {
           deployment = {
@@ -189,7 +192,6 @@
             # agenix.nixosModules.defaults
           ];
         };
-
         # === NODE TWO ===
         vps-het-1 = {
           deployment = {
