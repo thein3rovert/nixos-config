@@ -107,12 +107,12 @@
           modules = [
             ./hosts/wellsjaha
             inputs.disko.nixosModules.disko
-
+            self.nixosModules.users
           ];
         };
 
         # === SERVER CONFIGURATIONS ===
-        # INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
+        #INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
         vps-het-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit self inputs outputs; };
@@ -153,11 +153,14 @@
 
       };
 
-      # INFO: Ignore error "unknown flake output 'homeManagerModules'" as
+      #INFO: Ignore error "unknown flake output 'homeManagerModules'" as
       # it's not in use yet
       homeManagerModules = {
         thein3rovert-cloud = ./home/thein3rovert-cloud;
         # default = ./modules/home # INFO:  Since i dont have default yet, have to remove every "self.homeManagerModules.default"
+      };
+      nixosModules = {
+        users = ./modules/nixos/users;
       };
 
       # === COLMENA CONFIG "Deployment" ===
