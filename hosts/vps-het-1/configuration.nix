@@ -41,6 +41,8 @@
     nix-ld # Nix dynamic library management tool
     nil
     nixd
+    nodejs_24
+
   ];
   users.users.thein3rovert-cloud = {
     isNormalUser = true;

@@ -1,13 +1,6 @@
 {
   description = ''
-    For questions just DM me on X: https://twitter.com/@m3tam3re
-    There is also some NIXOS content on my YT channel: https://www.youtube.com/@m3tam3re
-
-    One of the best ways to learn NIXOS is to read other peoples configurations. I have personally learned a lot from Gabriel Fontes configs:
-    https://github.com/Misterio77/nix-starter-configs
-    https://github.com/Misterio77/nix-config
-
-    Please also check out the starter configs mentioned above.
+    This is a configiration for managing multiple nixos machines
   '';
 
   inputs = {
@@ -49,7 +42,6 @@
       agenix,
       disko,
       colmena,
-      # colmena,
       ...
     }@inputs:
     let
@@ -68,6 +60,8 @@
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations = {
+
+        # === MAIN (LOCAL) ===
         nixos = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs nix-colors; };
           modules = [
@@ -76,6 +70,8 @@
             agenix.nixosModules.default
           ];
         };
+
+        # === TEST VM ===
         demo = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs outputs; };
@@ -87,7 +83,6 @@
         };
 
         # === SERVER CONFIGURATIONS ===
-
         vps-het-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs outputs; };
@@ -98,19 +93,16 @@
         };
       };
 
+      # === HOME CONFIGURATION "LOCAL ONLY" ===
       homeConfigurations = {
         "thein3rovert@nixos" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/thein3rovert/nixos.nix ];
         };
-        # "thein3rovert-cloud@vps-het-1" = home-manager.lib.homeManagerConfiguration {
-        #   pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        #   extraSpecialArgs = { inherit inputs outputs; };
-        #   modules = [ ./home/thein3rovert/vps-het-1.nix ];
-        # };
-
       };
+
+      # === COLMENA CONFIG "Deployment" ===
 
       colmena = {
         meta = {
@@ -120,7 +112,7 @@
           specialArgs = { inherit inputs outputs; };
         };
 
-        # Deployment Nodes
+        # === NODE ONE ===
         demo = {
           deployment = {
             targetHost = "demo";
@@ -137,6 +129,7 @@
           ];
         };
 
+        # === NODE TWO ===
         vps-het-1 = {
           deployment = {
             targetHost = "vps-het-1"; # Use the actual hostname or IP
@@ -157,7 +150,8 @@
         };
 
       };
-      # # ADDED: New colmenaHive output
+
+      #  ADDED: New colmenaHive output
       #  colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     };
 }
