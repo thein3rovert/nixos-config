@@ -85,10 +85,24 @@
         # === SERVER CONFIGURATIONS ===
         vps-het-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit self inputs outputs; };
           modules = [
             ./hosts/vps-het-1
+            self.inputs.home-manager.nixosModules.home-manager
             agenix.nixosModules.default
+            inputs.disko.nixosModules.disko
+            {
+              home-manager = {
+                # backupFileExtension = "backup";
+                extraSpecialArgs = { inherit self; };
+                useGlobalPkgs = true;
+                useUserPackages = true;
+              };
+
+              nixpkgs = {
+                config.allowUnfree = true;
+              };
+            }
           ];
         };
       };
@@ -100,6 +114,18 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/thein3rovert/nixos.nix ];
         };
+
+        # "thein3rovert-cloud" = home-manager.lib.homeManagerConfiguration {
+        #   pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        #   extraSpecialArgs = { inherit inputs outputs; };
+        #   modules = [ ./hosts/vps-het-1/home.nix ];
+        # };
+
+      };
+
+      homeManagerModules = {
+        thein3rovert-cloud = ./home/thein3rovert-cloud;
+        # default = ./modules/home # INFO:  Since i dont have default yet, have to remove every "self.homeManagerModules.default"
       };
 
       # === COLMENA CONFIG "Deployment" ===
@@ -109,7 +135,7 @@
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
           };
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit self inputs outputs; };
         };
 
         # === NODE ONE ===
@@ -146,6 +172,7 @@
             ./hosts/vps-het-1
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
+            self.inputs.home-manager.nixosModules.home-manager
           ];
         };
 
