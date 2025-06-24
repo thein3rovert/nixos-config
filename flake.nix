@@ -98,16 +98,17 @@
           ];
         };
 
-        # INFO: === TEST SERVER ===
-        # srv-test-1 = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = {
-        #     inherit inputs outputs self;
-        #   };
-        #   modules = [
-        #
-        #   ];
-        # };
+        # INFO: === TEST SERVER srv-test-1 ===
+        wellsjaha = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs self;
+          };
+          modules = [
+            ./hosts/demo
+
+          ];
+        };
 
         # === SERVER CONFIGURATIONS ===
         # INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
@@ -203,6 +204,25 @@
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
             self.inputs.home-manager.nixosModules.home-manager
+          ];
+        };
+        # === TEST NODE THREE ===
+        wellsjaha = {
+          deployment = {
+            targetHost = "wellsjaha"; # Use the actual hostname or IP
+            targetPort = 22;
+            targetUser = "thein3rovert";
+            buildOnTarget = true;
+            tags = [
+              "test"
+            ];
+          };
+          nixpkgs.system = "x86_64-linux";
+          imports = [
+            ./hosts/wellsjaha
+            agenix.nixosModules.default
+            inputs.disko.nixosModules.disko
+            # self.inputs.home-manager.nixosModules.home-manager
           ];
         };
 
