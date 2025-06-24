@@ -46,17 +46,33 @@
     }@inputs:
     let
       inherit (self) outputs;
-      systems = [
+      allSystems = [
         "aarch64-linux"
         "i686-linux"
         "x86_64-linux"
         "aarch64-darwin"
         "x86_64-darwin"
       ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+      # forAllSystems = nixpkgs.lib.genAttrs systems;
+
+      # Defines a function called 'forAllSystems' that takes a function 'f' as an argument
+      forAllSystems =
+        f:
+        # Calls 'genAttrs' from nixpkgs' lib to generate an attribute set for all systems in 'allSystems'
+        self.inputs.nixpkgs.lib.genAttrs allSystems (
+          system:
+          # For each system, call the function 'f' with a set containing 'pkgs'
+          f {
+            # 'pkgs' is Nixpkgs imported for the current system, with overlays and unfree packages allowed
+            pkgs = import self.inputs.nixpkgs {
+              inherit system; # Use overlays and current system architecture
+              config.allowUnfree = true;
+            };
+          }
+        );
     in
     {
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations = {
@@ -82,7 +98,19 @@
           ];
         };
 
+        # INFO: === TEST SERVER ===
+        # srv-test-1 = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = {
+        #     inherit inputs outputs self;
+        #   };
+        #   modules = [
+        #
+        #   ];
+        # };
+
         # === SERVER CONFIGURATIONS ===
+        # INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
         vps-het-1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit self inputs outputs; };
@@ -123,6 +151,8 @@
 
       };
 
+      # INFO: Ignore error "unknown flake output 'homeManagerModules'" as
+      # it's not in use yet
       homeManagerModules = {
         thein3rovert-cloud = ./home/thein3rovert-cloud;
         # default = ./modules/home # INFO:  Since i dont have default yet, have to remove every "self.homeManagerModules.default"
