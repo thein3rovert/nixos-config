@@ -21,6 +21,10 @@
           # defaultUserShell = "bash";
           mutableUsers = false;
 
+          users.root.openssh.authorizedKeys.keys = [
+            ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
+          ];
+
           # users.root.openssh.authorizedKeys.keyFiles =
           #   lib.map (file: "${self.inputs.secrets}/publicKeys/${file}")
           #     (

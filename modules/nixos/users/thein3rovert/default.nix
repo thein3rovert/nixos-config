@@ -12,6 +12,12 @@
       extraGroups = config.myUsers.defaultGroups;
       hashedPassword = config.myUsers.thein3rovert.password;
       isNormalUser = true;
+      uid = 1000;
+
+      openssh.authorizedKeys.keys = [
+        ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
+      ];
+      # shell = pkgs.zsh;
 
       # openssh.authorizedKeys.keyFiles = lib.map (file: "${self.inputs.secrets}/publicKeys/${file}") (
       #   lib.filter (file: lib.hasPrefix "aly_" file) (
@@ -19,9 +25,19 @@
       #   )
       # );
 
-      # TODO: Keep shell as BASH
-      # shell = pkgs.zsh;
-      uid = 1000;
     };
+    # === Disable root password ===
+    # = Colmena doos not support password =
+    security.sudo.extraRules = [
+      {
+        users = [ "thein3rovert" ];
+        commands = [
+          {
+            command = "ALL";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+      }
+    ];
   };
 }

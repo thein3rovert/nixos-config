@@ -2,6 +2,7 @@
 {
   config,
   self,
+  pkgs,
   modulesPath,
   ...
 }:
@@ -40,6 +41,13 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
+  # === System Packages ===
+  environment.systemPackages = with pkgs; [
+    htop
+    rclone
+    zellij
+  ];
+
   # === Console ===
   console.keyMap = "uk"; # UK keyboard layout
 
@@ -67,7 +75,7 @@
   #TODO:: Move to common or dedicated folder
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "no"; # Disable root login over SSH
+    settings.PermitRootLogin = "yes"; # Disable root login over SSH
     allowSFTP = true; # Enable SFTP access
   };
 }
