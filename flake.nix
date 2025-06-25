@@ -101,7 +101,7 @@
         wellsjaha = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
-            inherit inputs outputs self;
+            inherit self inputs outputs;
           };
           modules = [
             ./hosts/wellsjaha
@@ -163,6 +163,7 @@
       # === Nixos Custom Modules ===
       nixosModules = {
         users = ./modules/nixos/users;
+        # nixos = ./modules/nixos/os;
       };
 
       # === COLMENA CONFIG "Deployment" ===

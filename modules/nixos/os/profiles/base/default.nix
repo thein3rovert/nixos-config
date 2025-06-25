@@ -6,9 +6,9 @@
   ...
 }:
 {
-  options.nixosSetup.base.enable = lib.mkEnableOption "All base system config when enabled";
+  options.nixosSetup.profiles.base.enable = lib.mkEnableOption "All base system config when enabled";
   config = lib.mkIf config.nixosSetup.profiles.base.enable {
-    enviroment = {
+    environment = {
       # === Link the flake repo to /etc/nixos
       # when logged into the system, you can check /etc'nixos to
       # see what config source is being used.
@@ -16,7 +16,7 @@
 
       systemPackages = with pkgs; [
         (inxi.override { withRecommends = true; }) # Meaning?
-        (lib.hipPro uutils-coreutils-noprefix) # Meaning?
+        (lib.hiPrio uutils-coreutils-noprefix) # Meaning?
         git
         htop
         wget
@@ -51,7 +51,7 @@
       #   };
       # }
     };
-    networking.networkmanager.enable = true;
+    # networking.networkmanager.enable = true;
 
     security = {
       # Enable PolicyKit, a toolkit for defining and handling authorizations
@@ -91,23 +91,24 @@
           bstop 5%    # Stop all caching if disk space drops below 5%.
         '';
       };
-      vscode-server.enable = true;
 
-      openssh = {
-        enable = true;
-        openFirewall = true;
-        settings.PasswordAuthentication = false;
-      };
+      # vscode-server.enable = true;
+
+      # openssh = {
+      #   enable = true;
+      #   openFirewall = true;
+      #   settings.PasswordAuthentication = false;
+      # };
     };
 
-    system = {
-      # Records the current git revision (commit hash) or, if dirty, the dirty revision;
-      # helps track exactly which version of the configuration was deployed.
-      configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Enables the next-generation nixos-rebuild (nixos-rebuild-ng) tool for system updates.
-      rebuild.enableNg = true;
-    };
+    # system = {
+    #   # Records the current git revision (commit hash) or, if dirty, the dirty revision;
+    #   # helps track exactly which version of the configuration was deployed.
+    #   configurationRevision = self.rev or self.dirtyRev or null;
+    #
+    #   # Enables the next-generation nixos-rebuild (nixos-rebuild-ng) tool for system updates.
+    #   rebuild.enableNg = true;
+    # };
 
   };
 }

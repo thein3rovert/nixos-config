@@ -52,7 +52,7 @@
   console.keyMap = "uk"; # UK keyboard layout
 
   # === Environment Variables ===
-  environment.variables.GDK_SCALE = "1.25"; # UI scaling (for GTK apps)
+  # environment.variables.GDK_SCALE = "1.25"; # UI scaling (for GTK apps)
 
   # === QEMU Guest Services ===
   services.qemuGuest.enable = true;

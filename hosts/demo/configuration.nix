@@ -57,7 +57,7 @@
     }
   ];
 
-  users.users.thein3rovert.ignoreShellProgramCheck = true;
+  # users.users.thein3rovert.ignoreShellProgramCheck = true;
   # programs.zsh.enable = true;
   time.timeZone = "Europe/London";
 
