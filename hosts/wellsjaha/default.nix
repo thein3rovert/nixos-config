@@ -42,11 +42,9 @@
   };
 
   # === System Packages ===
-  # environment.systemPackages = with pkgs; [
-  #   htop
-  #   rclone
-  #   zellij
-  # ];
+  environment.systemPackages = with pkgs; [
+    btop
+  ];
 
   nixosSetup = {
     profiles = {

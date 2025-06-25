@@ -21,7 +21,8 @@
         htop
         wget
         rclone
-        zellij
+        zellij # Similar to tmux
+        nh
       ];
 
       #INFO: Variables options used by nix and needed by nh
@@ -32,27 +33,27 @@
     };
 
     #TODO:  Move program specific config to a modules
-    # programs = {
-    #   dconf.enable = true;
-    #
-    #   direnv = {
-    #     enable = true;
-    #     nix-direnv.enable = true;
-    #     #silent = true;    # Turn to true later, leave off for testing
-    #   };
-    #
-    #   nh.enable = true;
-    #
-    #   #INFO: Dont forget to add host to snippets
-    #   # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
-    #   # === Example ===
-    #   # ssh.knownHosts = {
-    #   #   "github.com" = {
-    #   #     hostNames = [ "github.com" ];
-    #   #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
-    #   #   };
-    #   # }
-    # };
+    programs = {
+      #   dconf.enable = true;
+      #
+      #   direnv = {
+      #     enable = true;
+      #     nix-direnv.enable = true;
+      #     #silent = true;    # Turn to true later, leave off for testing
+      #   };
+      #
+      nh.enable = true;
+      #
+      #   #INFO: Dont forget to add host to snippets
+      #   # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
+      #   # === Example ===
+      #   # ssh.knownHosts = {
+      #   #   "github.com" = {
+      #   #     hostNames = [ "github.com" ];
+      #   #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
+      #   #   };
+      #   # }
+    };
     # networking.networkmanager.enable = true;
 
     security = {
