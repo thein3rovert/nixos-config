@@ -107,6 +107,7 @@
             ./hosts/wellsjaha
             inputs.disko.nixosModules.disko
             self.nixosModules.users
+            self.nixosModules.nixosOs
           ];
         };
 
@@ -163,7 +164,7 @@
       # === Nixos Custom Modules ===
       nixosModules = {
         users = ./modules/nixos/users;
-        # nixos = ./modules/nixos/os;
+        nixosOs = ./modules/nixos/os;
       };
 
       # === COLMENA CONFIG "Deployment" ===
@@ -230,6 +231,7 @@
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
             self.nixosModules.users
+            self.nixosModules.nixosOs
             # self.inputs.home-manager.nixosModules.home-manager
           ];
         };

@@ -42,11 +42,17 @@
   };
 
   # === System Packages ===
-  environment.systemPackages = with pkgs; [
-    htop
-    rclone
-    zellij
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   htop
+  #   rclone
+  #   zellij
+  # ];
+
+  nixosSetup = {
+    profiles = {
+      base.enable = true;
+    };
+  };
 
   # === Console ===
   console.keyMap = "uk"; # UK keyboard layout

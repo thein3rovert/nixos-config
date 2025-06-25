@@ -20,37 +20,39 @@
         git
         htop
         wget
+        rclone
+        zellij
       ];
 
       #INFO: Variables options used by nix and needed by nh
       variables = {
         FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
-        NH_FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
+        # NH_FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
       };
     };
 
     #TODO:  Move program specific config to a modules
-    programs = {
-      dconf.enable = true;
-
-      direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-        #silent = true;    # Turn to true later, leave off for testing
-      };
-
-      nh.enable = true;
-
-      #INFO: Dont forget to add host to snippets
-      # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
-      # === Example ===
-      # ssh.knownHosts = {
-      #   "github.com" = {
-      #     hostNames = [ "github.com" ];
-      #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
-      #   };
-      # }
-    };
+    # programs = {
+    #   dconf.enable = true;
+    #
+    #   direnv = {
+    #     enable = true;
+    #     nix-direnv.enable = true;
+    #     #silent = true;    # Turn to true later, leave off for testing
+    #   };
+    #
+    #   nh.enable = true;
+    #
+    #   #INFO: Dont forget to add host to snippets
+    #   # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
+    #   # === Example ===
+    #   # ssh.knownHosts = {
+    #   #   "github.com" = {
+    #   #     hostNames = [ "github.com" ];
+    #   #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
+    #   #   };
+    #   # }
+    # };
     # networking.networkmanager.enable = true;
 
     security = {
@@ -82,15 +84,15 @@
       #   };
       # };
 
-      cachefilesd = {
-        enable = true; # Start cachefilesd, which provides disk caching for network filesystems (like NFS).
+      # cachefilesd = {
+      #   enable = true; # Start cachefilesd, which provides disk caching for network filesystems (like NFS).
 
-        extraConfig = ''
-          brun 20%    # Begin culling (removing cache) when disk space drops below 20%.
-          bcull 10%   # Continue culling until disk space rises above 10%.
-          bstop 5%    # Stop all caching if disk space drops below 5%.
-        '';
-      };
+      #   extraConfig = ''
+      #     brun 20%    # Begin culling (removing cache) when disk space drops below 20%.
+      #     bcull 10%   # Continue culling until disk space rises above 10%.
+      #     bstop 5%    # Stop all caching if disk space drops below 5%.
+      #   '';
+      # };
 
       # vscode-server.enable = true;
 
