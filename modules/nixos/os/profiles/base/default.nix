@@ -102,14 +102,15 @@
       # };
     };
 
-    # system = {
-    #   # Records the current git revision (commit hash) or, if dirty, the dirty revision;
-    #   # helps track exactly which version of the configuration was deployed.
-    #   configurationRevision = self.rev or self.dirtyRev or null;
-    #
-    #   # Enables the next-generation nixos-rebuild (nixos-rebuild-ng) tool for system updates.
-    #   rebuild.enableNg = true;
-    # };
+    # === Enable advance nixos rebuild ===
+    system = {
+      # Records the current git revision (commit hash) or, if dirty, the dirty revision;
+      # helps track exactly which version of the configuration was deployed.
+      configurationRevision = self.rev or self.dirtyRev or null;
+
+      # Enables the next-generation nixos-rebuild (nixos-rebuild-ng) tool for system updates.
+      rebuild.enableNg = true;
+    };
 
   };
 }
