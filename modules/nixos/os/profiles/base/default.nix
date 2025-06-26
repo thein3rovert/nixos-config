@@ -83,15 +83,15 @@
       #   };
       # };
 
-      # cachefilesd = {
-      #   enable = true; # Start cachefilesd, which provides disk caching for network filesystems (like NFS).
+      cachefilesd = {
+        enable = true; # Start cachefilesd, which provides disk caching for network filesystems (like NFS).
 
-      #   extraConfig = ''
-      #     brun 20%    # Begin culling (removing cache) when disk space drops below 20%.
-      #     bcull 10%   # Continue culling until disk space rises above 10%.
-      #     bstop 5%    # Stop all caching if disk space drops below 5%.
-      #   '';
-      # };
+        extraConfig = ''
+          brun 20%    # Begin culling (removing cache) when disk space drops below 20%.
+          bcull 10%   # Continue culling until disk space rises above 10%.
+          bstop 5%    # Stop all caching if disk space drops below 5%.
+        '';
+      };
 
       # vscode-server.enable = true;
 
