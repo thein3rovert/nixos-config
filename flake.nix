@@ -89,11 +89,12 @@
         # === TEST VM ===
         demo = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit self inputs outputs; };
           modules = [
             ./hosts/demo
             inputs.disko.nixosModules.disko
             agenix.nixosModules.default
+            self.nixosModules.nixosOs
           ];
         };
 
@@ -192,6 +193,7 @@
           imports = [
             ./hosts/demo
             inputs.disko.nixosModules.disko
+            self.nixosModules.nixosOs
             # agenix.nixosModules.defaults
           ];
         };

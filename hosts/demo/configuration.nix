@@ -32,6 +32,12 @@
 
   ];
 
+  nixosSetup = {
+    programs = {
+      podman.enable = true;
+    };
+  };
+
   users.users.thein3rovert = {
     isNormalUser = true;
     extraGroups = [

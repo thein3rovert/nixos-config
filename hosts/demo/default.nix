@@ -1,6 +1,6 @@
 {
   imports = [
-    ../common
+    # ../common # Taken demo off homeManager
     ./configuration.nix
   ];
 }
