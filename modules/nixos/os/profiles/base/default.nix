@@ -29,7 +29,7 @@
       #INFO: Variables options used by nix and needed by nh
       variables = {
         FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
-        # NH_FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
+        NH_FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
       };
     };
 
@@ -42,18 +42,18 @@
         #silent = true;    # Turn to true later, leave off for testing
       };
       nh.enable = true;
-      #
-      #   #INFO: Dont forget to add host to snippets
-      #   # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
-      #   # === Example ===
-      #   # ssh.knownHosts = {
-      #   #   "github.com" = {
-      #   #     hostNames = [ "github.com" ];
-      #   #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
-      #   #   };
-      #   # }
+
+      #INFO: Dont forget to add host to snippets
+      # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
+      # === Example ===
+      # ssh.knownHosts = {
+      #   "github.com" = {
+      #     hostNames = [ "github.com" ];
+      #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
+      #   };
+      # }
     };
-    # networking.networkmanager.enable = true;
+    networking.networkmanager.enable = true;
 
     security = {
       # Enable PolicyKit, a toolkit for defining and handling authorizations
@@ -86,12 +86,14 @@
 
       cachefilesd = {
         enable = true; # Start cachefilesd, which provides disk caching for network filesystems (like NFS).
+        # Begin culling (removing cache) when disk space drops below 20%.
+        # Continue culling until disk space rises above 10%.
+        # Stop all caching if disk space drops below 5%.
 
         extraConfig = ''
-          brun 20%    # Begin culling (removing cache) when disk space drops below 20%.
-          bcull 10%   # Continue culling until disk space rises above 10%.
-          bstop 5%    # Stop all caching if disk space drops below 5%.
-        '';
+          brun 20%
+          bcull 10%
+          bstop 5%'';
       };
 
       # vscode-server.enable = true;
