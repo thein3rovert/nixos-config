@@ -51,6 +51,10 @@
     profiles = {
       base.enable = true;
     };
+
+    programs = {
+      podman.enable = true;
+    };
   };
 
   # === Console ===
