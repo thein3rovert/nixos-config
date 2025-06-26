@@ -165,6 +165,7 @@
       nixosModules = {
         users = ./modules/nixos/users;
         nixosOs = ./modules/nixos/os;
+        locale-en-uk = ./modules/nixos/locale/en-uk;
       };
 
       # === COLMENA CONFIG "Deployment" ===
