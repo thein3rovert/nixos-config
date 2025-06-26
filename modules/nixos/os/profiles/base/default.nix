@@ -23,6 +23,7 @@
         rclone
         zellij # Similar to tmux
         nh
+        neovim
       ];
 
       #INFO: Variables options used by nix and needed by nh
@@ -95,11 +96,11 @@
 
       # vscode-server.enable = true;
 
-      # openssh = {
-      #   enable = true;
-      #   openFirewall = true;
-      #   settings.PasswordAuthentication = false;
-      # };
+      openssh = {
+        enable = true;
+        openFirewall = true; # Open port 22 in firewall
+        settings.PasswordAuthentication = false; # Disable password based login
+      };
     };
 
     # === Enable advance nixos rebuild ===
