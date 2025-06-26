@@ -13,7 +13,6 @@
         homeDirectory = "/home/thein3rovert-cloud";
 
         packages = with pkgs; [
-
           btop
         ];
 

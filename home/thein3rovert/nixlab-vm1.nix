@@ -1,5 +1,7 @@
-#INFO: This is a test for rewmote reployment with colema
+#INFO: This is a test for remote reployment with colema
 # This is a replica for home.nix for the demo server
+# WARNING: This file belog to the demo server and is currently not in use
+# it is now managed by the module config
 {
   config,
   lib,
