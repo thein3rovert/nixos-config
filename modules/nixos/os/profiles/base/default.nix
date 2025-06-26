@@ -34,14 +34,12 @@
 
     #TODO:  Move program specific config to a modules
     programs = {
-      #   dconf.enable = true;
-      #
-      #   direnv = {
-      #     enable = true;
-      #     nix-direnv.enable = true;
-      #     #silent = true;    # Turn to true later, leave off for testing
-      #   };
-      #
+      dconf.enable = true;
+      direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+        #silent = true;    # Turn to true later, leave off for testing
+      };
       nh.enable = true;
       #
       #   #INFO: Dont forget to add host to snippets
