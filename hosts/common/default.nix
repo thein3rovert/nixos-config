@@ -6,55 +6,64 @@
   pkgs,
   ...
 }:
+
 {
+  # === Import modules and Home Manager ===
   imports = [
     ./users
     ./extraServices
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  # Make flake input/output available to home manager
+  # === Configure Home Manager ===
   home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
-  };
-
-  nixpkgs = {
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-    ];
-    config = {
-      allowUnfree = true;
+    extraSpecialArgs = {
+      inherit inputs outputs; # === Make flake inputs/outputs available in Home Manager ===
     };
   };
 
-  # User allowed to use the flake command
+  # === Configure nixpkgs with overlays and unfree packages ===
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions # === Custom package additions ===
+      outputs.overlays.modifications # === Custom package modifications ===
+      outputs.overlays.stable-packages # === Stable package versions ===
+    ];
+    config = {
+      allowUnfree = true; # === Allow use of unfree packages ===
+    };
+  };
+
+  # === Global Nix configuration ===
   nix = {
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = "nix-command flakes"; # === Enable flakes and nix-command ===
       trusted-users = [
         "root"
         "thein3rovert"
-      ];
+      ]; # === Users allowed to run nix commands ===
     };
 
-    # Automatic System Cleaning
+    # === Enable automatic garbage collection ===
     gc = {
       automatic = true;
       options = "--delete-older-than 30d";
     };
+
+    # === Enable automatic store optimization ===
     optimise.automatic = true;
-    registry = (lib.mapAttrs (_: flake: { inherit flake; })) (
-      (lib.filterAttrs (_: lib.isType "flake")) inputs
+
+    # === Register all flake inputs as nix registry entries ===
+    registry = lib.mapAttrs (_: flake: { inherit flake; }) (
+      lib.filterAttrs (_: lib.isType "flake") inputs
     );
 
-    # Nix path
+    # === Set custom NIX_PATH ===
     nixPath = [ "/etc/nix/path" ];
   };
 
-  #INFO: Disabled so remote vm dont inherit zsh on deployment
+  # === Default user shell ===
+  # NOTE: This is disabled to prevent Zsh from being inherited on remote VMs during deployment
   # users.defaultUserShell = pkgs.zsh;
 }

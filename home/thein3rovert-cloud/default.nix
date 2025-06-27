@@ -1,4 +1,5 @@
-# INFO: This file is not being used yet
+# INFO: This file is not being used yet, it can be inherited
+# in the home.nix file instead
 {
   config,
   pkgs,
@@ -47,15 +48,9 @@
 
         packages = with pkgs; [
           btop
-          # bitwarden-desktop
-          # nicotine-plus
-          # obsidian
-          # plexamp
-          # protonvpn-gui
-          # signal-desktop-bin
         ];
 
-        stateVersion = 25.05; # "25.05";
+        stateVersion = 25.05;
         username = "thein3rovert-cloud";
       };
 

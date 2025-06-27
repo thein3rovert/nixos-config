@@ -86,6 +86,7 @@
           ];
         };
 
+        # ======== REMOTE HOST USING "self" ==========
         # === TEST VM ===
         demo = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
