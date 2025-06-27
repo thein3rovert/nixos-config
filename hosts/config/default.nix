@@ -15,7 +15,6 @@
     # Services and programs
     ./services.nix
     ./programs.nix
-    ./freshrss.nix
 
     # Development tools and environments
     ./dev

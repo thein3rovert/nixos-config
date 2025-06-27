@@ -29,20 +29,22 @@
 
   programs.zsh = {
     enable = true;
+    # autocd = true;
     enableCompletion = true;
-    autosuggestions.enable = true;
-
-    # for some reason these are flipped
+    enableAutosuggestions = true;
+    enableSyntaxHighlighting = true;
     interactiveShellInit = ''
-      bindkey '^[[Z'   complete-word       # tab          | complete
-      bindkey '^I'     autosuggest-accept  # shift + tab  | autosuggest
-
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+      bindkey '^w' forward-word
+      bindkey '^b' backward-kill-word
       bindkey '^f' autosuggest-accept
 
       export NIX_PATH="nixpkgs=channel:nixos-unstable"
       export NIX_LOG="info"
+      export TERM="xterm-256color"
       export TERMINAL="kitty"
-    '';
 
+    '';
   };
 }
