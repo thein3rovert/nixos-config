@@ -121,6 +121,7 @@
           modules = [
             ./hosts/vps-het-1
             self.inputs.home-manager.nixosModules.home-manager
+            self.nixosModules.nixosOs
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
             {
@@ -216,6 +217,7 @@
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
             self.inputs.home-manager.nixosModules.home-manager
+            self.nixosModules.nixosOs
           ];
         };
         # === TEST NODE THREE ===
