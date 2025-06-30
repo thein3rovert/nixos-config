@@ -41,6 +41,10 @@
     programs = {
       podman.enable = true;
     };
+
+    services = {
+      minio.enable = true;
+    };
   };
 
   # === Console ===

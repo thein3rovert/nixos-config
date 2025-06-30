@@ -5,6 +5,7 @@
   ...
 }:
 {
+  # Handled and managed by nixos services
   options.nixosSetup.programs.podman.enable = lib.mkEnableOption "podman container runtime";
 
   config = lib.mkIf config.nixosSetup.programs.podman.enable {
