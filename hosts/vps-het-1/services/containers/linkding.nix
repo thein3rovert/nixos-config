@@ -4,6 +4,7 @@ let
 
 in
 {
+  # Change port from 9090 to something else so s3 can make use of it
   virtualisation.oci-containers.containers."linkding" = {
     image = "sissbruecker/linkding:latest";
     ports = [ "127.0.0.1:9090:9090" ]; # Local port mapping

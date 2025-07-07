@@ -43,7 +43,7 @@
     };
 
     services = {
-      minio.enable = false; # Dont need it now
+      minio.enable = false; # Disable mini for now
     };
   };
 

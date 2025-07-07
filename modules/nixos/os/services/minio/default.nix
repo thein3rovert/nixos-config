@@ -31,7 +31,12 @@
         ":9090"
         "/etc/minio/data"
       ];
+
       # environmentFiles = [ config.age.secrets.linkding.path ];
     };
+
+    # === TODO: Use option to dynamically allocate resources for traefik
+    # and other section of the config ===
+
   };
 }
