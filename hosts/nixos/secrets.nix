@@ -15,6 +15,11 @@
         # mode = "0440";
         # path = "/home/thein3rovert/.secret1"; # Path where the drcrypted file is stored
       };
+      minio = {
+        file = ../../secrets/minio-env.age;
+        owner = "thein3rovert";
+        path = "/home/thein3rovert/secrets/.minio-env";
+      };
     };
   };
 }

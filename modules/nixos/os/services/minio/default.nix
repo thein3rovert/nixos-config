@@ -22,10 +22,11 @@
         "0.0.0.0:9091:9091"
       ];
       volumes = [ "minio_data:/etc/minio/data" ]; # Persistent storage
-      environment = {
-        MINIO_ROOT_USER = "admin";
-        MINIO_ROOT_PASSWORD = "mysecretpassword";
-      };
+      # environment = {
+      #   MINIO_ROOT_USER = "admin";
+      #   MINIO_ROOT_PASSWORD = "mysecretpassword";
+      # };
+      environmentFiles = [ config.age.secrets.minio.path ];
 
       cmd = [
         "server"

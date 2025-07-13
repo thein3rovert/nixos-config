@@ -58,6 +58,7 @@
     nil
     nixd
     nodejs_24
+    xclip
 
   ];
   users.users.thein3rovert-cloud = {

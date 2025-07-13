@@ -19,6 +19,11 @@
         owner = "traefik";
         path = "/home/thein3rovert-cloud/secrets/.traefik-env";
       };
+      minio = {
+        file = ../../secrets/minio-env.age;
+        owner = "traefik";
+        path = "/home/thein3rovert-cloud/secrets/.minio-env";
+      };
     };
   };
 }
