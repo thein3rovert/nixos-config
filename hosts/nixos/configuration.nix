@@ -6,6 +6,7 @@
   config,
   pkgs,
   inputs,
+  self,
   ...
 }:
 let
@@ -70,6 +71,19 @@ in
   # Session Variables
   environment.sessionVariables = {
     FLAKE = "/home/thein3rovert/thein3rovert-flake"; # Specify nix path for nh used for easy rebuild
+  };
+
+  # === CUSTOM CONFIG AND SETTINGS
+  # This settings contain custom enabled services
+  # from modules
+
+  nixosSetup = {
+    programs = {
+      podman.enable = true;
+    };
+    # services = {
+    #   minio.enable = true;
+    # };
   };
 
   # List packages installed in system profile. To search, run
