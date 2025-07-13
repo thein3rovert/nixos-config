@@ -6,7 +6,7 @@
 }:
 {
   users.users.thein3rovert = {
-    initialHashedPassword = "$y$j9T$ik3uknc76FacQ8IWNIhqF.$iG95O1UY88EhF9kucdvAuntMZ5ZiYgaK32FXsSdJtv0";
+    initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0";
     isNormalUser = true;
     description = "thein3rovert";
     extraGroups = [

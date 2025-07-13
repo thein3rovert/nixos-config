@@ -17,7 +17,6 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../config # Contains hardware files
-
   ];
   boot.supportedFilesystems = [
     "ntfs"
@@ -135,6 +134,28 @@ in
     wantedBy = [ "multi-user.target" ];
     serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
     serviceConfig.Restart = "always";
+  };
+  users.users.backupuser = {
+    isNormalUser = true;
+    description = "Backup User";
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ]; # Gives sudo and network access
+    hashedPassword = "$6$Zn6hrbZ2OCfR3GYU$mPzSIg7JU9V3EXZVLqcNrkIevpjf6cX5sQ4QFq8wJZ8RNY6Iu49D8P9aFtK8Gf6FbvDFmonRvQwhqOJxuK6qx/"; # Replace this or use `mkpasswd`
+  };
+
+  users.users.thein3rovert = {
+    isNormalUser = true;
+    description = "thein3rovert";
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "sudo"
+    ]; # Gives sudo and network access
+
+    packages = [ inputs.home-manager.packages.${pkgs.system}.default ]; # This fix home-manager not showing on path
+    initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0"; # Replace this or use `mkpasswd`
   };
 
   users.defaultUserShell = pkgs.zsh;

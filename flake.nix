@@ -78,11 +78,31 @@
 
         # === MAIN (LOCAL) ===
         nixos = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs nix-colors; };
+          specialArgs = {
+            inherit
+              self
+              inputs
+              outputs
+              nix-colors
+              ;
+          };
           modules = [
             ./hosts/nixos
             { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
             agenix.nixosModules.default
+            self.inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                # backupFileExtension = "backup";
+                extraSpecialArgs = { inherit self; };
+                useGlobalPkgs = true;
+                useUserPackages = true;
+              };
+
+              nixpkgs = {
+                config.allowUnfree = true;
+              };
+            }
           ];
         };
 
@@ -141,20 +161,20 @@
       };
 
       # === HOME CONFIGURATION "LOCAL ONLY" ===
-      homeConfigurations = {
-        "thein3rovert@nixos" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home/thein3rovert/nixos.nix ];
-        };
-
-        # "thein3rovert-cloud" = home-manager.lib.homeManagerConfiguration {
-        #   pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        #   extraSpecialArgs = { inherit inputs outputs; };
-        #   modules = [ ./hosts/vps-het-1/home.nix ];
-        # };
-
-      };
+      # homeConfigurations = {
+      #   "thein3rovert@nixos" = home-manager.lib.homeManagerConfiguration {
+      #     pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #     extraSpecialArgs = { inherit inputs outputs; };
+      #     modules = [ ./home/thein3rovert/nixos.nix ];
+      #   };
+      #
+      #   # "thein3rovert-cloud" = home-manager.lib.homeManagerConfiguration {
+      #   #   pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #   #   extraSpecialArgs = { inherit inputs outputs; };
+      #   #   modules = [ ./hosts/vps-het-1/home.nix ];
+      #   # };
+      #
+      # };
 
       #INFO: Ignore error "unknown flake output 'homeManagerModules'" as
       # it's not in use yet

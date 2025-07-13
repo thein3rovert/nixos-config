@@ -38,14 +38,15 @@
 
 {
   imports = [
-    ../common
+    # ../common
     ./configuration.nix
     ./secrets.nix
+    ./home.nix
   ];
 
-  extraServices = {
-    podman.enable = true;
-    # virtualisation.enable = true;
-  };
+  # extraServices = {
+  #   podman.enable = true;
+  #   # virtualisation.enable = true;
+  # };
 
 }
