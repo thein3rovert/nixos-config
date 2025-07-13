@@ -69,96 +69,146 @@
             };
           }
         );
+
+      forAllLinuxHosts = self.inputs.nixpkgs.lib.genAttrs [
+        "nixos"
+        "demo"
+        "vps-het-1"
+        "wellsjaha"
+      ];
     in
     {
       # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations = {
-
-        # === MAIN (LOCAL) ===
-        nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations = forAllLinuxHosts (
+        host:
+        self.inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit
               self
               inputs
-              outputs
+              # outputs
               nix-colors
               ;
           };
+
           modules = [
-            ./hosts/nixos
-            { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
-            agenix.nixosModules.default
+            ./hosts/${host}
             self.inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                # backupFileExtension = "backup";
-                extraSpecialArgs = { inherit self; };
-                useGlobalPkgs = true;
-                useUserPackages = true;
-              };
-
-              nixpkgs = {
-                config.allowUnfree = true;
-              };
-            }
-          ];
-        };
-
-        # ======== REMOTE HOST USING "self" ==========
-        # === TEST VM ===
-        demo = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit self inputs outputs; };
-          modules = [
-            ./hosts/demo
-            inputs.disko.nixosModules.disko
             agenix.nixosModules.default
-            self.nixosModules.nixosOs
-          ];
-        };
-
-        # INFO: === TEST SERVER srv-test-1 ===
-        wellsjaha = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit self inputs outputs;
-          };
-          modules = [
-            ./hosts/wellsjaha
+            { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
             inputs.disko.nixosModules.disko
             self.nixosModules.users
+            # Custom Modules
             self.nixosModules.nixosOs
-          ];
-        };
-
-        # === SERVER CONFIGURATIONS ===
-        #INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
-        vps-het-1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit self inputs outputs; };
-          modules = [
-            ./hosts/vps-het-1
-            self.inputs.home-manager.nixosModules.home-manager
-            self.nixosModules.nixosOs
-            agenix.nixosModules.default
-            inputs.disko.nixosModules.disko
+            # inputs.home-manager.nixosModules.home-manager
+            # home-manager.nixosModules.home-manager
+            # inputs.home-manager.nixosModules.default
             {
               home-manager = {
-                # backupFileExtension = "backup";
+                backupFileExtension = "backup";
                 extraSpecialArgs = { inherit self; };
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
 
               nixpkgs = {
+                # inherit overlays;
                 config.allowUnfree = true;
               };
             }
           ];
-        };
-      };
+        }
+      );
+
+      # === Start of the config ===
+
+      # nixosConfigurations = {
+      #
+      #   # === MAIN (LOCAL) ===
+      #   nixos = nixpkgs.lib.nixosSystem {
+      #     specialArgs = {
+      #       inherit
+      #         self
+      #         inputs
+      #         outputs
+      #         nix-colors
+      #         ;
+      #     };
+      #     modules = [
+      #       ./hosts/nixos
+      #       { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+      #       agenix.nixosModules.default
+      #       self.inputs.home-manager.nixosModules.home-manager
+      #       {
+      #         home-manager = {
+      #           # backupFileExtension = "backup";
+      #           extraSpecialArgs = { inherit self; };
+      #           useGlobalPkgs = true;
+      #           useUserPackages = true;
+      #         };
+      #
+      #         nixpkgs = {
+      #           config.allowUnfree = true;
+      #         };
+      #       }
+      #     ];
+      #   };
+      #
+      #   # ======== REMOTE HOST USING "self" ==========
+      #   # === TEST VM ===
+      #   demo = nixpkgs.lib.nixosSystem {
+      #     system = "x86_64-linux";
+      #     specialArgs = { inherit self inputs outputs; };
+      #     modules = [
+      #       ./hosts/demo
+      #       inputs.disko.nixosModules.disko
+      #       agenix.nixosModules.default
+      #       self.nixosModules.nixosOs
+      #     ];
+      #   };
+      #
+      #   # INFO: === TEST SERVER srv-test-1 ===
+      #   wellsjaha = nixpkgs.lib.nixosSystem {
+      #     system = "x86_64-linux";
+      #     specialArgs = {
+      #       inherit self inputs outputs;
+      #     };
+      #     modules = [
+      #       ./hosts/wellsjaha
+      #       inputs.disko.nixosModules.disko
+      #       self.nixosModules.users
+      #       self.nixosModules.nixosOs
+      #     ];
+      #   };
+      #
+      #   # === SERVER CONFIGURATIONS ===
+      #   #INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
+      #   vps-het-1 = nixpkgs.lib.nixosSystem {
+      #     system = "x86_64-linux";
+      #     specialArgs = { inherit self inputs outputs; };
+      #     modules = [
+      #       ./hosts/vps-het-1
+      #       self.inputs.home-manager.nixosModules.home-manager
+      #       self.nixosModules.nixosOs
+      #       agenix.nixosModules.default
+      #       inputs.disko.nixosModules.disko
+      #       {
+      #         home-manager = {
+      #           # backupFileExtension = "backup";
+      #           extraSpecialArgs = { inherit self; };
+      #           useGlobalPkgs = true;
+      #           useUserPackages = true;
+      #         };
+      #
+      #         nixpkgs = {
+      #           config.allowUnfree = true;
+      #         };
+      #       }
+      #     ];
+      #   };
+      # };
 
       # === HOME CONFIGURATION "LOCAL ONLY" ===
       # homeConfigurations = {

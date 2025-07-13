@@ -158,6 +158,8 @@ in
     initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0"; # Replace this or use `mkpasswd`
   };
 
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   users.defaultUserShell = pkgs.zsh;
 
   # Some programs need SUID wrappers, can be configured further or are

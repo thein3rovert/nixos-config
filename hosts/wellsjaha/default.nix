@@ -77,4 +77,6 @@
     settings.PermitRootLogin = "yes"; # Disable root login over SSH
     allowSFTP = true; # Enable SFTP access
   };
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 }

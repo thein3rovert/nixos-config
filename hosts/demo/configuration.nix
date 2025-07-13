@@ -66,6 +66,6 @@
   # users.users.thein3rovert.ignoreShellProgramCheck = true;
   # programs.zsh.enable = true;
   time.timeZone = "Europe/London";
-
+  nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.11";
 }
