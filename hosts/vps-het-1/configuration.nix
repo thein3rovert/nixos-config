@@ -19,18 +19,18 @@
 
   # === TODO: Add after dynamically allocation require data
   # in modules ===
-  # nixosSetup = {
-  #
-  #   #TODO: Try to replace default podman config
-  #   # to modules config without downtime
-  #   # programs = {
-  #   #   podman.enable = true;
-  #   # };
-  #
-  #   services = {
-  #     minio.enable = true;
-  #   };
-  # };
+  nixosSetup = {
+
+    #TODO: Try to replace default podman config
+    # to modules config without downtime
+    # programs = {
+    #   podman.enable = true;
+    # };
+
+    services = {
+      minio.enable = true;
+    };
+  };
   nixpkgs.hostPlatform = "x86_64-linux";
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already

@@ -39,31 +39,21 @@
 
     # === TODO: Use option to dynamically allocate resources for traefik
     # and other section of the config ===
-    # services.traefik.dynamicConfigOptions.http = {
-    #   services.freshrss.loadBalancer.servers = [ { url = "http://localhost:8083/"; } ];
-    #   middlewares = {
-    #     # Add a middleware for linkding headers
-    #     # freshrss-headers = {
-    #     #   headers = {
-    #     #     customRequestHeaders = {
-    #     #       "Host" = "thein3rovert.dev";
-    #     #       "X-Forwarded-Proto" = "https";
-    #     #       "X-Forwarded-Host" = "thein3rovert.dev";
-    #     #     };
-    #     #   };
-    #     # };
-    #   };
-    #
-    #   # === Routes ===
-    #   routers.freshrss = {
-    #     rule = "Host(`freshrss.thein3rovert.dev`)";
-    #     service = "freshrss";
-    #     entryPoints = [ "websecure" ];
-    #     tls = {
-    #       certResolver = "godaddy";
-    #     };
-    #   };
-    # };
+    services.traefik.dynamicConfigOptions.http = {
+      services.minio.loadBalancer.servers = [ { url = "http://localhost:9091/"; } ];
+      middlewares = {
+      };
+
+      # === Routes ===
+      routers.minio = {
+        rule = "Host(`minio.thein3rovert.dev`)";
+        service = "minio";
+        entryPoints = [ "websecure" ];
+        tls = {
+          certResolver = "godaddy";
+        };
+      };
+    };
 
   };
 }
