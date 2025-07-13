@@ -81,14 +81,13 @@ in
     programs = {
       podman.enable = true;
     };
-    # services = {
-    #   minio.enable = true;
-    # };
+    services = {
+      minio.enable = true;
+    };
   };
 
   # List packages installed in system profile. To search, run
   environment.systemPackages = with pkgs; [
-    whisper-cpp # Package Name: whisper-cli
     # ------------------------------
     # Essential Tools
     # ------------------------------

@@ -16,8 +16,10 @@
       ports = [
         # "127.0.0.1:9000:9000" # MinIO API Port
         # "127.0.0.1:9090:9090" # MinIO Console Port
+
+        # === Add 0.0.0.0 if running minio from virtual machines ===
         "0.0.0.0:9000:9000"
-        "0.0.0.0:9090:9090"
+        "0.0.0.0:9091:9091"
       ];
       volumes = [ "minio_data:/etc/minio/data" ]; # Persistent storage
       environment = {
@@ -28,7 +30,7 @@
       cmd = [
         "server"
         "--console-address"
-        ":9090"
+        ":9091"
         "/etc/minio/data"
       ];
 
@@ -37,6 +39,31 @@
 
     # === TODO: Use option to dynamically allocate resources for traefik
     # and other section of the config ===
+    # services.traefik.dynamicConfigOptions.http = {
+    #   services.freshrss.loadBalancer.servers = [ { url = "http://localhost:8083/"; } ];
+    #   middlewares = {
+    #     # Add a middleware for linkding headers
+    #     # freshrss-headers = {
+    #     #   headers = {
+    #     #     customRequestHeaders = {
+    #     #       "Host" = "thein3rovert.dev";
+    #     #       "X-Forwarded-Proto" = "https";
+    #     #       "X-Forwarded-Host" = "thein3rovert.dev";
+    #     #     };
+    #     #   };
+    #     # };
+    #   };
+    #
+    #   # === Routes ===
+    #   routers.freshrss = {
+    #     rule = "Host(`freshrss.thein3rovert.dev`)";
+    #     service = "freshrss";
+    #     entryPoints = [ "websecure" ];
+    #     tls = {
+    #       certResolver = "godaddy";
+    #     };
+    #   };
+    # };
 
   };
 }
