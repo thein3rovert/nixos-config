@@ -6,9 +6,9 @@
   home.packages = with pkgs; [
     obsidian
     # Waybar with experimental features enabled
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
+    # (waybar.overrideAttrs (oldAttrs: {
+    #   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    # }))
     rofi
     gnome-tweaks
     wasistlos
