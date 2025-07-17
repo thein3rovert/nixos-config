@@ -9,13 +9,23 @@
   options.nixosSetup.profiles.base.enable = lib.mkEnableOption "All base system config when enabled";
   config = lib.mkIf config.nixosSetup.profiles.base.enable {
     environment = {
-      # === Link the flake repo to /etc/nixos
-      # when logged into the system, you can check /etc'nixos to
-      # see what config source is being used.
+      /*
+        === Link the flake repo to /etc/nixos
+        When logged into the system, you can check /etc'nixos to
+        see what config source is being used.
+      */
       etc."nixos".source = self;
 
       systemPackages = with pkgs; [
+        /*
+          Override the inxi package to include
+          recommended dependencies
+        */
         (inxi.override { withRecommends = true; }) # Meaning?
+        /*
+          Increase the priority of uutils-coreutils-noprefix
+          to ensure it's selected
+        */
         (lib.hiPrio uutils-coreutils-noprefix) # Meaning?
         git
         htop
@@ -41,6 +51,7 @@
         nix-direnv.enable = true;
         #silent = true;    # Turn to true later, leave off for testing
       };
+
       nh.enable = true;
 
       #INFO: Dont forget to add host to snippets
@@ -69,6 +80,7 @@
       };
     };
 
+    # === SERVICES ===
     services = {
       # === Not needed yet ===
       # avahi = {
@@ -84,12 +96,14 @@
       #   };
       # };
 
+      /*
+        Start cachefilesd, which provides disk caching for network filesystems (like NFS).
+        Begin culling (removing cache) when disk space drops below 20%.
+        Continue culling until disk space rises above 10%.
+        Stop all caching if disk space drops below 5%.
+      */
       cachefilesd = {
-        enable = true; # Start cachefilesd, which provides disk caching for network filesystems (like NFS).
-        # Begin culling (removing cache) when disk space drops below 20%.
-        # Continue culling until disk space rises above 10%.
-        # Stop all caching if disk space drops below 5%.
-
+        enable = true;
         extraConfig = ''
           brun 20%
           bcull 10%
@@ -107,8 +121,10 @@
 
     # === Enable advance nixos rebuild ===
     system = {
-      # Records the current git revision (commit hash) or, if dirty, the dirty revision;
-      # helps track exactly which version of the configuration was deployed.
+      /*
+        Records the current git revision (commit hash) or, if dirty, the dirty revision;
+        helps track exactly which version of the configuration was deployed.
+      */
       configurationRevision = self.rev or self.dirtyRev or null;
 
       # Enables the next-generation nixos-rebuild (nixos-rebuild-ng) tool for system updates.
