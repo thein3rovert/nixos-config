@@ -22,4 +22,5 @@ in
   "freshrss-env.age".publicKeys = systems ++ users;
   "traefik-env.age".publicKeys = systems ++ users;
   "minio-env.age".publicKeys = systems ++ users;
+  "tailscale-env.age".publicKeys = systems ++ users;
 }

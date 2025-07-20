@@ -20,6 +20,11 @@
         owner = "thein3rovert";
         path = "/home/thein3rovert/secrets/.minio-env";
       };
+      tailscale = {
+        file = ../../secrets/tailscale-env.age;
+        owner = "thein3rovert";
+        path = "/home/thein3rovert/secrets/.tailscale-env";
+      };
     };
   };
 }
