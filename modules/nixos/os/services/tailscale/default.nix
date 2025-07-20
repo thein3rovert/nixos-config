@@ -9,7 +9,7 @@
   options.nixosSetup.services.tailscale = {
     enable = lib.mkEnableOption "Tailscale VPN services";
 
-    authenticationKeyFile = lib.mkOption {
+    authKeyFile = lib.mkOption {
       description = "Key file used for authentication";
       default = config.age.secrets.tailscale.path or null; # Dont have the auth key file yet
       type = lib.types.nullOr lib.types.path;
@@ -23,11 +23,11 @@
       If the condition is false, Nix will raise an error and stop the build or evaluation.assertions
 
       The assertions attribute is expected to be a list of assertion objects.
-      Each object inside the list is a set with two fields: aassertions and message
+      Each object inside the list is a set with two fields: aassertion and message
     */
     assertions = [
       {
-        assertions = config.nixosSetup.services.tailscale.authenticationKeyFile != null;
+        assertion = config.nixosSetup.services.tailscale.authKeyFile != null;
         message = "config.tailscale.authenticationKeyFile cannot be null.";
       }
     ];
@@ -39,7 +39,7 @@
 
     services = {
       tailscale = {
-        authenticationKeyFile = config.nixosSetup.services.tailscale.authenticationKeyFile;
+        authKeyFile = config.nixosSetup.services.tailscale.authKeyFile;
         enable = true;
         extraUpFlags = [ "--ssh" ];
         openFirewall = true;

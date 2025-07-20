@@ -2,5 +2,6 @@
 {
   imports = [
     ./minio
+    ./tailscale
   ];
 }
