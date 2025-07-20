@@ -83,6 +83,7 @@ in
     };
     services = {
       minio.enable = true;
+      tailscale.enable = true;
     };
   };
 
