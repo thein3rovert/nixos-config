@@ -5,6 +5,7 @@
       linkding = {
         file = ../../secrets/linkding-env.age;
         owner = "thein3rovert-cloud";
+        path = "/home/thein3rovert-cloud/secrets/.linkding-env";
         # group = "thein3rovert";
         # mode = "0440";
         # path = "/home/thein3rovert/.secret1"; # Path where the drcrypted file is stored
