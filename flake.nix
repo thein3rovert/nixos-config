@@ -3,6 +3,7 @@
     This is a configiration for managing multiple nixos machines
   '';
 
+  # === Flake Inputs ===
   inputs = {
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -78,9 +79,9 @@
       ];
     in
     {
-      # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
 
+      # === Nixos Configurations for all hosts ===
       nixosConfigurations = forAllLinuxHosts (
         host:
         self.inputs.nixpkgs.lib.nixosSystem {
@@ -88,11 +89,11 @@
             inherit
               self
               inputs
-              # outputs
               nix-colors
               ;
           };
 
+          # === Modules ===
           modules = [
             ./hosts/${host}
             self.inputs.home-manager.nixosModules.home-manager
@@ -100,11 +101,11 @@
             { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
             inputs.disko.nixosModules.disko
             self.nixosModules.users
-            # Custom Modules
+
+            # === Custom Modules ===
             self.nixosModules.nixosOs
-            # inputs.home-manager.nixosModules.home-manager
-            # home-manager.nixosModules.home-manager
-            # inputs.home-manager.nixosModules.default
+
+            # === Home-Manager Config ===
             {
               home-manager = {
                 backupFileExtension = "backup";
@@ -112,7 +113,6 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
-
               nixpkgs = {
                 # inherit overlays;
                 config.allowUnfree = true;
@@ -121,110 +121,6 @@
           ];
         }
       );
-
-      # === Start of the config ===
-
-      # nixosConfigurations = {
-      #
-      #   # === MAIN (LOCAL) ===
-      #   nixos = nixpkgs.lib.nixosSystem {
-      #     specialArgs = {
-      #       inherit
-      #         self
-      #         inputs
-      #         outputs
-      #         nix-colors
-      #         ;
-      #     };
-      #     modules = [
-      #       ./hosts/nixos
-      #       { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
-      #       agenix.nixosModules.default
-      #       self.inputs.home-manager.nixosModules.home-manager
-      #       {
-      #         home-manager = {
-      #           # backupFileExtension = "backup";
-      #           extraSpecialArgs = { inherit self; };
-      #           useGlobalPkgs = true;
-      #           useUserPackages = true;
-      #         };
-      #
-      #         nixpkgs = {
-      #           config.allowUnfree = true;
-      #         };
-      #       }
-      #     ];
-      #   };
-      #
-      #   # ======== REMOTE HOST USING "self" ==========
-      #   # === TEST VM ===
-      #   demo = nixpkgs.lib.nixosSystem {
-      #     system = "x86_64-linux";
-      #     specialArgs = { inherit self inputs outputs; };
-      #     modules = [
-      #       ./hosts/demo
-      #       inputs.disko.nixosModules.disko
-      #       agenix.nixosModules.default
-      #       self.nixosModules.nixosOs
-      #     ];
-      #   };
-      #
-      #   # INFO: === TEST SERVER srv-test-1 ===
-      #   wellsjaha = nixpkgs.lib.nixosSystem {
-      #     system = "x86_64-linux";
-      #     specialArgs = {
-      #       inherit self inputs outputs;
-      #     };
-      #     modules = [
-      #       ./hosts/wellsjaha
-      #       inputs.disko.nixosModules.disko
-      #       self.nixosModules.users
-      #       self.nixosModules.nixosOs
-      #     ];
-      #   };
-      #
-      #   # === SERVER CONFIGURATIONS ===
-      #   #INFO: HOLD OFF ANY TEST ON SEVER USE SRV-TEST-1
-      #   vps-het-1 = nixpkgs.lib.nixosSystem {
-      #     system = "x86_64-linux";
-      #     specialArgs = { inherit self inputs outputs; };
-      #     modules = [
-      #       ./hosts/vps-het-1
-      #       self.inputs.home-manager.nixosModules.home-manager
-      #       self.nixosModules.nixosOs
-      #       agenix.nixosModules.default
-      #       inputs.disko.nixosModules.disko
-      #       {
-      #         home-manager = {
-      #           # backupFileExtension = "backup";
-      #           extraSpecialArgs = { inherit self; };
-      #           useGlobalPkgs = true;
-      #           useUserPackages = true;
-      #         };
-      #
-      #         nixpkgs = {
-      #           config.allowUnfree = true;
-      #         };
-      #       }
-      #     ];
-      #   };
-      # };
-
-      # === HOME CONFIGURATION "LOCAL ONLY" ===
-      # homeConfigurations = {
-      #   "thein3rovert@nixos" = home-manager.lib.homeManagerConfiguration {
-      #     pkgs = nixpkgs.legacyPackages."x86_64-linux";
-      #     extraSpecialArgs = { inherit inputs outputs; };
-      #     modules = [ ./home/thein3rovert/nixos.nix ];
-      #   };
-      #
-      #   # "thein3rovert-cloud" = home-manager.lib.homeManagerConfiguration {
-      #   #   pkgs = nixpkgs.legacyPackages."x86_64-linux";
-      #   #   extraSpecialArgs = { inherit inputs outputs; };
-      #   #   modules = [ ./hosts/vps-het-1/home.nix ];
-      #   # };
-      #
-      # };
 
       #INFO: Ignore error "unknown flake output 'homeManagerModules'" as
       # it's not in use yet
@@ -242,7 +138,6 @@
       };
 
       # === COLMENA CONFIG "Deployment" ===
-
       colmena = {
         meta = {
           nixpkgs = import nixpkgs {
@@ -251,7 +146,8 @@
           specialArgs = { inherit self inputs outputs; };
         };
 
-        #INFO: === Deployment ===
+        # === DEPLOYMENT ===
+
         # === NODE ONE ===
         demo = {
           deployment = {
@@ -269,6 +165,7 @@
             # agenix.nixosModules.defaults
           ];
         };
+
         # === NODE TWO ===
         vps-het-1 = {
           deployment = {
@@ -290,6 +187,7 @@
             self.nixosModules.nixosOs
           ];
         };
+
         # === TEST NODE THREE ===
         wellsjaha = {
           deployment = {
@@ -308,10 +206,11 @@
             inputs.disko.nixosModules.disko
             self.nixosModules.users
             self.nixosModules.nixosOs
+
+            # === No Home-Manager ===
             # self.inputs.home-manager.nixosModules.home-manager
           ];
         };
-
       };
 
       #  ADDED: New colmenaHive output
