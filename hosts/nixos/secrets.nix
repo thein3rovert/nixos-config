@@ -1,5 +1,9 @@
 {
   age = {
+    # ------------------------------
+    # TEXT SECRETS
+    # -------------------------------
+
     secrets = {
       secret1 = {
         file = ../../secrets/secret1.age;
@@ -15,6 +19,11 @@
         # mode = "0440";
         # path = "/home/thein3rovert/.secret1"; # Path where the drcrypted file is stored
       };
+
+      # ------------------------------
+      # SERVICE SECRETS
+      # -------------------------------
+
       minio = {
         file = ../../secrets/minio-env.age;
         owner = "thein3rovert";

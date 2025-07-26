@@ -10,17 +10,28 @@
     { pkgs, ... }:
     {
       imports = [
+
         # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
         # self.homeManagerModules.default
         # self.inputs.agenix.homeManagerModules.default
+
+        # TODO: Move all these to home modules
         ../../home/features/cli
         ../../home/features/coding
         ../../home/features/desktop
       ];
 
       home = {
+        # ------------------------------
+        # HOME USER
+        # ------------------------------
+
         username = lib.mkDefault "thein3rovert";
         homeDirectory = lib.mkDefault "/home/${config.home.username}";
+
+        # ------------------------------
+        # HOME PACKAGES
+        # ------------------------------
 
         packages = with pkgs; [
           btop
@@ -28,69 +39,24 @@
           cowsay
           kitty
           wofi
-
-          # Make sure to move all this to the right config files later
           wlogout
           hyprlock
-
           blueman
-
           pavucontrol
           playerctl
-
           brightnessctl
         ];
-
         stateVersion = "24.05";
       };
 
-      nix = {
-        package = lib.mkDefault pkgs.nix;
-        # settings = {
-        #   experimental-features = [
-        #     "nix-command"
-        #     "flakes"
-        #   ];
-        #   warn-dirty = false;
-        # };
-      };
-
-      programs.waybar.enable = true;
-
-      nix = {
-        settings = {
-          experimental-features = "nix-command flakes"; # === Enable flakes and nix-command ===
-          trusted-users = [
-            "root"
-            "thein3rovert"
-          ]; # === Users allowed to run nix commands ===
-        };
-
-        # === Enable automatic garbage collection ===
-        gc = {
-          automatic = true;
-          options = "--delete-older-than 30d";
-        };
-
-        # # === Enable automatic store optimization ===
-        # optimise.automatic = true;
-
-        # === Register all flake inputs as nix registry entries ===
-        registry = lib.mapAttrs (_: flake: { inherit flake; }) (
-          lib.filterAttrs (_: lib.isType "flake") inputs
-        );
-
-        # === Set custom NIX_PATH ===
-        nixPath = [ "/etc/nix/path" ];
-      };
+      # ------------------------------------
+      # PROGRAM
+      # -------------------------------------
 
       # Let Home Manager install and manage itself.
       programs.home-manager.enable = true;
-      features = {
-        cli = {
-          zsh.enable = true;
-        };
-      };
+      programs.waybar.enable = true;
+
       programs.ssh = {
         enable = true;
         matchBlocks = {
@@ -115,5 +81,48 @@
         };
       };
 
+      # ------------------------------------
+      # CUSTOM MODULES
+      # ------------------------------------
+      features = {
+        cli = {
+          zsh.enable = true;
+        };
+      };
+
+      # ------------------------------------
+      # NIX SETTINGS
+      # ------------------------------------
+
+      nix = {
+        package = lib.mkDefault pkgs.nix;
+        settings = {
+          experimental-features = "nix-command flakes"; # === Enable flakes and nix-command ===
+          trusted-users = [
+            "root"
+            "thein3rovert"
+          ];
+        };
+
+        # -------------------------------------------------
+        # CLEANUP AND OPTIMISATION
+        # -------------------------------------------------
+
+        gc = {
+          automatic = true;
+          options = "--delete-older-than 30d";
+        };
+
+        # FIX: Redundant
+        # optimise.automatic = true;
+
+        # === Register all flake inputs as nix registry entries ===
+        registry = lib.mapAttrs (_: flake: { inherit flake; }) (
+          lib.filterAttrs (_: lib.isType "flake") inputs
+        );
+
+        # === Set custom NIX_PATH ===
+        nixPath = [ "/etc/nix/path" ];
+      };
     };
 }
