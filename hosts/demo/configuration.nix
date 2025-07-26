@@ -12,31 +12,10 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
   ];
-  boot.loader.grub = {
-    # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-    # devices = [ ];
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
-  services.openssh.enable = true;
-  services.qemuGuest.enable = true;
 
-  # INFO: Keep hostname as host machine name.
-  networking.hostName = "demo";
-
-  environment.systemPackages = map lib.lowPrio [
-    pkgs.curl
-    pkgs.gitMinimal
-    pkgs.kitty
-    pkgs.cowsay
-
-  ];
-
-  nixosSetup = {
-    programs = {
-      podman.enable = true;
-    };
-  };
+  # ------------------------------------
+  # USER CONFIGURATION
+  # ------------------------------------
 
   users.users.thein3rovert = {
     isNormalUser = true;
@@ -51,6 +30,56 @@
     ];
   };
 
+  # ------------------------------------
+  # BOOTLOADER
+  # ------------------------------------
+
+  boot.loader.grub = {
+    # No need to set devices, disko will add all devices that have a EF02 partition to the list already
+    # devices = [ ];
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
+
+  # ------------------------------------
+  # SERVICES
+  # ------------------------------------
+
+  services.openssh.enable = true;
+  services.qemuGuest.enable = true;
+
+  # ------------------------------------
+  # NETWORKING
+  # ------------------------------------
+
+  networking.hostName = "demo";
+
+  # ------------------------------------
+  # PACKAGES
+  # ------------------------------------
+
+  nixpkgs.hostPlatform = "x86_64-linux";
+  environment.systemPackages = map lib.lowPrio [
+    pkgs.curl
+    pkgs.gitMinimal
+    pkgs.kitty
+    pkgs.cowsay
+
+  ];
+
+  # ------------------------------------
+  # CUSTOM MODULES
+  # ------------------------------------
+
+  nixosSetup = {
+    programs = {
+      podman.enable = true;
+    };
+  };
+
+  # ------------------------------------
+  # SECURITY
+  # ------------------------------------
   security.sudo.extraRules = [
     {
       users = [ "thein3rovert" ];
@@ -63,9 +92,12 @@
     }
   ];
 
-  # users.users.thein3rovert.ignoreShellProgramCheck = true;
+  # ------------------------------------
+  # PROGRAM
+  # ------------------------------------
+
   # programs.zsh.enable = true;
+
   time.timeZone = "Europe/London";
-  nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.11";
 }
