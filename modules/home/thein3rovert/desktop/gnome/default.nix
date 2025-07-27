@@ -27,27 +27,27 @@
       settings = {
         "org/gnome/shell" = {
           favorite-apps = [
-            "zen-beta.desktop"
-            "thunderbird.desktop"
-            "signal.desktop"
-            "vesktop.desktop"
-            "obsidian.desktop"
-            "com.mitchellh.ghostty.desktop"
+            # "zen-beta.desktop"
+            # "thunderbird.desktop"
+            # "signal.desktop"
+            # "vesktop.desktop"
+            # "obsidian.desktop"
+            # "com.mitchellh.ghostty.desktop"
             "dev.zed.Zed.desktop"
-            "org.gnome.Nautilus.desktop"
+            # "org.gnome.Nautilus.desktop"
           ];
         };
 
         "org/gnome/shell/extensions/auto-move-windows" = {
           application-list = [
-            "code.desktop:3"
-            "obsidian.desktop:2"
-            "plexamp.desktop:1"
-            "signal.desktop:1"
-            "thunderbird.desktop:4"
-            "vesktop.desktop:1"
-            "zen-beta.desktop:1"
-            "zen-twilight.desktop:1"
+            # "code.desktop:3"
+            # "obsidian.desktop:2"
+            # "plexamp.desktop:1"
+            # "signal.desktop:1"
+            # "thunderbird.desktop:4"
+            # "vesktop.desktop:1"
+            # "zen-beta.desktop:1"
+            # "zen-twilight.desktop:1"
           ];
         };
       };

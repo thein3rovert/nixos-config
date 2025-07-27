@@ -6,7 +6,7 @@
       imports = [
 
         # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
-        # self.homeManagerModules.default
+        self.homeManagerModules.default
         # self.inputs.agenix.homeManagerModules.default
       ];
 
@@ -32,5 +32,13 @@
       programs = {
         home-manager.enable = true;
       };
+
     };
+  # ------------------------------------
+  # CUSTOM MODULES
+  # -------------------------------------
+  # TODO: Setup desktop env later
+  # homeSetup = {
+  #   desktop.gnome.enable = true;
+  # };
 }

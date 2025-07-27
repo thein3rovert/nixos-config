@@ -130,8 +130,9 @@
       homeManagerModules = {
         thein3rovert = ./homes/thein3rovert;
         thein3rovert-cloud = ./home/thein3rovert-cloud;
-        # default = ./modules/home # INFO:  Since i dont have default yet, have to remove every "self.homeManagerModules.default"
+        default = ./modules/home;
       };
+
       # === Nixos Custom Modules ===
       nixosModules = {
         users = ./modules/nixos/users;
