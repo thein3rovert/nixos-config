@@ -106,6 +106,7 @@
             self.nixosModules.nixosOs
 
             # === Home-Manager Config ===
+            # Managing home-manager as part of nixos config
             {
               home-manager = {
                 backupFileExtension = "backup";
@@ -146,7 +147,9 @@
           specialArgs = { inherit self inputs outputs; };
         };
 
-        # === DEPLOYMENT ===
+        # -----------------------------------
+        # DEPLOYMENT
+        # -----------------------------------
 
         # === NODE ONE ===
         demo = {

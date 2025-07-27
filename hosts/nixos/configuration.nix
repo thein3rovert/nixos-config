@@ -204,7 +204,10 @@ in
 
   users.defaultUserShell = pkgs.zsh;
 
-  # nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
