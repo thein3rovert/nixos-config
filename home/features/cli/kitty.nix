@@ -40,7 +40,7 @@
       color15 = "#${config.colorScheme.palette.base07}"; # bright white
       #
       repaint_delay = "60";
-      sync_to_monitor = "yes";
+      sync_to_monitor = "no"; # Performance
       background_opacity = "1.0";
       background_blur = "1";
       tab_bar_style = "powerline";
@@ -55,6 +55,9 @@
       cursor_blink_interval = "0.5";
       strip_trailing_spaces = "always";
       update_check_interval = "0";
+      window_padding_width = "30";
+      initial_window_width = "78c";
+      initial_window_height = "23c";
     };
   };
 }
