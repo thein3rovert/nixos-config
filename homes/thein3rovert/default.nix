@@ -27,8 +27,9 @@
         packages =
           with pkgs;
           [
-            rclone
             curl
+            nixos-rebuild-ng
+            rclone
           ]
           ++ [
             htop
@@ -54,16 +55,18 @@
     # LINUX
     # ----------------
 
+    # FIX: isLinux not working on linux system
+
     (lib.mkIf pkgs.stdenv.isLinux {
       # gtk.gtk3.bookmarks = lib.mkAfter [
       #   "file://${config.home.homeDirectory}/sync"
       # ];
-
       home = {
         homeDirectory = "/home/thein3rovert";
 
         packages = with pkgs; [
           btop
+          nixd
         ];
 
         stateVersion = "25.05";
