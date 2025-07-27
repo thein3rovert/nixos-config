@@ -6,7 +6,6 @@
   ...
 }:
 {
-  # I dont need import yet
   imports = [ self.homeManagerModules.default ];
 
   /*
@@ -14,8 +13,8 @@
         lib.mkMerge in Nix merges a list of attribute sets,
         combining them left to right
 
-        In my case the attr set are a set of operating system
-        types
+     The file uses lib.mkIf to apply specific configurations
+     based on the operating system: Darwin or Linux
   */
   config = lib.mkMerge [
 
@@ -52,10 +51,11 @@
     # ------------------------------
 
     # ---------------
-    # LINUX
+    # FOR LINUX
     # ----------------
 
     # FIX: isLinux not working on linux system
+    # NOTE: Not applying config to linux system
 
     (lib.mkIf pkgs.stdenv.isLinux {
       # gtk.gtk3.bookmarks = lib.mkAfter [
