@@ -128,6 +128,7 @@
 
       # === Home Manager Custom Modules ===
       homeManagerModules = {
+        thein3rovert = ./homes/thein3rovert;
         thein3rovert-cloud = ./home/thein3rovert-cloud;
         # default = ./modules/home # INFO:  Since i dont have default yet, have to remove every "self.homeManagerModules.default"
       };
@@ -207,6 +208,7 @@
             ./hosts/wellsjaha
             agenix.nixosModules.default
             inputs.disko.nixosModules.disko
+            self.inputs.home-manager.nixosModules.home-manager
             self.nixosModules.users
             self.nixosModules.nixosOs
 
