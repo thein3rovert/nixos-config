@@ -6,7 +6,7 @@
       imports = [
 
         # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
-        self.homeManagerModules.default
+        # self.homeManagerModules.default
         # self.inputs.agenix.homeManagerModules.default
       ];
 
