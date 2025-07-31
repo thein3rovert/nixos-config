@@ -40,7 +40,10 @@
 
       homeSetup = {
         # desktop.gnome.enable = true;
-        thein3rovert.programs.zsh.enable = true;
+        thein3rovert = {
+          programs.zsh.enable = true;
+          programs.kitty.enable = true;
+        };
       };
     };
 }
