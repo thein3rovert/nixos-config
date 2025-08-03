@@ -6,104 +6,131 @@
   config,
   lib,
   pkgs,
-  inputs,
+  self,
   ...
 }:
+let
 
+  # ---------------------
+  # CUSTOM FLAKE MODULES
+  # --------------------
+  customImport = self.homeManagerModules.default;
+in
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = lib.mkDefault "thein3rovert";
-  home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
+  home-manager.users.thein3rovert =
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+    {
+      imports = [
+        customImport
+      ];
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = with pkgs; [
-    cowsay
-    kitty
-    wofi
-    zed-editor
+      # Home Manager needs a bit of information about you and the paths it should
+      # manage.
+      home.username = lib.mkDefault "thein3rovert";
+      home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
-    # Make sure to move all this to the right config files later
-    wlogout
-    hyprlock
+      # This value determines the Home Manager release that your configuration is
+      # compatible with. This helps avoid breakage when a new Home Manager release
+      # introduces backwards incompatible changes.
+      #
+      # You should not change this value, even if you update Home Manager. If you do
+      # want to update the value, then make sure to first check the Home Manager
+      # release notes.
+      home.stateVersion = "24.05"; # Please read the comment before changing.
 
-    blueman
+      # The home.packages option allows you to install Nix packages into your
+      # environment.
+      home.packages = with pkgs; [
+        cowsay
+        kitty
+        wofi
+        zed-editor
 
-    pavucontrol
-    playerctl
+        # Make sure to move all this to the right config files later
+        wlogout
+        hyprlock
 
-    brightnessctl
+        blueman
 
-  ];
+        pavucontrol
+        playerctl
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+        brightnessctl
 
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-  };
+      ];
 
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. If you don't want to manage your shell through Home
-  # Manager then you have to manually source 'hm-session-vars.sh' located at
-  # either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
-  #
-  home.sessionVariables = {
-    # EDITOR = "emacs";
-    NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM = 1;
-  };
-  programs.ssh = {
-    enable = true;
-    matchBlocks = {
-      vps-het-1 = {
-        hostname = "95.216.211.225";
-        identityFile = "~/.ssh/id_ed25519";
-        user = "thein3rovert-cloud";
-      };
-      demo = {
-        hostname = "192.168.122.36";
-        identityFile = "~/.ssh/id_ed25519";
-        user = "thein3rovert";
+      # Home Manager is pretty good at managing dotfiles. The primary way to manage
+      # plain files is through 'home.file'.
+      home.file = {
+        # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+        # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+        # # symlink to the Nix store copy.
+        # ".screenrc".source = dotfiles/screenrc;
+
+        # # You can also set the file content immediately.
+        # ".gradle/gradle.properties".text = ''
+        #   org.gradle.console=verbose
+        #   org.gradle.daemon.idletimeout=3600000
+        # '';
       };
 
-      # === Test Server ===
-      wellsjaha = {
-        hostname = "192.168.122.142";
-        identityFile = "~/.ssh/id_ed25519";
-        user = "thein3rovert";
+      # Home Manager can also manage your environment variables through
+      # 'home.sessionVariables'. If you don't want to manage your shell through Home
+      # Manager then you have to manually source 'hm-session-vars.sh' located at
+      # either
+      #
+      #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+      #
+      # or
+      #
+      #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+      #
+      # or
+      #
+      #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
+      #
+      home.sessionVariables = {
+        # EDITOR = "emacs";
+        NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM = 1;
       };
 
+      # ------------------------------------
+      # CUSTOM MODULES
+      # -------------------------------------
+      # TODO: Setup desktop env later
+
+      homeSetup = {
+        # desktop.gnome.enable = true;
+        thein3rovert = {
+          packages.cli.enable = true;
+        };
+      };
+
+      programs.ssh = {
+        enable = true;
+        matchBlocks = {
+          vps-het-1 = {
+            hostname = "95.216.211.225";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert-cloud";
+          };
+          demo = {
+            hostname = "192.168.122.36";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+          };
+
+          # === Test Server ===
+          wellsjaha = {
+            hostname = "192.168.122.142";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+          };
+
+        };
+      };
+
+      # Let Home Manager install and manage itself.
+      programs.home-manager.enable = true;
     };
-  };
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }

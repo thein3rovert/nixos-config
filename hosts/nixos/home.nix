@@ -5,11 +5,19 @@
   config,
   ...
 }:
+let
+
+  # ---------------------
+  # CUSTOM FLAKE MODULES
+  # --------------------
+  customImport = self.homeManagerModules.default;
+in
 {
   home-manager.users.thein3rovert =
     { pkgs, ... }:
     {
       imports = [
+        customImport
 
         # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
         # self.homeManagerModules.default
@@ -87,6 +95,13 @@
       features = {
         cli = {
           zsh.enable = true;
+        };
+      };
+
+      homeSetup = {
+        # desktop.gnome.enable = true;
+        thein3rovert = {
+          packages.cli.enable = true;
         };
       };
 

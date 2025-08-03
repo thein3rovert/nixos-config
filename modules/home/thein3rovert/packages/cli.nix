@@ -52,6 +52,7 @@
       #
       # # Text Processing
       jq # Command-line JSON processor
+      rclone
       # ripgrep # Fast search tool like `grep`
       # tldr # Simplified and community-driven man pages
       #
