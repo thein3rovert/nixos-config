@@ -146,7 +146,13 @@
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
           };
-          specialArgs = { inherit self inputs outputs; };
+          specialArgs = {
+            inherit
+              self
+              inputs
+              nix-colors
+              ;
+          };
         };
 
         # -----------------------------------

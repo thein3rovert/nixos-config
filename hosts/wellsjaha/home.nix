@@ -7,6 +7,7 @@
 
         # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
         self.homeManagerModules.default
+
         # self.inputs.agenix.homeManagerModules.default
       ];
 
@@ -42,7 +43,10 @@
         # desktop.gnome.enable = true;
         thein3rovert = {
           programs.zsh.enable = true;
-          programs.kitty.enable = true;
+          packages.cli.enable = true;
+
+          # FIX: Fix infinite recursion issue when enabled
+          # programs.kitty.enable = true;
         };
       };
     };

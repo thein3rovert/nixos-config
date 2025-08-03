@@ -5,13 +5,13 @@
   ...
 }:
 {
+  imports = [
+    self.inputs.nix-colors.homeManagerModule
+  ];
   options.homeSetup.thein3rovert.programs.kitty.enable =
     lib.mkEnableOption "Zsh for main user thein3rovert";
 
   config = lib.mkIf config.homeSetup.thein3rovert.programs.kitty.enable {
-    imports = [
-      self.inputs.nix-colors.homeManagerModule
-    ];
 
     colorScheme = self.inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
     programs.kitty = {
