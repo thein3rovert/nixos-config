@@ -21,64 +21,32 @@ in
         theme = "dst";
       };
       initContent = ''
-                      bindkey '^f' autosuggest-accept
-                      # OH-MY-POSH
-                      if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-                        eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json )"
-                      fi
+        bindkey '^f' autosuggest-accept
+        # OH-MY-POSH
+        if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+          eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json )"
+        fi
 
-                      export NIX_PATH="nixpkgs=channel:nixos-unstable"
-                      export NIX_LOG="info"
-                      export TERMINAL="kitty"
+        export NIX_PATH="nixpkgs=channel:nixos-unstable"
+        export NIX_LOG="info"
+        export TERMINAL="kitty"
+        export HOSTNAME="nixos"
 
-                      export PATH="$HOME/bin:$PATH"
+        export PATH="$HOME/bin:$PATH"
 
-                      # Check if the current TTY is /dev/tty1 and run Hyprland
-                      if [[ $(tty) == "/dev/tty1" ]]; then
-                        exec Hyprland &> /dev/null
-                      fi
+        # Check if the current TTY is /dev/tty1 and run Hyprland
+        if [[ $(tty) == "/dev/tty1" ]]; then
+          exec Hyprland &> /dev/null
+        fi
 
-                       # Git Commit Message Function
-                cmsg() {
-                  if [ -z "$4" ]; then
-                    git commit -m "$1($2): $3"
-                  else
-                    git commit -m "$1($2): $3" -m "$4"
-                  fi
-                }
-
-          cmsg-new() {
-          # Simple parameters
-          local TYPE=$1
-          local SCOPE=$2
-          local SHORT_MSG=$3
-          local LONG_MSG=$4
-          
-          # Simple validation of parameters
-          if [[ -z "$TYPE" || -z "$SCOPE" || -z "$SHORT_MSG" ]]; then
-            echo "Usage: cmsg <type> <scope> <short_message> [<long_message>]"
-            echo "Example: cmsg fix auth 'prevent race condition' 'Problem: Multiple auth requests caused token issues'"
-            return 1
-          fi
-          
-          # Build the commit message to validate
-          local FULL_MSG="$TYPE($SCOPE): $SHORT_MSG"
-          
-          # Validate against conventional commits format
-          if ! echo "$FULL_MSG" | grep -q -E "^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: .+"; then
-            echo "Error: Commit message must follow conventional commits format."
-            echo "Expected format: type(scope): description"
-            echo "Allowed types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert"
-            return 1
-          fi
-          
-          # Create commit with appropriate message format
-          if [ -z "$LONG_MSG" ]; then
-            git commit -m "$FULL_MSG"
-          else
-            git commit -m "$FULL_MSG" -m "$LONG_MSG"
-          fi
-        }
+        # Git Commit Message Function
+        cmsg() {
+            if [ -z "$4" ]; then
+              git commit -m "$1($2): $3"
+            else
+              git commit -m "$1($2): $3" -m "$4"
+            fi
+          }
       '';
       shellAliases = {
         # Dirs

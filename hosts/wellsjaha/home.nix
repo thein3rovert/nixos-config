@@ -43,7 +43,7 @@
         # desktop.gnome.enable = true;
         thein3rovert = {
           programs.zsh.enable = true;
-          packages.cli.enable = true;
+          # packages.cli.enable = true; # Enabled unwanted packages
 
           # FIX: Fix infinite recursion issue when enabled
           # programs.kitty.enable = true;

@@ -11,6 +11,7 @@ let
   # CUSTOM FLAKE MODULES
   # --------------------
   customImport = self.homeManagerModules.default;
+  kittyConfig = ../../modules/home/thein3rovert/programs/kitty;
 in
 {
   home-manager.users.thein3rovert =
@@ -18,6 +19,7 @@ in
     {
       imports = [
         customImport
+        kittyConfig
 
         # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
         # self.homeManagerModules.default
