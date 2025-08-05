@@ -94,16 +94,17 @@ in
       # ------------------------------------
       # CUSTOM MODULES
       # ------------------------------------
-      features = {
-        cli = {
-          zsh.enable = true;
-        };
-      };
+      # features = {
+      #   cli = {
+      #     zsh.enable = true;
+      #   };
+      # };
 
       homeSetup = {
         # desktop.gnome.enable = true;
         thein3rovert = {
           packages.cli.enable = true;
+          programs.zsh.enable = true;
         };
       };
 

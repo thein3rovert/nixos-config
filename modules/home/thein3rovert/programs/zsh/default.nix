@@ -4,13 +4,6 @@
   pkgs,
   ...
 }:
-let
-  shared = import ../../../../../option.nix;
-  hardcodedHostnames = [
-    "nixos"
-    "nexthost"
-  ];
-in
 {
   options.homeSetup.thein3rovert.programs.zsh.enable =
     lib.mkEnableOption "Zsh for main user thein3rovert";
