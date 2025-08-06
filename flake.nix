@@ -122,6 +122,46 @@
           ];
         }
       );
+      devShells = forAllSystems (
+        { pkgs }:
+        {
+
+          # mkShell is a function that setup a temporary enviroment
+          # with the specified packages
+          default = pkgs.mkShell {
+            packages =
+              (with pkgs; [
+                # --- General Requirements ---
+                # nixpkgs-fmt
+                alejandra
+                nix-update # Updating pkgs
+                bash-language-server
+                nodePackages.prettier
+
+                # --- Shell Script Tools ---
+                shellcheck
+                shfmt
+
+                nixd
+                nil
+                git
+                ripgrep
+                sd
+                fd
+                pv
+                fzf
+                bat
+
+                # --- Requirement for cache building ---
+                python3
+                python3Packages.wcwidth
+              ])
+              ++ [
+                self.inputs.agenix.packages.${pkgs.system}.default
+              ];
+          };
+        }
+      );
 
       #INFO: Ignore error "unknown flake output 'homeManagerModules'" as
       # it's not in use yet
