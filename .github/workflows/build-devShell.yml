@@ -1,0 +1,23 @@
+concurrency: 
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  build-devShell-default:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 1
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          name: nixos
+      - name: Build devShell default
+        run: nix build --accept-flake-config --print-out-paths .#devShells.x86_64-linux.default
+name: build-devShell
+'on':
+  push:
+    paths:
+    - flake.lock
+    - flake.nix
+    - flake/
+  workflow_dispatch: {}
