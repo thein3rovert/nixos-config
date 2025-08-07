@@ -48,7 +48,11 @@
       inherit (self) outputs;
       allSystems = [
         "aarch64-linux"
-        "i686-linux"
+
+        # --- Causing issues with github action and agenix ---
+        # Agenix does not provide package for i686
+        # "i686-linux"
+
         "x86_64-linux"
         "aarch64-darwin"
         "x86_64-darwin"
