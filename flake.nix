@@ -26,10 +26,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    colmena = {
-      url = "github:zhaofengli/colmena";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # colmena = {
+    #   url = "github:zhaofengli/colmena";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    colmena.url = "github:zhaofengli/colmena";
   };
 
   outputs =
@@ -94,6 +96,7 @@
               self
               inputs
               nix-colors
+              colmena
               ;
           };
 
@@ -185,7 +188,7 @@
       };
 
       # === COLMENA CONFIG "Deployment" ===
-      colmena = {
+      colmenaHive = colmena.lib.makeHive {
         meta = {
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";

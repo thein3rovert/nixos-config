@@ -20,6 +20,17 @@
   # === System Settings ===
   system.stateVersion = "25.05"; # Required for NixOS system version compatibility
   networking.hostName = "wellsjaha"; # Hostname
+  networking.interfaces.enp1s0.ipv4.addresses = [
+    {
+      address = "192.168.122.100";
+      prefixLength = 24;
+    }
+  ];
+  networking.defaultGateway = "192.168.122.1";
+  networking.nameservers = [
+    "1.1.1.1"
+    "8.8.8.8"
+  ];
   time.timeZone = "Europe/London"; # System timezone
 
   # === Boot Loader ===
@@ -60,10 +71,12 @@
 
   # === User Management ===
   # === Password using "mkpasswd --method=yescrypt" ===
+  #
   myUsers = {
     thein3rovert = {
       enable = true;
-      password = "$y$j9T$ijOefXV1SG7tcj6ALYFlW1$eROUM..nWeygQYzH3gD75IRwCiAf40NAx6R2OwUVIt9";
+      # password = "$y$j9T$ijOefXV1SG7tcj6ALYFlW1$eROUM..nWeygQYzH3gD75IRwCiAf40NAx6R2OwUVIt9";
+      password = "$6$wNwBWd4.HvBEmqhB$utEc.ExmltqG/My6n4NRjfviUj6KLcq2Bi../F9SvoymICsUOP5OX09mg7MN73UnoXeoO7bhegaYqcLjZnMEE/";
     };
 
     # newUser = {
