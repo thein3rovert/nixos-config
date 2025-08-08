@@ -314,6 +314,8 @@ in
           # Azure
           azure-cli
 
+          # Keybind dependencies
+          yad
         ];
 
       };
