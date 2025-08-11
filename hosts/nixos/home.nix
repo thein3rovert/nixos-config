@@ -26,9 +26,9 @@ in
         # self.inputs.agenix.homeManagerModules.default
 
         # TODO: Move all these to home modules
-        ../../home/features/cli
+        # ../../home/features/cli
         ../../home/features/coding
-        ../../home/features/desktop
+        # ../../home/features/desktop
       ];
 
       home = {
@@ -105,6 +105,7 @@ in
         thein3rovert = {
           packages.cli.enable = true;
           programs.zsh.enable = true;
+          packages.desktop.enable = true;
         };
       };
 

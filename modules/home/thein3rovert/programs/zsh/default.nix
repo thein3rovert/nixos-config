@@ -104,6 +104,9 @@
             ta = "tmux attach-session -t";
             tk = "tmux kill-session -t";
 
+            # Nix
+            nix-test = "nix-instantiate --eval --strict -A";
+
           };
         };
 
