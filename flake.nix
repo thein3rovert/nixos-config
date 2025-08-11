@@ -148,6 +148,8 @@
                 # --- Shell Script Tools ---
                 shellcheck
                 shfmt
+                # ----------- Networking ---------
+                nmap
 
                 nixd
                 nil

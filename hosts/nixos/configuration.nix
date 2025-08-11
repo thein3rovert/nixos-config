@@ -105,6 +105,8 @@ in
     # Essential Tools
     # ------------------------------
 
+    input-leap # Mouse and Keyboard
+
     vim # Text editor
     wget # Utility for downloading files from the web
 
