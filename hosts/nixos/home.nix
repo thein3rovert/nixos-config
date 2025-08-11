@@ -106,6 +106,7 @@ in
           packages.cli.enable = true;
           packages.coding.enable = true;
           programs.zsh.enable = true;
+          programs.starship.enable = true;
           packages.desktop.enable = true;
         };
       };

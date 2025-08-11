@@ -2,6 +2,7 @@
 {
   imports = [
     ./zsh
+    ./starship
     # ./kitty
   ];
 }
