@@ -27,7 +27,7 @@ in
 
         # TODO: Move all these to home modules
         # ../../home/features/cli
-        ../../home/features/coding
+        # ../../home/features/coding
         # ../../home/features/desktop
       ];
 
@@ -104,6 +104,7 @@ in
         # desktop.gnome.enable = true;
         thein3rovert = {
           packages.cli.enable = true;
+          packages.coding.enable = true;
           programs.zsh.enable = true;
           packages.desktop.enable = true;
         };
