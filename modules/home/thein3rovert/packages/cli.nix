@@ -29,17 +29,16 @@ in
 
   config =
     lib.mkIf
-      (
-        config.homeSetup.thein3rovert.packages.cli.enable
-        &&
-          # any: check/iterate over each element in a list (list against list)
-          # elem: checks if a single element exit in a list (single values against list)
-          # FIX: This works but it only apply to the current host, i
-          # it need to be an option so it can be enabled by the other
-          # host
-          #
-          builtins.elem currentHost hostname
-        # builtins.any (host: builtins.elem host hostname) [
+      (config.homeSetup.thein3rovert.packages.cli.enable
+        # &&
+        # any: check/iterate over each element in a list (list against list)
+        # elem: checks if a single element exit in a list (single values against list)
+        # FIX: This works but it only apply to the current host, i
+        # it need to be an option so it can be enabled by the other
+        # host
+        #
+        #   builtins.elem currentHost hostname
+        # # builtins.any (host: builtins.elem host hostname) [
         #   # Add hostname to apply config to host
         #   "nixos"
         # ]

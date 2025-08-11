@@ -40,6 +40,8 @@
       # TODO: Setup desktop env later
 
       homeSetup = {
+
+        programs.eza.enable = true;
         # desktop.gnome.enable = true;
         thein3rovert = {
           programs.zsh.enable = true;

@@ -1,0 +1,8 @@
+{ ... }:
+{
+  imports = [
+    ./direnv
+    ./eza
+    ./fzf
+  ];
+}
