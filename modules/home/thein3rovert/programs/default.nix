@@ -3,6 +3,5 @@
   imports = [
     ./zsh
     ./starship
-    # ./kitty
   ];
 }
