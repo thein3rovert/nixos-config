@@ -30,6 +30,9 @@
       discord
       sticky-notes
       todoist-electron
+
+      # Music Player
+      tauon
     ];
   };
 }
