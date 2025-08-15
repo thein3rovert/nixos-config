@@ -47,6 +47,17 @@
     kitty
   ];
 
+  # Enable FHS compatibility for VS Code Server
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib
+    openssl
+    libkrb5
+    util-linux
+    glibc
+  ];
+
   # === Hardware Config ===
   hardwareSetup.intel.cpu.enable = true;
 
