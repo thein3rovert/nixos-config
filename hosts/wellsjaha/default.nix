@@ -68,6 +68,7 @@
 
     programs = {
       podman.enable = true;
+      vscode.enableFhs = true;
     };
 
     services = {
