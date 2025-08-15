@@ -46,6 +46,9 @@
     kitty
   ];
 
+  # === Hardware Config ===
+  hardwareSetup.intel.cpu.enable = true;
+
   nixosSetup = {
     profiles = {
       base.enable = true;

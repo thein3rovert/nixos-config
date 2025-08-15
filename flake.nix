@@ -111,6 +111,7 @@
 
             # === Custom Modules ===
             self.nixosModules.nixosOs
+            self.nixosModules.hardware
 
             # === Home-Manager Config ===
             # Managing home-manager as part of nixos config
@@ -187,6 +188,7 @@
         users = ./modules/nixos/users;
         nixosOs = ./modules/nixos/os;
         locale-en-uk = ./modules/nixos/locale/en-uk;
+        hardware = ./modules/hardware;
       };
 
       # === COLMENA CONFIG "Deployment" ===
@@ -267,7 +269,7 @@
             self.inputs.home-manager.nixosModules.home-manager
             self.nixosModules.users
             self.nixosModules.nixosOs
-
+            self.nixosModules.hardware
             # === No Home-Manager ===
             # self.inputs.home-manager.nixosModules.home-manager
           ];
