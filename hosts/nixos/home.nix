@@ -104,7 +104,6 @@ in
         # desktop.gnome.enable = true;
         thein3rovert = {
           packages.cli.enable = true;
-
           programs.git.enable = true;
           packages.coding.enable = true;
           programs.zsh.enable = true;

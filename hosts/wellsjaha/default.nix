@@ -15,6 +15,7 @@
     ./disk-config.nix # Custom disk config
     self.nixosModules.locale-en-uk
     ./home.nix
+    ./secrets.nix
   ];
 
   # === System Settings ===
