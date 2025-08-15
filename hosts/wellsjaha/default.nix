@@ -48,15 +48,15 @@
   ];
 
   # Enable FHS compatibility for VS Code Server
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc.lib
-    zlib
-    openssl
-    libkrb5
-    util-linux
-    glibc
-  ];
+  # programs.nix-ld.enable = true;
+  # programs.nix-ld.libraries = with pkgs; [
+  #   stdenv.cc.cc.lib
+  #   zlib
+  #   openssl
+  #   libkrb5
+  #   util-linux
+  #   glibc
+  # ];
 
   # === Hardware Config ===
   hardwareSetup.intel.cpu.enable = true;
@@ -68,6 +68,7 @@
 
     programs = {
       podman.enable = true;
+      vscode.enable = false;
       vscode.enableFhs = true;
     };
 
@@ -110,5 +111,6 @@
     allowSFTP = true; # Enable SFTP access
   };
 
+  nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = "x86_64-linux";
 }
