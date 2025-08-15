@@ -61,6 +61,7 @@
 
     services = {
       minio.enable = false; # Disable mini for now
+      tailscale.enable = true;
     };
   };
 
