@@ -112,6 +112,7 @@
             # === Custom Modules ===
             self.nixosModules.nixosOs
             self.nixosModules.hardware
+            self.nixosModules.core
 
             # === Home-Manager Config ===
             # Managing home-manager as part of nixos config
