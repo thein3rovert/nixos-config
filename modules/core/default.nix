@@ -3,5 +3,6 @@
   imports = [
     ./boot
     ./hardware
+    ./programs
   ];
 }

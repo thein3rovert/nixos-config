@@ -14,7 +14,7 @@
 
     # Services and programs
     ./services.nix
-    ./programs.nix
+    # ./programs.nix
 
     # Development tools and environments
     ./dev
