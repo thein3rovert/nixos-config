@@ -100,6 +100,7 @@ in
     hardware.enable = true;
     boot.enable = true;
     programs.enable = true;
+    services.enable = true;
   };
 
   # -----------------------------------------------------

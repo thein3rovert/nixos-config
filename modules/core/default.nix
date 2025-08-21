@@ -4,5 +4,6 @@
     ./boot
     ./hardware
     ./programs
+    ./services
   ];
 }

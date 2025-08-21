@@ -13,7 +13,7 @@
     ./opengl.nix
 
     # Services and programs
-    ./services.nix
+    # ./services.nix
     # ./programs.nix
 
     # Development tools and environments
