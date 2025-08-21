@@ -151,7 +151,20 @@ in
     inputs.zen-browser.packages."${system}".default # Zen Browser package (system-specific)
     networkmanagerapplet
     fuse # file system management for grub
+
+    # Tunneling
+    cloudflared
+    cloudflare-warp
   ];
+
+  systemd.services.warp-svc = {
+    description = "Cloudflare WARP Daemon";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
+      Restart = "on-failure";
+    };
+  };
 
   # -------------------------------------
   # FONTS
