@@ -96,6 +96,7 @@ in
 
   coreModules = {
     hardware.enable = true;
+    boot.enable = true;
   };
 
   # -----------------------------------------------------

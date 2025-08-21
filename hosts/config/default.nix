@@ -3,8 +3,8 @@
 {
   imports = [
     # Core system configurations
-    ./boot.nix
-    ./hardware.nix
+    # ./boot.nix
+    # ./hardware.nix
     ./security.nix
     ./vm.nix
 
