@@ -8,7 +8,7 @@ let
   cfg = config.coreModules.hardware;
 in
 {
-  options.coreModules.boot.enable = lib.mkEnableOption "Enable my core hardware modules";
+  options.coreModules.hardware.enable = lib.mkEnableOption "Enable my core hardware modules";
 
   # Can this config be any variable
   config = lib.mkIf cfg.enable {
@@ -19,7 +19,7 @@ in
 
     hardware.enableAllFirmware = true;
     hardware.bluetooth.enable = true;
-    hardware.bluetooth.powerOnBoot = true;
+    hardware.bluetooth.powerksdbfOnBoot = true;
     hardware.bluetooth.settings = {
       General = {
         Enable = "Source,Sink,Media,Socket";

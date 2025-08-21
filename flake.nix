@@ -189,6 +189,7 @@
         nixosOs = ./modules/nixos/os;
         locale-en-uk = ./modules/nixos/locale/en-uk;
         hardware = ./modules/hardware;
+        core = ./modules/core;
       };
 
       # === COLMENA CONFIG "Deployment" ===
