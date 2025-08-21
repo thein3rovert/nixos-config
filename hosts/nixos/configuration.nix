@@ -87,6 +87,8 @@ in
   nixosSetup = {
     programs = {
       podman.enable = true;
+      obs-studio.enable = true;
+      vscode.vscodePackage = true; # Enabled nix-ld
     };
     services = {
       minio.enable = true;
