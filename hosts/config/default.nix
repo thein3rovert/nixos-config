@@ -17,7 +17,7 @@
     # ./programs.nix
 
     # Development tools and environments
-    ./dev
+    # ./dev
 
     # Fonts and UI (commented or active as per current usage)
     ./fonts
