@@ -110,6 +110,7 @@ in
     boot.enable = true;
     programs.enable = true;
     services.enable = true;
+    security.enable = true;
   };
 
   # -----------------------------------------------------

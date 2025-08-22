@@ -70,6 +70,31 @@ in
         programs.fzf = {
           enable = true;
           enableZshIntegration = true;
+
+          colors = {
+            "fg" = "#ebdbb2";
+            "bg" = "#3c3836";
+            "hl" = "#458588";
+            "fg+" = "#ebdbb2";
+            "bg+" = "#504945";
+            "hl+" = "#8ec07c";
+            "info" = "#d79921";
+            "prompt" = "#fabd2f";
+            "pointer" = "#fe8019";
+            "marker" = "#fe8019";
+            "spinner" = "#d79921";
+            "header" = "#b8bb26";
+          };
+
+          defaultOptions = [
+            "--preview='bat --color=always -n {}'"
+            "--bind 'ctrl-/:toggle-preview'"
+            "--header 'Press CTRL-Y to copy command into clipboard'"
+            "--bind 'ctrl-/:toggle-preview'"
+            "--bind 'ctrl-y:execute-silent(echo -n {2..} | wl-copy)+abort'"
+          ];
+          defaultCommand = "fd --type f --exclude .git --follow --hidden";
+          changeDirWidgetCommand = "fd --type d --exclude .git --follow --hidden";
         };
 
         programs = {

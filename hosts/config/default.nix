@@ -5,7 +5,7 @@
     # Core system configurations
     # ./boot.nix
     # ./hardware.nix
-    ./security.nix
+    # ./security.nix
     # ./vm.nix
 
     # Graphics and GPU

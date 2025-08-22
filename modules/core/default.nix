@@ -5,5 +5,6 @@
     ./hardware
     ./programs
     ./services
+    ./security
   ];
 }
