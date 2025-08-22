@@ -96,6 +96,14 @@ in
     };
   };
 
+  # hardwareSetup.intel.cpu.enable = true;
+  hardwareSetup = {
+    intel = {
+      cpu.enable = true;
+      gpu.enable = true;
+    };
+  };
+
   coreModules = {
     hardware.enable = true;
     boot.enable = true;
