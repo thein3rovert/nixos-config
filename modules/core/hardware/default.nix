@@ -15,6 +15,7 @@ in
     hardware.graphics = {
       # hardware.opengl has been renamed tp hardware.graphic
       enable = true;
+      enable32Bit = true;
     };
 
     hardware.enableAllFirmware = true;

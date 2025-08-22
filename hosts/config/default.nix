@@ -9,8 +9,8 @@
     ./vm.nix
 
     # Graphics and GPU
-    ./intel-gpu.nix
-    ./opengl.nix
+    # ./intel-gpu.nix
+    # ./opengl.nix
 
     # Services and programs
     # ./services.nix
