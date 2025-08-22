@@ -16,6 +16,7 @@
     self.nixosModules.locale-en-uk
     ./home.nix
     ./secrets.nix
+    ./audiobookShelf.nix
   ];
 
   # === System Settings ===
