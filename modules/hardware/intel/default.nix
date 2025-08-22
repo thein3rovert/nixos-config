@@ -1,4 +1,7 @@
 { ... }:
 {
-  imports = [ ./cpu ];
+  imports = [
+    ./cpu
+    ./gpu
+  ];
 }
