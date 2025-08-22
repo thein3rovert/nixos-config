@@ -6,7 +6,7 @@
     # ./boot.nix
     # ./hardware.nix
     ./security.nix
-    ./vm.nix
+    # ./vm.nix
 
     # Graphics and GPU
     # ./intel-gpu.nix

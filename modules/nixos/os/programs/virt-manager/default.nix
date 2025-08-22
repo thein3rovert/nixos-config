@@ -13,7 +13,7 @@ in
 
   config = lib.mkIf cfg.enable {
     programs = {
-      dconf.profiles.user.database = lib.optionals config.services.xserver.enable [
+      dconf.profiles.user.databases = lib.optionals config.services.xserver.enable [
         {
           settings = {
             "org/virt-manager/virt-manager/connections" = {

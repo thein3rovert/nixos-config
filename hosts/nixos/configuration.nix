@@ -88,7 +88,8 @@ in
     programs = {
       podman.enable = true;
       obs-studio.enable = true;
-      vscode.vscodePackage = true; # Enabled nix-ld
+      vscode.enableFhs = true;
+      virt-manager.enable = true;
     };
     services = {
       minio.enable = true;

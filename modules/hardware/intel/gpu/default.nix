@@ -31,7 +31,7 @@
           libva-utils
 
           # Native Intel drivers best for GPUs
-          vaapiIntel # Not sure if valid
+          # vaapiIntel # Not sure if valid
           vaapiVdpau
         ];
 
