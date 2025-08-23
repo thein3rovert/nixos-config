@@ -16,7 +16,7 @@
     self.nixosModules.locale-en-uk
     ./home.nix
     ./secrets.nix
-    ./audiobookShelf.nix
+    # ./audiobookShelf.nix
   ];
 
   # === System Settings ===
@@ -76,6 +76,11 @@
     services = {
       minio.enable = false; # Disable mini for now
       tailscale.enable = true;
+
+      audiobookshelf = {
+        enable = true;
+        audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
+      };
     };
   };
 

@@ -3,5 +3,6 @@
   imports = [
     ./minio
     ./tailscale
+    ./audiobookshelf
   ];
 }
