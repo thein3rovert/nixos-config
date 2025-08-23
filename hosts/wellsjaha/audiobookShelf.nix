@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, lib, ... }:
 {
   virtualisation.oci-containers = {
     containers = {
@@ -7,11 +7,12 @@
         image = "tailscale/tailscale:latest";
         hostname = "audiobooks";
         environment = {
-          "TS_AUTHKEY" = "ts-authKey";
+          # "TS_AUTHKEY" = "ts-authKey";
           "TS_SERVE_CONFIG" = "/config/audiobookshelf.json";
           "TS_STATE_DIR" = "/var/lib/tailscale";
           "TS_USERSPACE" = "true";
         };
+        environmentFiles = [ config.age.secrets.audiobookshelf.path ];
         volumes = [
           "/home/thein3rovert/audiobookshelf/ts-config:/config:rw"
           "/home/thein3rovert/audiobookshelf/ts-state:/var/lib/tailscale:rw"
