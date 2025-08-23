@@ -2,6 +2,7 @@
 {
   virtualisation.oci-containers.containers."audiobookshelf" = {
     image = "advplyr/audiobookshelf";
+    ports = [ "0.0.0.0:3992:80" ]; # Local port mapping
     volumes = [
 
       # FIX: Change volume point
