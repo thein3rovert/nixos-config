@@ -27,4 +27,5 @@ in
 
   # Tailscale for wellsjaha
   "tailscale-env-01.age".publicKeys = systems ++ users;
+  "audiobookshelf-env.age".publicKeys = systems ++ users;
 }
