@@ -44,7 +44,9 @@ in
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
+  networking.firewall.allowedTCPPorts = [ 53317 ];
+  networking.firewall.allowedUDPPorts = [ 53317 ];
+ 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -174,6 +176,9 @@ in
     # Tunneling
     cloudflared
     cloudflare-warp
+
+    # Fileshare
+    localsend
   ];
 
   systemd.services.warp-svc = {
