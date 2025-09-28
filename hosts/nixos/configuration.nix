@@ -46,7 +46,7 @@ in
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.firewall.allowedTCPPorts = [ 53317 ];
   networking.firewall.allowedUDPPorts = [ 53317 ];
- 
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -95,7 +95,7 @@ in
     };
     #services = {
     #  minio.enable = true;
-     # tailscale.enable = true;
+    # tailscale.enable = true;
     #};
   };
 
@@ -179,6 +179,9 @@ in
 
     # Fileshare
     localsend
+
+    # Video Editing
+    shotcut
   ];
 
   systemd.services.warp-svc = {
@@ -204,10 +207,10 @@ in
   # --------------------------------------
 
   # systemd.services.kanata = {
-   # description = "Kanata Keyboard Manager";
-    # wantedBy = [ "multi-user.target" ];
-    # serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
-    # serviceConfig.Restart = "always";
+  # description = "Kanata Keyboard Manager";
+  # wantedBy = [ "multi-user.target" ];
+  # serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
+  # serviceConfig.Restart = "always";
   # };
 
   # --------------------------------------

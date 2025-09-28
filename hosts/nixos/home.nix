@@ -12,6 +12,18 @@ let
   # --------------------
   customImport = self.homeManagerModules.default;
   kittyConfig = ../../modules/home/thein3rovert/programs/kitty;
+  defaultSSHConfig = {
+    forwardAgent = false;
+    controlMaster = "no";
+    userKnownHostsFile = "~/.ssh/known_hosts";
+    compression = false;
+    serverAliveCountMax = 3;
+    serverAliveInterval = 0;
+    controlPath = "~/.ssh/master-%r@%n:%p";
+    controlPersist = "no";
+    hashKnownHosts = false;
+    addKeysToAgent = "no";
+  };
 in
 {
   home-manager.users.thein3rovert =
@@ -68,19 +80,24 @@ in
       programs.waybar.enable = true;
 
       programs.ssh = {
+        enableDefaultConfig = false;
         enable = true;
         matchBlocks = {
-          vps-het-1 = {
+
+          vps-het-1 = lib.recursiveUpdate defaultSSHConfig {
             hostname = "95.216.211.225";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert-cloud";
           };
-          demo = {
+
+          demo = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.122.36";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
-          "github.com" = {
+
+          "github.com" = lib.recursiveUpdate defaultSSHConfig {
+            # Default ssh config
             hostname = "github.com";
             identityFile = "~/.ssh/github/thein3rovert_github";
             user = "git";
