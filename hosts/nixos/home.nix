@@ -80,7 +80,11 @@ in
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
-
+          "github.com" = {
+            hostname = "github.com";
+            identityFile = "~/.ssh/github/thein3rovert_github";
+            user = "git";
+          };
           # === Test Server ===
           wellsjaha = {
             hostname = "192.168.122.100";
