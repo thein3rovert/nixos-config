@@ -17,7 +17,7 @@
         obs-vaapi # VAAPI hardware encoding
         obs-vertical-canvas # vertical video layout support
         obs-vkcapture # capture Vulkan applications
-        obs-webkitgtk # web sources via WebKitGTK
+        # obs-webkitgtk # web sources via WebKitGTK
         wlrobs # screen capture for Waylandgtk
         wlrobs
       ];

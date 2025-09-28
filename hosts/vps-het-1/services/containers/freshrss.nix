@@ -18,7 +18,7 @@
     };
 
     # === Env File Path ===
-    environmentFiles = [ config.age.secrets.freshrss.path ];
+    # environmentFiles = [ config.age.secrets.freshrss.path ];
 
   };
 

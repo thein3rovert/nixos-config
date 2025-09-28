@@ -12,7 +12,7 @@
           "TS_STATE_DIR" = "/var/lib/tailscale";
           "TS_USERSPACE" = "true";
         };
-        environmentFiles = [ config.age.secrets.audiobookshelf.path ];
+        #environmentFiles = [ config.age.secrets.audiobookshelf.path ];
         volumes = [
           "/home/thein3rovert/audiobookshelf/ts-config:/config:rw"
           "/home/thein3rovert/audiobookshelf/ts-state:/var/lib/tailscale:rw"

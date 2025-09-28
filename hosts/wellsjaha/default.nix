@@ -15,7 +15,7 @@
     ./disk-config.nix # Custom disk config
     self.nixosModules.locale-en-uk
     ./home.nix
-    ./secrets.nix
+    #./secrets.nix
     # ./audiobookShelf.nix
   ];
 
@@ -73,15 +73,15 @@
       vscode.enableFhs = true;
     };
 
-    services = {
-      minio.enable = false; # Disable mini for now
-      tailscale.enable = true;
-
-      audiobookshelf = {
-        enable = true;
-        audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
-      };
-    };
+    # services = {
+    #   # minio.enable = false; # Disable mini for now age and minio is enable in module
+    #   tailscale.enable = true;
+    #
+    #   audiobookshelf = {
+    #     enable = true;
+    #     audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
+    #   };
+    # };
   };
 
   # === Console ===

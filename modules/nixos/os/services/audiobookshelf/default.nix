@@ -35,7 +35,7 @@ in
             "TS_USERSPACE" = "true";
           };
           #FIX: Confirm if the secret key is been passed.
-          environmentFiles = [ cfg.audiobookshelf-ts-authKeyFile ];
+          #environmentFiles = [ cfg.audiobookshelf-ts-authKeyFile ];
           volumes = [
             "/home/thein3rovert/audiobookshelf/ts-config:/config:rw"
             "/home/thein3rovert/audiobookshelf/ts-state:/var/lib/tailscale:rw"
