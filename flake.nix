@@ -104,7 +104,7 @@
           modules = [
             ./hosts/${host}
             self.inputs.home-manager.nixosModules.home-manager
-            agenix.nixosModules.default
+           # agenix.nixosModules.default
             { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
             inputs.disko.nixosModules.disko
             self.nixosModules.users

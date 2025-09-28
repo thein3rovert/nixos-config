@@ -29,7 +29,7 @@ in
       maven # Build automation tool for java
       nixfmt-rfc-style
       python3
-      kanata
+      # kanata
       jetbrains.idea-ultimate
       vscode
     ];

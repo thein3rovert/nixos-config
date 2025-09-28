@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./minio
+    # ./minio
     ./tailscale
     ./audiobookshelf
   ];

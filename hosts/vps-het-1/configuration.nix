@@ -49,9 +49,9 @@
     # programs = {
     #   podman.enable = true;
     # };
-    services = {
-      minio.enable = true;
-    };
+    #services = {
+     # minio.enable = false;
+    #;
   };
 
   # ------------------------------------

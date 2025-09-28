@@ -91,10 +91,10 @@ in
       vscode.enableFhs = true;
       virt-manager.enable = true;
     };
-    services = {
-      minio.enable = true;
-      tailscale.enable = true;
-    };
+    #services = {
+    #  minio.enable = true;
+     # tailscale.enable = true;
+    #};
   };
 
   # hardwareSetup.intel.cpu.enable = true;
@@ -198,12 +198,12 @@ in
   # CUSTOM KEYBOARD CONFIG
   # --------------------------------------
 
-  systemd.services.kanata = {
-    description = "Kanata Keyboard Manager";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
-    serviceConfig.Restart = "always";
-  };
+  # systemd.services.kanata = {
+   # description = "Kanata Keyboard Manager";
+    # wantedBy = [ "multi-user.target" ];
+    # serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
+    # serviceConfig.Restart = "always";
+  # };
 
   # --------------------------------------
   # RECOVERY USER AND HOME USER
