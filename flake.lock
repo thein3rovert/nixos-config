@@ -404,7 +404,24 @@
         "home-manager": "home-manager_2",
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs_5",
+        "secrets": "secrets",
         "zen-browser": "zen-browser"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1759081702,
+        "narHash": "sha256-22yDDDIDdijMUn3BVF37OuXMABjCoufr+8wzDO6RpPc=",
+        "owner": "thein3rovert",
+        "repo": "secret-vault",
+        "rev": "eddd6db967a6818eabf6e3969c6ce17e926409d1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "thein3rovert",
+        "repo": "secret-vault",
+        "type": "github"
       }
     },
     "stable": {

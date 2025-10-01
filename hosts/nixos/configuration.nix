@@ -1,7 +1,6 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
+# ==============================
+#     NixOS Configuration
+# ==============================
 {
   config,
   pkgs,
@@ -14,51 +13,37 @@ let
 in
 
 {
+  # ==============================
+  #         Imports
+  # ==============================
   imports = [
     ./hardware-configuration.nix
     ../config # Contains system config
   ];
 
+  # ==============================
+  #      Boot Configuration
+  # ==============================
   boot.supportedFilesystems = [
     "ntfs"
     "vfat"
     "ext4"
   ];
+  # NOTE: Bootloader config is handled in the config/ folder
 
-  # ------------------------------------------------------
-  # BOOTLOADER
-  # -------------------------------------------------------
-
-  # boot.loader.systemd-boot.enable = true;
-  # INFO: Config present in config/ folder
-  # boot.loader.efi.canTouchEfiVariables = true;
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.devices = [ "nodev" ];
-  # boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.useOSProber = true;
-
-  # ------------------------------------------------------
-  # NETWORKING
-  # -------------------------------------------------------
-
+  # ==============================
+  #       Networking Setup
+  # ==============================
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Firewall configuration for LocalSend
   networking.firewall.allowedTCPPorts = [ 53317 ];
   networking.firewall.allowedUDPPorts = [ 53317 ];
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # ------------------------------------------------------
-  # TIMEZONE
-  # ------------------------------------------------------
+  # ==============================
+  #    Localization & Timezone
+  # ==============================
   time.timeZone = "${theTimezone}";
   i18n.defaultLocale = "en_GB.UTF-8";
   i18n.extraLocaleSettings = {
@@ -75,17 +60,18 @@ in
 
   console.keyMap = "uk";
 
-  # Session Variables
+  # ==============================
+  #   Environment Variables
+  # ==============================
   environment.sessionVariables = {
     # Specify nix path for nh used for easy rebuild
     FLAKE = "/home/thein3rovert/thein3rovert-flake";
   };
 
-  # ------------------------------------------------
-  # CUSTOM CONFIG AND SETTINGS
-  # This settings contain custom enabled services from modules
-  # -------------------------------------------------
-
+  # ==============================
+  #     Custom Module Config
+  # ==============================
+  # Custom enabled services and programs from modules
   nixosSetup = {
     programs = {
       podman.enable = true;
@@ -93,13 +79,9 @@ in
       vscode.enableFhs = true;
       virt-manager.enable = true;
     };
-    #services = {
-    #  minio.enable = true;
-    # tailscale.enable = true;
-    #};
   };
 
-  # hardwareSetup.intel.cpu.enable = true;
+  # Hardware-specific configurations
   hardwareSetup = {
     intel = {
       cpu.enable = true;
@@ -107,6 +89,7 @@ in
     };
   };
 
+  # Core system modules
   coreModules = {
     hardware.enable = true;
     boot.enable = true;
@@ -115,75 +98,62 @@ in
     security.enable = true;
   };
 
-  # -----------------------------------------------------
-  # NIXPKGS
-  # -----------------------------------------------------
-  # Allow unfree packages
+  # ==============================
+  #      Nixpkgs Configuration
+  # ==============================
   nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = "x86_64-linux";
+
+  # ==============================
+  #      System Packages
+  # ==============================
   environment.systemPackages = with pkgs; [
-    # ------------------------------
-    # Essential Tools
-    # ------------------------------
-
-    input-leap # Mouse and Keyboard
-
+    # Essential system tools
+    input-leap # Mouse and keyboard sharing
     vim # Text editor
-    wget # Utility for downloading files from the web
+    wget # File downloader
 
-    # ------------------------------
-    # CLI (Command Line Interface)
-    # ------------------------------
-    vim # Text editor
-    git # Version control tool
-    neovim # Modern text editor (alternative to vim)
+    # Development and CLI tools
+    git # Version control
+    neovim # Modern text editor
     kitty # Terminal emulator
-    sshfs # SSH file system (mount remote directories)
-    lazydocker # CLI Docker management tool
-    nh # Alternate to nix rebuild
-    nvd # Assist nh with colorful output
-    nix-output-monitor
-    nix-ld # Nix dynamic library management tool
-    nil
-    nixd
+    sshfs # SSH filesystem
+    lazydocker # Docker management
+    nh # Alternative to nix rebuild
+    nvd # Colorful nix output
+    nix-output-monitor # Better nix build output
+    nix-ld # Dynamic library management
+    nil # Nix language server
+    nixd # Another Nix language server
 
-    # ------------------------------
-    # GUI (Graphical User Interface)
-    # ------------------------------
+    # GUI applications
+    evolve-core # Evolve tool core
+    dunst # Notification daemon
+    blueberry # Bluetooth manager
+    sticky-notes # Note-taking app
+    networkmanagerapplet # Network manager GUI
 
-    evolve-core # Core of the Evolve tool (purpose-specific package)
-    dunst # Notification daemon (GUI notifications)
-    blueberry # Bluetooth configuration tool (GUI)
-    sticky-notes
+    # System utilities
+    xdg-user-dirs # User directory management
+    xdg-utils # XDG utilities
+    fuse # Filesystem utilities
 
-    # libnotify              # Library for notifications (works with GUI tools)
-    # qt5ct                   # Qt5 configuration tool (GUI-based)
-    # qt6.qtwayland           # Wayland support for Qt6 (GUI apps)
-    # qt6Packages.qtstyleplugin-kvantum # Kvantum style plugin for Qt6 (GUI-based)
-    # libsForQt5.qtstyleplugin-kvantum # Kvantum style plugin for Qt5 (GUI-based)
-    # gtk-engine-murrine      # GTK2 engine for theming (GUI)
-    # tokyonight-gtk-theme    # GTK theme (for GUI)
+    # Network and tunneling
+    cloudflared # Cloudflare tunnel
+    cloudflare-warp # Cloudflare WARP
+    localsend # Local file sharing
 
-    # ------------------------------
-    # Other (Utilities or configurations not strictly CLI or GUI)
-    # ------------------------------
-    xdg-user-dirs # Utility for managing user directories
-    xdg-utils # Utilities for working with XDG base directories
-    inputs.zen-browser.packages."${system}".default # Zen Browser package (system-specific)
-    networkmanagerapplet
-    fuse # file system management for grub
+    # Media and productivity
+    shotcut # Video editor
 
-    # Tunneling
-    cloudflared
-    cloudflare-warp
-
-    # Fileshare
-    localsend
-
-    # Video Editing
-    shotcut
+    # Browser (system-specific)
+    inputs.zen-browser.packages."${system}".default
   ];
 
+  # ==============================
+  #       System Services
+  # ==============================
+  # Cloudflare WARP service
   systemd.services.warp-svc = {
     description = "Cloudflare WARP Daemon";
     wantedBy = [ "multi-user.target" ];
@@ -193,30 +163,18 @@ in
     };
   };
 
-  # -------------------------------------
-  # FONTS
-  # --------------------------------------
-
+  # ==============================
+  #         Font Setup
+  # ==============================
   nmod.fonts = {
     emoji = true;
     nerd = true;
   };
 
-  # --------------------------------------
-  # CUSTOM KEYBOARD CONFIG
-  # --------------------------------------
-
-  # systemd.services.kanata = {
-  # description = "Kanata Keyboard Manager";
-  # wantedBy = [ "multi-user.target" ];
-  # serviceConfig.ExecStart = "/etc/profiles/per-user/thein3rovert/bin/kanata -c /etc/kanata/kanata.kbd";
-  # serviceConfig.Restart = "always";
-  # };
-
-  # --------------------------------------
-  # RECOVERY USER AND HOME USER
-  # --------------------------------------
-
+  # ==============================
+  #       User Accounts
+  # ==============================
+  # Backup/recovery user
   users.users.backupuser = {
     isNormalUser = true;
     description = "Backup User";
@@ -224,9 +182,10 @@ in
       "wheel"
       "networkmanager"
     ];
-    hashedPassword = "$6$Zn6hrbZ2OCfR3GYU$mPzSIg7JU9V3EXZVLqcNrkIevpjf6cX5sQ4QFq8wJZ8RNY6Iu49D8P9aFtK8Gf6FbvDFmonRvQwhqOJxuK6qx/"; # Replace this or use `mkpasswd`
+    hashedPassword = "$6$Zn6hrbZ2OCfR3GYU$mPzSIg7JU9V3EXZVLqcNrkIevpjf6cX5sQ4QFq8wJZ8RNY6Iu49D8P9aFtK8Gf6FbvDFmonRvQwhqOJxuK6qx/";
   };
 
+  # Main user account
   users.users.thein3rovert = {
     isNormalUser = true;
     description = "thein3rovert";
@@ -235,21 +194,30 @@ in
       "networkmanager"
       "sudo"
     ];
-    # This fix home-manager not showing on path
+    # Fix home-manager not showing on PATH
     packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
-    initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0"; # Replace this or use `mkpasswd`
+    initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0";
   };
 
-  # ------------------------------------
-  # SHELL
-  # ------------------------------------
-
+  # ==============================
+  #       Shell Configuration
+  # ==============================
   users.defaultUserShell = pkgs.zsh;
 
+  # ==============================
+  #       Nix Configuration
+  # ==============================
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-  system.stateVersion = "24.11"; # Did you read the comment?
 
+  # ==============================
+  #      System State Version
+  # ==============================
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It's perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  system.stateVersion = "24.11";
 }

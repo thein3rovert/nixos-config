@@ -1,36 +1,48 @@
 {
   description = ''
-    This is a configiration for managing multiple nixos machines
+    This is a configuration for managing multiple nixos machines
   '';
 
-  # === Flake Inputs ===
+  # ==============================
+  #        Flake Inputs
+  # ==============================
   inputs = {
+    # Home Manager for user environment management
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Main nixpkgs repository (unstable channel)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Color scheme management
     nix-colors.url = "github:misterio77/nix-colors";
 
+    # Ghostty terminal emulator
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
 
+    # Age-based secret management
     agenix.url = "github:ryantm/agenix";
 
+    # Zen browser
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
 
+    # Declarative disk partitioning
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # colmena = {
-    #   url = "github:zhaofengli/colmena";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    # Private secrets repository
+    secrets = {
+      url = "github:thein3rovert/secret-vault";
+      flake = false;
+    };
 
+    # Deployment tool for NixOS machines
     colmena.url = "github:zhaofengli/colmena";
   };
 
@@ -48,19 +60,21 @@
     }@inputs:
     let
       inherit (self) outputs;
+
+      # ==============================
+      #      System Definitions
+      # ==============================
       allSystems = [
         "aarch64-linux"
-
-        # --- Causing issues with github action and agenix ---
-        # Agenix does not provide package for i686
-        # "i686-linux"
-
         "x86_64-linux"
         "aarch64-darwin"
         "x86_64-darwin"
+        # NOTE: i686-linux excluded due to agenix compatibility issues
       ];
-      # forAllSystems = nixpkgs.lib.genAttrs systems;
 
+      # ==============================
+      #      Helper Functions
+      # ==============================
       # Defines a function called 'forAllSystems' that takes a function 'f' as an argument
       forAllSystems =
         f:
@@ -71,12 +85,13 @@
           f {
             # 'pkgs' is Nixpkgs imported for the current system, with overlays and unfree packages allowed
             pkgs = import self.inputs.nixpkgs {
-              inherit system; # Use overlays and current system architecture
+              inherit system;
               config.allowUnfree = true;
             };
           }
         );
 
+      # Helper function to generate configurations for all Linux hosts
       forAllLinuxHosts = self.inputs.nixpkgs.lib.genAttrs [
         "nixos"
         "demo"
@@ -85,9 +100,14 @@
       ];
     in
     {
+      # ==============================
+      #         Overlays
+      # ==============================
       overlays = import ./overlays { inherit inputs; };
 
-      # === Nixos Configurations for all hosts ===
+      # ==============================
+      #    NixOS Configurations
+      # ==============================
       nixosConfigurations = forAllLinuxHosts (
         host:
         self.inputs.nixpkgs.lib.nixosSystem {
@@ -100,22 +120,27 @@
               ;
           };
 
-          # === Modules ===
           modules = [
+            # Host-specific configuration
             ./hosts/${host}
-            self.inputs.home-manager.nixosModules.home-manager
-           # agenix.nixosModules.default
-            { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
-            inputs.disko.nixosModules.disko
-            self.nixosModules.users
 
-            # === Custom Modules ===
+            # Core system modules
+            self.inputs.home-manager.nixosModules.home-manager
+            agenix.nixosModules.default
+            inputs.disko.nixosModules.disko
+
+            # Custom modules
+            self.nixosModules.users
             self.nixosModules.nixosOs
             self.nixosModules.hardware
             self.nixosModules.core
 
-            # === Home-Manager Config ===
-            # Managing home-manager as part of nixos config
+            # Additional packages
+            { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+
+            # ==============================
+            #    Home-Manager Config
+            # ==============================
             {
               home-manager = {
                 backupFileExtension = "backup";
@@ -124,37 +149,36 @@
                 useUserPackages = true;
               };
               nixpkgs = {
-                # inherit overlays;
                 config.allowUnfree = true;
               };
             }
           ];
         }
       );
+
+      # ==============================
+      #     Development Shells
+      # ==============================
       devShells = forAllSystems (
         { pkgs }:
         {
-
-          # mkShell is a function that setup a temporary enviroment
-          # with the specified packages
+          # Default development shell with all required tools
           default = pkgs.mkShell {
             packages =
               (with pkgs; [
-                # --- General Requirements ---
-                # nixpkgs-fmt
+                # Code formatting and linting
                 alejandra
-                nix-update # Updating pkgs
+                nixd
+                nil
                 bash-language-server
                 nodePackages.prettier
 
-                # --- Shell Script Tools ---
+                # Shell script tools
                 shellcheck
                 shfmt
-                # ----------- Networking ---------
-                nmap
 
-                nixd
-                nil
+                # General utilities
+                nix-update
                 git
                 ripgrep
                 sd
@@ -163,28 +187,34 @@
                 fzf
                 bat
 
-                # --- Requirement for cache building ---
+                # Networking tools
+                nmap
+
+                # Cache building requirements
                 python3
                 python3Packages.wcwidth
               ])
               ++ [
+                # Age secret management
                 self.inputs.agenix.packages.${pkgs.system}.default
               ];
           };
         }
       );
 
-      #INFO: Ignore error "unknown flake output 'homeManagerModules'" as
-      # it's not in use yet
-
-      # === Home Manager Custom Modules ===
+      # ==============================
+      #   Home Manager Modules
+      # ==============================
+      # NOTE: Ignore error "unknown flake output 'homeManagerModules'" as it's not in use yet
       homeManagerModules = {
         thein3rovert = ./homes/thein3rovert;
         thein3rovert-cloud = ./home/thein3rovert-cloud;
         default = ./modules/home;
       };
 
-      # === Nixos Custom Modules ===
+      # ==============================
+      #     NixOS Modules
+      # ==============================
       nixosModules = {
         users = ./modules/nixos/users;
         nixosOs = ./modules/nixos/os;
@@ -193,8 +223,11 @@
         core = ./modules/core;
       };
 
-      # === COLMENA CONFIG "Deployment" ===
+      # ==============================
+      #   Colmena Deployment Config
+      # ==============================
       colmenaHive = colmena.lib.makeHive {
+        # Global configuration for all nodes
         meta = {
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
@@ -208,32 +241,31 @@
           };
         };
 
-        # -----------------------------------
-        # DEPLOYMENT
-        # -----------------------------------
-
-        # === NODE ONE ===
+        # ==============================
+        #        Node: Demo
+        # ==============================
         demo = {
           deployment = {
             targetHost = "demo";
             targetPort = 22;
             targetUser = "thein3rovert";
             buildOnTarget = true;
-            tags = [ "homelab" ]; # TODO: Change tag later
+            tags = [ "homelab" ];
           };
           nixpkgs.system = "x86_64-linux";
           imports = [
             ./hosts/demo
             inputs.disko.nixosModules.disko
             self.nixosModules.nixosOs
-            # agenix.nixosModules.defaults
           ];
         };
 
-        # === NODE TWO ===
+        # ==============================
+        #      Node: VPS-HET-1
+        # ==============================
         vps-het-1 = {
           deployment = {
-            targetHost = "vps-het-1"; # Use the actual hostname or IP
+            targetHost = "vps-het-1";
             targetPort = 22;
             targetUser = "thein3rovert-cloud";
             buildOnTarget = true;
@@ -252,16 +284,16 @@
           ];
         };
 
-        # === TEST NODE THREE ===
+        # ==============================
+        #     Node: Wellsjaha (Test)
+        # ==============================
         wellsjaha = {
           deployment = {
-            targetHost = "wellsjaha"; # Use the actual hostname or IP
+            targetHost = "wellsjaha";
             targetPort = 22;
             targetUser = "thein3rovert";
             buildOnTarget = true;
-            tags = [
-              "test"
-            ];
+            tags = [ "test" ];
           };
           nixpkgs.system = "x86_64-linux";
           imports = [
@@ -272,13 +304,8 @@
             self.nixosModules.users
             self.nixosModules.nixosOs
             self.nixosModules.hardware
-            # === No Home-Manager ===
-            # self.inputs.home-manager.nixosModules.home-manager
           ];
         };
       };
-
-      #  ADDED: New colmenaHive output
-      #  colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     };
 }
