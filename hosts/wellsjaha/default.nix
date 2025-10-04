@@ -1,4 +1,9 @@
+# ==============================
+#     Wellsjaha Host Configuration
+# ==============================
+# Test server configuration for development and experimentation
 # Reference: Host "fallarbor" aly
+
 {
   config,
   self,
@@ -8,20 +13,32 @@
 }:
 
 {
-  # === Imports ===
+  # ==============================
+  #         Module Imports
+  # ==============================
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix") # Hardware scan
-    (modulesPath + "/profiles/qemu-guest.nix") # QEMU guest profile
-    ./disk-config.nix # Custom disk config
-    self.nixosModules.locale-en-uk
+    # Hardware detection and QEMU guest support
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+
+    # Host-specific configurations
+    ./disk-config.nix
     ./home.nix
-    #./secrets.nix
-    # ./audiobookShelf.nix
+
+    # Custom modules
+    self.nixosModules.locale-en-uk
   ];
 
-  # === System Settings ===
-  system.stateVersion = "25.05"; # Required for NixOS system version compatibility
-  networking.hostName = "wellsjaha"; # Hostname
+  # ==============================
+  #      System Configuration
+  # ==============================
+  system.stateVersion = "25.05";
+  networking.hostName = "wellsjaha";
+
+  # ==============================
+  #     Network Configuration
+  # ==============================
+  # Static IP configuration
   networking.interfaces.enp1s0 = {
     useDHCP = false;
     ipv4.addresses = [
@@ -31,95 +48,86 @@
       }
     ];
   };
+
+  # Network routing and DNS
   networking.defaultGateway = "10.20.0.254";
   networking.nameservers = [
     "1.1.1.1"
     "8.8.8.8"
   ];
-  time.timeZone = "Europe/London"; # System timezone
 
-  # === Boot Loader ===
-  #TODO:: Move to shared user management later
+  # ==============================
+  #      Time & Locale Setup
+  # ==============================
+  time.timeZone = "Europe/London";
+  console.keyMap = "uk";
+
+  # ==============================
+  #      Boot Configuration
+  # ==============================
   boot.loader.grub = {
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
 
-  # === System Packages ===
+  # ==============================
+  #       System Packages
+  # ==============================
   environment.systemPackages = with pkgs; [
-    btop
-    kitty
+    btop  # System monitor
+    kitty # Terminal emulator
   ];
 
-  # Enable FHS compatibility for VS Code Server
-  # programs.nix-ld.enable = true;
-  # programs.nix-ld.libraries = with pkgs; [
-  #   stdenv.cc.cc.lib
-  #   zlib
-  #   openssl
-  #   libkrb5
-  #   util-linux
-  #   glibc
-  # ];
-
-  # === Hardware Config ===
+  # ==============================
+  #     Hardware Configuration
+  # ==============================
   hardwareSetup.intel.cpu.enable = true;
 
+  # ==============================
+  #      Custom Module Setup
+  # ==============================
   nixosSetup = {
+    # Base system profile
     profiles = {
       base.enable = true;
     };
 
+    # Program configurations
     programs = {
       podman.enable = true;
       vscode.enable = false;
       vscode.enableFhs = true;
     };
-
-    # services = {
-    #   # minio.enable = false; # Disable mini for now age and minio is enable in module
-    #   tailscale.enable = true;
-    #
-    #   audiobookshelf = {
-    #     enable = true;
-    #     audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
-    #   };
-    # };
   };
 
-  # === Console ===
-  console.keyMap = "uk"; # UK keyboard layout
-
-  # === Environment Variables ===
-  # environment.variables.GDK_SCALE = "1.25"; # UI scaling (for GTK apps)
-
-  # === QEMU Guest Services ===
+  # ==============================
+  #       QEMU Guest Services
+  # ==============================
   services.qemuGuest.enable = true;
 
-  # === User Management ===
-  # === Password using "mkpasswd --method=yescrypt" ===
-  #
+  # ==============================
+  #       User Management
+  # ==============================
+  # Users configured with yescrypt password hashing
   myUsers = {
     thein3rovert = {
       enable = true;
-      # password = "$y$j9T$ijOefXV1SG7tcj6ALYFlW1$eROUM..nWeygQYzH3gD75IRwCiAf40NAx6R2OwUVIt9";
       password = "$6$wNwBWd4.HvBEmqhB$utEc.ExmltqG/My6n4NRjfviUj6KLcq2Bi../F9SvoymICsUOP5OX09mg7MN73UnoXeoO7bhegaYqcLjZnMEE/";
     };
-
-    # newUser = {
-    #   enable = true;
-    #   password = "$y$j9T$OXQYhj4IWjRJWWYsSwcqf.$lCcdq9S7m0EAdej9KMHWj9flH8K2pUb2gitNhLTlLG/";
-    # };
   };
 
-  # === SSH Configuration ===
-  #TODO:: Move to common or dedicated folder
+  # ==============================
+  #      SSH Configuration
+  # ==============================
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "yes"; # Disable root login over SSH
-    allowSFTP = true; # Enable SFTP access
+    settings.PermitRootLogin = "yes";
+    allowSFTP = true;
   };
 
+  # ==============================
+  #     Nixpkgs Configuration
+  # ==============================
   nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = "x86_64-linux";
 }

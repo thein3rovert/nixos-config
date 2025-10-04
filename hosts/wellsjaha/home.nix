@@ -1,53 +1,67 @@
+# ==============================
+#    Home Manager Configuration
+# ==============================
+# Home Manager configuration for the wellsjaha test server
+# Minimal configuration for testing and development
+
 { self, inputs, ... }:
 {
+  # ==============================
+  #      Home Manager Setup
+  # ==============================
   home-manager.users.thein3rovert =
     { pkgs, ... }:
     {
+      # ==============================
+      #         Module Imports
+      # ==============================
       imports = [
-
-        # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
+        # Custom home manager modules
         self.homeManagerModules.default
-
-        # self.inputs.agenix.homeManagerModules.default
       ];
 
-      # ------------------------------
-      # HOME USER
-      # ------------------------------
+      # ==============================
+      #      Home Configuration
+      # ==============================
       home = {
+        # User identity
         username = "thein3rovert";
         homeDirectory = "/home/thein3rovert";
 
-        # ------------------------------
-        # HOME PACKAGES
-        # ------------------------------
+        # Minimal package set for testing
         packages = with pkgs; [
-          btop
+          btop # Resource monitor
         ];
+
+        # Home Manager state version
         stateVersion = "25.05";
       };
 
-      # ------------------------------------
-      # PROGRAM
-      # -------------------------------------
+      # ==============================
+      #      Program Configuration
+      # ==============================
       programs = {
+        # Let Home Manager manage itself
         home-manager.enable = true;
       };
 
-      # ------------------------------------
-      # CUSTOM MODULES
-      # -------------------------------------
-      # TODO: Setup desktop env later
-
+      # ==============================
+      #      Custom Module Setup
+      # ==============================
       homeSetup = {
-
+        # General programs
         programs.eza.enable = true;
-        # desktop.gnome.enable = true;
+
+        # User-specific configurations
         thein3rovert = {
+          # Shell and CLI tools
           programs.zsh.enable = true;
-          packages.cli.enable = true; # Enabled unwanted packages
           programs.starship.enable = true;
-          # FIX: Fix infinite recursion issue when enabled
+
+          # Package collections
+          packages.cli.enable = true;
+
+          # NOTE: Kitty disabled due to infinite recursion issue
           # programs.kitty.enable = true;
         };
       };
