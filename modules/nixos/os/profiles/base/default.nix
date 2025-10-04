@@ -1,3 +1,9 @@
+# ==============================
+#       Base Profile Module
+# ==============================
+# This module defines the base system configuration that serves as
+# a foundation for NixOS systems.
+
 {
   config,
   lib,
@@ -6,57 +12,69 @@
   ...
 }:
 {
+  # ==============================
+  #         Module Options
+  # ==============================
   options.nixosSetup.profiles.base.enable = lib.mkEnableOption "All base system config when enabled";
+
   config = lib.mkIf config.nixosSetup.profiles.base.enable {
+    # ==============================
+    #    Environment Configuration
+    # ==============================
     environment = {
-      /*
-        === Link the flake repo to /etc/nixos
-        When logged into the system, you can check /etc'nixos to
-        see what config source is being used.
-      */
+      # Link the flake repo to /etc/nixos
+      # When logged into the system, you can check /etc/nixos to
+      # see what config source is being used
       etc."nixos".source = self;
 
+      # ==============================
+      #      System Packages
+      # ==============================
       systemPackages = with pkgs; [
-        /*
-          Override the inxi package to include
-          recommended dependencies
-        */
-        (inxi.override { withRecommends = true; }) # Meaning?
-        /*
-          Increase the priority of uutils-coreutils-noprefix
-          to ensure it's selected
-        */
-        (lib.hiPrio uutils-coreutils-noprefix) # Meaning?
-        git
-        htop
-        wget
-        rclone
-        zellij # Similar to tmux
-        nh
-        neovim
+        # Override the inxi package to include recommended dependencies
+        (inxi.override { withRecommends = true; })
+
+        # Increase the priority of uutils-coreutils-noprefix to ensure it's selected
+        (lib.hiPrio uutils-coreutils-noprefix)
+
+        # Core system utilities
+        git     # Version control
+        htop    # Process viewer
+        wget    # File downloader
+        rclone  # Cloud storage sync
+        zellij  # Terminal multiplexer (Similar to tmux)
+        nh      # Nix helper tools
+        neovim  # Text editor
       ];
 
-      #INFO: Variables options used by nix and needed by nh
+      # Variables needed by nix and nh
       variables = {
-        FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
-        NH_FLAKE = lib.mkDefault "git+files:///home/thein3rovert/thein3rovert-flake";
+        FLAKE = lib.mkDefault "git+files:///home/thein3rovert/nixos-config";
+        NH_FLAKE = lib.mkDefault "git+files:///home/thein3rovert/nixos-config";
       };
     };
 
-    #TODO:  Move program specific config to a modules
+    # ==============================
+    #     Program Configuration
+    # ==============================
+    # TODO: Move program specific config to modules
     programs = {
+      # Desktop configuration database
       dconf.enable = true;
+
+      # Directory environment manager
       direnv = {
         enable = true;
         nix-direnv.enable = true;
         #silent = true;    # Turn to true later, leave off for testing
       };
 
+      # Nix helper tool
       nh.enable = true;
 
-      #INFO: Dont forget to add host to snippets
-      # ssh.knownHosts = config.mySnippets.ssh.knownHosts;
-      # === Example ===
+      # INFO: SSH known hosts configuration
+      # Don't forget to add host to snippets
+      # Example:
       # ssh.knownHosts = {
       #   "github.com" = {
       #     hostNames = [ "github.com" ];
@@ -64,44 +82,37 @@
       #   };
       # }
     };
+
+    # ==============================
+    #     Network Configuration
+    # ==============================
     networking.networkmanager.enable = true;
 
+    # ==============================
+    #     Security Configuration
+    # ==============================
     security = {
-      # Enable PolicyKit, a toolkit for defining and handling authorizations
-      polkit.enable = true;
-      # Enable RealtimeKit, which is used to grant real-time scheduling to user processes (e.g., audio applications)
-      rtkit.enable = true;
-
+      # Enable sudo-rs, a memory-safe Rust implementation of sudo
       sudo-rs = {
-        # Enable sudo-rs, a memory-safe Rust implementation of sudo
-        enable = true; # Understand how sudo-rs works
+        enable = true;
         # Allow users in the 'wheel' group to run sudo commands without a password
         wheelNeedsPassword = false;
       };
+
+      # === Optional Security Services ===
+      # polkit.enable = true;    # PolicyKit for defining and handling authorizations
+      # rtkit.enable = true;     # RealtimeKit for real-time scheduling (audio apps)
     };
 
-    # === SERVICES ===
+    # ==============================
+    #     Service Configuration
+    # ==============================
     services = {
-      # === Not needed yet ===
-      # avahi = {
-      #   enable = true; # Start the Avahi daemon for local network (mDNS/zeroconf) discovery (Bonjour/Apple-style).
-      #   nssmdns4 = true; # Enable name resolution for `.local` hostnames over IPv4.
-      #   openFirewall = true; # Automatically open necessary firewall ports for Avahi/mDNS.
-      #
-      #   publish = {
-      #     enable = true; # Enable publishing (advertising) this machine on the network.
-      #     addresses = true; # Advertise the machine's IP addresses.
-      #     userServices = true; # Advertise user-level services (e.g., printers, file shares).
-      #     workstation = true; # Announce as a generic workstation.
-      #   };
-      # };
-
-      /*
-        Start cachefilesd, which provides disk caching for network filesystems (like NFS).
-        Begin culling (removing cache) when disk space drops below 20%.
-        Continue culling until disk space rises above 10%.
-        Stop all caching if disk space drops below 5%.
-      */
+      # === Network File System Caching ===
+      # Start cachefilesd for disk caching of network filesystems (like NFS)
+      # Begin culling when disk space drops below 20%
+      # Continue culling until disk space rises above 10%
+      # Stop all caching if disk space drops below 5%
       cachefilesd = {
         enable = true;
         extraConfig = ''
@@ -110,26 +121,40 @@
           bstop 5%'';
       };
 
-      # vscode-server.enable = true;
-
+      # === SSH Server Configuration ===
       openssh = {
         enable = true;
-        openFirewall = true; # Open port 22 in firewall
-        settings.PasswordAuthentication = false; # Disable password based login
+        openFirewall = true;           # Open port 22 in firewall
+        settings.PasswordAuthentication = false;  # Disable password login
       };
+
+      # === Optional Services ===
+      # vscode-server.enable = true;
+
+      # === Network Discovery (Not needed yet) ===
+      # avahi = {
+      #   enable = true;     # Start Avahi daemon for mDNS/zeroconf discovery
+      #   nssmdns4 = true;  # Enable .local hostname resolution over IPv4
+      #   openFirewall = true;
+      #   publish = {
+      #     enable = true;      # Enable publishing on network
+      #     addresses = true;   # Advertise IP addresses
+      #     userServices = true;# Advertise user services
+      #     workstation = true; # Announce as workstation
+      #   };
+      # };
     };
 
-    # === Enable advance nixos rebuild ===
+    # ==============================
+    #     System Configuration
+    # ==============================
     system = {
-      /*
-        Records the current git revision (commit hash) or, if dirty, the dirty revision;
-        helps track exactly which version of the configuration was deployed.
-      */
+      # Records the current git revision or dirty revision
+      # Helps track which configuration version was deployed
       configurationRevision = self.rev or self.dirtyRev or null;
 
-      # Enables the next-generation nixos-rebuild (nixos-rebuild-ng) tool for system updates.
+      # Enable the next-generation nixos-rebuild tool
       rebuild.enableNg = true;
     };
-
   };
 }

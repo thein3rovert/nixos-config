@@ -18,7 +18,7 @@
       packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
 
       openssh.authorizedKeys.keys = [
-        ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKcMZafP6nbYGk5MKxll1GkI/JKesULVmHL0ragX0Qe''
+        ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert''
       ];
 
       # === Enable ssh config when installed ===
