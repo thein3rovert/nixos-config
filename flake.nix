@@ -68,6 +68,10 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
+      imports = [
+        ./modules/flake
+      ];
+
       flake =
         let
           inherit (self) outputs;
@@ -217,11 +221,11 @@
           #   Home Manager Modules
           # ==============================
           # NOTE: Ignore error "unknown flake output 'homeManagerModules'" as it's not in use yet
-          homeManagerModules = {
-            thein3rovert = ./homes/thein3rovert;
-            thein3rovert-cloud = ./home/thein3rovert-cloud;
-            default = ./modules/home;
-          };
+          # homeManagerModules = {
+          #   thein3rovert = ./homes/thein3rovert;
+          #   thein3rovert-cloud = ./home/thein3rovert-cloud;
+          #   default = ./modules/home;
+          # };
 
           # ==============================
           #     NixOS Modules
