@@ -2,9 +2,9 @@
 {
   age = {
     identityPaths = [
-      # "/etc/ssh/ssh_host_ed25519_key"
+      # INFO: ABSOLUTE PATH
       "/home/thein3rovert/.ssh/thein3rovert_wellsjaha"
-    ]; # isn't set automatically for some reason
+    ];
     secrets = {
       # tailscale = {
       #   file = ../../secrets/tailscale-env-01.age;

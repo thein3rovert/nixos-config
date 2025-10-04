@@ -17,7 +17,7 @@ in
     # Create a base config for virtulvirtualisation
     virtualisation.oci-containers.containers."linkding" = {
       image = "sissbruecker/linkding:latest";
-      ports = [ "127.0.0.1:9090:9090" ]; # Local port mapping
+      ports = [ "0.0.0.0:9090:9090" ]; # Local port mapping
       volumes = [ "linkding_data:/etc/linkding/data" ]; # Persistent storage
       environment = {
         LD_DISABLE_BACKGROUND_TASKS = "true";
