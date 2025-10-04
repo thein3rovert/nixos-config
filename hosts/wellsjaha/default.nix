@@ -74,7 +74,7 @@
   #       System Packages
   # ==============================
   environment.systemPackages = with pkgs; [
-    btop  # System monitor
+    btop # System monitor
     kitty # Terminal emulator
   ];
 
@@ -123,6 +123,15 @@
     enable = true;
     settings.PermitRootLogin = "yes";
     allowSFTP = true;
+    banner = ''
+       __     __     ______     __         __         ______       __     ______     __  __     ______    
+      /\ \  _ \ \   /\  ___\   /\ \       /\ \       /\  ___\     /\ \   /\  __ \   /\ \_\ \   /\  __ \   
+      \ \ \/ ".\ \  \ \  __\   \ \ \____  \ \ \____  \ \___  \   _\_\ \  \ \  __ \  \ \  __ \  \ \  __ \  
+       \ \__/".~\_\  \ \_____\  \ \_____\  \ \_____\  \/\_____\ /\_____\  \ \_\ \_\  \ \_\ \_\  \ \_\ \_\ 
+        \/_/   \/_/   \/_____/   \/_____/   \/_____/   \/_____/ \/_____/   \/_/\/_/   \/_/\/_/   \/_/\/_/ 
+                                                                                      
+                             Welcome to WellsJaha (NixOS) 🚀
+    '';
   };
 
   # ==============================
