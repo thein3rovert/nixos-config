@@ -62,12 +62,16 @@
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
+      # ============================
+      # Flake Part Config
+      # ============================
       systems = [
         "aarch64-linux"
         "x86_64-linux"
         "aarch64-darwin"
         "x86_64-darwin"
       ];
+      # Import flake modules
       imports = [
         ./modules/flake
       ];
@@ -174,48 +178,48 @@
           # ==============================
           #     Development Shells
           # ==============================
-          devShells = forAllSystems (
-            { pkgs }:
-            {
-              # Default development shell with all required tools
-              default = pkgs.mkShell {
-                packages =
-                  (with pkgs; [
-                    # Code formatting and linting
-                    alejandra
-                    nixd
-                    nil
-                    bash-language-server
-                    nodePackages.prettier
-
-                    # Shell script tools
-                    shellcheck
-                    shfmt
-
-                    # General utilities
-                    nix-update
-                    git
-                    ripgrep
-                    sd
-                    fd
-                    pv
-                    fzf
-                    bat
-
-                    # Networking tools
-                    nmap
-
-                    # Cache building requirements
-                    python3
-                    python3Packages.wcwidth
-                  ])
-                  ++ [
-                    # Age secret management
-                    self.inputs.agenix.packages.${pkgs.system}.default
-                  ];
-              };
-            }
-          );
+          # devShells = forAllSystems (
+          #   { pkgs }:
+          #   {
+          #     # Default development shell with all required tools
+          #     default = pkgs.mkShell {
+          #       packages =
+          #         (with pkgs; [
+          #           # Code formatting and linting
+          #           alejandra
+          #           nixd
+          #           nil
+          #           bash-language-server
+          #           nodePackages.prettier
+          #
+          #           # Shell script tools
+          #           shellcheck
+          #           shfmt
+          #
+          #           # General utilities
+          #           nix-update
+          #           git
+          #           ripgrep
+          #           sd
+          #           fd
+          #           pv
+          #           fzf
+          #           bat
+          #
+          #           # Networking tools
+          #           nmap
+          #
+          #           # Cache building requirements
+          #           python3
+          #           python3Packages.wcwidth
+          #         ])
+          #         ++ [
+          #           # Age secret management
+          #           self.inputs.agenix.packages.${pkgs.system}.default
+          #         ];
+          #     };
+          #   }
+          # );
 
           # ==============================
           #   Home Manager Modules
