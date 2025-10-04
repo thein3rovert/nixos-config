@@ -1,3 +1,9 @@
+# ==============================
+#    Home Manager Configuration
+# ==============================
+# Home Manager configuration for the nixos host
+# Manages user environment and dotfiles
+
 {
   self,
   inputs,
@@ -6,12 +12,17 @@
   ...
 }:
 let
-
-  # ---------------------
-  # CUSTOM FLAKE MODULES
-  # --------------------
+  # ==============================
+  #      Module Definitions
+  # ==============================
+  # Custom flake modules
   customImport = self.homeManagerModules.default;
   kittyConfig = ../../modules/home/thein3rovert/programs/kitty;
+
+  # ==============================
+  #      SSH Configuration
+  # ==============================
+  # Default SSH settings applied to all hosts
   defaultSSHConfig = {
     forwardAgent = false;
     controlMaster = "no";
@@ -26,145 +37,151 @@ let
   };
 in
 {
+  # ==============================
+  #      Home Manager Setup
+  # ==============================
   home-manager.users.thein3rovert =
     { pkgs, ... }:
     {
+      # ==============================
+      #         Module Imports
+      # ==============================
       imports = [
         customImport
         kittyConfig
-
-        # INFO: THESE HAVENT BE CREATED YET, they should first be created in the flake before import
-        # self.homeManagerModules.default
-        # self.inputs.agenix.homeManagerModules.default
-
-        # TODO: Move all these to home modules
-        # ../../home/features/cli
-        # ../../home/features/coding
-        # ../../home/features/desktop
       ];
 
+      # ==============================
+      #      Home Configuration
+      # ==============================
       home = {
-        # ------------------------------
-        # HOME USER
-        # ------------------------------
-
+        # User identity
         username = lib.mkDefault "thein3rovert";
         homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
-        # ------------------------------
-        # HOME PACKAGES
-        # ------------------------------
-
+        # User packages
         packages = with pkgs; [
-          btop
-          zed-editor
-          cowsay
-          kitty
-          wofi
-          wlogout
-          hyprlock
-          blueman
-          pavucontrol
-          playerctl
-          brightnessctl
+          # System monitoring and utilities
+          btop # Resource monitor
+
+          # Development and editing
+          zed-editor # Modern text editor
+          kitty # Terminal emulator
+
+          # Desktop environment tools
+          wofi # Application launcher
+          wlogout # Logout menu
+          hyprlock # Screen locker
+          waybar # Status bar (configured separately)
+
+          # Hardware control
+          blueman # Bluetooth manager
+          pavucontrol # Audio control
+          playerctl # Media player control
+          brightnessctl # Brightness control
+
+          # Fun utilities
+          cowsay # ASCII art messages
         ];
+
+        # Home Manager state version
         stateVersion = "24.05";
       };
 
-      # ------------------------------------
-      # PROGRAM
-      # -------------------------------------
-
-      # Let Home Manager install and manage itself.
+      # ==============================
+      #      Program Configuration
+      # ==============================
+      # Core programs
       programs.home-manager.enable = true;
       programs.waybar.enable = true;
 
+      # ==============================
+      #       SSH Configuration
+      # ==============================
       programs.ssh = {
         enableDefaultConfig = false;
         enable = true;
         matchBlocks = {
-
+          # Production VPS
           vps-het-1 = lib.recursiveUpdate defaultSSHConfig {
             hostname = "95.216.211.225";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert-cloud";
           };
 
+          # Demo/development server
           demo = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.122.36";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
 
+          # GitHub repository access
           "github.com" = lib.recursiveUpdate defaultSSHConfig {
-            # Default ssh config
             hostname = "github.com";
             identityFile = "~/.ssh/github/thein3rovert_github";
             user = "git";
           };
-          # === Test Server ===
-          wellsjaha = {
-            hostname = "192.168.122.100";
+
+          # Test servers
+          wellsjaha = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.20.0.1";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
 
+          octavia = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.20.0.2";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+          };
         };
       };
 
-      # ------------------------------------
-      # CUSTOM MODULES
-      # ------------------------------------
-      # features = {
-      #   cli = {
-      #     zsh.enable = true;
-      #   };
-      # };
-
+      # ==============================
+      #      Custom Module Setup
+      # ==============================
       homeSetup = {
-        # desktop.gnome.enable = true;
         thein3rovert = {
+          # Package collections
           packages.cli.enable = true;
-          programs.git.enable = true;
           packages.coding.enable = true;
+          packages.desktop.enable = true;
+
+          # Program configurations
+          programs.git.enable = true;
           programs.zsh.enable = true;
           programs.starship.enable = true;
-          packages.desktop.enable = true;
         };
       };
 
-      # ------------------------------------
-      # NIX SETTINGS
-      # ------------------------------------
-
+      # ==============================
+      #      Nix Configuration
+      # ==============================
       nix = {
         package = lib.mkDefault pkgs.nix;
+
+        # Nix settings and features
         settings = {
-          experimental-features = "nix-command flakes"; # === Enable flakes and nix-command ===
+          experimental-features = "nix-command flakes";
           trusted-users = [
             "root"
             "thein3rovert"
           ];
         };
 
-        # -------------------------------------------------
-        # CLEANUP AND OPTIMISATION
-        # -------------------------------------------------
-
+        # Garbage collection
         gc = {
           automatic = true;
           options = "--delete-older-than 30d";
         };
 
-        # FIX: Redundant
-        # optimise.automatic = true;
-
-        # === Register all flake inputs as nix registry entries ===
+        # Flake registry setup
         registry = lib.mapAttrs (_: flake: { inherit flake; }) (
           lib.filterAttrs (_: lib.isType "flake") inputs
         );
 
-        # === Set custom NIX_PATH ===
+        # Custom NIX_PATH
         nixPath = [ "/etc/nix/path" ];
       };
     };
