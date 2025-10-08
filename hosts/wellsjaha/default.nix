@@ -76,7 +76,7 @@
   # ==============================
   environment.systemPackages = with pkgs; [
     btop # System monitor
-    kitty # Terminal emulator
+    python3
   ];
 
   # ==============================

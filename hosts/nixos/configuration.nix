@@ -109,7 +109,6 @@ in
   # ==============================
   environment.systemPackages = with pkgs; [
     # Essential system tools
-    input-leap # Mouse and keyboard sharing
     vim # Text editor
     wget # File downloader
 
@@ -143,11 +142,9 @@ in
     cloudflare-warp # Cloudflare WARP
     localsend # Local file sharing
 
-    # Media and productivity
-    shotcut # Video editor
-
     # Browser (system-specific)
     inputs.zen-browser.packages."${system}".default
+    ansible
   ];
 
   # ==============================

@@ -21,6 +21,10 @@
         autoPrune.enable = true;
         defaultNetwork.settings.dns_enabled = true; # Required for containers under podman-compose to be able to talk to each other.
         # dockerCompat = true;
+        flags = [
+          "--filter=until=24h"
+          "--filter=label!=important"
+        ];
       };
     };
   };
