@@ -13,7 +13,7 @@ in
   config = lib.mkIf cfg.enable {
     # TODO: Move to respective modules later
 
-    programs.firefox.enable = true;
+    programs.firefox.enable = false;
 
     programs.hyprland = {
       enable = true;

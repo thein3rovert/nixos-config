@@ -1,6 +1,9 @@
 { lib, config, ... }:
 let
   if-freshrss-enabled = lib.mkIf config.nixosSetup.containers.freshrss.enable;
+
+  # TODO: Common attribute name should be
+  # moved to base as shared options
   imageName = "freshrss/freshrss";
   imageTag = "latest";
   host = "127.0.0.1";
@@ -10,7 +13,6 @@ let
   extensionsVolume = "freshrss_extensions";
 in
 {
-  # imports = [ ./base.nix ];
   options.nixosSetup.containers.freshrss = {
     enable = lib.mkEnableOption "Enable Freshrss Services";
   };

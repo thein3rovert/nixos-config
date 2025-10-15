@@ -15,7 +15,7 @@
 
     # Main nixpkgs repository (unstable channel)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     # Color scheme management
     nix-colors.url = "github:misterio77/nix-colors";
 
@@ -59,6 +59,7 @@
       disko,
       colmena,
       flake-parts,
+      nixpkgs-unstable-small,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -122,7 +123,7 @@
           # ==============================
           #         Overlays
           # ==============================
-          overlays = import ./overlays { inherit inputs; };
+          #  overlays = import ./overlays { inherit inputs; };
 
           # ==============================
           #    NixOS Configurations
@@ -136,6 +137,7 @@
                   inputs
                   nix-colors
                   colmena
+                  nixpkgs-unstable-small
                   ;
               };
 
@@ -154,7 +156,9 @@
                 self.nixosModules.hardware
                 self.nixosModules.core
                 self.nixosModules.containers
-
+                {
+                  nixpkgs.overlays = [ self.overlays.default ];
+                }
                 # Additional packages
                 { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
 
