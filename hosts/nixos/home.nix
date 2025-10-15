@@ -94,7 +94,6 @@ in
       # Core programs
       programs.home-manager.enable = true;
       programs.waybar.enable = true;
-
       # ==============================
       #       SSH Configuration
       # ==============================

@@ -15,6 +15,8 @@ in
 
     services.gnome.gnome-keyring.enable = true;
     services.gnome.gnome-remote-desktop.enable = true;
+    # Enables the udisks2 service, which manages disks, partitions, and automounting for the system.
+    services.udisks2.enable = true;
     services.pipewire = {
       enable = true;
       alsa.enable = true;

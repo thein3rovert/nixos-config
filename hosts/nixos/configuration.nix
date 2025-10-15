@@ -136,6 +136,7 @@ in
     xdg-user-dirs # User directory management
     xdg-utils # XDG utilities
     fuse # Filesystem utilities
+    gparted
 
     # Network and tunneling
     cloudflared # Cloudflare tunnel
