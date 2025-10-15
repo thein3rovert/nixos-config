@@ -2,7 +2,7 @@
   imports = [
     # ../common
     ./configuration.nix
-    #./secrets.nix
+    ./secrets.nix
     ./home.nix
   ];
 }
