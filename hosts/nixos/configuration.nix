@@ -81,7 +81,7 @@ in
     };
 
     containers = {
-      freshrss.enable = true;
+      freshrss.enable = false;
     };
   };
 

@@ -1,6 +1,13 @@
 { lib, config, ... }:
 let
   if-freshrss-enabled = lib.mkIf config.nixosSetup.containers.freshrss.enable;
+  imageName = "freshrss/freshrss";
+  imageTag = "latest";
+  host = "127.0.0.1";
+  port = 8083;
+
+  dataVolume = "freshrss_data";
+  extensionsVolume = "freshrss_extensions";
 in
 {
   # imports = [ ./base.nix ];
@@ -12,12 +19,12 @@ in
       enable = true;
       containers = {
         freshrss = {
-          image = "freshrss/freshrss:latest";
-          ports = [ "127.0.0.1:8083:80" ];
+          image = "${imageName}:${imageTag}";
+          ports = [ "${host}:${toString port}:80" ];
           volumes = [
-            "freshrss_data:/etc/freshrss/data"
-            "freshrss_data:/var/www/FreshRSS/data"
-            "freshrss_extensions:/var/www/FreshRSS/extensions"
+            "${dataVolume}:/etc/freshrss/data"
+            "${dataVolume}:/var/www/FreshRSS/data"
+            "${extensionsVolume}:/var/www/FreshRSS/extensions"
           ];
           environment = {
             TZ = "Europe/London";
