@@ -79,6 +79,10 @@ in
       vscode.enableFhs = true;
       virt-manager.enable = true;
     };
+
+    containers = {
+      freshrss.enable = true;
+    };
   };
 
   # Hardware-specific configurations

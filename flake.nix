@@ -153,6 +153,7 @@
                 self.nixosModules.nixosOs
                 self.nixosModules.hardware
                 self.nixosModules.core
+                self.nixosModules.containers
 
                 # Additional packages
                 { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
@@ -240,6 +241,7 @@
             locale-en-uk = ./modules/nixos/locale/en-uk;
             hardware = ./modules/hardware;
             core = ./modules/core;
+            containers = ./modules/nixos/containers;
           };
 
           # ==============================
