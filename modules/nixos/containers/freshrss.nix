@@ -25,7 +25,7 @@ in
             FRESHRSS_ENV = "development";
             OIDC_ENABLED = "0";
           };
-          # environmentFiles = [ ];
+          environmentFiles = [ config.age.secrets.freshrss.path ];
         };
       };
     };
