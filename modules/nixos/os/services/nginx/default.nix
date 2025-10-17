@@ -42,12 +42,15 @@ in
     systemd.tmpfiles.rules = [
       "d /var/www/localhost 0755 root root -"
       # Copy created file to /localhost at boot from nix store
+      # Each of this didnt added te nix/store path to index.html
       # `C` copy file on boot if its missing
       # `f` create file on boot
       # `sudo systemd-tmpfiles --create` create manually
       # Systemd tmpfile format `<type> <path> <mode> <uid> <gid> <age> <argument>`
       # `C!` force copy file from source path (Nix Store)
-      "C! /var/www/localhost/index.html 0644 root root - ${builtins.toFile "index.html" ''
+
+      # `L+` the fix created a symlink that points to nix-store
+      "L+ /var/www/localhost/index.html 0644 root root - ${builtins.toFile "index.html" ''
         <!DOCTYPE html>
         <html>
           <head><title> Hello from thein3rovert</title></head>
