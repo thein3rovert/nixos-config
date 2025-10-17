@@ -15,6 +15,8 @@ in
     programs = {
       dconf.profiles.user.databases = lib.optionals config.services.xserver.enable [
         {
+          # Automatically connect to system level
+          # libvirt daemon on every start
           settings = {
             "org/virt-manager/virt-manager/connections" = {
               autoconnect = [ "qemu:///system" ];

@@ -37,7 +37,6 @@
 
       # === Define user options for 'thein3rovert' and 'newUser' using the mkUser function ===
       thein3rovert = mkUser "thein3rovert";
-
       # === If want to create new user, rename below ===
       # newUser = mkUser "newUser";
     };
