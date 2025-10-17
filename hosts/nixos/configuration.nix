@@ -83,6 +83,9 @@ in
     containers = {
       freshrss.enable = false;
     };
+    services = {
+      nginx.enable = true;
+    };
   };
 
   # Hardware-specific configurations

@@ -5,5 +5,6 @@
     ./linkding
     ./tailscale
     ./audiobookshelf
+    ./nginx
   ];
 }
