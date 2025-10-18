@@ -6,8 +6,16 @@
   self,
   pkgs,
   modulesPath,
+  lib,
   ...
 }:
+let
+  inherit (lib)
+    mkForce
+    ;
+
+  force = mkForce;
+in
 
 {
   # ==============================
@@ -32,6 +40,14 @@
   # ==============================
   system.stateVersion = "25.05";
   networking.hostName = "octavia";
+
+  # ================================================================
+  # Network Configuration
+  # Disable NetworkManager - not needed for server VMs
+  # Saves ~60-70MB RAM
+  # ================================================================
+  networking.networkmanager.enable = force false;
+  networking.wireless.enable = force false; # Also disable wpa_supplicant
 
   # ==============================
   #     Network Configuration

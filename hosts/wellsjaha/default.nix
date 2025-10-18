@@ -91,6 +91,7 @@
     # Base system profile
     profiles = {
       base.enable = true;
+      server.enable = true;
     };
     services = {
       linkding.enable = true;
