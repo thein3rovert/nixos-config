@@ -1,4 +1,4 @@
-{ inputs, self,... }:
+{ inputs, self, ... }:
 {
   # Import clan-core flake module
   imports = [
@@ -60,11 +60,11 @@
           }
 
           {
-                        networking.defaultGateway = {
-                          address = "10.20.0.254";
-                          interface = "enp1s0";
-                        };
-                      }
+            networking.defaultGateway = {
+              address = "10.20.0.254";
+              interface = "enp1s0";
+            };
+          }
         ];
       };
     };
