@@ -117,6 +117,7 @@
             "demo"
             "vps-het-1"
             "wellsjaha"
+            "octavia"
           ];
         in
         {
@@ -323,6 +324,32 @@
               nixpkgs.system = "x86_64-linux";
               imports = [
                 ./hosts/wellsjaha
+                agenix.nixosModules.default
+                inputs.disko.nixosModules.disko
+                self.inputs.home-manager.nixosModules.home-manager
+                self.nixosModules.users
+                self.nixosModules.nixosOs
+                self.nixosModules.hardware
+              ];
+            };
+
+            # ==============================
+            #     Node: Octavia (Prod)
+            # ==============================
+            octavia = {
+              deployment = {
+                targetHost = "octavia";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = true;
+                tags = [
+                  "test"
+                  "prod"
+                ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/octavia
                 agenix.nixosModules.default
                 inputs.disko.nixosModules.disko
                 self.inputs.home-manager.nixosModules.home-manager
