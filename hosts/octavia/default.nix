@@ -88,6 +88,7 @@
     # Base system profile
     profiles = {
       base.enable = true;
+      server.enable = true;
     };
 
     # Program configurations

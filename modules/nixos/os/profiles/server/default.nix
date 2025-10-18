@@ -49,17 +49,24 @@ in
     # Configure essential server services for performance and reliability
     #
     # /*
-    # - bpftune: Auto-tunes kernel parameters based on workload
+    # - bpftune: Auto-tunes kernel parameters based on workload, when
+    # siabled it used `static tuning`
     # - journald: Volatile storage (RAM only), 32MB limit to reduce disk I/O
     # - timesyncd: Keeps server clock accurate for logs and certificates
     # */
     # ================================================================
     services = {
-      bpftune.enable = true;
-
+      bpftune.enable = false;
+      # Minimal logging - 8MB is plenty for minimal needs
       journald = {
         storage = "volatile";
-        extraConfig = "SystemMaxUse=32M\nRuntimeMaxUse=32M";
+        # extraConfig = "SystemMaxUse=32M\nRuntimeMaxUse=32M";
+        extraConfig = ''
+          SystemMaxUse=8M
+          RuntimeMaxUse=8M
+          MaxFileSec=1day
+          MaxRetentionSec=3day
+        '';
       };
 
       timesyncd.enable = true;
@@ -88,7 +95,7 @@ in
       oomd = {
         enable = true;
         enableRootSlice = true;
-        enableUserSlice = true;
+        enableUserSlices = false; # Disabled - saves monitoring overhead
         enableSystemSlice = true;
       };
     };
@@ -100,12 +107,14 @@ in
     # /*
     # - algorithm: zstd for fast and efficient compression
     # - priority: 100 ensures zram is used before disk swap
+    # 25% of 2GB = 512MB zram (good balance for 2GB system)
     # */
     # ================================================================
     zramSwap = {
       enable = setDefault true;
       algorithm = setDefault "zstd";
       priority = setDefault 100;
+      memoryPercent = setDefault 25;
     };
   };
 }
