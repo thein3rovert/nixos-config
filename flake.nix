@@ -46,6 +46,11 @@
     colmena.url = "github:zhaofengli/colmena";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+
+    clan-core = {
+      url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -60,6 +65,7 @@
       colmena,
       flake-parts,
       nixpkgs-unstable-small,
+      clan-core,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -119,6 +125,61 @@
             "wellsjaha"
             "octavia"
           ];
+
+          clan = clan-core.lib.clan {
+            self = self;
+            specialArgs = {
+              inherit
+                self
+                inputs
+                nix-colors
+                colmena
+                nixpkgs-unstable-small
+                ;
+            };
+            meta.name = "octavia-clan-test"; # Test clan name
+
+            machines = {
+              octavia = {
+                nixpkgs.hostPlatform = "x86_64-linux";
+                imports = [
+                  ./hosts/octavia
+                  self.inputs.home-manager.nixosModules.home-manager
+                  agenix.nixosModules.default
+                  self.nixosModules.users
+                  self.nixosModules.nixosOs
+                  self.nixosModules.hardware
+                  self.nixosModules.core
+                  self.nixosModules.containers
+                  {
+                    nixpkgs.overlays = [ self.overlays.default ];
+                  }
+                  { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+                  {
+                    home-manager = {
+                      backupFileExtension = "backup";
+                      extraSpecialArgs = { inherit self; };
+                      useGlobalPkgs = true;
+                      useUserPackages = true;
+                    };
+                    nixpkgs = {
+                      config.allowUnfree = true;
+                    };
+                  }
+                  # Clan networking configuration
+                  {
+                    clan.core.networking.targetHost = "10.20.0.2"; # Update with actual IP/hostname if needed
+                  }
+                  {
+                    networking.defaultGateway = {
+                      address = "10.20.0.254";
+                      interface = "enp1s0";
+                    };
+                  }
+                ];
+              };
+            };
+          };
         in
         {
           # ==============================
@@ -129,57 +190,69 @@
           # ==============================
           #    NixOS Configurations
           # ==============================
-          nixosConfigurations = forAllLinuxHosts (
-            host:
-            self.inputs.nixpkgs.lib.nixosSystem {
-              specialArgs = {
-                inherit
-                  self
-                  inputs
-                  nix-colors
-                  colmena
-                  nixpkgs-unstable-small
-                  ;
-              };
+          nixosConfigurations =
+            forAllLinuxHosts (
+              host:
+              self.inputs.nixpkgs.lib.nixosSystem {
+                specialArgs = {
+                  inherit
+                    self
+                    inputs
+                    nix-colors
+                    colmena
+                    nixpkgs-unstable-small
+                    ;
+                };
 
-              modules = [
-                # Host-specific configuration
-                ./hosts/${host}
+                modules = [
+                  # Host-specific configuration
+                  ./hosts/${host}
 
-                # Core system modules
-                self.inputs.home-manager.nixosModules.home-manager
-                agenix.nixosModules.default
-                inputs.disko.nixosModules.disko
+                  # Core system modules
+                  self.inputs.home-manager.nixosModules.home-manager
+                  agenix.nixosModules.default
+                  inputs.disko.nixosModules.disko
 
-                # Custom modules
-                self.nixosModules.users
-                self.nixosModules.nixosOs
-                self.nixosModules.hardware
-                self.nixosModules.core
-                self.nixosModules.containers
-                {
-                  nixpkgs.overlays = [ self.overlays.default ];
-                }
-                # Additional packages
-                { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+                  # Custom modules
+                  self.nixosModules.users
+                  self.nixosModules.nixosOs
+                  self.nixosModules.hardware
+                  self.nixosModules.core
+                  self.nixosModules.containers
+                  {
+                    nixpkgs.overlays = [ self.overlays.default ];
+                  }
+                  # Additional packages
+                  { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
 
-                # ==============================
-                #    Home-Manager Config
-                # ==============================
-                {
-                  home-manager = {
-                    backupFileExtension = "backup";
-                    extraSpecialArgs = { inherit self; };
-                    useGlobalPkgs = true;
-                    useUserPackages = true;
-                  };
-                  nixpkgs = {
-                    config.allowUnfree = true;
-                  };
-                }
-              ];
-            }
-          );
+                  # ==============================
+                  #    Home-Manager Config
+                  # ==============================
+                  {
+                    home-manager = {
+                      backupFileExtension = "backup";
+                      extraSpecialArgs = { inherit self; };
+                      useGlobalPkgs = true;
+                      useUserPackages = true;
+                    };
+                    nixpkgs = {
+                      config.allowUnfree = true;
+                    };
+                  }
+                ];
+              }
+            )
+
+            // {
+              octavia = clan.config.nixosConfigurations.octavia;
+            };
+
+          # ==============================
+          #     Clan Outputs (NEW)
+          # ==============================
+          # Expose clan outputs for the demo host
+          inherit (clan.config) clanInternals;
+          clan = clan.config;
 
           # ==============================
           #     Development Shells
