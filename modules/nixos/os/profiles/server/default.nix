@@ -8,12 +8,12 @@ let
     mkEnableOption
     types
     mkOption
+    mkDefault
     mkIf
     ;
-  If = lib.mkIf;
-  setDefault = lib.mkDefault;
+  If = mkIf;
+  setDefault = mkDefault;
   createEnableOption = mkEnableOption;
-  createOption = mkOption;
   cfg = config.nixosSetup.profiles.server;
 in
 {
