@@ -1,9 +1,6 @@
 # ==============================
 #     Octavia Host Configuration
 # ==============================
-# Test server configuration for development and experimentation
-# Reference: Host "fallarbor" aly
-
 {
   config,
   self,
@@ -92,10 +89,7 @@
     profiles = {
       base.enable = true;
     };
-    # services = {
-    #   linkding.enable = true;
-    # };
-    #
+
     # Program configurations
     programs = {
       podman.enable = true;
