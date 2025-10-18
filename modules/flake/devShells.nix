@@ -61,6 +61,8 @@ _: {
             ++ [
               # Age secret management
               inputs'.agenix.packages.default
+              # Clan CLI (NEW)
+              inputs'.clan-core.packages.clan-cli
             ];
 
           shellHook = ''

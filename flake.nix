@@ -168,7 +168,7 @@
                   }
                   # Clan networking configuration
                   {
-                    clan.core.networking.targetHost = "10.20.0.2"; # Update with actual IP/hostname if needed
+                    clan.core.networking.targetHost = "10.20.0.2";
                   }
                   {
                     networking.defaultGateway = {
