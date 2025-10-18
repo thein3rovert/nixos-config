@@ -56,6 +56,15 @@
                   git commit -m "$1($2): $3" -m "$4"
                 fi
               }
+            gch() {
+              scope=$1
+              shift
+              msg="$*"
+              if [ -z "$msg" ]; then
+                msg="ongoing homelab adjustments"
+              fi
+              git commit -m "chore($scope): $msg"
+            }
 
           '';
           shellAliases = {
@@ -88,19 +97,6 @@
             gb = "git branch";
             glog = "git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit";
             gpu = "git pull origin";
-            gch = ''
-              function _gch() {
-                scope=$1
-                shift
-                msg="$*"
-                if [ -z "$msg" ]; then
-                  msg="ongoing homelab adjustments"
-                fi
-                git commit -m "chore($${scope}): $${msg}"
-              }
-              _gch
-            '';
-
             cat = "bat";
 
             # History Search
