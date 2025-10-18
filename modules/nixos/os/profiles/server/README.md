@@ -4,9 +4,9 @@ NixOS profile optimized for headless server environments.
 
 ## Usage
 
-```
+```nix
 {
-myNixOS.profiles.server.enable = true;
+  nixosSetup.profiles.server.enable = true;
 }
 ```
 
