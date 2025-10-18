@@ -83,8 +83,15 @@ in
     containers = {
       freshrss.enable = false;
     };
-    services = {
-      nginx.enable = true;
+    # services = {
+    #   nginx.enable = true;
+    # };
+    services.nginx = {
+      enable = true;
+      virtualHosts.default = {
+        serverName = "localhost";
+        root = "/var/www/localhost";
+      };
     };
   };
 
