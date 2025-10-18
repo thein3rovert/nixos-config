@@ -123,7 +123,7 @@
             "demo"
             "vps-het-1"
             "wellsjaha"
-            "octavia"
+            # "octavia"
           ];
 
         in
