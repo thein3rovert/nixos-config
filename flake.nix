@@ -126,60 +126,6 @@
             "octavia"
           ];
 
-          clan = clan-core.lib.clan {
-            self = self;
-            specialArgs = {
-              inherit
-                self
-                inputs
-                nix-colors
-                colmena
-                nixpkgs-unstable-small
-                ;
-            };
-            meta.name = "octavia-clan-test"; # Test clan name
-
-            machines = {
-              octavia = {
-                nixpkgs.hostPlatform = "x86_64-linux";
-                imports = [
-                  ./hosts/octavia
-                  self.inputs.home-manager.nixosModules.home-manager
-                  agenix.nixosModules.default
-                  self.nixosModules.users
-                  self.nixosModules.nixosOs
-                  self.nixosModules.hardware
-                  self.nixosModules.core
-                  self.nixosModules.containers
-                  {
-                    nixpkgs.overlays = [ self.overlays.default ];
-                  }
-                  { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
-                  {
-                    home-manager = {
-                      backupFileExtension = "backup";
-                      extraSpecialArgs = { inherit self; };
-                      useGlobalPkgs = true;
-                      useUserPackages = true;
-                    };
-                    nixpkgs = {
-                      config.allowUnfree = true;
-                    };
-                  }
-                  # Clan networking configuration
-                  {
-                    clan.core.networking.targetHost = "10.20.0.2";
-                  }
-                  {
-                    networking.defaultGateway = {
-                      address = "10.20.0.254";
-                      interface = "enp1s0";
-                    };
-                  }
-                ];
-              };
-            };
-          };
         in
         {
           # ==============================
@@ -241,74 +187,7 @@
                   }
                 ];
               }
-            )
-
-            // {
-              octavia = clan.config.nixosConfigurations.octavia;
-            };
-
-          # ==============================
-          #     Clan Outputs (NEW)
-          # ==============================
-          # Expose clan outputs for the demo host
-          inherit (clan.config) clanInternals;
-          clan = clan.config;
-
-          # ==============================
-          #     Development Shells
-          # ==============================
-          # devShells = forAllSystems (
-          #   { pkgs }:
-          #   {
-          #     # Default development shell with all required tools
-          #     default = pkgs.mkShell {
-          #       packages =
-          #         (with pkgs; [
-          #           # Code formatting and linting
-          #           alejandra
-          #           nixd
-          #           nil
-          #           bash-language-server
-          #           nodePackages.prettier
-          #
-          #           # Shell script tools
-          #           shellcheck
-          #           shfmt
-          #
-          #           # General utilities
-          #           nix-update
-          #           git
-          #           ripgrep
-          #           sd
-          #           fd
-          #           pv
-          #           fzf
-          #           bat
-          #
-          #           # Networking tools
-          #           nmap
-          #
-          #           # Cache building requirements
-          #           python3
-          #           python3Packages.wcwidth
-          #         ])
-          #         ++ [
-          #           # Age secret management
-          #           self.inputs.agenix.packages.${pkgs.system}.default
-          #         ];
-          #     };
-          #   }
-          # );
-
-          # ==============================
-          #   Home Manager Modules
-          # ==============================
-          # NOTE: Ignore error "unknown flake output 'homeManagerModules'" as it's not in use yet
-          # homeManagerModules = {
-          #   thein3rovert = ./homes/thein3rovert;
-          #   thein3rovert-cloud = ./home/thein3rovert-cloud;
-          #   default = ./modules/home;
-          # };
+            );
 
           # ==============================
           #     NixOS Modules
