@@ -4,5 +4,6 @@
     ./devShells.nix
     ./overlays.nix
     ./clan-core.nix
+    ./disko-conf.nix
   ];
 }
