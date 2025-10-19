@@ -116,7 +116,7 @@
             nix-test = "nix-instantiate --eval --strict -A";
             # Clan deplomeny
             clan-rebuild-switch = "clan machines update";
-            cl = "clan-list";
+            cl = "clan machines list";
           };
         };
 
