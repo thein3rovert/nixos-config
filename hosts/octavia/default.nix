@@ -27,12 +27,12 @@ in
     (modulesPath + "/profiles/qemu-guest.nix")
 
     # Host-specific configurations
-    ./disk-config.nix
     ./home.nix
     # ./secrets.nix
 
     # Custom modules
     self.nixosModules.locale-en-uk
+    self.diskoConfigurations.lvm-ext4
   ];
 
   # ==============================

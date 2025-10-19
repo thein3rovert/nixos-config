@@ -8,6 +8,7 @@ let
     mkOption
     types
     ;
+  # Lib Functions
   createOption = mkOption;
 
   # Types
@@ -15,7 +16,7 @@ let
 in
 {
   options.diskoDrive.installDrive = createOption {
-    discription = "VDA disk to install Nixos to.";
+    description = "VDA disk to install Nixos to.";
     default = "/dev/vda";
     type = string;
   };
