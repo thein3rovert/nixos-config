@@ -151,7 +151,7 @@ in
     xdg-utils # XDG utilities
     fuse # Filesystem utilities
     gparted
-
+    banana-cursor
     # Network and tunneling
     cloudflared # Cloudflare tunnel
     cloudflare-warp # Cloudflare WARP

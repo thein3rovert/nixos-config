@@ -89,6 +89,16 @@ in
       };
 
       # ==============================
+      #      Cursor Configuration
+      # ==============================
+      home.pointerCursor = {
+        gtk.enable = true;
+        x11.enable = true;
+        package = pkgs.banana-cursor;
+        name = "banana-cursor";
+        size = 24;
+      };
+      # ==============================
       #      Program Configuration
       # ==============================
       # Core programs
