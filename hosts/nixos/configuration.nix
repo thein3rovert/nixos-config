@@ -86,11 +86,16 @@ in
     # services = {
     #   nginx.enable = true;
     # };
-    services.nginx = {
-      enable = true;
-      virtualHosts.default = {
-        serverName = "localhost";
-        root = "/var/www/localhost";
+    services = {
+      tailscale = {
+        enable = true;
+      };
+      nginx = {
+        enable = true;
+        virtualHosts.default = {
+          serverName = "localhost";
+          root = "/var/www/localhost";
+        };
       };
     };
   };
