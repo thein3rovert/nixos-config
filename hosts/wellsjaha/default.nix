@@ -95,6 +95,9 @@
     };
     services = {
       linkding.enable = true;
+      tailscale = {
+        enable = true;
+      };
     };
 
     # Program configurations
