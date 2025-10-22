@@ -6,11 +6,11 @@
       "/home/thein3rovert/.ssh/thein3rovert_wellsjaha"
     ];
     secrets = {
-      # audiobookshelf = {
-      #   file = ../../secrets/audiobookshelf-env.age;
-      #   # owner = "thein3rovert";
-      #   path = "/home/thein3rovert/secrets/.audiobookshelf-env";
-      # };
+      audiobookshelf = {
+        file = "${self.inputs.secrets}/audiobookshelf/audiobookshelf-ts.age";
+        # owner = "thein3rovert";
+        path = "/home/thein3rovert/.secrets/.audiobookshelf-ts";
+      };
 
       linkding = {
         file = "${self.inputs.secrets}/linkding/linkding.age";

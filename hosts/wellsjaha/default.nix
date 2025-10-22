@@ -95,8 +95,14 @@
     };
     services = {
       linkding.enable = true;
+
       tailscale = {
         enable = true;
+      };
+
+      audiobookshelf = {
+        enable = true;
+        audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
       };
     };
 

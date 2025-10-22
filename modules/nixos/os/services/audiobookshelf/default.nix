@@ -25,6 +25,7 @@ in
     virtualisation.oci-containers = {
       containers = {
 
+        # Make a reusable module for this
         "audiobookshelf-ts" = {
           image = "tailscale/tailscale:latest";
           hostname = "audiobooks";
@@ -35,8 +36,9 @@ in
             "TS_USERSPACE" = "true";
           };
           #FIX: Confirm if the secret key is been passed.
-          #environmentFiles = [ cfg.audiobookshelf-ts-authKeyFile ];
+          environmentFiles = [ cfg.audiobookshelf-ts-authKeyFile ];
           volumes = [
+            # TODO: Make sure path gets created during runtime
             "/home/thein3rovert/audiobookshelf/ts-config:/config:rw"
             "/home/thein3rovert/audiobookshelf/ts-state:/var/lib/tailscale:rw"
           ];
@@ -53,6 +55,7 @@ in
           volumes = [
 
             #FIX: Change volume point
+            # These need tonbe created on host
             "/home/thein3rovert/audiobookshelf/config:/config:rw"
             "/home/thein3rovert/audiobookshelf/metadata:/metadata:rw"
             "/home/thein3rovert/audiobookshelf/media:/audiobooks:ro"
@@ -61,6 +64,7 @@ in
           # Network mode - sharing network with another container
           # Shares the network stack with the Tailscale container
           extraOptions = [
+            # Network Namespace
             "--network=container:audiobookshelf-ts"
           ];
           # Fixes dependencies issues
