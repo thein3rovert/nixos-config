@@ -260,6 +260,7 @@
                 inputs.disko.nixosModules.disko
                 self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.nixosOs
+                self.nixosModules.users
               ];
             };
 
