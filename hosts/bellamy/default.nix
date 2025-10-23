@@ -48,9 +48,20 @@
   # ==============================
   #      Boot Configuration
   # ==============================
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+  boot = {
+    initrd.availableKernelModules = [
+      "ahci"
+      "sd_mod"
+      "sr_mod"
+      "virtio_pci"
+      "virtio_scsi"
+      "xhci_pci"
+    ];
+
+    loader.grub = {
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+    };
   };
 
   # ==============================
@@ -92,16 +103,11 @@
   #      Custom Module Setup
   # ==============================
   nixosSetup = {
-    # Base system profile
     profiles = {
       base.enable = true;
       server.enable = true;
     };
 
-    # services = {
-    #   linkding.enable = true;
-    # };
-    #
     programs = {
       podman.enable = true;
     };
