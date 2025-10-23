@@ -118,6 +118,13 @@ in
             user = "thein3rovert-cloud";
           };
 
+          # Production VPS
+          bellamy = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "95.216.216.22";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+          };
+
           # Demo/development server
           demo = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.122.36";
