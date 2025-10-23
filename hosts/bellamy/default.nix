@@ -38,24 +38,7 @@
   # ==============================
   #     Network Configuration
   # ==============================
-  # Static IP configuration
-  # networking.interfaces.enp1s0 = {
-  #   useDHCP = false;
-  #   ipv4.addresses = [
-  #     {
-  #       address = "10.20.0.1";
-  #       prefixLength = 16;
-  #     }
-  #   ];
-  # };
-  #
-  # # Network routing and DNS
-  # networking.defaultGateway = "10.20.0.254";
-  # networking.nameservers = [
-  #   "1.1.1.1"
-  #   "8.8.8.8"
-  # ];
-  #
+
   # ==============================
   #      Time & Locale Setup
   # ==============================
@@ -77,41 +60,6 @@
     btop # System monitor
     python3
   ];
-
-  # ==============================
-  #     Hardware Configuration
-  # ==============================
-  hardwareSetup.intel.cpu.enable = true;
-
-  # ==============================
-  #      Custom Module Setup
-  # ==============================
-  nixosSetup = {
-    # Base system profile
-    profiles = {
-      base.enable = true;
-      server.enable = true;
-    };
-    services = {
-      linkding.enable = true;
-
-      tailscale = {
-        enable = true;
-      };
-
-      audiobookshelf = {
-        enable = true;
-        audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
-      };
-    };
-
-    # Program configurations
-    programs = {
-      podman.enable = true;
-      vscode.enable = false;
-      vscode.enableFhs = true;
-    };
-  };
 
   # ==============================
   #       QEMU Guest Services
