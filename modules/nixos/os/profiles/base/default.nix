@@ -38,13 +38,11 @@
         (lib.hiPrio uutils-coreutils-noprefix)
 
         # Core system utilities
-        git     # Version control
-        htop    # Process viewer
-        wget    # File downloader
-        rclone  # Cloud storage sync
-        zellij  # Terminal multiplexer (Similar to tmux)
-        nh      # Nix helper tools
-        neovim  # Text editor
+        git # Version control
+        htop # Process viewer
+        wget # File downloader
+        rclone
+        tmux
       ];
 
       # Variables needed by nix and nh
@@ -124,8 +122,8 @@
       # === SSH Server Configuration ===
       openssh = {
         enable = true;
-        openFirewall = true;           # Open port 22 in firewall
-        settings.PasswordAuthentication = false;  # Disable password login
+        openFirewall = true; # Open port 22 in firewall
+        settings.PasswordAuthentication = false; # Disable password login
       };
 
       # === Optional Services ===
