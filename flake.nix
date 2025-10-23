@@ -123,6 +123,7 @@
             "demo"
             "vps-het-1"
             "wellsjaha"
+            "bellamy"
             # "octavia"
           ];
 
@@ -136,58 +137,57 @@
           # ==============================
           #    NixOS Configurations
           # ==============================
-          nixosConfigurations =
-            forAllLinuxHosts (
-              host:
-              self.inputs.nixpkgs.lib.nixosSystem {
-                specialArgs = {
-                  inherit
-                    self
-                    inputs
-                    nix-colors
-                    colmena
-                    nixpkgs-unstable-small
-                    ;
-                };
+          nixosConfigurations = forAllLinuxHosts (
+            host:
+            self.inputs.nixpkgs.lib.nixosSystem {
+              specialArgs = {
+                inherit
+                  self
+                  inputs
+                  nix-colors
+                  colmena
+                  nixpkgs-unstable-small
+                  ;
+              };
 
-                modules = [
-                  # Host-specific configuration
-                  ./hosts/${host}
+              modules = [
+                # Host-specific configuration
+                ./hosts/${host}
 
-                  # Core system modules
-                  self.inputs.home-manager.nixosModules.home-manager
-                  agenix.nixosModules.default
-                  inputs.disko.nixosModules.disko
+                # Core system modules
+                self.inputs.home-manager.nixosModules.home-manager
+                agenix.nixosModules.default
+                inputs.disko.nixosModules.disko
 
-                  # Custom modules
-                  self.nixosModules.users
-                  self.nixosModules.nixosOs
-                  self.nixosModules.hardware
-                  self.nixosModules.core
-                  self.nixosModules.containers
-                  {
-                    nixpkgs.overlays = [ self.overlays.default ];
-                  }
-                  # Additional packages
-                  { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+                # Custom modules
+                self.nixosModules.users
+                self.nixosModules.nixosOs
+                self.nixosModules.hardware
+                self.nixosModules.core
+                self.nixosModules.containers
+                {
+                  nixpkgs.overlays = [ self.overlays.default ];
+                }
+                # Additional packages
+                { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
 
-                  # ==============================
-                  #    Home-Manager Config
-                  # ==============================
-                  {
-                    home-manager = {
-                      backupFileExtension = "backup";
-                      extraSpecialArgs = { inherit self; };
-                      useGlobalPkgs = true;
-                      useUserPackages = true;
-                    };
-                    nixpkgs = {
-                      config.allowUnfree = true;
-                    };
-                  }
-                ];
-              }
-            );
+                # ==============================
+                #    Home-Manager Config
+                # ==============================
+                {
+                  home-manager = {
+                    backupFileExtension = "backup";
+                    extraSpecialArgs = { inherit self; };
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+                  };
+                  nixpkgs = {
+                    config.allowUnfree = true;
+                  };
+                }
+              ];
+            }
+          );
 
           # ==============================
           #     NixOS Modules
@@ -234,6 +234,31 @@
               imports = [
                 ./hosts/demo
                 inputs.disko.nixosModules.disko
+                self.nixosModules.nixosOs
+              ];
+            };
+
+            # ==============================
+            #      Node: Bellamy (Prod)
+            # ==============================
+            bellamy = {
+              deployment = {
+                targetHost = "bellamy";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = true;
+                tags = [
+                  "vps"
+                  "production"
+                  "prod"
+                ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/bellamy
+                agenix.nixosModules.default
+                inputs.disko.nixosModules.disko
+                self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.nixosOs
               ];
             };
