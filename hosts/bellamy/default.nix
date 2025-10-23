@@ -39,23 +39,23 @@
   #     Network Configuration
   # ==============================
   # Static IP configuration
-  networking.interfaces.enp1s0 = {
-    useDHCP = false;
-    ipv4.addresses = [
-      {
-        address = "10.20.0.1";
-        prefixLength = 16;
-      }
-    ];
-  };
-
-  # Network routing and DNS
-  networking.defaultGateway = "10.20.0.254";
-  networking.nameservers = [
-    "1.1.1.1"
-    "8.8.8.8"
-  ];
-
+  # networking.interfaces.enp1s0 = {
+  #   useDHCP = false;
+  #   ipv4.addresses = [
+  #     {
+  #       address = "10.20.0.1";
+  #       prefixLength = 16;
+  #     }
+  #   ];
+  # };
+  #
+  # # Network routing and DNS
+  # networking.defaultGateway = "10.20.0.254";
+  # networking.nameservers = [
+  #   "1.1.1.1"
+  #   "8.8.8.8"
+  # ];
+  #
   # ==============================
   #      Time & Locale Setup
   # ==============================
