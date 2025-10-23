@@ -89,6 +89,25 @@
   '';
 
   # ==============================
+  #      Custom Module Setup
+  # ==============================
+  nixosSetup = {
+    # Base system profile
+    profiles = {
+      base.enable = true;
+      server.enable = true;
+    };
+
+    # services = {
+    #   linkding.enable = true;
+    # };
+    #
+    programs = {
+      podman.enable = true;
+    };
+  };
+
+  # ==============================
   #      SSH Configuration
   # ==============================
   services.openssh = {

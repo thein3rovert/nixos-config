@@ -60,13 +60,13 @@ in
       # Minimal logging - 8MB is plenty for minimal needs
       journald = {
         storage = "volatile";
-        # extraConfig = "SystemMaxUse=32M\nRuntimeMaxUse=32M";
-        extraConfig = ''
-          SystemMaxUse=8M
-          RuntimeMaxUse=8M
-          MaxFileSec=1day
-          MaxRetentionSec=3day
-        '';
+        extraConfig = "SystemMaxUse=32M\nRuntimeMaxUse=32M";
+        # extraConfig = ''
+        #   SystemMaxUse=8M
+        #   RuntimeMaxUse=8M
+        #   MaxFileSec=1day
+        #   MaxRetentionSec=3day
+        # '';
       };
 
       timesyncd.enable = true;
@@ -114,7 +114,7 @@ in
       enable = setDefault true;
       algorithm = setDefault "zstd";
       priority = setDefault 100;
-      memoryPercent = setDefault 25;
+      memoryPercent = setDefault 40;
     };
   };
 }
