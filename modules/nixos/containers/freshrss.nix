@@ -38,5 +38,21 @@ in
         };
       };
     };
+
+    # Traefik dynamic configuration
+    services.traefik.dynamicConfigOptions.http = {
+      services.freshrss.loadBalancer.servers = [
+        { url = "http://localhost:8083/"; }
+      ];
+
+      routers.freshrss = {
+        rule = "Host(`freshrss.thein3rovert.dev`)";
+        service = "freshrss";
+        entryPoints = [ "websecure" ];
+        tls = {
+          certResolver = "godaddy";
+        };
+      };
+    };
   };
 }

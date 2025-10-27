@@ -107,7 +107,9 @@
       base.enable = true;
       server.enable = true;
     };
-
+    containers = {
+      freshrss.enable = true;
+    };
     services = {
       traefik = {
         enable = true;

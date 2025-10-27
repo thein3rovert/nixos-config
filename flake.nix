@@ -261,6 +261,7 @@
                 self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.nixosOs
                 self.nixosModules.users
+                self.nixosModules.containers
               ];
             };
 
