@@ -23,7 +23,7 @@
     # Host-specific configurations
     ./disk-config.nix
     ./home.nix
-    # ./secrets.nix
+    ./secrets.nix
 
     # Custom modules
     self.nixosModules.locale-en-uk

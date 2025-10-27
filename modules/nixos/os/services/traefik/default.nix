@@ -114,7 +114,7 @@
     # Service configuration
     systemd.services.traefik = {
       serviceConfig = {
-        EnvironmentFile = [ "${config.age.secrets.traefik.path}" ];
+        EnvironmentFile = [ "${config.age.secrets.godaddy.path}" ];
         User = "traefik";
         Group = "traefik";
       };
