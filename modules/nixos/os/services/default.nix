@@ -6,5 +6,6 @@
     ./tailscale
     ./audiobookshelf
     ./nginx
+    ./traefik
   ];
 }

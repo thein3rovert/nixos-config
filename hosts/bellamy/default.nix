@@ -108,6 +108,12 @@
       server.enable = true;
     };
 
+    services = {
+      traefik = {
+        enable = true;
+      };
+    };
+
     programs = {
       podman.enable = true;
     };
