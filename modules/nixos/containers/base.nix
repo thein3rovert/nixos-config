@@ -17,6 +17,7 @@ in
       description = "Enable all my custom containers";
     };
 
+    # This is an attribute of attribute set (nested)
     containers = mkOption {
       type = types.attrsOf (types.attrs);
       default = { };
@@ -26,9 +27,10 @@ in
 
   config = mkIf config.myContainers.enable {
     virtualisation.oci-containers.containers = mkMerge (
-      lib.mapAttrsToList (name: containerCfg: {
-        "${name}" = {
-          image = containerCfg.image or (throw "Missing 'image' for container ${name}");
+
+      lib.mapAttrsToList (containerName: containerCfg: {
+        "${containerName}" = {
+          image = containerCfg.image or (throw "Missing 'image' for container ${containerName}");
           ports = containerCfg.ports or [ ];
           volumes = containerCfg.volumes or [ ];
           environment = containerCfg.environment or { };
