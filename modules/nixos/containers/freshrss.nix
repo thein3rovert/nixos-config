@@ -16,7 +16,14 @@ in
   options.nixosSetup.containers.freshrss = {
     enable = lib.mkEnableOption "Enable Freshrss Services";
   };
+  # Enable Traefik integration globally
+
   config = if-freshrss-enabled {
+    myContainers.traefik = {
+      enable = true;
+      defaultEntryPoints = [ "websecure" ];
+      defaultCertResolver = "godaddy";
+    };
     myContainers = {
       enable = true;
       containers = {
@@ -35,24 +42,36 @@ in
             OIDC_ENABLED = "0";
           };
           environmentFiles = [ config.age.secrets.freshrss.path ];
+          # Enable Traefik for this container
+          traefik = {
+            enable = true;
+            url = "http://localhost:8083/";
+            rule = "Host(`freshrss.thein3rovert.dev`)";
+            # entryPoints and tls.certResolver will use defaults
+          };
+
         };
       };
     };
+
+    # ------------------------
+    # PREVIOUS INTEGRATION
+    # ------------------------
 
     # Traefik dynamic configuration
-    services.traefik.dynamicConfigOptions.http = {
-      services.freshrss.loadBalancer.servers = [
-        { url = "http://localhost:8083/"; }
-      ];
-
-      routers.freshrss = {
-        rule = "Host(`freshrss.thein3rovert.dev`)";
-        service = "freshrss";
-        entryPoints = [ "websecure" ];
-        tls = {
-          certResolver = "godaddy";
-        };
-      };
-    };
+    # services.traefik.dynamicConfigOptions.http = {
+    #   services.freshrss.loadBalancer.servers = [
+    #     { url = "http://localhost:8083/"; }
+    #   ];
+    #
+    #   routers.freshrss = {
+    #     rule = "Host(`freshrss.thein3rovert.dev`)";
+    #     service = "freshrss";
+    #     entryPoints = [ "websecure" ];
+    #     tls = {
+    #       certResolver = "godaddy";
+    #     };
+    #   };
+    # };
   };
 }
