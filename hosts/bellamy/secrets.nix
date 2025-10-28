@@ -16,6 +16,10 @@
         file = "${self.inputs.secrets}/freshrss/freshrss.age";
         path = "/home/thein3rovert/.secrets/.freshrss";
       };
+      linkding = {
+        file = "${self.inputs.secrets}/linkding/linkding.age";
+        path = "/home/thein3rovert/.secrets/.linkding";
+      };
     };
   };
 }

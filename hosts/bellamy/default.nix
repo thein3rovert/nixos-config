@@ -114,6 +114,7 @@
       traefik = {
         enable = true;
       };
+      linkding.enable = true;
     };
 
     programs = {

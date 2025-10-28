@@ -22,8 +22,6 @@ in
   };
 
   config = if-linkding-enable {
-    # Create a base config for virtulvirtualisation
-    #
     myContainers.traefik = {
       enable = true;
       defaultEntryPoints = [ "websecure" ];
