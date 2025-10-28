@@ -54,7 +54,7 @@
                   "1.1.1.1:53"
                   "8.8.8.8:53"
                 ];
-                propagation.delayBeforeChecks = 180; # TODO: Change to 90 or 180
+                propagation.delayBeforeChecks = 90; # TODO: Change to 90 or 180
                 # propagation = {
                 #   delaybefore = 90; # Increase from 60 to 90 seconds
                 #   timeout = 180; # Add a timeout of 180 seconds
