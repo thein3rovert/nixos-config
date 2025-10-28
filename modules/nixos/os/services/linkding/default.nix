@@ -7,6 +7,14 @@ let
 
   if-linkding-enable = lib.mkIf config.nixosSetup.services.linkding.enable;
   # create-linkding-containter = virtualisation.oci-containers."linkding";
+  # TODO: Common attribute name should be
+  # moved to base as shared options
+  imageName = "sissbruecker/linkding";
+  imageTag = "latest";
+  host = "127.0.0.1";
+  port = 9090;
+
+  dataVolume = "linkding_data";
 in
 {
   options.nixosSetup.services.linkding = {
@@ -15,15 +23,33 @@ in
 
   config = if-linkding-enable {
     # Create a base config for virtulvirtualisation
-    virtualisation.oci-containers.containers."linkding" = {
-      image = "sissbruecker/linkding:latest";
-      ports = [ "0.0.0.0:9090:9090" ]; # Local port mapping
-      volumes = [ "linkding_data:/etc/linkding/data" ]; # Persistent storage
-      environment = {
-        LD_DISABLE_BACKGROUND_TASKS = "true";
+    #
+    myContainers.traefik = {
+      enable = true;
+      defaultEntryPoints = [ "websecure" ];
+      defaultCertResolver = "godaddy";
+    };
+    myContainers = {
+      enable = true;
+      containers = {
+        linkding = {
+          image = "${imageName}:${imageTag}";
+          ports = [ "${host}:${toString port}:9090" ];
+          volumes = [
+            "${dataVolume}:/etc/linkding/data"
+          ];
+          environment = {
+            LD_DISABLE_BACKGROUND_TASKS = "true";
+          };
+          environmentFiles = [ config.age.secrets.linkding.path ];
+          traefik = {
+            enable = true;
+            url = "http://localhost:9090/";
+            rule = "Host(`linkding.thein3rovert.dev`)";
+          };
+
+        };
       };
-      # Environment Files
-      environmentFiles = [ config.age.secrets.linkding.path ];
     };
   };
 }
