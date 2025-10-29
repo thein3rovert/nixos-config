@@ -115,6 +115,7 @@
         enable = true;
       };
       linkding.enable = true;
+      glance.enable = true;
     };
 
     programs = {

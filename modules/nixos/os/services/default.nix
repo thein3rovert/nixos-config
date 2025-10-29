@@ -7,5 +7,6 @@
     ./audiobookshelf
     ./nginx
     ./traefik
+    ./glance
   ];
 }

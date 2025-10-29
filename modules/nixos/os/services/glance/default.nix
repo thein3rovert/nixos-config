@@ -5,23 +5,22 @@
 }:
 let
 
-  if-linkding-enable = lib.mkIf config.nixosSetup.services.linkding.enable;
+  if-glance-enable = lib.mkIf config.nixosSetup.services.linkding.enable;
   imageName = "glanceapp/glance";
   host = "127.0.0.1";
   port = 8280;
 
-  dataVolume = "linkding_data";
-  glanceConfig = "/home/thein3rovert-cloud/.config/glance/config";
+  glanceConfig = "/home/thein3rovert/.config/glance/config";
   glanceTimeZone = "/etc/timezone";
-  glanceLocalTime = "/etc/localtime:";
-  glanceAssets = "/home/thein3rovert-cloud/.config/glance/config/assets";
+  glanceLocalTime = "/etc/localtime";
+  glanceAssets = "/home/thein3rovert/.config/glance/config/assets";
 in
 {
-  options.nixosSetup.services.linkding = {
-    enable = lib.mkEnableOption "Linkding Bookmarker Service";
+  options.nixosSetup.services.glance = {
+    enable = lib.mkEnableOption "Glance Dashboard";
   };
 
-  config = if-linkding-enable {
+  config = if-glance-enable {
     myContainers.traefik = {
       enable = true;
       defaultEntryPoints = [ "websecure" ];
