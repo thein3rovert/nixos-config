@@ -5,7 +5,7 @@
 }:
 let
 
-  if-glance-enable = lib.mkIf config.nixosSetup.services.linkding.enable;
+  if-glance-enable = lib.mkIf config.nixosSetup.services.glance.enable;
   imageName = "glanceapp/glance";
   host = "127.0.0.1";
   port = 8280;
@@ -35,7 +35,7 @@ in
       };
       "glance/config/.env" = {
         source = glanceSecret;
-        mode = "0644"; # or "0600" if you want it more restricted
+        mode = "0644";
       };
       "glance/config/assets/penguin.png" = {
         source = "${glanceSrc}/assets/penguin.png";
