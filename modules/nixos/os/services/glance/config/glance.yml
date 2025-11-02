@@ -92,6 +92,16 @@ pages:
                 timeout: 5s
                 url: https://blog.${BASE_DOMAIN}/
                 icon: di:thein3rovert.png
+
+          - type: monitor
+            cache: 1m
+            title: Monitoring & Utilities
+            sites:
+              - title: Uptime
+                same-tab: true
+                timeout: 5s
+                url: https://uptime-kuma.${BASE_DOMAIN}/
+                icon: di:uptime-kuma.png
           - type: rss
             title: thein3rovert rss feed
             style: horizontal-cards
