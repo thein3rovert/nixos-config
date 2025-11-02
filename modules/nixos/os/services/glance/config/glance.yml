@@ -1,0 +1,167 @@
+theme:
+  disable-picker: true
+  background-color: 0 0 16
+  primary-color: 43 59 81
+  positive-color: 61 66 44
+  negative-color: 6 96 59
+
+pages:
+  - name: Home
+    hide-desktop-navigation: true
+    show-mobile-header: true
+    hide-footer: true
+    head-widgets:
+      - type: split-column
+        widgets:
+          - type: server-stats
+            hide-header: true
+            servers:
+              - type: local
+                name: Bellamy
+                hide-mountpoints-by-default: true
+                mountpoints:
+                  "/":
+                      hide: false
+    columns:
+      - size: small
+        widgets:
+            - type: custom-api
+              title: Random Fact
+              cache: 6h
+              url: https://uselessfacts.jsph.pl/api/v2/facts/random
+              template: |
+                <p class="size-h4 color-paragraph">{{ .JSON.String "text" }}</p>
+            - type: group
+              widgets:
+                - type: reddit
+                  subreddit: selfhosted
+                  collapse-after: 6
+                  app-auth:
+                      name: thein3rovert-red
+                      id: QNf0FF5oFlI_VXaqdMKPEA
+                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+                - type: reddit
+                  subreddit: nixos
+                  collapse-after: 6
+                  app-auth:
+                      name: thein3rovert-red
+                      id: QNf0FF5oFlI_VXaqdMKPEA
+                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+                - type: reddit
+                  subreddit: minilab
+                  collapse-after: 6
+                  app-auth:
+                      name: thein3rovert-red
+                      id: QNf0FF5oFlI_VXaqdMKPEA
+                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+                - type: reddit
+                  subreddit: obsidian
+                  collapse-after: 6
+                  app-auth:
+                      name: thein3rovert-red
+                      id: QNf0FF5oFlI_VXaqdMKPEA
+                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+      - size: full
+        widgets:
+          - type: monitor
+            cache: 1m
+            title: Networking & Internet
+            sites:
+              - title: Traefik
+                same-tab: true
+                timeout: 5s
+                url: https://${BASE_DOMAIN}
+                icon: di:traefik.png
+
+          - type: monitor
+            cache: 1m
+            title: Productivity & Files
+            sites:
+              - title: Linkding
+                same-tab: true
+                timeout: 5s
+                url: https://linkding.${BASE_DOMAIN}/
+                icon: di:linkding.png
+
+          - type: monitor
+            cache: 1m
+            title: Development & Management
+            sites:
+              - title: Blog
+                same-tab: true
+                timeout: 5s
+                url: https://blog.${BASE_DOMAIN}/
+                icon: di:thein3rovert.png
+          - type: rss
+            title: thein3rovert rss feed
+            style: horizontal-cards
+            feeds:
+              - url: https://freshrss.${BASE_DOMAIN}/api/query.php?user=thein3rovert&t=6d33HntnFvgHLEi43rQBMD&f=rss
+                title: Recent Rss Weekly
+          - type: videos
+            channels:
+              - UCDAck-gFPTrgTx_qp59-bQA
+              - UCcdv38QxPjSMqbt5ffLhJLA
+              - UCdMz6KKEDW_1Qqas-ya7S6w
+              - UCMQfWjDuns9-s37wq5vW4Tg
+            style: grid-cards
+          - type: hacker-news
+            limit: 15
+            collapse-after: 5
+
+
+      - size: small
+        widgets:
+          - type: clock
+            time-format: 24h
+            date-format: d MMMM yyyy
+            show-seconds: true
+            show-timezone: true
+            timezone: Europe/London
+
+          - type: weather
+            location: London, UK
+            units: metric
+            hour-format: 24h
+
+          - type: search
+            search-engine: google
+            target: _self
+
+          - type: calendar
+            first-day-of-week: monday
+
+          - type: bookmarks
+            groups:
+              - title: Dev
+                links:
+                  - title: DevDocs
+                    same-tab: true
+                    url: https://devdocs.io/
+                  - title: Landingfolio
+                    same-tab: true
+                    url: https://www.landingfolio.com/
+                  - title: Free for Developers
+                    same-tab: true
+                    url: https://www.free-for.dev/
+                  - title: Self-hosting Guide
+                    same-tab: true
+                    url: https://guide.hypernovat.com/s/0d3bca9e-c7b4-4a87-91b0-59dc78345c6d/
+                  - title: awesome-selfhosted
+                    same-tab: true
+                    url: https://awesome-selfhosted.net/
+              - title: Torrents
+                color: 10 70 50
+                links:
+                  - title: TorrentHR
+                    same-tab: true
+                    url: https://www.torrenthr.org/login.php
+                  - title: CrnaBerza
+                    same-tab: true
+                    url: https://www.crnaberza.com/login.php?returnto=%2F
+                  - title: YuBraca.net
+                    same-tab: true
+                    url: http://yubraca.net/login.php
+                  - title: Infire.si
+                    same-tab: true
+                    url: https://infire.si/login.php

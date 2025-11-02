@@ -20,8 +20,8 @@
         file = "${self.inputs.secrets}/linkding/linkding.age";
         path = "/home/thein3rovert/.secrets/.linkding";
       };
-      linkding2 = {
-        file = "${self.inputs.secrets}/linkding/linkding.age";
+      glance = {
+        file = "${self.inputs.secrets}/glance/glance.age";
       };
     };
   };

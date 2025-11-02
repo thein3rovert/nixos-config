@@ -11,16 +11,15 @@ let
   port = 8280;
 
   # Use lib.path.append to safely handle relative paths
-  glanceSrc = lib.path.append ./. "glance";
-
-  glanceSrc3 = lib.path.append ./. "glance";
-
+  glanceSrc = lib.path.append ./. "config";
   glanceSrc2 = builtins.toPath ./glance/.;
-  glanceSecret = config.age.secrets.linkding2.path;
-  glanceConfig = "/home/thein3rovert/.config/glance/config";
+  glanceSecret = config.age.secrets.glance.path;
+  # glanceConfig = "/home/thein3rovert/.config/glance/config";
+  glanceConfig = "/etc/glance/config";
   glanceTimeZone = "/etc/timezone";
   glanceLocalTime = "/etc/localtime";
-  glanceAssets = "/home/thein3rovert/.config/glance/config/assets";
+  # glanceAssets = "/home/thein3rovert/.config/glance/config/assets";
+  glanceAssets = "/etc/glance/config/assets";
 in
 {
   options.nixosSetup.services.glance = {
@@ -29,15 +28,19 @@ in
 
   config = if-glance-enable {
     # system-wide glance config files
-    # environment.etc."glance".source = "${glanceSrc}/config.yml";
-    # environment.etc."glance/assets/penguin.png".source = "${glanceSrc}/assets/penguin.png";
-    # environment.etc."glance/.env".source = glanceSecret;
-    # environment.etc."glance2".source = glanceSrc2;
-
     environment.etc = {
-      "glance/config.yml".source = "${glanceSrc}/glance.yml";
-      "glance/.env".source = glanceSecret;
-      "glance/assets/penguin.png".source = "${glanceSrc}/assets/penguin.png";
+      "glance/config/glance.yml" = {
+        source = "${glanceSrc}/glance.yml";
+        mode = "0644";
+      };
+      "glance/config/.env" = {
+        source = glanceSecret;
+        mode = "0644"; # or "0600" if you want it more restricted
+      };
+      "glance/config/assets/penguin.png" = {
+        source = "${glanceSrc}/assets/penguin.png";
+        mode = "0644";
+      };
     };
 
     # Another way
