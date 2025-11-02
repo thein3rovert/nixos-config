@@ -25,7 +25,12 @@
     };
 
     # Age-based secret management
-    agenix.url = "github:ryantm/agenix";
+    # agenix.url = "github:ryantm/agenix";
+
+    agenix = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:yaxitech/ragenix";
+    };
 
     # Zen browser
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
@@ -169,7 +174,12 @@
                   nixpkgs.overlays = [ self.overlays.default ];
                 }
                 # Additional packages
-                { environment.systemPackages = [ ghostty.packages.x86_64-linux.default ]; }
+                {
+                  environment.systemPackages = [
+                    ghostty.packages.x86_64-linux.default
+                    agenix.packages.x86_64-linux.default
+                  ];
+                }
 
                 # ==============================
                 #    Home-Manager Config
