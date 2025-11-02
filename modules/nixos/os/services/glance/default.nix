@@ -12,6 +12,7 @@ let
 
   # Use lib.path.append to safely handle relative paths
   glanceSrc = lib.path.append ./. "glance";
+  glanceSrc2 = builtins.toPath ./glance/.;
   glanceConfig = "/home/thein3rovert/.config/glance/config";
   glanceTimeZone = "/etc/timezone";
   glanceLocalTime = "/etc/localtime";
@@ -28,6 +29,8 @@ in
     # environment.etc."glance/config/assets/logo.png".source = ./assets/logo.png;
     #
     environment.etc."glance".source = glanceSrc;
+
+    environment.etc."glance2".source = glanceSrc2;
 
     myContainers.traefik = {
       enable = true;
