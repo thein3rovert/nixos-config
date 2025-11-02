@@ -10,6 +10,8 @@ let
   host = "127.0.0.1";
   port = 8280;
 
+  # Use lib.path.append to safely handle relative paths
+  glanceSrc = lib.path.append ./. "glance";
   glanceConfig = "/home/thein3rovert/.config/glance/config";
   glanceTimeZone = "/etc/timezone";
   glanceLocalTime = "/etc/localtime";
@@ -21,6 +23,12 @@ in
   };
 
   config = if-glance-enable {
+    # system-wide glance config files
+    # environment.etc."glance/config/config.yml".source = ./glance-config.yml;
+    # environment.etc."glance/config/assets/logo.png".source = ./assets/logo.png;
+    #
+    environment.etc."glance".source = glanceSrc;
+
     myContainers.traefik = {
       enable = true;
       defaultEntryPoints = [ "websecure" ];
@@ -40,6 +48,7 @@ in
           ];
           environment = {
             LD_DISABLE_BACKGROUND_TASKS = "true";
+            BASE_DOMAIN = "thein3rovert.dev";
           };
           traefik = {
             enable = true;

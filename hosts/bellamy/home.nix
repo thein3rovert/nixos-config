@@ -14,7 +14,7 @@
         # HOME PACKAGES
         # ------------------------------
         packages = with pkgs; [
-
+          vim
         ];
         stateVersion = "25.05";
       };
