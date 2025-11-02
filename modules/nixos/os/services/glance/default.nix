@@ -12,7 +12,11 @@ let
 
   # Use lib.path.append to safely handle relative paths
   glanceSrc = lib.path.append ./. "glance";
+
+  glanceSrc3 = lib.path.append ./. "glance";
+
   glanceSrc2 = builtins.toPath ./glance/.;
+  glanceSecret = config.age.secrets.linkding2.path;
   glanceConfig = "/home/thein3rovert/.config/glance/config";
   glanceTimeZone = "/etc/timezone";
   glanceLocalTime = "/etc/localtime";
@@ -25,12 +29,20 @@ in
 
   config = if-glance-enable {
     # system-wide glance config files
-    # environment.etc."glance/config/config.yml".source = ./glance-config.yml;
-    # environment.etc."glance/config/assets/logo.png".source = ./assets/logo.png;
-    #
-    environment.etc."glance".source = glanceSrc;
+    # environment.etc."glance".source = "${glanceSrc}/config.yml";
+    # environment.etc."glance/assets/penguin.png".source = "${glanceSrc}/assets/penguin.png";
+    # environment.etc."glance/.env".source = glanceSecret;
+    # environment.etc."glance2".source = glanceSrc2;
 
-    environment.etc."glance2".source = glanceSrc2;
+    environment.etc = {
+      "glance/config.yml".source = "${glanceSrc}/glance.yml";
+      "glance/.env".source = glanceSecret;
+      "glance/assets/penguin.png".source = "${glanceSrc}/assets/penguin.png";
+    };
+
+    # Another way
+    # environment.etc."glance-env".target = "glance/.env2";
+    # environment.etc."glance-env".source = glanceSecret;
 
     myContainers.traefik = {
       enable = true;
