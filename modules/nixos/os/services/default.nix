@@ -8,5 +8,6 @@
     ./nginx
     ./traefik
     ./glance
+    ./uptime-kuma
   ];
 }

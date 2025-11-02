@@ -116,6 +116,7 @@
       };
       linkding.enable = true;
       glance.enable = true;
+      uptime-kuma.enable = true;
     };
 
     programs = {

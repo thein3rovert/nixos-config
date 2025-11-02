@@ -28,7 +28,7 @@ in
       containers = {
         uptime-kuma = {
           image = "${imageName}";
-          ports = [ "${host}:${toString port}:8380" ];
+          ports = [ "${host}:${toString port}:3001" ];
           volumes = [
             "${dataVolume}:/app/data"
 
