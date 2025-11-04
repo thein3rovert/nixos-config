@@ -80,7 +80,12 @@ in
       virt-manager.enable = true;
     };
 
-    profiles.fonts.enable = true;
+    profiles.fonts = {
+      enable = true;
+      customFonts = [
+        ../../modules/fonts/IoskeleyMono-Hinted
+      ];
+    };
 
     containers = {
       freshrss.enable = false;
