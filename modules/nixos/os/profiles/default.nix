@@ -3,5 +3,6 @@
   imports = [
     ./base
     ./server
+    ./fonts
   ];
 }

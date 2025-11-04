@@ -80,6 +80,8 @@ in
       virt-manager.enable = true;
     };
 
+    profiles.fonts.enable = true;
+
     containers = {
       freshrss.enable = false;
     };
