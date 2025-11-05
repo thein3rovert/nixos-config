@@ -117,6 +117,7 @@
       linkding.enable = true;
       glance.enable = true;
       uptime-kuma.enable = true;
+      jotty.enable = true;
     };
 
     programs = {
