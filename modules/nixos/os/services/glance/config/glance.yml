@@ -82,7 +82,11 @@ pages:
                 timeout: 5s
                 url: https://linkding.${BASE_DOMAIN}/
                 icon: di:linkding.png
-
+              - title: Freshrss
+                same-tab: true
+                timeout: 5s
+                url: https://freshrss.${BASE_DOMAIN}/
+                icon: di:freshrss.png
           - type: monitor
             cache: 1m
             title: Development & Management
