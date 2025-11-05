@@ -9,5 +9,6 @@
     ./traefik
     ./glance
     ./uptime-kuma
+    ./jotty
   ];
 }
