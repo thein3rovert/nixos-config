@@ -36,6 +36,7 @@ in
   # ==============================
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
 
   # Firewall configuration for LocalSend
   networking.firewall.allowedTCPPorts = [ 53317 ];
