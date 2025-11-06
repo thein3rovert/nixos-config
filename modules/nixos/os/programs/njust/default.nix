@@ -9,10 +9,12 @@ let
   inherit (lib)
     concatStringsSep
     attrValues
+    escapeShellArg
     ;
 
   concatenateString = concatStringsSep;
   attributeValues = attrValues;
+  escapeShellArgument = escapeShellArg;
 
   cfg = config.nixosSetup.programs.njust;
 
@@ -27,6 +29,44 @@ let
     ${concatenateString "\n" (attributeValues cfg.recipes)} 
   '';
 
+  # Validate justFile syntax at build times, help to revent proken just files
+  validatedJustfile =
+    pkgs.runCommand "njust-justfile-validated"
+      {
+        nativeBuildInput = [ pkgs.just ];
+        preferLocalBuild = true;
+      }
+      ''
+        # Write the merged justfile content to a temporary file
+        echo ${escapeShellArgument mergeContentIntoJustFile} > justfile 
+
+        # Validate justfile syntac using 'just --summary'
+
+        echo "Validating njust cli justfile syntax..."
+        just --justfile justfile --summary >/dev/null || {
+            echo "ERROR: njust justfile has syntax errors!"
+            echo "justfile content:"
+            cat justfile
+            exit 1
+          }
+        # Coyp validated justfile to the nix store output path
+        cp justfile $out
+        echo "njust justfile validation successful"
+      '';
+
+  mergedJustfile = validatedJustfile;
+
+  njustScript = pkgs.writeShellApplication {
+    name = "njust";
+    runtimeInputs = [
+      pkgs.jq
+      pkgs.just
+    ];
+    text = ''
+      # Execute 'just' with the merged justfile, preserving current directory
+      exec just --working-directory "$PWD" --justfile ${mergedJustfile} "$@"
+    '';
+  };
 in
 {
 
