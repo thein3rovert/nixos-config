@@ -157,10 +157,13 @@ in
           tmux
 
           # Azure
-          azure-cli
+          # azure-cli
 
           # Keybind dependencies
           yad
+
+          # Fuzzy Find
+          television
         ];
 
       };
