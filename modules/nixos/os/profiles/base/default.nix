@@ -82,6 +82,10 @@
     };
 
     # ==============================
+    #     Custom Configuration
+    # ==============================
+    nixosSetup.programs.njust.enable = true;
+    # ==============================
     #     Network Configuration
     # ==============================
     networking.networkmanager.enable = true;

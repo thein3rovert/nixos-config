@@ -5,5 +5,6 @@
     ./vscode
     ./obs-studio
     ./virt-manager
+    ./njust
   ];
 }

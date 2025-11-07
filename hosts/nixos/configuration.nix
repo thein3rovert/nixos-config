@@ -79,13 +79,16 @@ in
       obs-studio.enable = true;
       vscode.enableFhs = true;
       virt-manager.enable = true;
+      njust.enable = true;
     };
 
-    profiles.fonts = {
-      enable = true;
-      customFonts = [
-        ../../modules/fonts/IoskeleyMono-Hinted
-      ];
+    profiles = {
+      fonts = {
+        enable = true;
+        customFonts = [
+          ../../modules/fonts/IoskeleyMono-Hinted
+        ];
+      };
     };
 
     containers = {
