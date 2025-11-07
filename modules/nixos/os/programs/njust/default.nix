@@ -115,6 +115,22 @@ in
           @echo "Generation: $(sudo nix-env --list-generations -p /nix/var/nix/profiles/system | tail -1 | awk '{print $1}')"
           @echo "Revison: $(nixos-version --json | jq -r '.configurationRevision // "unknown"')"
       '';
+
+      freespace = ''
+        # free-space dry-run
+        [group('nix')]
+        fs-dryrun:
+          @echo "Cleaning nix Generation and keeping recent 5"
+          nh clean all --keep 5 --dry
+
+
+        # free-space
+        [group('nix')]
+        fs:
+          @echo "Cleaning nix Generation and keeping recent 5"
+          nh clean all --keep 5
+      '';
+
     };
     environment.systemPackages = [ jnixScript ];
   };
