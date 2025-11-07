@@ -84,7 +84,7 @@
     # ==============================
     #     Custom Configuration
     # ==============================
-    nixosSetup.programs.njust.enable = true;
+    nixosSetup.programs.jnix.enable = true;
     # ==============================
     #     Network Configuration
     # ==============================

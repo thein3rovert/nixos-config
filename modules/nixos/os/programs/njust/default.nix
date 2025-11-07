@@ -27,23 +27,23 @@ let
   boolean = types.bool;
   string = types.str;
   attributeSet = types.attrsOf;
-  cfg = config.nixosSetup.programs.njust;
+  cfg = config.nixosSetup.programs.jnix;
 
   # Merge All of Just Content into just file
   # Concatenante all recipe content from cfg.recipes attribites set
   mergeContentIntoJustFile = ''
     _default:
-      @printf '\033[1;36mnjust\033[0m\n'
+      @printf '\033[1;36mjnix\033[0m\n'
       @printf 'Just-based recipe runner for NixOS.\n\n'
-      @printf '\033[1;33mUsage:\033[0m njust <recipe> [args...]\n\n'
-      @njust --list --list-heading $'Available recipes:\n\n'
+      @printf '\033[1;33mUsage:\033[0m jnix <recipe> [args...]\n\n'
+      @jnix --list --list-heading $'Available recipes:\n\n'
 
     ${concatenateString "\n" (attributeValues cfg.recipes)} 
   '';
 
   # Validate justFile syntax at build times, help to revent proken just files
   validatedJustfile =
-    pkgs.runCommand "njust-justfile-validated"
+    pkgs.runCommand "jnix-justfile-validated"
       {
         nativeBuildInputs = [ pkgs.just ];
         preferLocalBuild = true;
@@ -55,22 +55,22 @@ let
 
         # Validate justfile syntac using 'just --summary'
 
-        echo "Validating njust cli justfile syntax..."
+        echo "Validating jnix cli justfile syntax..."
         just --justfile justfile --summary >/dev/null || {
-            echo "ERROR: njust justfile has syntax errors!"
+            echo "ERROR: jnix justfile has syntax errors!"
             echo "justfile content:"
             cat justfile
             exit 1
           }
         # Coyp validated justfile to the nix store output path
         cp justfile $out
-        echo "njust justfile validation successful"
+        echo "jnix justfile validation successful"
       '';
 
   mergedJustfile = validatedJustfile;
 
-  njustScript = pkgs.writeShellApplication {
-    name = "njust";
+  jnixScript = pkgs.writeShellApplication {
+    name = "jnix";
     runtimeInputs = [
       pkgs.jq
       pkgs.just
@@ -82,8 +82,8 @@ let
   };
 in
 {
-  options.nixosSetup.programs.njust = {
-    enable = createEnableOption "njust cli helper";
+  options.nixosSetup.programs.jnix = {
+    enable = createEnableOption "jnix cli helper";
 
     recipes = createOption {
       type = attributeSet string;
@@ -103,7 +103,7 @@ in
   };
 
   config = If cfg.enable {
-    nixosSetup.programs.njust.recipes = If cfg.baseRecipes {
+    nixosSetup.programs.jnix.recipes = If cfg.baseRecipes {
 
       system = ''
         # Show system info 
@@ -116,7 +116,7 @@ in
           @echo "Revison: $(nixos-version --json | jq -r '.configurationRevision // "unknown"')"
       '';
     };
-    environment.systemPackages = [ njustScript ];
+    environment.systemPackages = [ jnixScript ];
   };
 
 }

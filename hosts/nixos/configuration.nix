@@ -79,7 +79,7 @@ in
       obs-studio.enable = true;
       vscode.enableFhs = true;
       virt-manager.enable = true;
-      njust.enable = true;
+      jnix.enable = true;
     };
 
     profiles = {
