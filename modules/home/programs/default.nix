@@ -4,5 +4,6 @@
     ./direnv
     ./eza
     ./fzf
+    ./tmux
   ];
 }
