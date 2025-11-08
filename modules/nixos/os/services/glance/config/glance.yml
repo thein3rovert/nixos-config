@@ -119,7 +119,7 @@ pages:
                 title: Recent Rss Weekly
           - type: videos
             channels:
-              - UCDAck-gFPTrgTx_qp59-bQA
+              #- UCDAck-gFPTrgTx_qp59-bQA # Kubernetes guy
               - UCcdv38QxPjSMqbt5ffLhJLA
               - UCdMz6KKEDW_1Qqas-ya7S6w
               - UCMQfWjDuns9-s37wq5vW4Tg
