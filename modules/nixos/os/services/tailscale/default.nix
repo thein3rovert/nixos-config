@@ -44,7 +44,9 @@
         # inherit (config.nixosSetup.services.taiLscale) aauthKeyFile;
         authKeyFile = config.nixosSetup.services.tailscale.authKeyFile;
         enable = true;
-        extraUpFlags = [ "--ssh" ];
+        extraUpFlags = [
+          "--ssh"
+        ];
         openFirewall = true;
         useRoutingFeatures = "both";
       };

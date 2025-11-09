@@ -94,15 +94,15 @@
       server.enable = true;
     };
     services = {
-      linkding.enable = true;
-      traefikk.enable = true;
+      linkding.enable = false;
+      traefikk.enable = false;
 
       tailscale = {
         enable = true;
       };
 
       audiobookshelf = {
-        enable = true;
+        enable = false;
         audiobookshelf-ts-authKeyFile = config.age.secrets.audiobookshelf.path;
       };
     };

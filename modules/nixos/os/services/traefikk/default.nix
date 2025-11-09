@@ -43,38 +43,38 @@
 
         # Certificate Resolver Option
         certificatesResolvers = {
-          myresolver.tailscale = { };
+          tailscale.tailscale = { };
         };
       };
 
       # Dynamic Config
       dynamicConfigOptions = {
         http = {
-          middlewares = {
-            auth = {
-              basicAuth = {
-                users = [
-                  "thein3rovert:$apr1$R7282Dcn$A6VkhZibkhspsDhasYRXK1"
-                ]; # Use hash for password using nix-shell -p apacheHttpd [htpasswd]
-              };
-            };
-          };
-
+          # middlewares = {
+          #   auth = {
+          #     basicAuth = {
+          #       users = [
+          #         "thein3rovert:$apr1$R7282Dcn$A6VkhZibkhspsDhasYRXK1"
+          #       ]; # Use hash for password using nix-shell -p apacheHttpd [htpasswd]
+          #     };
+          #   };
+          # };
+          #
+          #
+          services.api.loadBalancer.servers = [
+            {
+              url = "http://traefik.tailf87228.ts.net";
+            }
+          ];
           routers = {
-            routertailscale = {
-              rule = "Host(`thein3rovert.tailf87228.ts.net`)";
+            api = {
+              rule = "Host(`traefik.tailf87228.ts.net`)";
               service = "api@internal";
               entryPoints = [ "websecure" ];
-              middlewares = [ "auth" ]; # Activate auth for domain access
+              #             middlewares = [ "auth" ]; # Activate auth for domain access
               # Configure TLS
               tls = {
-                certResolver = "myresolver";
-                domains = [
-                  {
-                    main = "thein3rovert.tailf87228.ts.net";
-                    # sans = [ "*.thein3rovert.dev" ]; # Uncomment for wildcard
-                  }
-                ];
+                certResolver = "tailscale";
               };
             };
           };
@@ -111,6 +111,8 @@
       extraGroups = [
         "podman"
         "docker"
+        "tailscale"
+        "linkding"
       ];
     };
     users.groups.traefik = { };
