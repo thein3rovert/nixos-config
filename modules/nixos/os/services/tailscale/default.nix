@@ -39,7 +39,7 @@
 
     services = {
       tailscale = {
-
+        permitCertUid = "traefik";
         # We can also try it this way
         # inherit (config.nixosSetup.services.taiLscale) aauthKeyFile;
         authKeyFile = config.nixosSetup.services.tailscale.authKeyFile;
