@@ -14,7 +14,7 @@
     spice
     spice-gtk
     spice-protocol
-    win-virtio
+    virtio-win
     win-spice
   ];
 
@@ -26,8 +26,8 @@
         # Enable software TPM for vms ( window 11 and secure boot)
         swtpm.enable = true;
         # Allow UEFI boot by enable UEFI firmware
-        ovmf.enable = true;
-        ovmf.packages = [ pkgs.OVMFFull.fd ];
+        #   ovmf.enable = true;
+        #  ovmf.packages = [ pkgs.OVMFFull.fd ];
       };
     };
     # Allow for passing USB devices from host to the virtual machines

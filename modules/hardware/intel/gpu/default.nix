@@ -32,7 +32,8 @@
 
           # Native Intel drivers best for GPUs
           # vaapiIntel # Not sure if valid
-          vaapiVdpau
+          # vaapiVdpau
+          libva-vdpau-driver
         ];
 
         extraPackages32 = with pkgs; [

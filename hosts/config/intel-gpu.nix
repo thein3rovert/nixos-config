@@ -22,7 +22,8 @@ lib.mkIf ("${gpuType}" == "intel") {
 
       # Native Intel drivers best for GPUs
       vaapiIntel
-      vaapiVdpau
+      # vaapiVdpau (This has been replace by below)
+      libva-vdpau-driver
       libvdpau-va-gl
 
       # Core Intel driver

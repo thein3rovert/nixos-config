@@ -33,8 +33,10 @@
     };
 
     # Zen browser
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
-
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Declarative disk partitioning
     disko = {
       url = "github:nix-community/disko";
@@ -71,6 +73,7 @@
       flake-parts,
       nixpkgs-unstable-small,
       clan-core,
+      zen-browser,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {

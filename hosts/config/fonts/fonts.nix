@@ -27,10 +27,9 @@ in
       # Define set of emoji fonts to install when enabled
       emoji = with pkgs; [
         noto-fonts
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
-        noto-fonts-extra
       ];
       # Define set of nerd fonts to install when enabled
       nerd = with pkgs; [
@@ -50,7 +49,9 @@ in
         # Combine base fonts with conditionally enabled font sets
         packages = [
           pkgs.dejavu_fonts
-        ] ++ (lib.optionals cfg.emoji emoji) ++ (lib.optionals cfg.nerd nerd);
+        ]
+        ++ (lib.optionals cfg.emoji emoji)
+        ++ (lib.optionals cfg.nerd nerd);
       };
     };
 }

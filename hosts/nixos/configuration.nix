@@ -174,7 +174,7 @@ in
     localsend # Local file sharing
 
     # Browser (system-specific)
-    inputs.zen-browser.packages."${system}".default
+    #   inputs.zen-browser.packages."${system}".default
     ansible
     firefox-unstable
   ];

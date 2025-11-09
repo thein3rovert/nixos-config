@@ -49,6 +49,7 @@ in
       imports = [
         customImport
         kittyConfig
+        self.inputs.zen-browser.homeModules.beta
       ];
 
       # ==============================
@@ -104,6 +105,12 @@ in
       # Core programs
       programs.home-manager.enable = true;
       programs.waybar.enable = true;
+
+      programs.zen-browser = {
+        enable = true;
+      };
+      # nativeMessagingHosts = lib.optionals pkgs.stdenv.isLinux [ pkgs.bitwarden-desktop ];
+      # package = lib.mkIf pkgs.stdenv.isDarwin (lib.mkForce null);
       # ==============================
       #       SSH Configuration
       # ==============================
