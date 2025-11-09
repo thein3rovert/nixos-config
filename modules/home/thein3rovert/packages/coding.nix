@@ -21,16 +21,15 @@ in
   config = lib.mkIf cfg.enable {
 
     home.packages = with pkgs; [
-      postman
-      jdk # Java dev kit
-      jdt-language-server # Jdtls integration
+      # postman
+      # jdk # Java dev kit
+      #jdt-language-server # Jdtls integration
       checkstyle # Linter
-      google-java-format # Formatter
-      maven # Build automation tool for java
+      # google-java-format # Formatter
+      # maven # Build automation tool for java
       nixfmt-rfc-style
       python3
       # kanata
-      jetbrains.idea-ultimate
       vscode
     ];
   };
