@@ -324,6 +324,7 @@
                 self.nixosModules.users
                 self.nixosModules.nixosOs
                 self.nixosModules.hardware
+                self.nixosModules.containers
               ];
             };
 

@@ -10,5 +10,6 @@
     ./glance
     ./uptime-kuma
     ./jotty
+    ./traefikk
   ];
 }
