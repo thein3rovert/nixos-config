@@ -102,12 +102,13 @@ in
         enable = true;
       };
       nginx = {
-        enable = true;
+        enable = false;
         virtualHosts.default = {
           serverName = "localhost";
           root = "/var/www/localhost";
         };
       };
+      adguard.enable = true;
     };
   };
 
@@ -177,6 +178,7 @@ in
     #   inputs.zen-browser.packages."${system}".default
     ansible
     firefox-unstable
+    dig
   ];
 
   # ==============================

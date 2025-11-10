@@ -11,5 +11,6 @@
     ./uptime-kuma
     ./jotty
     ./traefikk
+    ./adguard
   ];
 }
