@@ -90,8 +90,13 @@ in
   environment.systemPackages = with pkgs; [
     btop
     python3
+    dig
   ];
-
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes";
+    };
+  };
   # ==============================
   #     Hardware Configuration
   # ==============================

@@ -53,6 +53,7 @@
   # Network routing and DNS
   networking.defaultGateway = "10.20.0.254";
   networking.nameservers = [
+    "10.10.10.12"
     "1.1.1.1"
     "8.8.8.8"
   ];
@@ -77,6 +78,7 @@
   environment.systemPackages = with pkgs; [
     btop # System monitor
     python3
+    dig
   ];
 
   # ==============================
@@ -130,7 +132,11 @@
       password = "$6$eZ8tBXlSXhG5Ry78$pJPlB/w0jrWJppTi7b10dH6C9gQGfmWyqIdMkGxGrp/HrYTU7AwNK7lsTNvlz8byr9nflqZfykYsTtch.Jr0C0";
     };
   };
-
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes";
+    };
+  };
   # ==============================
   #      SSH Configuration
   # ==============================

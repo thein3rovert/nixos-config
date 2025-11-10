@@ -9,11 +9,11 @@
     services.adguardhome = {
       enable = true;
       openFirewall = true;
-      # host = "10.10.10.12";
-      # port = 53;
+      host = "10.10.10.12";
+      # port = 54;
       settings = {
         dns = {
-          port = 53;
+          port = 54;
           upstream_dns = [
             "1.1.1.1"
             "8.8.8.8"
@@ -31,7 +31,7 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = [ 53 ];
-    networking.firewall.allowedUDPPorts = [ 53 ];
+    networking.firewall.allowedTCPPorts = [ 54 ];
+    networking.firewall.allowedUDPPorts = [ 54 ];
   };
 }
