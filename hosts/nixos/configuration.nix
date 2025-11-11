@@ -112,6 +112,7 @@ in
       tailscale = {
         enable = true;
       };
+      traefikk.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {
@@ -180,7 +181,9 @@ in
     fuse # Filesystem utilities
     gparted
     banana-cursor
+
     # Network and tunneling
+    dig
     cloudflared # Cloudflare tunnel
     # cloudflare-warp # Cloudflare WARP
     localsend # Local file sharing
@@ -189,7 +192,6 @@ in
     #   inputs.zen-browser.packages."${system}".default
     ansible
     firefox-unstable
-    dig
   ];
 
   # ==============================
