@@ -30,24 +30,8 @@
         entryPoints = {
           web = {
             address = ":80";
-
-            # Enable when using tcp / https
-            # http.redirections.entryPoint = {
-            #   to = "websecure";
-            #   scheme = "https";
-            # };
           };
-          # Enable when using tcp / https
-          # websecure = {
-          #   address = ":443";
-          # };
         };
-
-        # Enable when using tcp / https
-        # Certificate Resolver Option
-        # certificatesResolvers = {
-        #   tailscale.tailscale = { };
-        # };
       };
 
       # Dynamic Config

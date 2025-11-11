@@ -5,6 +5,7 @@ let
     # we have a module that accomodate:
     # - Local and Public Domain
     # - TCP and HTTPS,as we have local and public services
+    # - Difference certificate resolver
   */
   if-linkding-enable = lib.mkIf config.nixosSetup.services.linkdingTest.enable;
 in
