@@ -12,5 +12,6 @@
     ./jotty
     ./traefikk
     ./adguard
+    ./test
   ];
 }

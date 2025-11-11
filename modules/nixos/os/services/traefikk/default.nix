@@ -19,7 +19,7 @@
 
         api = {
           dashboard = true;
-          insecure = false;
+          insecure = true;
         };
 
         providers.docker = {
@@ -27,29 +27,33 @@
           exposedByDefault = false;
           network = "traefik_proxy";
         };
-
         entryPoints = {
           web = {
             address = ":80";
-            http.redirections.entryPoint = {
-              to = "websecure";
-              scheme = "https";
-            };
+
+            # Enable when using tcp / https
+            # http.redirections.entryPoint = {
+            #   to = "websecure";
+            #   scheme = "https";
+            # };
           };
-          websecure = {
-            address = ":443";
-          };
+          # Enable when using tcp / https
+          # websecure = {
+          #   address = ":443";
+          # };
         };
 
+        # Enable when using tcp / https
         # Certificate Resolver Option
-        certificatesResolvers = {
-          tailscale.tailscale = { };
-        };
+        # certificatesResolvers = {
+        #   tailscale.tailscale = { };
+        # };
       };
 
       # Dynamic Config
       dynamicConfigOptions = {
         http = {
+          # Enable when using tcp / https
           # middlewares = {
           #   auth = {
           #     basicAuth = {
@@ -60,22 +64,24 @@
           #   };
           # };
           #
-          #
-          services.api.loadBalancer.servers = [
-            {
-              url = "http://traefik.tailf87228.ts.net";
-            }
-          ];
+
+          # Enable when using tcp / https
+          # services.api.loadBalancer.servers = [
+          #   { url = "http://localhost"; }
+          # ];
+
           routers = {
             api = {
-              rule = "Host(`traefik.tailf87228.ts.net`)";
+              rule = "Host(`traefik.l.thein3rovert.com`)";
               service = "api@internal";
-              entryPoints = [ "websecure" ];
+              entryPoints = [ "web" ];
+
+              # Enable when using tcp / https
               #             middlewares = [ "auth" ]; # Activate auth for domain access
               # Configure TLS
-              tls = {
-                certResolver = "tailscale";
-              };
+              # tls = {
+              #   certResolver = "tailscale";
+              # };
             };
           };
         };
@@ -93,6 +99,7 @@
       };
     };
 
+    # Enable when using tcp / https
     # # Service configuration
     # systemd.services.traefik = {
     #   serviceConfig = {
