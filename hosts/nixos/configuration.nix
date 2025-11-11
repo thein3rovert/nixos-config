@@ -46,6 +46,7 @@ in
     # Default (Adguard)
     "10.10.10.12"
   ];
+  # Disable router DNS
   networking.networkmanager.dns = "none";
 
   # Firewall configuration for LocalSend
@@ -181,7 +182,7 @@ in
     banana-cursor
     # Network and tunneling
     cloudflared # Cloudflare tunnel
-    cloudflare-warp # Cloudflare WARP
+    # cloudflare-warp # Cloudflare WARP
     localsend # Local file sharing
 
     # Browser (system-specific)
@@ -195,14 +196,15 @@ in
   #       System Services
   # ==============================
   # Cloudflare WARP service
-  systemd.services.warp-svc = {
-    description = "Cloudflare WARP Daemon";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
-      Restart = "on-failure";
-    };
-  };
+
+  # systemd.services.warp-svc = {
+  #   description = "Cloudflare WARP Daemon";
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
+  #     Restart = "on-failure";
+  #   };
+  # };
 
   # ==============================
   #         Font Setup
