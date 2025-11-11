@@ -37,6 +37,16 @@ in
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
+  networking.nameservers = [
+    # Tailscale DNS
+    # 100.100.100.100
+    # Router
+    # 10.10.10.1
+
+    # Default (Adguard)
+    "10.10.10.12"
+  ];
+  networking.networkmanager.dns = "none";
 
   # Firewall configuration for LocalSend
   networking.firewall.allowedTCPPorts = [ 53317 ];
