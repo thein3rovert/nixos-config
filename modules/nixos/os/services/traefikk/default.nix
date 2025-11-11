@@ -53,42 +53,29 @@
       # Dynamic Config
       dynamicConfigOptions = {
         http = {
-          # Enable when using tcp / https
-          # middlewares = {
-          #   auth = {
-          #     basicAuth = {
-          #       users = [
-          #         "thein3rovert:$apr1$R7282Dcn$A6VkhZibkhspsDhasYRXK1"
-          #       ]; # Use hash for password using nix-shell -p apacheHttpd [htpasswd]
-          #     };
-          #   };
-          # };
-          #
-
-          # Enable when using tcp / https
-          # services.api.loadBalancer.servers = [
-          #   { url = "http://localhost"; }
-          # ];
-
+          services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
+          services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
           routers = {
             api = {
               rule = "Host(`traefik.l.thein3rovert.com`)";
               service = "api@internal";
               entryPoints = [ "web" ];
-
-              # Enable when using tcp / https
-              #             middlewares = [ "auth" ]; # Activate auth for domain access
-              # Configure TLS
-              # tls = {
-              #   certResolver = "tailscale";
-              # };
+            };
+            adguard = {
+              rule = "Host(`adguard.l.thein3rovert.com`)";
+              service = "adguard";
+              entryPoints = [ "web" ];
+            };
+            linkding = {
+              rule = "Host(`linkding.l.thein3rovert.com`)";
+              service = "linkding";
+              entryPoints = [ "web" ];
             };
           };
         };
       };
     };
 
-    # Create directory for Traefik
     system.activationScripts = {
       traefikDirectories = {
         text = ''
@@ -99,18 +86,6 @@
       };
     };
 
-    # Enable when using tcp / https
-    # # Service configuration
-    # systemd.services.traefik = {
-    #   serviceConfig = {
-    #     EnvironmentFile = [ "${config.age.secrets.godaddy.path}" ];
-    #     User = "traefik";
-    #     Group = "traefik";
-    #   };
-    #   after = [ "network-online.target" ];
-    #   wants = [ "network-online.target" ];
-    # };
-    #
     # Create traefik user/group
     users.users.traefik = {
       group = "traefik";
@@ -119,7 +94,6 @@
         "podman"
         "docker"
         "tailscale"
-        "linkding"
       ];
     };
     users.groups.traefik = { };
