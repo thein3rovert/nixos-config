@@ -106,7 +106,12 @@ pages:
             cache: 1m
             title: Monitoring & Utilities
             sites:
-              - title: Uptime
+              - title: adguard
+                same-tab: true
+                timeout: 5s
+                url: http://adguard.l.thein3rovert.com
+                icon: di:adguard-home.png
+              - title: uptime-kuma
                 same-tab: true
                 timeout: 5s
                 url: https://uptime-kuma.${BASE_DOMAIN}/

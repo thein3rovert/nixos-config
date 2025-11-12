@@ -7,7 +7,7 @@ let
 
   if-glance-enable = lib.mkIf config.nixosSetup.services.glance.enable;
   imageName = "glanceapp/glance";
-  host = "127.0.0.1";
+  host = "100.105.187.63";
   port = 8280;
 
   # Use lib.path.append to safely handle relative paths
@@ -70,7 +70,9 @@ in
           };
           traefik = {
             enable = true;
-            url = "http://localhost:8280/";
+            # Point glance to tailscale network for local services
+            # Change back to localhost if no tailscale
+            url = "http://100.105.187.63:8280/";
             rule = "Host(`glance.thein3rovert.dev`)";
           };
 
