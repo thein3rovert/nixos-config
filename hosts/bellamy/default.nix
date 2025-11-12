@@ -114,6 +114,7 @@
       traefik = {
         enable = true;
       };
+      tailscale.enable = true;
       linkding.enable = true;
       glance.enable = true;
       uptime-kuma.enable = true;
