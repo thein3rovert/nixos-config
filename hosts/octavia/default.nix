@@ -92,11 +92,7 @@ in
     python3
     dig
   ];
-  nix = {
-    settings = {
-      experimental-features = "nix-command flakes";
-    };
-  };
+
   # ==============================
   #     Hardware Configuration
   # ==============================
