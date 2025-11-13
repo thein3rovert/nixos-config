@@ -91,6 +91,7 @@ in
       vscode.enableFhs = true;
       virt-manager.enable = true;
       jnix.enable = true;
+      podman-network.enable = true;
     };
 
     profiles = {

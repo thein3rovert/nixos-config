@@ -6,5 +6,6 @@
     ./obs-studio
     ./virt-manager
     ./njust
+    ./scripts
   ];
 }
