@@ -16,6 +16,8 @@
 
     ./postgres
     ./myslql
+
+    ./n8n
   ];
   system.activationScripts.createPodmanNetworkWeb = lib.mkAfter ''
     if ! /run/current-system/sw/bin/podman network exists web; then
