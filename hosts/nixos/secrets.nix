@@ -27,6 +27,9 @@
       glance = {
         file = "${self.inputs.secrets}/glance/glance.age";
       };
+      n8n = {
+        file = "${self.inputs.secrets}/n8n/n8n.age";
+      };
       # minio = {
       #   file = ../../secrets/minio-env.age;
       #   owner = "thein3rovert";
