@@ -39,6 +39,7 @@
         http = {
           services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
           services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
+          services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
           routers = {
             api = {
               rule = "Host(`traefik.l.thein3rovert.com`)";
@@ -53,6 +54,11 @@
             linkding = {
               rule = "Host(`linkding.l.thein3rovert.com`)";
               service = "linkding";
+              entryPoints = [ "web" ];
+            };
+            n8n = {
+              rule = "Host(`n8n.l.thein3rovert.com`)";
+              service = "n8n";
               entryPoints = [ "web" ];
             };
           };
