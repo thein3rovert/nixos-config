@@ -104,8 +104,12 @@ pages:
                 same-tab: true
                 timeout: 5s
                 url: https://blog.${BASE_DOMAIN}/
-                icon: di:thein3rovert.png
-
+                icon: /assets/penguin.png
+              - title: n8n - private
+                same-tab: true
+                timeout: 5s
+                url: http://n8n.l.thein3rovert.com/
+                icon: di:n8n.png
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
