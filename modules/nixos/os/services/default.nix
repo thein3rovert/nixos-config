@@ -13,6 +13,9 @@
     ./traefikk
     ./adguard
     ./test
+
+    ./postgres
+    ./myslql
   ];
   system.activationScripts.createPodmanNetworkWeb = lib.mkAfter ''
     if ! /run/current-system/sw/bin/podman network exists web; then
