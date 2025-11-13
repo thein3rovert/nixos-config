@@ -65,14 +65,18 @@ pages:
         widgets:
           - type: monitor
             cache: 1m
-            title: Networking & Internet
+            title: Networking & Internet - Private
             sites:
               - title: Traefik
                 same-tab: true
                 timeout: 5s
                 url: https://${BASE_DOMAIN}
                 icon: di:traefik.png
-
+              - title: adguard
+                same-tab: true
+                timeout: 5s
+                url: http://adguard.l.thein3rovert.com
+                icon: di:adguard-home.png
           - type: monitor
             cache: 1m
             title: Productivity & Files
@@ -106,11 +110,6 @@ pages:
             cache: 1m
             title: Monitoring & Utilities
             sites:
-              - title: adguard
-                same-tab: true
-                timeout: 5s
-                url: http://adguard.l.thein3rovert.com
-                icon: di:adguard-home.png
               - title: uptime-kuma
                 same-tab: true
                 timeout: 5s
