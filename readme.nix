@@ -13,9 +13,6 @@ lib.mdDoc ''
   - Reproducible environments  
   - Infrastructure expressed as code  
 
-  ## 📬 Reach Me
-  If you'd like to discuss Nix, DevOps, or infrastructure design:
-  - Email: your-email@example.com
-  - GitHub: https://github.com/yourusername
-
+  ## 📬 Reach Me 
+  thein3rovert@gmail.com"
 ''
