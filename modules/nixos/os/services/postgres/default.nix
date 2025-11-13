@@ -6,14 +6,14 @@
 }:
 let
 
-  if-postgressql-enable = lib.mkIf config.nixosSetup.services.postgresql.enable;
+  if-postgresql-enable = lib.mkIf config.nixosSetup.services.postgresql.enable;
 in
 {
 
   options.nixosSetup.services.postgresql = {
     enable = lib.mkEnableOption "mysql Database";
   };
-  config = if-postgressql-enable {
+  config = if-postgresql-enable {
     services.postgresql = {
       enable = true;
       enableTCPIP = true;
@@ -41,8 +41,8 @@ in
     # Set up backup
     services.postgresqlBackup = {
       enable = true;
-      startAt = true;
-      database = [ "n8n" ];
+      startAt = "03:10:00";
+      databases = [ "n8n" ];
     };
 
     networking.firewall.allowedTCPPorts = [ 5432 ];

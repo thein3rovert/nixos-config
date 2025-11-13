@@ -112,6 +112,9 @@ in
       tailscale = {
         enable = true;
       };
+      postgresql.enable = true;
+      mysql.enable = true;
+
       traefikk.enable = true;
       nginx = {
         enable = false;
