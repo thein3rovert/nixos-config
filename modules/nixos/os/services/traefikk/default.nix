@@ -47,17 +47,17 @@
               entryPoints = [ "web" ];
             };
             adguard = {
-              rule = "Host(`adguard.l.thein3rovert.com`)";
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.adguard.vHost}`)";
               service = "adguard";
               entryPoints = [ "web" ];
             };
             linkding = {
-              rule = "Host(`linkding.l.thein3rovert.com`)";
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.linkding.vHost}`)";
               service = "linkding";
               entryPoints = [ "web" ];
             };
             n8n = {
-              rule = "Host(`n8n.l.thein3rovert.com`)";
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.n8n.vHost}`)";
               service = "n8n";
               entryPoints = [ "web" ];
             };
