@@ -114,7 +114,7 @@ in
         enable = true;
       };
       postgresql.enable = true;
-      mysql.enable = true;
+      mysql.enable = false;
       n8n.enable = true;
 
       traefikk.enable = true;
@@ -261,6 +261,7 @@ in
     "nix-command"
     "flakes"
   ];
+  programs.sniffnet.enable = true;
 
   # ==============================
   #      System State Version

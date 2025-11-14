@@ -174,6 +174,7 @@
                 self.nixosModules.core
                 self.nixosModules.containers
                 self.nixosModules.base
+                self.nixosModules.snippets
                 {
                   nixpkgs.overlays = [ self.overlays.default ];
                 }
@@ -213,6 +214,7 @@
             hardware = ./modules/hardware;
             core = ./modules/core;
             containers = ./modules/nixos/containers;
+            snippets = ./modules/snippets;
 
             # INFO: Contain Reusabke Varibles, Types and more ...
             base = ./modules/base;
@@ -279,6 +281,7 @@
                 self.nixosModules.nixosOs
                 self.nixosModules.users
                 self.nixosModules.containers
+                self.nixosModules.snippets
                 self.nixosModules.base
               ];
             };
