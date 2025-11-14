@@ -42,7 +42,7 @@
           services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
           routers = {
             api = {
-              rule = "Host(`traefik.l.thein3rovert.com`)";
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.traefik.vHost}`)";
               service = "api@internal";
               entryPoints = [ "web" ];
             };

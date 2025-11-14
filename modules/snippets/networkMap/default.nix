@@ -8,7 +8,6 @@ let
   createOption = mkOption;
   string = types.str;
   list = types.attrs;
-
   emily = "nixos";
 in
 {
@@ -39,6 +38,11 @@ in
           hostName = "${emily}";
           port = 5678;
           vHost = "n8n.${config.myDns.networkMap.name}";
+        };
+        traefik = {
+          hostName = "${emily}";
+          port = 5678;
+          vHost = "traefik.${config.myDns.networkMap.name}";
         };
       };
     };
