@@ -26,8 +26,8 @@ in
 
       default = {
         linkding = {
-          hostName = "bellamy";
-          port = 9090;
+          hostName = "wellsjaha";
+          port = "9090";
           vHost = "linkding.${config.myDns.networkMap.name}";
         };
         adguard = {

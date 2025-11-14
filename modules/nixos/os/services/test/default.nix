@@ -19,7 +19,9 @@ in
 
     virtualisation.oci-containers.containers."linkding" = {
       image = "sissbruecker/linkding:latest";
-      ports = [ "10.20.0.1:9090:9090" ]; # Local port mapping
+      ports = [
+        "10.20.0.1:${config.myDns.networkMap.localNetworkMap.linkding.port}:${config.myDns.networkMap.localNetworkMap.linkding.port}"
+      ]; # Local port mapping
       volumes = [ "linkding_data:/etc/linkding/data" ]; # Persistent storage
       environment = {
         LD_DISABLE_BACKGROUND_TASKS = "true";
