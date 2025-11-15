@@ -31,6 +31,17 @@ in
         port = 8380;
         vHost = "uptime-kuma.${baseDomain}";
       };
+      s3 = {
+        hostName = "Bellamy";
+        port = [
+          3007
+          3008
+        ];
+        vHost = [
+          "minio-console.${baseDomain}"
+          "minio.${baseDomain}"
+        ];
+      };
 
     };
   };

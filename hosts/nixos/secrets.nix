@@ -30,11 +30,10 @@
       n8n = {
         file = "${self.inputs.secrets}/n8n/n8n.age";
       };
-      # minio = {
-      #   file = ../../secrets/minio-env.age;
-      #   owner = "thein3rovert";
-      #   path = "/home/thein3rovert/secrets/.minio-env";
-      # };
+
+      minio = {
+        file = "${self.inputs.secrets}/minioS3/minioS3.age";
+      };
 
     };
   };

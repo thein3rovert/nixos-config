@@ -13,7 +13,7 @@
     ./traefikk
     ./adguard
     ./test
-
+    ./minio
     ./postgres
     ./myslql
 

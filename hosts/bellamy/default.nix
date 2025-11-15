@@ -119,6 +119,7 @@
       glance.enable = true;
       uptime-kuma.enable = true;
       jotty.enable = true;
+      minio.enable = true;
     };
 
     programs = {

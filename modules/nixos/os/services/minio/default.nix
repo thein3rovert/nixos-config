@@ -11,49 +11,47 @@
   };
   config = lib.mkIf config.nixosSetup.services.minio.enable {
 
-    virtualisation.oci-containers.containers."minio" = {
-      image = "minio/minio";
-      ports = [
-        # "127.0.0.1:9000:9000" # MinIO API Port
-        # "127.0.0.1:9090:9090" # MinIO Console Port
-
-        # === Add 0.0.0.0 if running minio from virtual machines ===
-        "0.0.0.0:9000:9000"
-        "0.0.0.0:9091:9091"
-      ];
-      volumes = [ "minio_data:/etc/minio/data" ]; # Persistent storage
-      # environment = {
-      #   MINIO_ROOT_USER = "admin";
-      #   MINIO_ROOT_PASSWORD = "mysecretpassword";
-      # };
-      environmentFiles = [ config.age.secrets.minio.path ];
-
-      cmd = [
-        "server"
-        "--console-address"
-        ":9091"
-        "/etc/minio/data"
-      ];
-
-      # environmentFiles = [ config.age.secrets.linkding.path ];
+    services.minio = {
+      enable = true;
+      region = "eu-central-1";
+      consoleAddress = ":${toString (builtins.elemAt config.snippets.thein3rovert.networkMap.s3.port 0)}";
+      listenAddress = ":${toString (builtins.elemAt config.snippets.thein3rovert.networkMap.s3.port 1)}";
+      browser = true;
+      rootCredentialsFile = config.age.secrets.minio.path;
+      dataDir = [ "/var/storage/s3" ];
     };
 
-    # === TODO: Use option to dynamically allocate resources for traefik
-    # and other section of the config ===
     services.traefik.dynamicConfigOptions.http = {
-      services.minio.loadBalancer.servers = [ { url = "http://localhost:9091/"; } ];
-      middlewares = {
-      };
 
+      services.minio-console.loadBalancer.servers = [
+        {
+          url = "http://localhost:${toString (builtins.elemAt config.snippets.thein3rovert.networkMap.s3.port 0)}/";
+        }
+      ];
+      services.minio.loadBalancer.servers = [
+        {
+          url = "http://localhost:${toString (builtins.elemAt config.snippets.thein3rovert.networkMap.s3.port 1)}/";
+        }
+      ];
+      # === Routes ===
+      routers.minio-console = {
+        rule = "Host(`${builtins.elemAt config.snippets.thein3rovert.networkMap.s3.vHost 0}`)";
+        service = "minio-console";
+        entryPoints = [ "websecure" ];
+        tls = {
+          certResolver = "godaddy";
+        };
+      };
       # === Routes ===
       routers.minio = {
-        rule = "Host(`minio.thein3rovert.dev`)";
+        rule = "Host(`${builtins.elemAt config.snippets.thein3rovert.networkMap.s3.vHost 1}`)";
         service = "minio";
         entryPoints = [ "websecure" ];
         tls = {
           certResolver = "godaddy";
         };
       };
+
     };
 
   };
