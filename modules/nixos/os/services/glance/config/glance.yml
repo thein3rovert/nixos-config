@@ -110,6 +110,11 @@ pages:
                 timeout: 5s
                 url: http://n8n.l.thein3rovert.com/
                 icon: di:n8n.png
+              - title: s3 
+                same-tab: true
+                timeout: 5s
+                url: https://minio-console.${BASE_DOMAIN}/
+                icon: di:minio.png
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
