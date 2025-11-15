@@ -14,7 +14,7 @@
         hostNames = [
           "bellamy"
           "bellamy.local"
-          "bellamy.${config.snippets.tailnet.names}"
+          "bellamy.${config.snippets.tailnet.name}"
         ];
         publicKeyFile = "${self.inputs.secrets}/publicKeys/thein3rovert_bellamy.pub";
       };
@@ -22,7 +22,7 @@
         hostNames = [
           "wellsjaha"
           "wellsjaha.local"
-          "wellsjaha.${config.snippets.tailnet.names}"
+          "wellsjaha.${config.snippets.tailnet.name}"
         ];
         publicKeyFile = "${self.inputs.secrets}/publicKeys/thein3rovert_wellsjaha.pub";
       };

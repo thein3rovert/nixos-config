@@ -261,7 +261,12 @@ in
     "nix-command"
     "flakes"
   ];
+
+  # ==============================
+  #      System State Version
+  # ==============================
   programs.sniffnet.enable = true;
+  programs.ssh.knownHosts = config.snippets.ssh.knownHosts;
 
   # ==============================
   #      System State Version
