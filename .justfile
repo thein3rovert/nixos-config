@@ -11,6 +11,11 @@ _default:
     @printf '\033[1;33mUsage:\033[0m just <recipe> [args...]\n\n'
     @just --list --list-heading $'Available recipes:\n\n'
 
+
+[group('jnix')]
+info:
+  jnix info
+
 [group('jnix')]
 dry-run:
   jnix fs-dryrun

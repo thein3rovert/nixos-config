@@ -10,18 +10,18 @@ pages:
     hide-desktop-navigation: true
     show-mobile-header: true
     hide-footer: true
-    head-widgets:
-      - type: split-column
-        widgets:
-          - type: server-stats
-            hide-header: true
-            servers:
-              - type: local
-                name: Bellamy
-                hide-mountpoints-by-default: true
-                mountpoints:
-                  "/":
-                      hide: false
+    # head-widgets:
+    #   - type: split-column
+        # widgets:
+        #   - type: server-stats
+        #     hide-header: true
+            # servers:
+            #   - type: local
+            #     name: Bellamy
+            #     hide-mountpoints-by-default: true
+            #     mountpoints:
+            #       "/":
+            #           hide: true
     columns:
       - size: small
         widgets:
