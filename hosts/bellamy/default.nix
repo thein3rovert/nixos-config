@@ -72,6 +72,7 @@
     cowsay
     git
     vim
+    minio-client
   ];
 
   # ==============================

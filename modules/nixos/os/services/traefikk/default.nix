@@ -36,6 +36,15 @@
 
       # Dynamic Config
       dynamicConfigOptions = {
+
+        middlewares = {
+          # Fix: rewrite Host header to what ActivityWatch expects
+          activitywatch-rewrite-hostheader = {
+            headers.customRequestHeaders = {
+              Host = "localhost:5600";
+            };
+          };
+        };
         http = {
           services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
           services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];

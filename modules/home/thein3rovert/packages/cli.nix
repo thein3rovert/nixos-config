@@ -164,6 +164,8 @@ in
 
           # Fuzzy Find
           television
+
+          just
         ];
 
       };

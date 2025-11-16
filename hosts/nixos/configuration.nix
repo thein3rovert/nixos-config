@@ -186,6 +186,7 @@ in
     fuse # Filesystem utilities
     gparted
     banana-cursor
+    activitywatch
 
     # Network and tunneling
     dig
