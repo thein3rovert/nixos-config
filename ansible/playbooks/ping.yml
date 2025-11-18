@@ -1,0 +1,6 @@
+- hosts: thein3rovert
+  remote_user: root
+
+  tasks:
+    - name: Ping all my hosts
+      ansible.builtin.ping:
