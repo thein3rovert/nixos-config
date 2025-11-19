@@ -32,3 +32,8 @@ ping:
 [group('servers')]
 update-glance:
     ansible-playbook -i ansible/inventory.ini ansible/playbooks/restart-glance.yml
+
+# Update agenix secrets
+[group('servers')]
+update-secrets:
+  nix flake update secrets 
