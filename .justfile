@@ -23,3 +23,12 @@ dry-run:
 [group('jnix')]
 clean:
   jnix fs
+
+# Ping all servers
+[group('servers')]
+ping:
+    ansible-playbook -i ansible/inventory.ini ansible/playbooks/ping.yml
+
+[group('servers')]
+update-glance:
+    ansible-playbook -i ansible/inventory.ini ansible/playbooks/restart-glance.yml

@@ -72,6 +72,7 @@
     cowsay
     git
     vim
+    python3
     minio-client
   ];
 

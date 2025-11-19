@@ -1,0 +1,8 @@
+- hosts: bellamy
+  remote_user: root
+
+  tasks:
+    - name: Restart glances dasboard
+      ansible.builtin.systemd_service:
+        name: podman-glance
+        state: restarted
