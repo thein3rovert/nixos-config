@@ -8,7 +8,8 @@ terraform {
 }
 
 provider "docker" {
-  host = "unix:///run/user/1000/podman/podman.sock"  # Podman socket
+  # Fixed issues with network access
+  host = "unix:///run/podman/podman.sock"  # Root socket instead of user
 }
 
 variable "nginx_host" {
@@ -31,15 +32,32 @@ resource "docker_container" "web" {
   image = docker_image.nginx.image_id
   name  = "my-nginx-container"
   
-  ports {
-    internal = 80
-    external = 8081
+  # networks_advanced {
+  #   name = "traefik_proxy"  # Connect to the Traefik network
+  # }
+
+  # network_mode = "host" this was causing the conflict
+  network_mode = "host"
+
+  # Configure nginx to listen on port 8082 instead of 80
+  command = [
+    "sh", "-c", 
+    "sed -i 's/listen.*80;/listen 8082;/' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+  ]
+    labels {
+    label = "traefik.enable"
+    value = "true"
   }
   
-  env = [
-    "NGINX_HOST=${var.nginx_host}",
-    "NGINX_PORT=${var.nginx_port}"
-  ]
+  labels {
+    label = "traefik.http.routers.nginx.rule"
+    value = "Host(`nginx.l.thein3rovert.com`)"
+  }
+  
+  labels {
+    label = "traefik.http.services.nginx.loadbalancer.server.port"
+    value = "8082"
+  }
   
   restart = "unless-stopped"
 }
