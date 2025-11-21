@@ -197,6 +197,7 @@ in
     # Browser (system-specific)
     #   inputs.zen-browser.packages."${system}".default
     ansible
+    terraform
     firefox-unstable
   ];
 
