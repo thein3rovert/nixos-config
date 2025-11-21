@@ -33,8 +33,19 @@
 
       minio = {
         file = "${self.inputs.secrets}/minioS3/minioS3.age";
+        path = "/run/agenix/minioS3";
       };
 
+      minio_secret = {
+        file = "${self.inputs.secrets}/minioS3/minioS3_secret.age";
+
+        path = "/home/thein3rovert/.secrets/minio_secret";
+      };
+
+      minio_id = {
+        file = "${self.inputs.secrets}/minioS3/minioS3_id.age";
+        path = "/home/thein3rovert/.secrets/minio_id";
+      };
     };
   };
 }

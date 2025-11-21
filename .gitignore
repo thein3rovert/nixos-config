@@ -2,5 +2,17 @@
 .direnv/
 prompt.md
 .env
+
+
+### Terraform ###
+# Local .terraform directories
+
+**/.terraform/*
+**/.terraform.local.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
 terraform.tfvars
 *.tfvars

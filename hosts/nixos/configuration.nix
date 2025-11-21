@@ -78,10 +78,12 @@ in
   environment.sessionVariables = {
     # Specify nix path for nh used for easy rebuild
     FLAKE = "/home/thein3rovert/thein3rovert-flake";
+    AWS_ACCESS_KEY_ID = "$(cat ${config.age.secrets.minio_id.path})";
+    AWS_SECRET_ACCESS_KEY = "$(cat ${config.age.secrets.minio_secret.path})";
   };
 
-  # ==============================
-  #     Custom Module Config
+  # # ==============================
+  # #     Custom Module Config
   # ==============================
   # Custom enabled services and programs from modules
   nixosSetup = {
@@ -194,10 +196,11 @@ in
     # cloudflare-warp # Cloudflare WARP
     localsend # Local file sharing
 
-    # Browser (system-specific)
-    #   inputs.zen-browser.packages."${system}".default
+    # Infra
     ansible
     terraform
+    awscli
+    minio-client
     firefox-unstable
   ];
 
