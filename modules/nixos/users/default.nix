@@ -5,6 +5,17 @@
   self,
   ...
 }:
+let
+  inherit (lib)
+    map
+    filter
+    hasPrefix
+    ;
+
+  createMap = map;
+  filterOut = filter;
+  containThePrefix = hasPrefix;
+in
 {
   imports = [
     ./thein3rovert
@@ -17,12 +28,20 @@
       {
         # === PROGRAM ===
         # programs.zsh.enable = true;
+
         users = {
           mutableUsers = false;
           # defaultUserShell = pkgs.zsh;
-          users.root.openssh.authorizedKeys.keys = [
-            ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert''
-          ];
+          users.root.openssh.authorizedKeys = {
+            keyFiles = createMap (file: "${self.inputs.secrets}/publicKeys/${file}") (
+              filterOut (file: containThePrefix "thein3rovert_" file) (
+                builtins.attrNames (builtins.readDir "${self.inputs.secrets}/publicKeys")
+              )
+            );
+            keys = [
+              ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert''
+            ];
+          };
         };
       };
 }
