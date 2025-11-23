@@ -19,6 +19,10 @@ let
   createOption = mkOption;
 in
 {
+  imports = [
+    ./ports
+  ];
+
   options.homelab = {
     enable = createEnableOption "My homelab services and configuration variables";
 
@@ -52,6 +56,23 @@ in
       description = ''
         Base domain name to be used to access the homelab services via Caddy reverse proxy
       '';
+    };
+
+    # Port to be used by homelab
+    containerPorts = createOption {
+      type = lib.types.attrsOf lib.types.int;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    servicePorts = createOption {
+      type = lib.types.attrsOf lib.types.int;
+      default = { };
+      description = "Ports used by Nixos Services";
+    };
+    customPorts = createOption {
+      type = lib.types.attrsOf lib.types.int;
+      default = { };
+      description = "Ports used by custom Services and Applications";
     };
 
   };
