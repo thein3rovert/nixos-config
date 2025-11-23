@@ -72,7 +72,8 @@
     cowsay
     git
     vim
-    python3
+    # Making sure python and pexpect come from the same package
+    (python3.withPackages (ps: [ ps.pexpect ]))
     minio-client
   ];
 

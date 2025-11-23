@@ -29,6 +29,11 @@ clean:
 ping:
     ansible-playbook -i ansible/inventory.ini ansible/playbooks/ping.yml
 
+# Deploy blog - verbose output
+[group('servers')]
+deploy:
+   ansible-playbook -i ansible/inventory.ini ansible/playbooks/deploy.yml -vvv
+
 [group('servers')]
 update-glance:
     ansible-playbook -i ansible/inventory.ini ansible/playbooks/restart-glance.yml

@@ -1,0 +1,14 @@
+- hosts: bellamy
+
+  vars:
+    project_path: "{{ ansible_env.HOME }}/blog/blog.thein3rovert.dev"
+
+  tasks:
+    - name: Run deploy script inside nix devshell
+      expect:
+        command: nix --extra-experimental-features 'nix-command flakes' develop {{ project_path }} --command "./deploy.sh"
+        chdir: "{{ project_path }}"
+        responses:
+          'Use sudo for Docker Compose\? \(y/N\):': "y"
+
+
