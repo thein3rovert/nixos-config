@@ -4,6 +4,7 @@
     ./base
     ./server
     ./vps
+    ./zram
     ./fonts
   ];
 }
