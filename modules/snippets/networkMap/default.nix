@@ -9,12 +9,14 @@ let
   string = types.str;
   list = types.attrs;
   emily = "nixos";
+
+  homelab = config.homelab;
 in
 {
   options.myDns.networkMap = {
     # Create local network map and main
     name = createOption {
-      default = "l.thein3rovert.com";
+      default = "${homelab.baseDomain}";
       description = "Local DNS";
       type = string;
     };

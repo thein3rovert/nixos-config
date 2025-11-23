@@ -330,6 +330,7 @@
                 self.nixosModules.users
                 self.nixosModules.nixosOs
                 self.nixosModules.hardware
+                self.nixosModules.base
                 self.nixosModules.containers
                 self.nixosModules.snippets
               ];
@@ -358,6 +359,7 @@
                 self.nixosModules.users
                 self.nixosModules.nixosOs
                 self.nixosModules.hardware
+                self.nixosModules.base
               ];
             };
           };

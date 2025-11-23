@@ -47,7 +47,7 @@ in
     };
 
     baseDomain = createOption {
-      default = "";
+      default = "l.thein3rovert.com";
       type = string;
       description = ''
         Base domain name to be used to access the homelab services via Caddy reverse proxy
