@@ -110,6 +110,10 @@
     #     Service Configuration
     # ==============================
     services = {
+
+      fwupd.enable = true;
+      usbmuxd.enable = true;
+
       # === Network File System Caching ===
       # Start cachefilesd for disk caching of network filesystems (like NFS)
       # Begin culling when disk space drops below 20%
@@ -156,7 +160,7 @@
       configurationRevision = self.rev or self.dirtyRev or null;
 
       # Enable the next-generation nixos-rebuild tool
-      rebuild.enableNg = true;
+      # rebuild.enableNg = true;
     };
   };
 }
