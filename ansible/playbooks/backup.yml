@@ -1,0 +1,90 @@
+---
+- name: Backup NixOS services, Podman data, and other files to MinIO
+  hosts: Bellamy
+  become: yes
+
+  vars:
+    # Directories to tar & upload
+    service_data_paths:
+      # - "/var/lib/postgresql"
+      # - "/var/lib/n8n"
+      - "/var/lib/traefik"
+      - "/var/lib/tailscale"
+      # - "/var/lib/AdGuardHome"
+
+      # Bellamy-only services
+      - "/var/lib/jotty"
+      - "/var/lib/minio"
+
+      # MinIO S3 bucket storage
+      - "/var/storage"
+
+      # Podman persistent data
+      - "/var/lib/containers/storage/secrets"
+      - "/var/lib/containers/storage/volumes"
+
+      # Podman custom networks
+      - "/etc/containers/networks"
+
+    # Single files to back up
+    extra_backup_files:
+      - "/var/lib/containers/storage/db.sql"
+
+    backup_temp_dir: "/tmp/ansible-backups"
+    minio_alias: "homelab-minio"
+    minio_bucket: "backups"
+    date_tag: "{{ ansible_date_time.date }}"
+
+  tasks:
+
+    - name: Create temporary backup directory
+    - file:
+        path: "{{ backup_temp_dir }}"
+        state: directory
+
+    ###########################################################################
+    # BACKUP DIRECTORIES
+    ###########################################################################
+
+    - name: Backup each service directory as tar.gz
+      loop: "{{ service_data_paths }}"
+      loop_control:
+        loop_var: service_path
+      block:
+        - name: Create tar for {{ service_path }}
+          command: >
+            tar czf {{ backup_temp_dir }}/{{ service_path | basename }}.tar.gz
+            {{ service_path }}
+
+        - name: Upload service tar to MinIO
+          command: >
+            mc cp {{ backup_temp_dir }}/{{ service_path | basename }}.tar.gz
+            {{ minio_alias }}/{{ minio_bucket }}/services/{{ service_path | basename }}-{{ date_tag }}.tar.gz
+
+    ###########################################################################
+    # BACKUP SINGLE IMPORTANT FILES
+    ###########################################################################
+
+    - name: Back up important single files
+      loop: "{{ extra_backup_files }}"
+      loop_control:
+        loop_var: backup_file
+      block:
+        - name: Copy file to temp folder
+          command: >
+            cp {{ backup_file }} {{ backup_temp_dir }}/
+
+        - name: Upload file to MinIO
+          command: >
+            mc cp {{ backup_temp_dir }}/{{ backup_file | basename }}
+            {{ minio_alias }}/{{ minio_bucket }}/files/{{ backup_file | basename }}-{{ date_tag }}
+
+    ###########################################################################
+    # CLEANUP TEMPORARY BACKUPS
+    ###########################################################################
+
+    - name: Remove temporary backup directory
+      file:
+        path: "{{ backup_temp_dir }}"
+        state: absent
+
