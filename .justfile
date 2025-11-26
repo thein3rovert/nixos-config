@@ -38,6 +38,9 @@ deploy:
 update-glance:
     ansible-playbook -i ansible/inventory.ini ansible/playbooks/restart-glance.yml
 
+[group('servers')]
+backup:
+  ansible-playbook -i ansible/inventory.ini ansible/playbooks/backup.yml
 # Update agenix secrets
 [group('servers')]
 update-secrets:
