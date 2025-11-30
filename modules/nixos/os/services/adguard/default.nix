@@ -13,6 +13,10 @@
       # port = 54;
       settings = {
         dns = {
+          bind_hosts = [
+            "10.10.10.12"
+            "127.0.0.1"
+          ];
           port = 53;
           upstream_dns = [
             "1.1.1.1"
