@@ -7,5 +7,6 @@
     ./virt-manager
     ./njust
     ./scripts
+    ./incus
   ];
 }
