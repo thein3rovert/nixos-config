@@ -115,6 +115,11 @@ pages:
                 timeout: 5s
                 url: https://minio-console.${BASE_DOMAIN}/
                 icon: di:minio.png
+              - title: incus
+                same-tab: true
+                timeout: 5s
+                url: https://incus.l.thein3rovert.com
+                icon: di:incus.png
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
