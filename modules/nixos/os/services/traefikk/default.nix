@@ -31,6 +31,15 @@
           web = {
             address = ":80";
           };
+          websecure = {
+            address = ":443";
+          };
+          incus-passthrough = {
+            address = ":8444"; # Use a different port
+          };
+        };
+        serversTransport = {
+          insecureSkipVerify = true;
         };
       };
 
@@ -49,6 +58,7 @@
           services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
           services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
           services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
+          # services.incus.loadBalancer.servers = [ { url = "https://10.10.10.12:8443/"; } ];
           routers = {
             api = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.traefik.vHost}`)";
@@ -70,9 +80,38 @@
               service = "n8n";
               entryPoints = [ "web" ];
             };
+            # incus = {
+            #   rule = "HostSNI(`${config.myDns.networkMap.localNetworkMap.incus.vHost}`)";
+            #   service = "incus";
+            #   entryPoints = [ "incus-passthrough" ];
+            #   tls = {
+            #     passthrough = true;
+            #   };
+            # };
+
           };
+
         };
+
+        tcp = {
+          routers.incus = {
+            rule = "HostSNI(`incus.l.thein3rovert.com`)";
+            service = "incus";
+            entryPoints = [ "websecure" ];
+            tls.passthrough = true;
+          };
+          services.incus.loadBalancer.servers = [
+            { address = "10.10.10.12:8443"; }
+          ];
+        };
+
+        # serversTransports = {
+        #   incusTransport = {
+        #     insecureSkipVerify = true;
+        #   };
+        # };
       };
+
     };
 
     system.activationScripts = {
@@ -102,6 +141,8 @@
       allowedTCPPorts = [
         80
         443
+        # incus firewall
+        8444
       ];
     };
   };

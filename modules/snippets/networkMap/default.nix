@@ -41,6 +41,13 @@ in
           port = 5678;
           vHost = "n8n.${config.myDns.networkMap.name}";
         };
+
+        incus = {
+          hostName = "${emily}";
+          port = 8443;
+          vHost = "incus.${config.myDns.networkMap.name}";
+        };
+
         traefik = {
           hostName = "${emily}";
           port = 5678;
