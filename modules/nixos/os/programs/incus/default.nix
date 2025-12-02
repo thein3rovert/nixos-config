@@ -26,97 +26,112 @@ in
       incus = {
         enable = true;
         ui.enable = true;
+        networks = [
+          {
+            name = "incusbr0";
+            type = "bridge";
+            description = "Internal/NATted bridge";
 
+            config = {
+              "ipv4.address" = "auto";
+              "ipv4.nat" = "true";
+              "ipv4.firewall" = "false";
+              "ipv6.address" = "auto";
+              "ipv6.nat" = "true";
+              "ipv6.firewall" = "false";
+            };
+          }
+        ];
         # I think the incus nixos config is just no applying
         # maybe preseed is broken
-        preseed = {
-
-          networks = [
-            {
-              config = {
-
-                config = {
-                  "ipv4.address" = "auto";
-                  "ipv4.nat" = "true";
-                  "ipv4.firewall" = "false";
-                  "ipv6.address" = "auto";
-                  "ipv6.nat" = "true";
-                  "ipv6.firewall" = "false";
-                };
-                # "ipv4.address" = "10.20.0.1/24";
-                # "ipv4.nat" = "true";
-                #
-                # #  "dns.mode" = "none";
-                # "raw.dnsmasq" = "server=10.10.10.12";
-                #
-                # # Keep DHCP (containers still get IPs)
-                # "ipv4.dhcp" = "true";
-              };
-              name = "incusbr0";
-              type = "bridge";
-            }
-          ];
-
-          profiles = [
-            {
-              devices = {
-                eth0 = {
-                  name = "eth0";
-                  network = "incusbr0";
-                  type = "nic";
-                };
-                root = {
-                  path = "/";
-                  pool = "default";
-                  size = "35GiB";
-                  type = "disk";
-                };
-              };
-              name = "default";
-              description = "Default Incus Profile";
-            }
-
-            # Adguard Profile
-            {
-              devices = {
-                eth0 = {
-                  name = "eth0";
-                  network = "incusbr0";
-                  type = "nic";
-                };
-                root = {
-                  path = "/";
-                  pool = "default";
-                  # size = "35GiB";
-                  type = "disk";
-                };
-              };
-              config = {
-                # Set AdGuard as DNS server for containers using this profile
-                "user.network-config" = ''
-                  version: 2
-                  ethernets:
-                    eth0:
-                      dhcp4: true
-                      nameservers:
-                        addresses: [10.10.10.12]
-                '';
-              };
-              name = "thein3rovert";
-            }
-          ];
-
-          storage_pools = [
-            {
-              config = {
-                source = "/var/lib/incus/storage-pools/default";
-              };
-              driver = "dir";
-              name = "default";
-            }
-          ];
-        };
-
+        #   preseed = {
+        #
+        #     networks = [
+        #       {
+        #         config = {
+        #
+        #           config = {
+        #             "ipv4.address" = "auto";
+        #             "ipv4.nat" = "true";
+        #             "ipv4.firewall" = "false";
+        #             "ipv6.address" = "auto";
+        #             "ipv6.nat" = "true";
+        #             "ipv6.firewall" = "false";
+        #           };
+        #           # "ipv4.address" = "10.20.0.1/24";
+        #           # "ipv4.nat" = "true";
+        #           #
+        #           # #  "dns.mode" = "none";
+        #           # "raw.dnsmasq" = "server=10.10.10.12";
+        #           #
+        #           # # Keep DHCP (containers still get IPs)
+        #           # "ipv4.dhcp" = "true";
+        #         };
+        #         name = "incusbr0";
+        #         type = "bridge";
+        #       }
+        #     ];
+        #
+        #     profiles = [
+        #       {
+        #         devices = {
+        #           eth0 = {
+        #             name = "eth0";
+        #             network = "incusbr0";
+        #             type = "nic";
+        #           };
+        #           root = {
+        #             path = "/";
+        #             pool = "default";
+        #             size = "35GiB";
+        #             type = "disk";
+        #           };
+        #         };
+        #         name = "default";
+        #         description = "Default Incus Profile";
+        #       }
+        #
+        #       # Adguard Profile
+        #       {
+        #         devices = {
+        #           eth0 = {
+        #             name = "eth0";
+        #             network = "incusbr0";
+        #             type = "nic";
+        #           };
+        #           root = {
+        #             path = "/";
+        #             pool = "default";
+        #             # size = "35GiB";
+        #             type = "disk";
+        #           };
+        #         };
+        #         config = {
+        #           # Set AdGuard as DNS server for containers using this profile
+        #           "user.network-config" = ''
+        #             version: 2
+        #             ethernets:
+        #               eth0:
+        #                 dhcp4: true
+        #                 nameservers:
+        #                   addresses: [10.10.10.12]
+        #           '';
+        #         };
+        #         name = "thein3rovert";
+        #       }
+        #     ];
+        #
+        #     storage_pools = [
+        #       {
+        #         config = {
+        #           source = "/var/lib/incus/storage-pools/default";
+        #         };
+        #         driver = "dir";
+        #         name = "default";
+        #       }
+        #     ];
+        #   };
+        #
       };
     };
 
