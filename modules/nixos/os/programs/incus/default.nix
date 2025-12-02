@@ -67,171 +67,65 @@ in
               };
             };
           }
+          # INFO: Holding off on configuring bridge as Ethernet interface
+          # is currently down( Live Ethernate Cable needed)
+
+          # {
+          #   name = "bridged";
+          #   description = "Instances bridged to LAN";
+          #
+          #   devices = {
+          #     eth0 = {
+          #       name = "eth0";
+          #       nictype = "bridged";
+          #       parent = "externalbr0";
+          #       type = "nic";
+          #     };
+          #
+          #     root = {
+          #       path = "/";
+          #       pool = "default";
+          #       type = "disk";
+          #     };
+          #   };
+          # }
+
         ];
       };
 
     };
-
-    # I think the incus nixos config is just no applying
-    # maybe preseed is broken
-    # preseed = {
-    #   networks = [
-    #     {
-    #       name = "incusbr0";
-    #       type = "bridge";
-    #       description = "Internal/NATted bridge";
-    #
-    #       config = {
-    #         "ipv4.address" = "auto";
-    #         "ipv4.nat" = "true";
-    #         "ipv4.firewall" = "false";
-    #         "ipv6.address" = "auto";
-    #         "ipv6.nat" = "true";
-    #         "ipv6.firewall" = "false";
-    #       };
-    #     }
-    #   ];
-    #
-    #   profiles = [
-    #     {
-    #       name = "thein3rovert";
-    #       description = "thein3rovert Incus Profile";
-    #
-    #       devices = {
-    #         eth0 = {
-    #           type = "nic";
-    #           network = "incusbr0";
-    #           name = "eth0";
-    #         };
-    #
-    #         root = {
-    #           type = "disk";
-    #           path = "/";
-    #           pool = "default";
-    #         };
-    #       };
-    #     }
-    #     {
-    #       devices = {
-    #         eth0 = {
-    #           name = "eth0";
-    #           network = "incusbr0";
-    #           type = "nic";
-    #         };
-    #         root = {
-    #           path = "/";
-    #           pool = "default";
-    #           size = "35GiB";
-    #           type = "disk";
-    #         };
-    #       };
-    #       name = "default";
-    #       description = "Default Incus Profile Nixos";
-    #     }
-    #   ];
-    # };
-    #
-
-    #     networks = [
-    #       {
-    #         config = {
-    #
-    #           config = {
-    #             "ipv4.address" = "auto";
-    #             "ipv4.nat" = "true";
-    #             "ipv4.firewall" = "false";
-    #             "ipv6.address" = "auto";
-    #             "ipv6.nat" = "true";
-    #             "ipv6.firewall" = "false";
-    #           };
-    #           # "ipv4.address" = "10.20.0.1/24";
-    #           # "ipv4.nat" = "true";
-    #           #
-    #           # #  "dns.mode" = "none";
-    #           # "raw.dnsmasq" = "server=10.10.10.12";
-    #           #
-    #           # # Keep DHCP (containers still get IPs)
-    #           # "ipv4.dhcp" = "true";
-    #         };
-    #         name = "incusbr0";
-    #         type = "bridge";
-    #       }
-    #     ];
-    #
-    #     profiles = [
-    #       {
-    #         devices = {
-    #           eth0 = {
-    #             name = "eth0";
-    #             network = "incusbr0";
-    #             type = "nic";
-    #           };
-    #           root = {
-    #             path = "/";
-    #             pool = "default";
-    #             size = "35GiB";
-    #             type = "disk";
-    #           };
-    #         };
-    #         name = "default";
-    #         description = "Default Incus Profile";
-    #       }
-    #
-    #       # Adguard Profile
-    #       {
-    #         devices = {
-    #           eth0 = {
-    #             name = "eth0";
-    #             network = "incusbr0";
-    #             type = "nic";
-    #           };
-    #           root = {
-    #             path = "/";
-    #             pool = "default";
-    #             # size = "35GiB";
-    #             type = "disk";
-    #           };
-    #         };
-    #         config = {
-    #           # Set AdGuard as DNS server for containers using this profile
-    #           "user.network-config" = ''
-    #             version: 2
-    #             ethernets:
-    #               eth0:
-    #                 dhcp4: true
-    #                 nameservers:
-    #                   addresses: [10.10.10.12]
-    #           '';
-    #         };
-    #         name = "thein3rovert";
-    #       }
-    #     ];
-    #
-    #     storage_pools = [
-    #       {
-    #         config = {
-    #           source = "/var/lib/incus/storage-pools/default";
-    #         };
-    #         driver = "dir";
-    #         name = "default";
-    #       }
-    #     ];
-    #   };
-    #
 
     # Incus Networking Base
     networking = {
       nftables = {
         enable = true;
       };
-      firewall.interfaces.incusbr0.allowedTCPPorts = [
-        53
-        67
-      ];
-      firewall.interfaces.incusbr0.allowedUDPPorts = [
-        53
-        67
-      ];
+      useDHCP = false;
+      tempAddresses = "disabled";
+      hostId = "007f0200"; # change this to something unique on your network
+      hostName = "nixos"; # change this
+      firewall.trustedInterfaces = [ "incusbr0" ];
+
+      # bridges = {
+      #   externalbr0 = {
+      #     interfaces = [ "wlp1s0" ]; # change this to your network adapter
+      #   };
+      # };
+      # interfaces = {
+      #   externalbr0 = {
+      #     useDHCP = true;
+      #     macAddress = "b0:ac:82:c8:32:ff";
+      #   };
+      # };
+
+      # firewall.interfaces.incusbr0.allowedTCPPorts = [
+      #   53
+      #   67
+      # ];
+      # firewall.interfaces.incusbr0.allowedUDPPorts = [
+      #   53
+      #   67
+      # ];
     };
 
     # Add Inucus to extra group
