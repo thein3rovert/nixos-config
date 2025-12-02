@@ -26,10 +26,12 @@ in
       ui.enable = true;
 
       preseed = {
-        config = { };
+        config = {
+          "core.https_address" = ":8443";
+        };
         networks = [
           {
-            name = "incusbr0";
+            name = "incusbr0"; # internalbr0
             description = "Default: Internal/NATted bridge";
             type = "bridge";
             config = {
@@ -58,12 +60,28 @@ in
         profiles = [
           {
             name = "default";
-            description = "Default Incus Profile";
+            description = "Default Incus Profile Nixos";
             devices = {
               root = {
                 type = "disk";
                 pool = "default";
                 path = "/";
+              };
+            };
+          }
+          {
+            name = "thein3rovert";
+            description = "My custom Incus profile";
+            devices = {
+              root = {
+                type = "disk";
+                pool = "default";
+                path = "/";
+              };
+              eth0 = {
+                name = "eth0";
+                type = "nic";
+                network = "incusbr0";
               };
             };
           }
@@ -104,7 +122,7 @@ in
       tempAddresses = "disabled";
       hostId = "007f0200"; # change this to something unique on your network
       hostName = "nixos"; # change this
-      firewall.trustedInterfaces = [ "incusbr0" ];
+      firewall.trustedInterfaces = [ "incusbr0" ]; # internalbr0
 
       # bridges = {
       #   externalbr0 = {
@@ -117,15 +135,6 @@ in
       #     macAddress = "b0:ac:82:c8:32:ff";
       #   };
       # };
-
-      # firewall.interfaces.incusbr0.allowedTCPPorts = [
-      #   53
-      #   67
-      # ];
-      # firewall.interfaces.incusbr0.allowedUDPPorts = [
-      #   53
-      #   67
-      # ];
     };
 
     # Add Inucus to extra group
