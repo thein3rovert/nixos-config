@@ -41,6 +41,8 @@
   environment.systemPackages = with pkgs; [
     # Essential system tools
     vim # Text editor
+    htop
+    git
   ];
 
   security.sudo.extraRules = [
@@ -54,6 +56,19 @@
       ];
     }
   ];
+
+  nixosSetup = {
+    services = {
+      ad-guard.enable = true;
+    };
+  };
+  networking.nameservers = [
+    # Default (Adguard)
+    "10.135.108.203"
+  ];
+
+  # Disable router DNS
+  networking.networkmanager.dns = "none";
 
   systemd.network = {
     enable = true;

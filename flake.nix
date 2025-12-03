@@ -324,6 +324,8 @@
               nixpkgs.system = "x86_64-linux";
               imports = [
                 ./hosts/lxc
+                self.nixosModules.containers
+                self.nixosModules.nixosOs
               ];
             };
             # ==============================

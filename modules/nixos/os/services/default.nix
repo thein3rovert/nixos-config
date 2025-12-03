@@ -16,7 +16,8 @@
     ./minio
     ./postgres
     ./myslql
-
     ./n8n
+    # lxc
+    ./ad-guard
   ];
 }
