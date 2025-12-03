@@ -45,7 +45,7 @@ in
 
     # Default (Adguard)
     "10.10.10.12"
-    "10.135.108.203" # lxc andrew
+    "10.135.108.10" # lxc andrew
   ];
   # Disable router DNS
   networking.networkmanager.dns = "none";

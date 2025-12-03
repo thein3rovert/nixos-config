@@ -23,9 +23,9 @@
     settings.PermitRootLogin = "yes";
   };
 
-  # users.users.root.openssh.authorizedKeys.keys = [
-  #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
-  # ];
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
+  ];
 
   users.users.thein3rovert = {
     isNormalUser = true;
@@ -57,20 +57,20 @@
     }
   ];
 
-  # nixosSetup = {
-  #   services = {
-  #     ad-guard.enable = false;
-  #     tailscale = {
-  #       enable = false;
-  #     };
-  #   };
-  # };
+  nixosSetup = {
+    services = {
+      ad-guard.enable = true;
+      tailscale = {
+        enable = true;
+      };
+    };
+  };
 
-  # networking.nameservers = [
-  #   # Default (Adguard)
-  #   "10.135.108.203"
-  # ];
-  #
+  networking.nameservers = [
+    # Default (Adguard)
+    "10.135.108.10"
+  ];
+
   # networking.interfaces.eth0 = {
   #   useDHCP = false;
   #   ipv4.addresses = [
@@ -81,17 +81,18 @@
   #   ];
   # };
   # networking.defaultGateway = "10.135.108.1";
+
   # Disable router DNS
   networking.networkmanager.dns = "none";
-  # services.resolved.enable = false;
+  services.resolved.enable = false;
   systemd.network = {
     enable = true;
     networks."50-eth0" = {
       matchConfig.Name = "eth0";
       networkConfig = {
         DHCP = "ipv4";
-        Address = "10.135.108.203/24";
-        Gateway = "10.135.108.1";
+        Address = "10.135.108.10/24";
+        Gateway = "10.135.108.203";
         IPv6AcceptRA = true;
       };
       linkConfig.RequiredForOnline = "routable";

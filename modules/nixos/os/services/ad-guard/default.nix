@@ -12,7 +12,7 @@
       settings = {
         dns = {
           bind_hosts = [
-            "10.135.108.203"
+            "10.135.108.10"
             "127.0.0.1"
           ];
           port = 53;
@@ -28,7 +28,7 @@
               # After nixos yarara update, rewrite disable by default
               enabled = true;
               domain = "*.l.thein3rovert.com";
-              answer = "10.135.108.203";
+              answer = "10.135.108.10";
             }
             /*
               If traefik running on VM:

@@ -315,7 +315,7 @@
             # ==============================
             lexa = {
               deployment = {
-                targetHost = "10.123.108.203";
+                targetHost = "10.135.108.10";
                 targetPort = 22;
                 targetUser = "thein3rovert";
                 buildOnTarget = true;
