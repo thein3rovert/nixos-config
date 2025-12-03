@@ -132,6 +132,7 @@
             "vps-het-1"
             "wellsjaha"
             "bellamy"
+            "andrew"
             # "octavia"
           ];
 
@@ -309,7 +310,22 @@
                 self.nixosModules.nixosOs
               ];
             };
-
+            # ==============================
+            #     Node: Wellsjaha (Test)
+            # ==============================
+            andrew = {
+              deployment = {
+                targetHost = "10.135.108.203";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = true;
+                tags = [ "test" ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/lxc
+              ];
+            };
             # ==============================
             #     Node: Wellsjaha (Test)
             # ==============================
