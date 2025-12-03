@@ -27,7 +27,7 @@
             {
               # After nixos yarara update, rewrite disable by default
               enabled = true;
-              domain = "*.local.thein3rovert.com";
+              domain = "*.l.thein3rovert.com";
               answer = "10.135.108.203";
             }
             /*
