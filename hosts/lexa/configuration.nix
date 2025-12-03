@@ -57,25 +57,41 @@
     }
   ];
 
-  nixosSetup = {
-    services = {
-      ad-guard.enable = true;
-    };
-  };
-  networking.nameservers = [
-    # Default (Adguard)
-    "10.135.108.203"
-  ];
+  # nixosSetup = {
+  #   services = {
+  #     ad-guard.enable = false;
+  #     tailscale = {
+  #       enable = false;
+  #     };
+  #   };
+  # };
 
+  # networking.nameservers = [
+  #   # Default (Adguard)
+  #   "10.135.108.203"
+  # ];
+  #
+  # networking.interfaces.eth0 = {
+  #   useDHCP = false;
+  #   ipv4.addresses = [
+  #     {
+  #       address = "10.135.108.203";
+  #       prefixLength = 24;
+  #     }
+  #   ];
+  # };
+  # networking.defaultGateway = "10.135.108.1";
   # Disable router DNS
   networking.networkmanager.dns = "none";
-  services.resolved.enable = false;
+  # services.resolved.enable = false;
   systemd.network = {
     enable = true;
     networks."50-eth0" = {
       matchConfig.Name = "eth0";
       networkConfig = {
         DHCP = "ipv4";
+        Address = "10.135.108.203/24";
+        Gateway = "10.135.108.1";
         IPv6AcceptRA = true;
       };
       linkConfig.RequiredForOnline = "routable";

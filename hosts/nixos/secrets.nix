@@ -33,7 +33,7 @@
 
       minio = {
         file = "${self.inputs.secrets}/minioS3/minioS3.age";
-        path = "/run/agenix/minioS3";
+        path = "/home/thein3rovert/.secrets/minioS3";
       };
 
       minio_secret = {

@@ -119,7 +119,7 @@ in
       };
       postgresql.enable = true;
       mysql.enable = false;
-      n8n.enable = true;
+      n8n.enable = false;
 
       traefikk.enable = true;
       nginx = {

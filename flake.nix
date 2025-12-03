@@ -132,7 +132,7 @@
             "vps-het-1"
             "wellsjaha"
             "bellamy"
-            "lexa"
+            # "lexa"
             # "octavia"
           ];
 
@@ -315,7 +315,7 @@
             # ==============================
             lexa = {
               deployment = {
-                targetHost = "10.135.108.203";
+                targetHost = "10.123.108.203";
                 targetPort = 22;
                 targetUser = "thein3rovert";
                 buildOnTarget = true;
@@ -326,6 +326,7 @@
                 ./hosts/lexa
                 self.nixosModules.containers
                 self.nixosModules.nixosOs
+                agenix.nixosModules.default
               ];
             };
             # ==============================
