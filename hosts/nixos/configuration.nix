@@ -94,7 +94,7 @@ in
       virt-manager.enable = true;
       jnix.enable = true;
       podman-network.enable = true;
-      incus.enable = false;
+      incus.enable = true;
     };
 
     profiles = {
