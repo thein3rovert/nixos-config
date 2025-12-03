@@ -132,7 +132,7 @@
             "vps-het-1"
             "wellsjaha"
             "bellamy"
-            "andrew"
+            "lexa"
             # "octavia"
           ];
 
@@ -311,9 +311,9 @@
               ];
             };
             # ==============================
-            #     Node: Wellsjaha (Test)
+            #     Node: Lexa [ lxc 01 ]
             # ==============================
-            andrew = {
+            lexa = {
               deployment = {
                 targetHost = "10.135.108.203";
                 targetPort = 22;
@@ -323,7 +323,7 @@
               };
               nixpkgs.system = "x86_64-linux";
               imports = [
-                ./hosts/lxc
+                ./hosts/lexa
                 self.nixosModules.containers
                 self.nixosModules.nixosOs
               ];
