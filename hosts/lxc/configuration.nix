@@ -69,7 +69,7 @@
 
   # Disable router DNS
   networking.networkmanager.dns = "none";
-
+  services.resolved.enable = false;
   systemd.network = {
     enable = true;
     networks."50-eth0" = {
