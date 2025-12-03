@@ -42,6 +42,9 @@ in
               "ipv6.address" = "auto";
               "ipv6.nat" = "true";
               "ipv6.firewall" = "false";
+
+              # Disable DNS to avoid conflict with AdGuardHome
+              "dns.mode" = "none";
             };
           }
         ];
