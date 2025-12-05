@@ -54,6 +54,10 @@ in
   networking.firewall.allowedTCPPorts = [ 53317 ];
   networking.firewall.allowedUDPPorts = [ 53317 ];
 
+  services.openssh.extraConfig = ''
+    PermitTTY yes
+    PermitUserEnvironment yes
+  '';
   # ==============================
   #    Localization & Timezone
   # ==============================

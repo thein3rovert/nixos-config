@@ -62,7 +62,10 @@
           services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
           services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
           services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
-          # services.incus.loadBalancer.servers = [ { url = "https://10.10.10.12:8443/"; } ];
+
+          # Container LXC
+          services.ad-guard.loadBalancer.servers = [ { url = "http://10.135.108.10:3000/"; } ];
+
           routers = {
             api = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.traefik.vHost}`)";
@@ -84,6 +87,14 @@
               service = "n8n";
               entryPoints = [ "web" ];
             };
+
+            ## Container LXC
+            ad-guard = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.ad-guard.vHost}`)";
+              service = "ad-guard";
+              entryPoints = [ "web" ];
+            };
+
             # incus = {
             #   rule = "HostSNI(`${config.myDns.networkMap.localNetworkMap.incus.vHost}`)";
             #   service = "incus";

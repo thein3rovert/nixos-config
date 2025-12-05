@@ -53,6 +53,13 @@ in
           port = 5678;
           vHost = "traefik.${config.myDns.networkMap.name}";
         };
+
+        ## Container network map
+        ad-guard = {
+          hostName = "lexa";
+          port = 3000;
+          vHost = "ad-guard.${config.myDns.networkMap.name}";
+        };
       };
     };
   };

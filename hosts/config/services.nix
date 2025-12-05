@@ -39,6 +39,10 @@
     enable = true;
     settings.PermitRootLogin = "no";
     allowSFTP = true;
+    extraConfig = ''
+           PermitTTY yes
+      PermitUserEnvironment yes
+    '';
   };
   # List services that you want to enable:
   services.openssh.settings.PasswordAuthentication = true;
