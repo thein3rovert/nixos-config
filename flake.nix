@@ -132,8 +132,15 @@
             "vps-het-1"
             "wellsjaha"
             "bellamy"
-            # "lexa"
+
+            # Managed by incus
+            # "lexa" (LXC)
+
+            # Managed by clan
             # "octavia"
+
+            # Managed by Proxmox
+            # finn  (Lxc - Killed by grounders)
           ];
 
         in
