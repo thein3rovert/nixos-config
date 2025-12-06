@@ -22,7 +22,7 @@
       ...
     }:
     {
-      nixosConfigurations.demo = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.finn = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
@@ -50,6 +50,7 @@
           {
             environment.systemPackages = [
               pkgs.curl
+              pkgs.htop
             ];
           };
         finn =
