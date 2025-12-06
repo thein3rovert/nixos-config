@@ -15,8 +15,8 @@
     '';
   };
 
-  home.username = "finn";
-  home.homeDirectory = "/home/finn";
+  home.username = "thein3rovert";
+  home.homeDirectory = "/home/thein3rovert";
   home.stateVersion = "25.05";
   home.packages = with pkgs; [
     openssl

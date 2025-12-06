@@ -4,7 +4,7 @@
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
-    users.fomm = ./home.nix;
+    users.thein3rovert = ./home.nix;
     backupFileExtension = "backup";
   };
 
@@ -30,9 +30,8 @@
     ];
   };
   environment.systemPackages = with pkgs; [
-    vim # Text editor
+    vim
     htop
-    git
   ];
 
   security.sudo.extraRules = [
