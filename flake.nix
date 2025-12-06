@@ -336,6 +336,28 @@
                 agenix.nixosModules.default
               ];
             };
+
+            # ==============================
+            #     Node: Finn [ lxc 02 ]
+            # ==============================
+            finn = {
+              deployment = {
+                targetHost = "10.10.10.10";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = true;
+                tags = [ "homelab" ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/finn
+                self.nixosModules.containers
+                self.nixosModules.nixosOs
+                self.inputs.home-manager.nixosModules.home-manager
+                agenix.nixosModules.default
+              ];
+            };
+
             # ==============================
             #     Node: Wellsjaha (Test)
             # ==============================

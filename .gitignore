@@ -16,3 +16,6 @@ prompt.md
 
 terraform.tfvars
 *.tfvars
+
+result
+result.*
