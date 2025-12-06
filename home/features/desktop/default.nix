@@ -14,7 +14,6 @@
     wasistlos
     spotify
     obs-studio
-    wpsoffice
     textsnatcher
     hyprcursor
     hyprshot

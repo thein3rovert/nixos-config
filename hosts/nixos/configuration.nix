@@ -194,7 +194,6 @@ in
     fuse # Filesystem utilities
     gparted
     banana-cursor
-    activitywatch
 
     # Network and tunneling
     dig
@@ -278,6 +277,16 @@ in
   # ==============================
   programs.sniffnet.enable = true;
   programs.ssh.knownHosts = config.snippets.ssh.knownHosts;
+
+  # ==============================
+  #      Misc
+  # ==============================
+
+  # Installing insecure Packages
+
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "ventoy-1.1.07"
+  # ];
 
   # ==============================
   #      System State Version
