@@ -39,16 +39,22 @@ in
   networking.networkmanager.wifi.powersave = false;
   networking.nameservers = [
     # Tailscale DNS
-    # 100.100.100.100
-    # Router
-    # 10.10.10.1
+    # "100.100.100.100"
+
+    # "1.1.1.1"
+    # "8.8.8.8"
 
     # Default (Adguard)
-    "10.10.10.12"
-    "10.135.108.10" # lxc andrew
+    # "10.10.10.12" (Now using lxc as dns)
+    # "10.135.108.10" # lxc andrew
   ];
-  # Disable router DNS
-  networking.networkmanager.dns = "none";
+
+  #INFO: Disable router DNS,only needed if
+  # running adguard
+  # networking.networkmanager.dns = "none";
+
+  # Systemd + tailscale manage dns
+  services.resolved.enable = true;
 
   # Firewall configuration for LocalSend
   networking.firewall.allowedTCPPorts = [ 53317 ];
@@ -133,7 +139,7 @@ in
           root = "/var/www/localhost";
         };
       };
-      adguard.enable = true;
+      adguard.enable = false;
     };
   };
 

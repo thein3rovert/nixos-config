@@ -28,18 +28,8 @@
               # After nixos yarara update, rewrite disable by default
               enabled = true;
               domain = "*.l.thein3rovert.com";
-              answer = "10.135.108.10";
+              answer = "10.10.10.12";
             }
-            /*
-              If traefik running on VM:
-              - Point adguard to vm ip
-              - Create subdomain in host adguard
-            */
-
-            # {
-            #   domain = "traefik.l.thein3rovert.com";
-            #   answer = "10.20.0.1"; # your Traefik host IP
-            # }
           ];
         };
       };
