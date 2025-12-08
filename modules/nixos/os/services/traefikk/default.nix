@@ -60,11 +60,11 @@
           # homelab.local.ip, homelab.vm.ip homelab.container.ip
 
           services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
-          services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
+          # services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
           services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
 
           # Container LXC
-          services.ad-guard.loadBalancer.servers = [ { url = "http://10.135.108.10:3000/"; } ];
+          services.ad-guard.loadBalancer.servers = [ { url = "http://10.10.10.10:3000/"; } ];
 
           routers = {
             api = {
@@ -72,11 +72,11 @@
               service = "api@internal";
               entryPoints = [ "web" ];
             };
-            adguard = {
-              rule = "Host(`${config.myDns.networkMap.localNetworkMap.adguard.vHost}`)";
-              service = "adguard";
-              entryPoints = [ "web" ];
-            };
+            # adguard = {
+            #   rule = "Host(`${config.myDns.networkMap.localNetworkMap.adguard.vHost}`)";
+            #   service = "adguard";
+            #   entryPoints = [ "web" ];
+            # };
             linkding = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.linkding.vHost}`)";
               service = "linkding";

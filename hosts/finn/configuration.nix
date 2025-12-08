@@ -31,6 +31,7 @@
   };
   environment.systemPackages = with pkgs; [
     vim
+    tcpdump
     htop
   ];
 
@@ -58,7 +59,12 @@
       };
     };
   };
-
+  # Add to your LXC's NixOS config
+  networking.firewall = {
+    enable = true;
+    checkReversePath = "loose"; # Use "loose" instead of false
+    trustedInterfaces = [ "tailscale0" ];
+  };
   nix.settings = {
     sandbox = false;
     trusted-users = [

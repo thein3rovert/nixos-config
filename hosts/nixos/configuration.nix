@@ -40,10 +40,10 @@ in
   networking.nameservers = [
     # Tailscale DNS
     # "100.100.100.100"
-
-    "1.1.1.1"
-
-    "8.8.8.8"
+    #
+    # "1.1.1.1"
+    #
+    # "8.8.8.8"
 
     # Default (Adguard)
     # "10.10.10.12" (Now using lxc as dns)
@@ -56,7 +56,7 @@ in
   # networking.networkmanager.dns = "none";
 
   # Systemd + tailscale manage dns
-  services.resolved.enable = true;
+  # services.resolved.enable = true;
 
   # Firewall configuration for LocalSend
   networking.firewall.allowedTCPPorts = [ 53317 ];
@@ -205,6 +205,8 @@ in
 
     # Network and tunneling
     dig
+    iptables
+    tcpdump
     cloudflared # Cloudflare tunnel
     # cloudflare-warp # Cloudflare WARP
     localsend # Local file sharing

@@ -57,9 +57,15 @@
     }
   ];
 
+  security.wrappers.ping = {
+    source = "${pkgs.iputils}/bin/ping";
+    owner = "root";
+    group = "root";
+    setuid = true;
+  };
   nixosSetup = {
     services = {
-      ad-guard.enable = true;
+      ad-guard.enable = false;
       tailscale = {
         enable = true;
       };
@@ -68,7 +74,7 @@
 
   networking.nameservers = [
     # Default (Adguard)
-    "10.135.108.10"
+    # "10.135.108.10"
     # "1.1.1.1"
     # "8.8.8.8"
   ];
@@ -85,7 +91,7 @@
   # networking.defaultGateway = "10.135.108.1";
 
   # Disable router DNS
-  networking.networkmanager.dns = "none";
+  # networking.networkmanager.dns = "none";
   services.resolved.enable = false;
   systemd.network = {
     enable = true;
