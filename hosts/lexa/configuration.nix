@@ -69,6 +69,8 @@
   networking.nameservers = [
     # Default (Adguard)
     "10.135.108.10"
+    # "1.1.1.1"
+    # "8.8.8.8"
   ];
 
   # networking.interfaces.eth0 = {

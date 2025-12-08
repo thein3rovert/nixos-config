@@ -41,8 +41,9 @@ in
     # Tailscale DNS
     # "100.100.100.100"
 
-    # "1.1.1.1"
-    # "8.8.8.8"
+    "1.1.1.1"
+
+    "8.8.8.8"
 
     # Default (Adguard)
     # "10.10.10.12" (Now using lxc as dns)
@@ -51,6 +52,7 @@ in
 
   #INFO: Disable router DNS,only needed if
   # running adguard
+
   # networking.networkmanager.dns = "none";
 
   # Systemd + tailscale manage dns
