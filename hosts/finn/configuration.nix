@@ -52,7 +52,7 @@
 
   nixosSetup = {
     services = {
-      ad-guard.enable = false;
+      ad-guard.enable = true;
       tailscale = {
         enable = true;
       };
@@ -85,7 +85,12 @@
   # networking.defaultGateway = "10.135.108.1";
 
   # Disable router DNS
-
+  services.resolved = {
+    enable = true;
+    extraConfig = ''
+      DNSStubListener=no
+    '';
+  };
   # networking.networkmanager.dns = "none";
   # services.resolved.enable = false;
   programs.zsh.enable = true;
