@@ -344,7 +344,7 @@
               deployment = {
                 targetHost = "10.10.10.10";
                 targetPort = 22;
-                targetUser = "thein3rovert";
+                targetUser = "root";
                 buildOnTarget = true;
                 tags = [ "homelab" ];
               };

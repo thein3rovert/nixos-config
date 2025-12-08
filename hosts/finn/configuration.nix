@@ -10,11 +10,11 @@
 
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "yes";
+    settings.PermitRootLogin = "prohibit-password";
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO"
   ];
 
   users.users.thein3rovert = {
@@ -36,7 +36,10 @@
 
   security.sudo.extraRules = [
     {
-      users = [ "thein3rovert" ];
+      users = [
+        "thein3rovert"
+        "root"
+      ];
       commands = [
         {
           command = "ALL";
@@ -45,6 +48,7 @@
       ];
     }
   ];
+  security.sudo.wheelNeedsPassword = false;
 
   # nixosSetup = {
   #   services = {
@@ -55,6 +59,14 @@
   #   };
   # };
 
+  nix.settings = {
+    sandbox = false;
+    trusted-users = [
+      "root"
+      "thein3rovert"
+    ];
+  };
+  # services.logrotate.enable = false;
   # networking.nameservers = [
   #   # Default (Adguard)
   #   "10.135.108.10"

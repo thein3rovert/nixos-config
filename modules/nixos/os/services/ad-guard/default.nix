@@ -11,10 +11,10 @@
       openFirewall = true;
       settings = {
         dns = {
-          bind_hosts = [
-            "10.135.108.10"
-            "127.0.0.1"
-          ];
+          # bind_hosts = [
+          #   "10.10.10.10"
+          #   "127.0.0.1"
+          # ];
           port = 53;
           upstream_dns = [
             "1.1.1.1"
