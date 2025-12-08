@@ -50,14 +50,14 @@
   ];
   security.sudo.wheelNeedsPassword = false;
 
-  # nixosSetup = {
-  #   services = {
-  #     ad-guard.enable = true;
-  #     tailscale = {
-  #       enable = true;
-  #     };
-  #   };
-  # };
+  nixosSetup = {
+    services = {
+      ad-guard.enable = false;
+      tailscale = {
+        enable = true;
+      };
+    };
+  };
 
   nix.settings = {
     sandbox = false;
