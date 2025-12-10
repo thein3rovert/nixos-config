@@ -20,9 +20,9 @@
     nix-colors.url = "github:misterio77/nix-colors";
 
     # Ghostty terminal emulator
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
+    # ghostty = {
+    #   url = "github:ghostty-org/ghostty";
+    # };
 
     # Age-based secret management
     # agenix.url = "github:ryantm/agenix";
@@ -66,7 +66,7 @@
       home-manager,
       nixpkgs,
       nix-colors,
-      ghostty,
+      # ghostty,
       agenix,
       disko,
       colmena,
@@ -189,7 +189,7 @@
                 # Additional packages
                 {
                   environment.systemPackages = [
-                    ghostty.packages.x86_64-linux.default
+                    # ghostty.packages.x86_64-linux.default
                     agenix.packages.x86_64-linux.default
                   ];
                 }

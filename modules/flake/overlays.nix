@@ -26,7 +26,7 @@
         inherit (nixos-unstable-small)
           firefox
           thunderbird
-          zed-editor
+          # zed-editor
           ;
       };
   };
