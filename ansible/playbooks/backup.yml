@@ -5,6 +5,7 @@
   vars:
     # Directories to tar & upload
     service_data_paths:
+      # TODO: Create separation for different hosts
       # - "/var/lib/postgresql"
       # - "/var/lib/n8n"
       - "/var/lib/traefik"
