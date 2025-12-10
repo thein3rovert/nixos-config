@@ -217,6 +217,9 @@ in
     awscli
     minio-client
     firefox-unstable
+
+    # AI
+    github-copilot-cli
   ];
 
   # ==============================
