@@ -14,9 +14,13 @@
         # of git history in other to keep repo
         # small
         lfs.enable = true; # better handling of big files
-        userName = "thein3rovert";
-        userEmail = "danielolaibi@gmail.com";
-        extraConfig = {
+        settings = {
+
+        
+        
+        user.name = "thein3rovert";
+        user.email = "danielolaibi@gmail.com";
+       
           column.ui = "auto";
 
           branch.sort = "-committerdate";
@@ -106,7 +110,8 @@
           };
 
           github.user = "thein3rovert";
-        };
+        
+      };
       };
     };
   };
