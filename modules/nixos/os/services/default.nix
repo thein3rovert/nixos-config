@@ -17,6 +17,7 @@
     ./postgres
     ./myslql
     ./n8n
+    ./garage
     # lxc
     ./ad-guard
   ];

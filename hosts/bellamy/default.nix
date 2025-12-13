@@ -1,7 +1,6 @@
 # ==============================
 #     Bellamy Host Configuration
 # ==============================
-# Production server configuration
 
 {
   config,
@@ -20,7 +19,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
 
-    # Host-specific configurations
     ./disk-config.nix
     ./home.nix
     ./secrets.nix
@@ -69,7 +67,6 @@
   # ==============================
   environment.systemPackages = with pkgs; [
     btop # System monitor
-    cowsay
     git
     vim
     # Making sure python and pexpect come from the same package

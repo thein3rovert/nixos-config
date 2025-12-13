@@ -134,6 +134,7 @@ in
       n8n.enable = true;
 
       traefikk.enable = true;
+      garage.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {
