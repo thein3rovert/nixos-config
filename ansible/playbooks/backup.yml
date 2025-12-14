@@ -3,20 +3,28 @@
   become: yes
 
   vars:
+
+    backup_temp_dir: "/tmp/ansible-backups"
+    minio_alias: "myminio"
+    minio_bucket: "thein3rovert-s3"
+    date_tag: "{{ ansible_date_time.date }}"
+
     # Directories to tar & upload
     service_data_paths:
       # TODO: Create separation for different hosts
+      # HOST (base)
       # - "/var/lib/postgresql"
       # - "/var/lib/n8n"
-      - "/var/lib/traefik"
-      - "/var/lib/tailscale"
       # - "/var/lib/AdGuardHome"
 
-      # Bellamy-only services
+      # HOST (bellamy)
+      - "/var/lib/traefik"
+      - "/var/lib/tailscale"
       - "/var/lib/jotty"
       - "/var/lib/minio"
 
       # MinIO S3 bucket storage
+      # TODO: Create separate playbook
       - "/var/storage"
 
       # Podman persistent data
@@ -30,19 +38,17 @@
     extra_backup_files:
       - "/var/lib/containers/storage/db.sql"
 
-    backup_temp_dir: "/tmp/ansible-backups"
-    minio_alias: "myminio"
-    minio_bucket: "thein3rovert-s3"
-    date_tag: "{{ ansible_date_time.date }}"
+
 
   tasks:
+    # Create the temp backup dir
     - name: Create temporary backup directory
       file:
         path: "{{ backup_temp_dir }}"
         state: directory
 
     ###########################################################################
-    # BACKUP DIRECTORIES
+    # BACKUP TO BACKUP DIRECTORIES
     ###########################################################################
     - name: Backup each service directory as tar.gz
       include_tasks: tasks/backup-single.yml
@@ -51,7 +57,7 @@
         loop_var: service_path
 
     ###########################################################################
-    # BACKUP SINGLE IMPORTANT FILES
+    # BACKUP SINGLE IMPORTANT FILES TO BACKUP DIRECTORIES
     ###########################################################################
 
     - name: Back up important single files
@@ -61,7 +67,7 @@
         loop_var: backup_file
 
     ###########################################################################
-    # CLEANUP TEMPORARY BACKUPS
+    # CLEANUP TEMPORARY BACKUPS FROM BACKUP DIR
     ###########################################################################
 
     - name: Remove temporary backup directory
