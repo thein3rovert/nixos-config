@@ -6,5 +6,6 @@
     ./vps
     ./zram
     ./fonts
+    ./systemd
   ];
 }
