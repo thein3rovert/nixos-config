@@ -91,8 +91,8 @@ in
   environment.sessionVariables = {
     # Specify nix path for nh used for easy rebuild
     FLAKE = "/home/thein3rovert/thein3rovert-flake";
-    AWS_ACCESS_KEY_ID = "$(cat ${config.age.secrets.minio_id.path})";
-    AWS_SECRET_ACCESS_KEY = "$(cat ${config.age.secrets.minio_secret.path})";
+    # AWS_ACCESS_KEY_ID = "$(cat ${config.age.secrets.minio_id.path})";
+    # AWS_SECRET_ACCESS_KEY = "$(cat ${config.age.secrets.minio_secret.path})";
   };
 
   # # ==============================
@@ -122,9 +122,6 @@ in
     containers = {
       freshrss.enable = false;
     };
-    # services = {
-    #   nginx.enable = true;
-    # };
     services = {
       tailscale = {
         enable = true;
@@ -236,6 +233,28 @@ in
   #     Restart = "on-failure";
   #   };
   # };
+
+  systemd.user.services.setup-aws-credentials = {
+    description = "Setup AWS credentials for Garage";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "setup-aws-creds" ''
+              set -e
+              mkdir -p /tmp/aws-setup
+              cat > /tmp/aws-setup/credentials << EOF
+        [garage]
+        aws_access_key_id = "$(cat ${config.age.secrets.garage_thein3rovert_id.path})";
+        aws_secret_access_key = "$(cat ${config.age.secrets.garage_thein3rovert_secret.path})";
+        EOF
+              mkdir -p $HOME/.aws
+              cp /tmp/aws-setup/credentials $HOME/.aws/credentials
+              chmod 600 $HOME/.aws/credentials
+              rm -rf /tmp/aws-setup
+      '';
+    };
+    wantedBy = [ "default.target" ];
+    after = [ "agenix.service" ];
+  };
 
   # ==============================
   #         Font Setup

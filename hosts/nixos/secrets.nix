@@ -36,25 +36,28 @@
         path = "/home/thein3rovert/.secrets/minioS3";
       };
 
-      minio_secret = {
-        file = "${self.inputs.secrets}/minioS3/minioS3_secret.age";
+      # minio_secret = {
+      #   file = "${self.inputs.secrets}/minioS3/minioS3_secret.age";
+      #
+      #   path = "/home/thein3rovert/.secrets/minio_secret";
+      # };
 
-        path = "/home/thein3rovert/.secrets/minio_secret";
-      };
-
-      minio_id = {
-        file = "${self.inputs.secrets}/minioS3/minioS3_id.age";
-        path = "/home/thein3rovert/.secrets/minio_id";
-      };
-
+      # minio_id = {
+      #   file = "${self.inputs.secrets}/minioS3/minioS3_id.age";
+      #   path = "/home/thein3rovert/.secrets/minio_id";
+      # };
       garage_thein3rovert_id = {
         file = "${self.inputs.secrets}/aws/accessKey/thein3rovert.age";
         path = "/home/thein3rovert/.secrets/thein3rovert_s3_id";
+        owner = "thein3rovert";
+        mode = "400";
       };
 
       garage_thein3rovert_secret = {
         file = "${self.inputs.secrets}/aws/accessSecret/thein3rovert_secret.age";
         path = "/home/thein3rovert/.secrets/thein3rovert_s3_secret";
+        owner = "thein3rovert";
+        mode = "400";
       };
     };
   };

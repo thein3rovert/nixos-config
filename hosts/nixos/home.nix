@@ -89,6 +89,15 @@ in
         stateVersion = "24.05";
       };
 
+      home.sessionVariables = {
+        #   AWS_ACCESS_KEY_ID = "$(sudo cat ${config.age.secrets.garage_thein3rovert_id.path} )";
+        #   AWS_SECRET_ACCESS_KEY = "$(cat ${config.age.secrets.garage_thein3rovert_secret.path})";
+        AWS_DEFAULT_REGION = "garage";
+        AWS_ENDPOINT_URL = "http://localhost:3900";
+        AWS_PROFILE = "garage";
+      };
+      # };
+
       # ==============================
       #      Cursor Configuration
       # ==============================
