@@ -46,6 +46,16 @@
         file = "${self.inputs.secrets}/minioS3/minioS3_id.age";
         path = "/home/thein3rovert/.secrets/minio_id";
       };
+
+      garage_thein3rovert_id = {
+        file = "${self.inputs.secrets}/aws/accessKey/thein3rovert.age";
+        path = "/home/thein3rovert/.secrets/thein3rovert_s3_id";
+      };
+
+      garage_thein3rovert_secret = {
+        file = "${self.inputs.secrets}/aws/accessSecret/thein3rovert_secret.age";
+        path = "/home/thein3rovert/.secrets/thein3rovert_s3_secret";
+      };
     };
   };
 }
