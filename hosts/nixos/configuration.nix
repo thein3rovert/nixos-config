@@ -243,13 +243,18 @@ in
               mkdir -p /tmp/aws-setup
               cat > /tmp/aws-setup/credentials << EOF
         [garage]
-        aws_access_key_id = "$(cat ${config.age.secrets.garage_thein3rovert_id.path})";
-        aws_secret_access_key = "$(cat ${config.age.secrets.garage_thein3rovert_secret.path})";
+        aws_access_key_id = $(cat ${config.age.secrets.garage_thein3rovert_id.path})
+        aws_secret_access_key = $(cat ${config.age.secrets.garage_thein3rovert_secret.path})
         EOF
               mkdir -p $HOME/.aws
               cp /tmp/aws-setup/credentials $HOME/.aws/credentials
               chmod 600 $HOME/.aws/credentials
               rm -rf /tmp/aws-setup
+
+              # Setup minio client
+              ${pkgs.minio-client}/bin/mc alias set garage http://localhost:3900 \
+                $(cat ${config.age.secrets.garage_thein3rovert_id.path}) \
+                $(cat ${config.age.secrets.garage_thein3rovert_secret.path})
       '';
     };
     wantedBy = [ "default.target" ];
