@@ -57,6 +57,11 @@ in
       '';
     };
 
+    # ============================================
+    #
+    #           Network Configuration
+    #
+    # ============================================
     baseDomain = createOption {
       default = "l.thein3rovert.com";
       type = string;
@@ -65,7 +70,85 @@ in
       '';
     };
 
-    # Port to be used by homelab
+    # ============================================
+    # DNS Configuration
+    # ============================================
+    dns = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    con-dns = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    vm-dns = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    # ============================================
+    # Gateway Configuration
+    # ============================================
+
+    gateway = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    con-gateway = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    vm-gateway = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+
+    # ============================================
+    # Ip address Configuration
+    # ============================================
+    ipAddresses = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    con-IpAddress = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    vm-IpAddress = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+
+    # ============================================
+    # Network Interface Configuration
+    # ============================================
+    networkInterface = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    con-NetworkInterface = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+    vm-NetworkInterface = createOption {
+      type = lib.types.attrsOf lib.types.string;
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+
+    # ============================================
+    # Ports Configuration
+    # ============================================
     containerPorts = createOption {
       type = lib.types.attrsOf lib.types.int;
       default = { };
