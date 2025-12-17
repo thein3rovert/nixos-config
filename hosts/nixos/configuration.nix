@@ -10,6 +10,7 @@
 }:
 let
   inherit (import ../../options.nix) theTimezone hostname;
+  homelab = config.homelab;
 in
 
 {
@@ -139,7 +140,14 @@ in
       n8n.enable = true;
 
       traefikk.enable = true;
-      garage.enable = true;
+      # garage.enable = true;
+      garage = {
+        enable = true;
+        user = "${homelab.baseUser}";
+        group = "users";
+        rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
+      };
+
       nginx = {
         enable = false;
         virtualHosts.default = {

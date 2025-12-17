@@ -4,66 +4,187 @@
   pkgs,
   ...
 }:
+let
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    types
+    mkOption
+    ;
+
+  # Custom helper functions
+  createOption = mkOption;
+  createEnableOption = mkEnableOption;
+  If = mkIf;
+  mapAttribute = lib.mapAttrs;
+
+  # Types used
+  attributeSetOf = types.attrsOf;
+  subModule = types.submodule;
+  string = types.str;
+  list = types.listOf;
+  boolean = types.bool;
+  port = types.port;
+  integer = types.int;
+
+  cfg = config.nixosSetup.services.garage;
+in
 {
-  # Define options schema - mkEnableOption creates a boolean option with default false
-  # wrapping in inside enable it better
+  # Define options schema
   options.nixosSetup.services.garage = {
-    enable = lib.mkEnableOption "S3 services";
+    enable = createEnableOption "S3 services via Garage";
+
+    logLevel = createOption {
+      type = string;
+      default = "info";
+      description = "Log level for Garage service";
+    };
+
+    metadataDir = createOption {
+      type = string;
+      default = "/var/lib/garage/meta";
+      description = "Directory for Garage metadata storage";
+    };
+
+    dataDir = createOption {
+      type = string;
+      default = "/var/lib/garage/data";
+      description = "Directory for Garage data storage";
+    };
+
+    replicationFactor = createOption {
+      type = integer;
+      default = 1;
+      description = "Replication factor for Garage cluster";
+    };
+
+    rpcBindAddr = createOption {
+      type = string;
+      default = "[::]:3901";
+      description = "Address for internal Garage cluster communications";
+    };
+
+    rpcPublicAddr = createOption {
+      type = string;
+      default = "127.0.0.1:3901";
+      description = "Public address for RPC communications";
+    };
+
+    rpcSecret = createOption {
+      type = string;
+      description = "RPC secret for Garage cluster (generate via `openssl rand -hex 32`)";
+      example = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
+    };
+
+    adminToken = createOption {
+      type = string;
+      default = "changeme";
+      description = "Admin token for Garage web interface";
+    };
+
+    webBindAddr = createOption {
+      type = string;
+      default = "0.0.0.0:3902";
+      description = "Address for REST/S3 API and web dashboard";
+    };
+
+    s3Api = {
+      apiBindAddr = createOption {
+        type = string;
+        default = "0.0.0.0:3900";
+        description = "S3 API bind address";
+      };
+
+      s3Region = createOption {
+        type = string;
+        default = "garage";
+        description = "S3 region name";
+      };
+
+      rootDomain = createOption {
+        type = string;
+        default = ".s3.garage.localhost";
+        description = "Root domain for S3 API";
+      };
+    };
+
+    s3Web = {
+      bindAddr = createOption {
+        type = string;
+        default = "[::]:3902";
+        description = "S3 web interface bind address";
+      };
+
+      rootDomain = createOption {
+        type = string;
+        default = ".web.garage.localhost";
+        description = "Root domain for S3 web interface";
+      };
+
+      index = createOption {
+        type = string;
+        default = "index.html";
+        description = "Default index file for S3 web interface";
+      };
+    };
+
+    user = createOption {
+      type = string;
+      default = "garage";
+      description = "User to run Garage service as";
+    };
+
+    group = createOption {
+      type = string;
+      default = "garage";
+      description = "Group to run Garage service as";
+    };
   };
-  config = lib.mkIf config.nixosSetup.services.garage.enable {
+
+  # Implementation using the options
+  config = If cfg.enable {
     services.garage = {
       enable = true;
       package = pkgs.garage;
+
       extraEnvironment = {
         RUST_BACKTRACE = "yes";
       };
 
-      # TODO: Add age path
-      # environmentFile = [ ];
+      logLevel = cfg.logLevel;
 
-      logLevel = "info";
       settings = {
-        metadata_dir = "/var/lib/garage/meta";
-        data_dir = "/var/lib/garage/data";
+        metadata_dir = cfg.metadataDir;
+        data_dir = cfg.dataDir;
+        replication_factor = cfg.replicationFactor;
 
-        replication_factor = 1;
-        # Required network settings:
-        # rpc_bind_addr = "0.0.0.0:3901"; # internal Garage cluster comms
-        web_bind_addr = "0.0.0.0:3902"; # REST/S3 API and web dashboard
+        rpc_bind_addr = cfg.rpcBindAddr;
+        rpc_public_addr = cfg.rpcPublicAddr;
+        rpc_secret = cfg.rpcSecret;
 
-        rpc_bind_addr = "[::]:3901"; # internal Garage cluster comms
-        rpc_public_addr = "127.0.0.1:3901";
-        rpc_secret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424"; # generate via `openssl rand -hex 32`
+        web_bind_addr = cfg.webBindAddr;
+        admin_token = cfg.adminToken;
 
-        # For demo/testing purposes, set a simple admin token:
-        admin_token = "changeme";
         s3_api = {
-          # List of addresses ("LISTEN ADDRS", see Garage documentation)
-          api_bind_addr = "0.0.0.0:3900";
-          s3_region = "garage";
-          root_domain = ".s3.garage.localhost";
-          # You may add more S3 API options if needed, see Garage docs.
+          api_bind_addr = cfg.s3Api.apiBindAddr;
+          s3_region = cfg.s3Api.s3Region;
+          root_domain = cfg.s3Api.rootDomain;
         };
 
         s3_web = {
-          bind_addr = "[::]:3902";
-          root_domain = ".web.garage.localhost";
-          index = "index.html";
+          bind_addr = cfg.s3Web.bindAddr;
+          root_domain = cfg.s3Web.rootDomain;
+          index = cfg.s3Web.index;
         };
       };
-
     };
-    # users.users.garage = {
-    #   isSystemUser = true;
-    #   group = "garage";
-    #   home = "/var/lib/garage";
-    # };
 
-    users.groups.garage = { };
+    users.groups.${cfg.group} = { };
+
     systemd.services.garage.serviceConfig = {
       DynamicUser = false;
-      User = "thein3rovert";
-      Group = "users";
+      User = cfg.user;
+      Group = cfg.group;
     };
   };
 }

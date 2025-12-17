@@ -25,6 +25,13 @@ in
 
   options.homelab = {
     enable = createEnableOption "My homelab services and configuration variables";
+    baseUser = createOption {
+      default = "thein3rovert";
+      type = string;
+      description = ''
+        User to run the base homelab service as
+      '';
+    };
 
     user = createOption {
       default = "share";
