@@ -60,7 +60,7 @@ in
     # ============================================
     #
     #           Network Configuration
-    #
+    # TODO: Add the right descriptions to each
     # ============================================
     baseDomain = createOption {
       default = "l.thein3rovert.com";
