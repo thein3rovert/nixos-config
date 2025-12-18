@@ -18,11 +18,15 @@ in
       ports = [ "8087:80" ];
 
       # TODO: ADD PATH UNDER NETWORKING BASE MODULES
-      volumes = [ "./diagrams:/data/diagrams" ];
+      volumes = [ "/var/lib/fossflow/diagrams:/data/diagrams" ];
 
       environment = {
-        # ENABLE_SERVER_STORAGE = "false";  # Uncomment to disable
+        ENABLE_SERVER_STORAGE = "true"; # Uncomment to disable
       };
     };
+    # Optionally ensure directory exists
+    systemd.tmpfiles.rules = [
+      "d /var/lib/fossflow/diagrams 0755 root root -"
+    ];
   };
 }

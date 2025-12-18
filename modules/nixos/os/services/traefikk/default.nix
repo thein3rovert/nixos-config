@@ -65,7 +65,7 @@
 
           # Container LXC
           services.ad-guard.loadBalancer.servers = [ { url = "http://10.10.10.10:3000/"; } ];
-          services.fossflow.loadBalancer.servers = [ { url = "http://10.10.0.12:8087/"; } ];
+          services.fossflow.loadBalancer.servers = [ { url = "http://10.10.10.12:8087/"; } ];
 
           routers = {
             api = {

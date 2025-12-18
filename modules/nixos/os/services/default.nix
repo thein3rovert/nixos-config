@@ -18,6 +18,7 @@
     ./myslql
     ./n8n
     ./garage
+    ./fossflow
     # lxc
     ./ad-guard
   ];
