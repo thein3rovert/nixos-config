@@ -109,6 +109,7 @@ in
       jnix.enable = true;
       podman-network.enable = true;
       incus.enable = true;
+      fossflow.enable = true;
     };
 
     profiles = {

@@ -65,6 +65,7 @@
 
           # Container LXC
           services.ad-guard.loadBalancer.servers = [ { url = "http://10.10.10.10:3000/"; } ];
+          services.fossflow.loadBalancer.servers = [ { url = "http://10.10.0.12:8087/"; } ];
 
           routers = {
             api = {
@@ -85,6 +86,13 @@
             n8n = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.n8n.vHost}`)";
               service = "n8n";
+              entryPoints = [ "web" ];
+            };
+
+            # Architecture Diagram
+            fossflow = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.fossflow.vHost}`)";
+              service = "fossflow";
               entryPoints = [ "web" ];
             };
 
