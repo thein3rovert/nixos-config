@@ -1,10 +1,10 @@
-# ==============================
-#     NixOS Configuration
-# ==============================
+# ================================
+#     NIXOS CONFIGURATION
+# ================================
 {
   config,
-  pkgs,
   inputs,
+  pkgs,
   self,
   ...
 }:
@@ -14,62 +14,118 @@ let
 in
 
 {
-  # ==============================
-  #         Imports
-  # ==============================
+  # ================================
+  #           IMPORTS
+  # ================================
   imports = [
     ./hardware-configuration.nix
     ../config # Contains system config
   ];
 
-  # ==============================
-  #      Boot Configuration
-  # ==============================
+  # ================================
+  #      BOOT CONFIGURATION
+  # ================================
   boot.supportedFilesystems = [
+    "ext4"
     "ntfs"
     "vfat"
-    "ext4"
   ];
   # NOTE: Bootloader config is handled in the config/ folder
 
-  # ==============================
-  #       Networking Setup
-  # ==============================
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.powersave = false;
-  networking.nameservers = [
-    # Tailscale DNS
-    # "100.100.100.100"
-    #
-    # "1.1.1.1"
-    #
-    # "8.8.8.8"
+  # ================================
+  #        CONSOLE SETUP
+  # ================================
+  console.keyMap = "uk";
 
-    # Default (Adguard)
-    # "10.10.10.12" (Now using lxc as dns)
-    # "10.135.108.10" # lxc andrew
+  # ================================
+  #      CORE SYSTEM MODULES
+  # ================================
+  coreModules = {
+    boot.enable = true;
+    hardware.enable = true;
+    programs.enable = true;
+    security.enable = true;
+    services.enable = true;
+  };
+
+  # ================================
+  #    ENVIRONMENT VARIABLES
+  # ================================
+  environment.sessionVariables = {
+    # Specify nix path for nh used for easy rebuild
+    FLAKE = "/home/thein3rovert/thein3rovert-flake";
+    # AWS_ACCESS_KEY_ID = "$(cat ${config.age.secrets.minio_id.path})";
+    # AWS_SECRET_ACCESS_KEY = "$(cat ${config.age.secrets.minio_secret.path})";
+  };
+
+  # ================================
+  #       SYSTEM PACKAGES
+  # ================================
+  environment.systemPackages = with pkgs; [
+    # ---- Essential System Tools ----
+    vim # Text editor
+    wget # File downloader
+
+    # ---- Development and CLI Tools ----
+    # TODO: MOVE TO CLI MODULES
+    git # Version control
+    neovim # Modern text editor
+    kitty # Terminal emulator
+    sshfs # SSH filesystem
+    nh # Alternative to nix rebuild
+    nvd # Colorful nix output
+    nix-output-monitor # Better nix build output
+    nix-ld # Dynamic library management
+    nil # Nix language server
+    nixd # Another Nix language server
+
+    # ---- GUI Applications ----
+    # TODO: MOVE TO DESKTOP MODULES
+    evolve-core # Evolve tool core
+    dunst # Notification daemon
+    blueberry # Bluetooth manager
+    networkmanagerapplet # Network manager GUI
+    # sticky-notes
+
+    # ---- System Utilities ----
+    xdg-user-dirs # User directory management
+    xdg-utils # XDG utilities
+    fuse # Filesystem utilities
+    gparted
+    banana-cursor
+
+    # ---- Network and Tunneling ----
+    dig
+    iptables
+    tcpdump
+    cloudflared # Cloudflare tunnel
+    localsend # Local file sharing
+    # cloudflare-warp
+
+    # ---- Infrastructure ----
+    ansible
+    terraform
+    awscli
+    minio-client
+    firefox-unstable
+
+    # ---- AI ----
+    github-copilot-cli
   ];
 
-  #INFO: Disable router DNS,only needed if
-  # running adguard
+  # ================================
+  #     HARDWARE CONFIGURATION
+  # ================================
+  hardwareSetup = {
+    intel = {
+      cpu.enable = true;
+      gpu.enable = true;
+    };
+  };
 
-  # networking.networkmanager.dns = "none";
-
-  # Systemd + tailscale manage dns
-  # services.resolved.enable = true;
-
-  # Firewall configuration for LocalSend
-  networking.firewall.allowedTCPPorts = [ 53317 ];
-  networking.firewall.allowedUDPPorts = [ 53317 ];
-
-  services.openssh.extraConfig = ''
-    PermitTTY yes
-    PermitUserEnvironment yes
-  '';
-  # ==============================
-  #    Localization & Timezone
-  # ==============================
+  # ================================
+  #   INTERNATIONALIZATION & LOCALE
+  # ================================
   time.timeZone = "${theTimezone}";
   i18n.defaultLocale = "en_GB.UTF-8";
   i18n.extraLocaleSettings = {
@@ -84,71 +140,93 @@ in
     LC_TIME = "en_GB.UTF-8";
   };
 
-  console.keyMap = "uk";
+  # ================================
+  #     NETWORKING CONFIGURATION
+  # ================================
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
+  networking.nameservers = [
+    # Tailscale DNS
+    # "100.100.100.100"
+    # "1.1.1.1"
+    # "8.8.8.8"
 
-  # ==============================
-  #   Environment Variables
-  # ==============================
-  environment.sessionVariables = {
-    # Specify nix path for nh used for easy rebuild
-    FLAKE = "/home/thein3rovert/thein3rovert-flake";
-    # AWS_ACCESS_KEY_ID = "$(cat ${config.age.secrets.minio_id.path})";
-    # AWS_SECRET_ACCESS_KEY = "$(cat ${config.age.secrets.minio_secret.path})";
-  };
+    # Default (Adguard)
+    # "10.10.10.12" (Now using lxc as dns)
+    # "10.135.108.10" # lxc andrew
+  ];
 
-  # # ==============================
-  # #     Custom Module Config
-  # ==============================
-  # Custom enabled services and programs from modules
+  # NOTE: Disable router DNS, only needed if running adguard
+  # networking.networkmanager.dns = "none";
+
+  # Systemd + tailscale manage dns
+  # services.resolved.enable = true;
+
+  # ---- Firewall Configuration ----
+  # NOTE: This is used by localsend, might consider
+  # moving to localsend module sometimes
+  networking.firewall.allowedTCPPorts = [ 53317 ];
+  networking.firewall.allowedUDPPorts = [ 53317 ];
+
+  # ================================
+  #        NIX CONFIGURATION
+  # ================================
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  # ================================
+  #    NIXOS CUSTOM MODULES
+  # ================================
   nixosSetup = {
-    programs = {
-      podman.enable = true;
-      obs-studio.enable = true;
-      vscode.enableFhs = true;
-      virt-manager.enable = true;
-      jnix.enable = true;
-      podman-network.enable = true;
-      incus.enable = true;
-      fossflow.enable = true;
+    containers = {
+      freshrss.enable = false;
     };
 
     profiles = {
-
-      systemd.garage-s3-credentials = {
-        enable = true;
-        user = "thein3rovert";
-        accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
-        secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
-      };
-
       fonts = {
         enable = true;
         customFonts = [
           ../../modules/fonts/IoskeleyMono-Hinted
         ];
       };
-    };
 
-    containers = {
-      freshrss.enable = false;
-    };
-    services = {
-      tailscale = {
+      /*
+        NOTE: I did this to avoid agenix putting the filepath to the needed credentials
+        instead fo the decrypted credential itself so this way makes sure that
+        systemd server the decypted key when started.
+      */
+      systemd.garage-s3-credentials = {
         enable = true;
+        user = "thein3rovert";
+        accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
+        secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
       };
-      postgresql.enable = true;
-      mysql.enable = false;
-      n8n.enable = true;
+    };
 
-      traefikk.enable = true;
-      # garage.enable = true;
+    programs = {
+      fossflow.enable = true;
+      incus.enable = true;
+      jnix.enable = true;
+      obs-studio.enable = true;
+      podman.enable = true;
+      podman-network.enable = true;
+      virt-manager.enable = true;
+      vscode.enableFhs = true;
+    };
+
+    services = {
+      adguard.enable = false;
       garage = {
         enable = true;
         user = "${homelab.baseUser}";
         group = "users";
         rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
       };
-
+      mysql.enable = false;
+      n8n.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {
@@ -156,92 +234,48 @@ in
           root = "/var/www/localhost";
         };
       };
-      adguard.enable = false;
+      postgresql.enable = true;
+      tailscale = {
+        enable = true;
+      };
+      traefikk.enable = true;
     };
   };
 
-  # Hardware-specific configurations
-  hardwareSetup = {
-    intel = {
-      cpu.enable = true;
-      gpu.enable = true;
-    };
-  };
-
-  # Core system modules
-  coreModules = {
-    hardware.enable = true;
-    boot.enable = true;
-    programs.enable = true;
-    services.enable = true;
-    security.enable = true;
-  };
-
-  # ==============================
-  #      Nixpkgs Configuration
-  # ==============================
+  # ================================
+  #      NIXPKGS CONFIGURATION
+  # ================================
   nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = "x86_64-linux";
 
-  # ==============================
-  #      System Packages
-  # ==============================
-  environment.systemPackages = with pkgs; [
-    # Essential system tools
-    vim # Text editor
-    wget # File downloader
+  # ---- Insecure Packages ----
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "ventoy-1.1.07"
+  # ];
 
-    # Development and CLI tools
-    git # Version control
-    neovim # Modern text editor
-    kitty # Terminal emulator
-    sshfs # SSH filesystem
-    lazydocker # Docker management
-    nh # Alternative to nix rebuild
-    nvd # Colorful nix output
-    nix-output-monitor # Better nix build output
-    nix-ld # Dynamic library management
-    nil # Nix language server
-    nixd # Another Nix language server
+  # ================================
+  #         FONT SETUP
+  # ================================
+  nmod.fonts = {
+    emoji = true;
+    nerd = true;
+  };
 
-    # GUI applications
-    evolve-core # Evolve tool core
-    dunst # Notification daemon
-    blueberry # Bluetooth manager
-    sticky-notes # Note-taking app
-    networkmanagerapplet # Network manager GUI
+  # ================================
+  #       PROGRAMS SETUP
+  # ================================
+  programs.sniffnet.enable = true;
+  programs.ssh.knownHosts = config.snippets.ssh.knownHosts;
 
-    # System utilities
-    xdg-user-dirs # User directory management
-    xdg-utils # XDG utilities
-    fuse # Filesystem utilities
-    gparted
-    banana-cursor
+  # ================================
+  #       SERVICES CONFIG
+  # ================================
+  services.openssh.extraConfig = ''
+    PermitTTY yes
+    PermitUserEnvironment yes
+  '';
 
-    # Network and tunneling
-    dig
-    iptables
-    tcpdump
-    cloudflared # Cloudflare tunnel
-    # cloudflare-warp # Cloudflare WARP
-    localsend # Local file sharing
-
-    # Infra
-    ansible
-    terraform
-    awscli
-    minio-client
-    firefox-unstable
-
-    # AI
-    github-copilot-cli
-  ];
-
-  # ==============================
-  #       System Services
-  # ==============================
-  # Cloudflare WARP service
-
+  # ---- Cloudflare WARP Service ----
   # systemd.services.warp-svc = {
   #   description = "Cloudflare WARP Daemon";
   #   wantedBy = [ "multi-user.target" ];
@@ -251,77 +285,44 @@ in
   #   };
   # };
 
-  # ==============================
-  #         Font Setup
-  # ==============================
-  nmod.fonts = {
-    emoji = true;
-    nerd = true;
-  };
+  # ================================
+  #        USER ACCOUNTS
+  # ================================
+  users.defaultUserShell = pkgs.zsh;
 
-  # ==============================
-  #       User Accounts
-  # ==============================
-  # Backup/recovery user
+  # ---- Backup/Recovery User ----
   users.users.backupuser = {
     isNormalUser = true;
     description = "Backup User";
     extraGroups = [
-      "wheel"
       "networkmanager"
+      "wheel"
     ];
     hashedPassword = "$6$Zn6hrbZ2OCfR3GYU$mPzSIg7JU9V3EXZVLqcNrkIevpjf6cX5sQ4QFq8wJZ8RNY6Iu49D8P9aFtK8Gf6FbvDFmonRvQwhqOJxuK6qx/";
   };
 
-  # Main user account
+  # ---- Main User Account ----
   users.users.thein3rovert = {
     isNormalUser = true;
     description = "thein3rovert";
     extraGroups = [
-      "wheel"
       "networkmanager"
       "sudo"
+      "wheel"
     ];
-    # Fix home-manager not showing on PATH
+    # NOTE: Fix home-manager not showing on PATH
     packages = [ inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default ];
     initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0";
   };
 
-  # ==============================
-  #       Shell Configuration
-  # ==============================
-  users.defaultUserShell = pkgs.zsh;
-
-  # ==============================
-  #       Nix Configuration
-  # ==============================
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  # ==============================
-  #      System State Version
-  # ==============================
-  programs.sniffnet.enable = true;
-  programs.ssh.knownHosts = config.snippets.ssh.knownHosts;
-
-  # ==============================
-  #      Misc
-  # ==============================
-
-  # Installing insecure Packages
-
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "ventoy-1.1.07"
-  # ];
-
-  # ==============================
-  #      System State Version
-  # ==============================
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
+  # ================================
+  #      SYSTEM STATE VERSION
+  # ================================
+  /*
+    NOTE: This value determines the NixOS release from which the default
+    settings for stateful data, like file locations and database versions
+    on your system were taken. It's perfectly fine and recommended to leave
+    this value at the release version of the first install of this system.
+  */
   system.stateVersion = "24.11";
 }

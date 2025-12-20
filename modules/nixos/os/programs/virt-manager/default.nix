@@ -55,8 +55,10 @@ in
       spice
       spice-gtk
       spice-protocol
-      virtio-win
-      win-spice
+
+      # NOTE: Only needed if using windows virtual machines
+      # virtio-win
+      # win-spice
     ];
 
     users.users.thein3rovert.extraGroups = [ "libvirtd" ];

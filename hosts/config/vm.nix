@@ -14,8 +14,8 @@
     spice
     spice-gtk
     spice-protocol
-    virtio-win
-    win-spice
+    # virtio-win
+    # win-spice
   ];
 
   # Configure vvirtualisation services and features

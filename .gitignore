@@ -17,5 +17,6 @@ prompt.md
 terraform.tfvars
 *.tfvars
 
+claude.md
 result
 result.*
