@@ -60,11 +60,15 @@ in
           port = 3000;
           vHost = "ad-guard.${config.myDns.networkMap.name}";
         };
-
         fossflow = {
           hostName = "${emily}";
           port = 8087;
           vHost = "fossflow.${config.myDns.networkMap.name}";
+        };
+        zerobyte = {
+          hostName = "${emily}";
+          port = 8087;
+          vHost = "zerobyte.${config.myDns.networkMap.name}";
         };
       };
     };

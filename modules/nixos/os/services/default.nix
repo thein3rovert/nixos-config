@@ -21,5 +21,6 @@
     ./fossflow
     # lxc
     ./ad-guard
+    ./zerobyte
   ];
 }

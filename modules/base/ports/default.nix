@@ -10,6 +10,7 @@ in
     containerPorts = {
       traefik = 8080;
       linkding = 5860;
+      zerobyte = 4096;
     };
 
     servicePorts = {

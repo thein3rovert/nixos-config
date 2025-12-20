@@ -1,95 +1,142 @@
-# HOMELAB BASE CONFIGURATIONS
+# Homelab Base Configuration Module
 
-> Homelab(default.nix) -> [configs] -> usage
+Centralized configuration management for your NixOS homelab infrastructure.
 
-- USAGE
+## Overview
 
+This module provides a unified configuration system for ports, storage, networking, containers, and host information across your homelab.
+
+## Quick Reference
+
+### 1. Ports
+
+**Usage:**
 ```nix
-# Example: Reference a port in your service configuration
-services.traefik.port = config.homelab.containerPorts.traefik;
+# Container ports
+config.homelab.containerPorts.traefik  # 8080
 
-# Example: Reference a storage path in your service configuration
-services.traefik.dataDir = config.homelab.servicesStorage.traefik.path;
+# Service ports
+config.homelab.servicePorts.ssh  # 22
 
-# Example: Use storage configuration for systemd tmpfiles
+# Custom application ports
+config.homelab.customPorts.api  # 4873
+```
+
+### 2. Storage
+
+**Usage:**
+```nix
+# Container storage
+config.homelab.containerStorage.traefik.path  # "/var/lib/containers/traefik"
+
+# Service storage
+config.homelab.servicesStorage.adguard.path  # "/var/lib/adguardhome"
+
+# Create directories with systemd
 systemd.tmpfiles.rules = [
   "d ${config.homelab.servicesStorage.traefik.path} ${config.homelab.servicesStorage.traefik.permissions} ${config.homelab.servicesStorage.traefik.owner} ${config.homelab.servicesStorage.traefik.group} -"
 ];
 ```
 
-```nix
-# Access host information
-config.homelab.hostInfo.hostname      # Returns "homelab"
-config.homelab.hostInfo.architecture  # Returns "x86_64"
-config.homelab.hostInfo.location      # Returns "home"
+### 3. Networking
 
-# Example usage
-networking.hostName = config.homelab.hostInfo.hostname;
-# Or in conditional logic based on architecture/location
+**Usage:**
+```nix
+# Host IPs
+config.homelab.hosts.emily     # "10.10.10.12"
+config.homelab.hosts.finn      # "10.10.10.10"
+
+# Network configuration
+config.homelab.networkInterface           # "eth0"
+config.homelab.ipAddresses.host          # Primary host IP
+config.homelab.ipAddresses.gateway       # "192.168.1.1"
+config.homelab.ipAddresses.dnsServers    # ["1.1.1.1" "8.8.8.8"]
+config.homelab.ipAddresses.subnet        # "192.168.1.0/24"
+
+# Static IP assignments
+config.homelab.ipAddresses.staticAssignments.nginx  # "192.168.1.20"
 ```
 
-Essential Categories:
+### 4. Containers
 
-1. Network Configuration
+**Usage:**
+```nix
+# Container runtime settings
+config.homelab.containers.runtime        # "podman"
+config.homelab.containers.network        # "homelab"
+config.homelab.containers.storageDriver  # "overlay2"
 
-IP addresses (host, gateway, static assignments)
-DNS servers
-Subnets/CIDR
-VPN settings
-Network interfaces
+# Example: Configure container
+virtualisation.oci-containers.backend = config.homelab.containers.runtime;
+```
 
-2. Storage & Volumes
+### 5. Host Information
 
-Volume paths and types (ZFS, BTRFS, etc.)
-Mount points and options
-Storage quotas/sizes
-Backup locations
-Media/data/config/cache directories
+**Usage:**
+```nix
+# Host metadata
+config.homelab.hostInfo.hostname      # "homelab"
+config.homelab.hostInfo.architecture  # "x86_64"
+config.homelab.hostInfo.location      # "home"
 
-3. Port Management
+# Example: Set hostname
+networking.hostName = config.homelab.hostInfo.hostname;
+```
 
-Container ports
-Service ports
-Port ranges
-Reserved ports
+### 6. User & Group
 
-4. User & Permissions
+**Usage:**
+```nix
+config.homelab.baseUser  # "thein3rovert"
+config.homelab.user      # "share"
+config.homelab.group     # "share"
+config.homelab.timeZone  # "Europe/London"
+```
 
-Default service user/group
-Per-service overrides
-Directory permissions
+## Configuration Structure
 
-5. SSL/TLS
+```
+modules/base/
+├── default.nix      # Main options definitions
+├── ports/           # Port configurations
+├── storage/         # Storage path configurations
+├── networks/        # Network configurations
+├── containers/      # Container runtime configurations
+└── readme.md        # This file
+```
 
-Certificate provider
-ACME email
-Certificate directories
+## Overriding Values
 
-6. Monitoring & Logging
+Override any value in your host-specific configuration:
 
-Log levels
-Retention policies
-Metrics ports
+```nix
+# hosts/emily/configuration.nix
+{
+  homelab = {
+    # Override host IP
+    ipAddresses.host = config.homelab.hosts.emily;
+    
+    # Override network interface
+    networkInterface = "ens18";
+    
+    # Add custom storage
+    servicesStorage.myapp = {
+      path = "/custom/path";
+      owner = config.homelab.user;
+      group = config.homelab.group;
+      permissions = "755";
+    };
+    
+    # Add custom ports
+    containerPorts.myapp = 9000;
+  };
+}
+```
 
-7. Backup Configuration
+## Enable Module
 
-Schedules
-Retention periods
-Remote destinations
-
-8. Authentication
-
-SSO provider settings
-OAuth configurations
-
-9. Container Runtime
-
-Runtime choice (Docker/Podman)
-Network settings
-Storage driver
-
-10. Host Information
-
-Hostname
-Architecture
-Physical location
+```nix
+{
+  homelab.enable = true;
+}
+```

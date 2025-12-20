@@ -225,6 +225,7 @@ in
         group = "users";
         rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
       };
+      zerobyte.enable = true;
       mysql.enable = false;
       n8n.enable = true;
       nginx = {

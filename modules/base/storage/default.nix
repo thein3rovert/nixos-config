@@ -23,6 +23,13 @@ in
         permissions = "755";
       };
 
+      zerobyte = {
+        path = "/var/lib/containers/zerobyte";
+        owner = homelab.user;
+        group = homelab.group;
+        permissions = "755";
+      };
+
       # Add more container storage paths as needed
       nginx = {
         path = "/var/lib/containers/nginx";

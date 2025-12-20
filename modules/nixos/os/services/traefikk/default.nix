@@ -62,6 +62,7 @@
           services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
           # services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
           services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
+          services.zerobyte.loadBalancer.servers = [ { url = "http://127.0.0.1:4096/"; } ];
 
           # Container LXC
           services.ad-guard.loadBalancer.servers = [ { url = "http://10.10.10.10:3000/"; } ];
@@ -86,6 +87,11 @@
             n8n = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.n8n.vHost}`)";
               service = "n8n";
+              entryPoints = [ "web" ];
+            };
+            zerobyte = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.zerobyte.vHost}`)";
+              service = "zerobyte";
               entryPoints = [ "web" ];
             };
 

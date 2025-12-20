@@ -52,6 +52,12 @@ in
               description = "Environment files";
             };
 
+            extraOptions = mkOption {
+              type = types.listOf types.str;
+              default = [ ];
+              description = "Extra options for OCI container (e.g., --cap-add, --device)";
+            };
+
             traefik = mkOption {
               type = types.nullOr (
                 types.submodule {
@@ -157,6 +163,7 @@ in
           volumes = containerCfg.volumes;
           environment = containerCfg.environment;
           environmentFiles = containerCfg.environmentFiles;
+          extraOptions = containerCfg.extraOptions;
         };
       }) config.myContainers.containers
     );
