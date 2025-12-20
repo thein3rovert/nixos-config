@@ -80,6 +80,13 @@ in
       description = "Primary network interface for homelab services";
     };
 
+    # Host IP addresses for each server
+    hosts = createOption {
+      type = attributeSetOf string;
+      default = {};
+      description = "IP addresses for each homelab host/server";
+    };
+
     # IP Addressing
     ipAddresses = {
       # Host IP addresses
