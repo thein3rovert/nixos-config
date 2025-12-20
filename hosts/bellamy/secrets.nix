@@ -31,6 +31,13 @@
       minio = {
         file = "${self.inputs.secrets}/minioS3/minioS3.age";
       };
+      rpcSecret = {
+        file = "${self.inputs.secrets}/garage/rpc_secret.age";
+      };
+
+      adminToken = {
+        file = "${self.inputs.secrets}/garage/admin_token.age";
+      };
     };
   };
 }

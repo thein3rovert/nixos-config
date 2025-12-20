@@ -120,6 +120,26 @@
       uptime-kuma.enable = true;
       jotty.enable = true;
       minio.enable = true;
+
+      # TODO: Learn better way to use agenix fpr env
+      # garage = {
+      #   enable = true;
+      #   user = "thein3rovert";
+      #   group = "users";
+      #   metadataDir = "/var/storage/garage/meta";
+      #   dataDir = "/var/storage/garage/data";
+      #   rpcSecret = config.age.secrets.rpc-secret.path;
+      #   adminToken = config.age.secrets.admin_token.path;
+      #   webBindAddr = "127.0.0.1:3902"; # Only accessible locally
+      #   rpcBindAddr = "0.0.0.0:3901";
+      #   rpcPublicAddr = "127.0.0.1:3901";
+      #   # S3 API should listen on all interfaces so reverse proxy can reach it
+      #   s3Api.apiBindAddr = "127.0.0.1:3900"; # Only accessible locally
+      #   s3Api.rootDomain = "s3.thein3rovert.dev";
+      #
+      #   s3Web.rootDomain = "s3-web.thein3rovert.dev";
+      #   s3Web.bindAddr = "127.0.0.1:3902";
+      # };
     };
 
     programs = {

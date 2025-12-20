@@ -17,6 +17,7 @@ let
   If = mkIf;
   createEnableOption = mkEnableOption;
   createOption = mkOption;
+  attributeSetOf = types.attrsOf;
 in
 {
   imports = [
@@ -165,7 +166,43 @@ in
       description = "Ports used by custom Services and Applications";
     };
 
+    # ============================================
+    # Storage Configuration
+    # ============================================
+
+    servicesStorage = createOption {
+      type = attributeSetOf (
+        types.submodule {
+          options = {
+            path = createOption {
+              type = string;
+              description = "Path to the Volume";
+            };
+
+            owner = createOption {
+              type = string;
+              default = cfg.baseUser;
+              description = "Owner of the volume";
+            };
+
+            group = createOption {
+              type = string;
+              default = cfg.group;
+              description = "Group of the volume";
+            };
+
+            permissions = createOption {
+              type = string;
+              default = "755";
+              description = "Permissions for the volume";
+            };
+
+          };
+        }
+      );
+    };
   };
+
   # If BaseDoman is enabled
   config = If cfg.enable {
     # Create new user group and users
