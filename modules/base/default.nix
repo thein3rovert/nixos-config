@@ -23,6 +23,7 @@ in
   imports = [
     ./ports
     ./storage
+    ./containers
   ];
 
   options.homelab = {
@@ -165,6 +166,29 @@ in
       type = lib.types.attrsOf lib.types.int;
       default = { };
       description = "Ports used by custom Services and Applications";
+    };
+
+    # ============================================
+    # Container Configuration
+    # ============================================
+    containers = {
+      runtime = createOption {
+        type = types.enum [ "podman" "docker" ];
+        default = "podman";
+        description = "Container runtime to use";
+      };
+
+      network = createOption {
+        type = string;
+        default = "homelab";
+        description = "Default container network name";
+      };
+
+      storageDriver = createOption {
+        type = string;
+        default = "overlay2";
+        description = "Container storage driver";
+      };
     };
 
     # ============================================
