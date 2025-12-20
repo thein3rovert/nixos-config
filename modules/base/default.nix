@@ -22,6 +22,7 @@ in
 {
   imports = [
     ./ports
+    ./storage
   ];
 
   options.homelab = {
@@ -193,14 +194,45 @@ in
 
             permissions = createOption {
               type = string;
+              # NOTE: Find a better base permission
               default = "755";
               description = "Permissions for the volume";
             };
-
           };
         }
       );
     };
+    containerStorage = createOption {
+          type = attributeSetOf (
+            types.submodule {
+              options = {
+                path = createOption {
+                  type = string;
+                  description = "Path to the Volume";
+                };
+
+                owner = createOption {
+                  type = string;
+                  default = cfg.baseUser;
+                  description = "Owner of the volume";
+                };
+
+                group = createOption {
+                  type = string;
+                  default = cfg.group;
+                  description = "Group of the volume";
+                };
+
+                permissions = createOption {
+                  type = string;
+                  # NOTE: Find a better base permission
+                  default = "755";
+                  description = "Permissions for the volume";
+                };
+              };
+            }
+          );
+        };
   };
 
   # If BaseDoman is enabled

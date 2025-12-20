@@ -53,6 +53,96 @@ in
 }
 ```
 
+- USAGE
+
+```nix
+# Example: Reference a port in your service configuration
+services.traefik.port = config.homelab.containerPorts.traefik;
+
+# Example: Reference a storage path in your service configuration
+services.traefik.dataDir = config.homelab.servicesStorage.traefik.path;
+
+# Example: Use storage configuration for systemd tmpfiles
+systemd.tmpfiles.rules = [
+  "d ${config.homelab.servicesStorage.traefik.path} ${config.homelab.servicesStorage.traefik.permissions} ${config.homelab.servicesStorage.traefik.owner} ${config.homelab.servicesStorage.traefik.group} -"
+];
+```
+
+## Storage Configuration
+
+- OPTION DEFINITION
+
+```nix
+    servicesStorage = createOption {
+      type = attributeSetOf (
+        types.submodule {
+          options = {
+            path = createOption {
+              type = string;
+              description = "Path to the Volume";
+            };
+
+            owner = createOption {
+              type = string;
+              default = cfg.baseUser;
+              description = "Owner of the volume";
+            };
+
+            group = createOption {
+              type = string;
+              default = cfg.group;
+              description = "Group of the volume";
+            };
+
+            permissions = createOption {
+              type = string;
+              default = "755";
+              description = "Permissions for the volume";
+            };
+          };
+        }
+      );
+    };
+```
+
+- CONFIG
+
+```nix
+{
+  config,
+  ...
+}:
+let
+  homelab = config.homelab;
+in
+{
+  homelab = {
+    servicesStorage = {
+      traefik = {
+        path = "/var/lib/traefik";
+        owner = homelab.user;
+        group = homelab.group;
+        permissions = "755";
+      };
+
+      linkding = {
+        path = "/var/lib/linkding";
+        owner = homelab.user;
+        group = homelab.group;
+        permissions = "755";
+      };
+
+      media = {
+        path = "/srv/media";
+        owner = homelab.user;
+        group = homelab.group;
+        permissions = "755";
+      };
+    };
+  };
+}
+```
+
 Essential Categories:
 
 1. Network Configuration
