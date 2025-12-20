@@ -9,6 +9,7 @@ let
 
   #Types
   string = types.str;
+  listOf = types.listOf;
 
   # custom
   cfg = config.homelab;
@@ -24,6 +25,7 @@ in
     ./ports
     ./storage
     ./containers
+    ./networks
   ];
 
   options.homelab = {
@@ -61,9 +63,7 @@ in
     };
 
     # ============================================
-    #
-    #           Network Configuration
-    # TODO: Add the right descriptions to each
+    # Network Configuration
     # ============================================
     baseDomain = createOption {
       default = "l.thein3rovert.com";
@@ -73,80 +73,49 @@ in
       '';
     };
 
-    # ============================================
-    # DNS Configuration
-    # ============================================
-    dns = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    con-dns = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    vm-dns = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    # ============================================
-    # Gateway Configuration
-    # ============================================
-
-    gateway = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    con-gateway = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    vm-gateway = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-
-    # ============================================
-    # Ip address Configuration
-    # ============================================
-    ipAddresses = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    con-IpAddress = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    vm-IpAddress = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-
-    # ============================================
-    # Network Interface Configuration
-    # ============================================
+    # Primary network interface
     networkInterface = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
+      default = "eth0";
+      type = string;
+      description = "Primary network interface for homelab services";
     };
-    con-NetworkInterface = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    vm-NetworkInterface = createOption {
-      type = lib.types.attrsOf lib.types.string;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
+
+    # IP Addressing
+    ipAddresses = {
+      # Host IP addresses
+      host = createOption {
+        type = string;
+        default = "127.0.0.1";
+        description = "Primary host IP address";
+      };
+
+      # Gateway
+      gateway = createOption {
+        type = string;
+        default = "192.168.1.1";
+        description = "Network gateway IP address";
+      };
+
+      # DNS servers
+      dnsServers = createOption {
+        type = listOf string;
+        default = [ "1.1.1.1" "8.8.8.8" ];
+        description = "DNS server addresses";
+      };
+
+      # Subnet/CIDR
+      subnet = createOption {
+        type = string;
+        default = "192.168.1.0/24";
+        description = "Network subnet in CIDR notation";
+      };
+
+      # Static IP assignments for services
+      staticAssignments = createOption {
+        type = attributeSetOf string;
+        default = {};
+        description = "Static IP assignments for specific services";
+      };
     };
 
     # ============================================
@@ -188,6 +157,29 @@ in
         type = string;
         default = "overlay2";
         description = "Container storage driver";
+      };
+    };
+
+    # ============================================
+    # Host Information
+    # ============================================
+    hostInfo = {
+      hostname = createOption {
+        type = string;
+        default = "homelab";
+        description = "Hostname of the server";
+      };
+
+      architecture = createOption {
+        type = types.enum [ "x86_64" "aarch64" ];
+        default = "x86_64";
+        description = "System architecture";
+      };
+
+      location = createOption {
+        type = string;
+        default = "home";
+        description = "Physical location of the server";
       };
     };
 

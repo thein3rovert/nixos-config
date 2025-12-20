@@ -2,57 +2,6 @@
 
 > Homelab(default.nix) -> [configs] -> usage
 
-> [!EXAMPLE]
-
-```nix
-    # Port to be used by homelab
-    containerPorts = createOption {
-      type = lib.types.attrsOf lib.types.int;
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    servicePorts = createOption {
-      type = lib.types.attrsOf lib.types.int;
-      default = { };
-      description = "Ports used by Nixos Services";
-    };
-    customPorts = createOption {
-      type = lib.types.attrsOf lib.types.int;
-      default = { };
-      description = "Ports used by custom Services and Applications";
-    };
-```
-
-- CONFIG
-
-```nix
-{
-  config,
-  ...
-}:
-let
-  homelab = config.homelab;
-in
-{
-  homelab = {
-    containerPorts = {
-      traefik = 8080;
-      linkding = 5860;
-    };
-
-    servicePorts = {
-      adguard = 53;
-      ssh = 22;
-    };
-
-    customPorts = {
-      ipam = 5050;
-      api = 4873;
-    };
-  };
-}
-```
-
 - USAGE
 
 ```nix
@@ -68,79 +17,15 @@ systemd.tmpfiles.rules = [
 ];
 ```
 
-## Storage Configuration
-
-- OPTION DEFINITION
-
 ```nix
-    servicesStorage = createOption {
-      type = attributeSetOf (
-        types.submodule {
-          options = {
-            path = createOption {
-              type = string;
-              description = "Path to the Volume";
-            };
+# Access host information
+config.homelab.hostInfo.hostname      # Returns "homelab"
+config.homelab.hostInfo.architecture  # Returns "x86_64"
+config.homelab.hostInfo.location      # Returns "home"
 
-            owner = createOption {
-              type = string;
-              default = cfg.baseUser;
-              description = "Owner of the volume";
-            };
-
-            group = createOption {
-              type = string;
-              default = cfg.group;
-              description = "Group of the volume";
-            };
-
-            permissions = createOption {
-              type = string;
-              default = "755";
-              description = "Permissions for the volume";
-            };
-          };
-        }
-      );
-    };
-```
-
-- CONFIG
-
-```nix
-{
-  config,
-  ...
-}:
-let
-  homelab = config.homelab;
-in
-{
-  homelab = {
-    servicesStorage = {
-      traefik = {
-        path = "/var/lib/traefik";
-        owner = homelab.user;
-        group = homelab.group;
-        permissions = "755";
-      };
-
-      linkding = {
-        path = "/var/lib/linkding";
-        owner = homelab.user;
-        group = homelab.group;
-        permissions = "755";
-      };
-
-      media = {
-        path = "/srv/media";
-        owner = homelab.user;
-        group = homelab.group;
-        permissions = "755";
-      };
-    };
-  };
-}
+# Example usage
+networking.hostName = config.homelab.hostInfo.hostname;
+# Or in conditional logic based on architecture/location
 ```
 
 Essential Categories:
