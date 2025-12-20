@@ -222,7 +222,7 @@ in
       garage = {
         enable = true;
         user = "${homelab.baseUser}";
-        group = "users";
+        group = "${homelab.baseGroup}";
         rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
       };
       zerobyte.enable = true;

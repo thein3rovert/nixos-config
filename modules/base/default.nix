@@ -37,6 +37,13 @@ in
         User to run the base homelab service as
       '';
     };
+    baseGroup = createOption {
+          type = string;
+          default = "users";
+          description = ''
+            Group to run the hoelab group as
+          '';
+        };
 
     user = createOption {
       default = "share";
@@ -46,9 +53,9 @@ in
       '';
     };
 
-    default = "share";
     group = createOption {
       type = string;
+      default = "share";
       description = ''
         Group to run the hoelab service as
       '';

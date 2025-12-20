@@ -19,6 +19,11 @@ in
   };
 
   config = if-zerobyte-enable {
+    # Create data directory
+    systemd.tmpfiles.rules = [
+      "d ${dataPath} 0755 ${homelab.baseUser} ${homelab.baseGroup} -"
+    ];
+
     myContainers = {
       enable = true;
       containers = {
