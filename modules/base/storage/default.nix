@@ -25,8 +25,8 @@ in
 
       zerobyte = {
         path = "/var/lib/containers/zerobyte";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = homelab.baseUser;
+        group = homelab.baseGroup;
         permissions = "755";
       };
 
