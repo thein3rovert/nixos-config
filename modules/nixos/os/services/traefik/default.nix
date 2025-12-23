@@ -68,6 +68,12 @@
       # Dynamic Config
       dynamicConfigOptions = {
         http = {
+          services.garage.loadBalancer.servers = [
+            {
+              url = "http://localhost:3900/";
+            }
+          ];
+
           middlewares = {
             auth = {
               basicAuth = {
@@ -78,6 +84,7 @@
             };
           };
 
+          # === Routes ===
           routers = {
             api = {
               rule = "Host(`thein3rovert.dev`)";
@@ -96,6 +103,15 @@
               };
             };
           };
+          routers.garage = {
+            rule = "Host(`s3.thein3rovert.dev`)";
+            service = "garage";
+            entryPoints = [ "websecure" ];
+            tls = {
+              certResolver = "godaddy";
+            };
+          };
+
         };
       };
     };
