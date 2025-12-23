@@ -38,9 +38,12 @@
       adminToken = {
         file = "${self.inputs.secrets}/garage/admin_token.age";
       };
-
       garage-env = {
         file = "${self.inputs.secrets}/garage/garage-env.age";
+        path = "/home/thein3rovert/.secrets/.garage-env";
+        owner = "thein3rovert";
+        group = "users";
+        mode = "0400";
       };
     };
   };
