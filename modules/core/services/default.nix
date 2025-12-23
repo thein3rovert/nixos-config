@@ -36,7 +36,8 @@ in
     };
 
     # List services that you want to enable:
-    services.openssh.settings.PasswordAuthentication = true;
+    # INFO: Use mkForce is needed (Override by base config)
+    services.openssh.settings.PasswordAuthentication = false;
     services.openssh.settings.KbdInteractiveAuthentication = false;
     services.openssh.settings.X11Forwarding = true;
     services.openssh.settings.X11DisplayOffset = 10;

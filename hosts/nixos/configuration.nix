@@ -186,6 +186,7 @@ in
     };
 
     profiles = {
+      base.enable = true;
       fonts = {
         enable = true;
         customFonts = [

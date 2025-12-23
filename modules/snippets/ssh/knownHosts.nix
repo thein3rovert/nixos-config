@@ -26,7 +26,30 @@
         ];
         publicKeyFile = "${self.inputs.secrets}/publicKeys/thein3rovert_wellsjaha.pub";
       };
-
+      finn = {
+        hostNames = [
+          "finn"
+          "finn.local"
+          "finn.${config.snippets.tailnet.name}"
+        ];
+        publicKeyFile = "${self.inputs.secrets}/publicKeys/thein3rovert_finn.pub";
+      };
+      lexa = {
+        hostNames = [
+          "lexa"
+          "lexa.local"
+          "lexa.${config.snippets.tailnet.name}"
+        ];
+        publicKeyFile = "${self.inputs.secrets}/publicKeys/thein3rovert_lexa.pub";
+      };
+      nixos = {
+        hostNames = [
+          "nixos"
+          "nixos.local"
+          "nixos.${config.snippets.tailnet.name}"
+        ];
+        publicKeyFile = "${self.inputs.secrets}/publicKeys/thein3rovert_nixos.pub";
+      };
     };
   };
 }

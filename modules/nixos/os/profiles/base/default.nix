@@ -66,10 +66,8 @@
         nix-direnv.enable = true;
         #silent = true;    # Turn to true later, leave off for testing
       };
-
-      # Nix helper tool
       nh.enable = true;
-
+      ssh.knownHosts = config.snippets.ssh.knownHosts;
       # INFO: SSH known hosts configuration
       # Don't forget to add host to snippets
       # Example:
@@ -84,7 +82,11 @@
     # ==============================
     #     Custom Configuration
     # ==============================
-    nixosSetup.programs.jnix.enable = true;
+    nixosSetup = {
+      programs = {
+        jnix.enable = true;
+      };
+    };
     # ==============================
     #     Network Configuration
     # ==============================
@@ -119,13 +121,14 @@
       # Begin culling when disk space drops below 20%
       # Continue culling until disk space rises above 10%
       # Stop all caching if disk space drops below 5%
-      cachefilesd = {
-        enable = true;
-        extraConfig = ''
-          brun 20%
-          bcull 10%
-          bstop 5%'';
-      };
+
+      # cachefilesd = {
+      #   enable = true;
+      #   extraConfig = ''
+      #     brun 20%
+      #     bcull 10%
+      #     bstop 5%'';
+      # };
 
       # === SSH Server Configuration ===
       openssh = {
