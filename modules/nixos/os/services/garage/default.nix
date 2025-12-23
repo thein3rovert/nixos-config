@@ -33,7 +33,6 @@ in
   # Define options schema
   options.nixosSetup.services.garage = {
     enable = createEnableOption "S3 services via Garage";
-
     logLevel = createOption {
       type = string;
       default = "info";
@@ -70,18 +69,19 @@ in
       description = "Public address for RPC communications";
     };
 
-    rpcSecret = createOption {
-      type = string;
-      description = "RPC secret for Garage cluster (generate via `openssl rand -hex 32`)";
-      example = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
-    };
-
-    adminToken = createOption {
-      type = string;
-      default = "changeme";
-      description = "Admin token for Garage web interface";
-    };
-
+    # rpcSecret = createOption {
+    #   type = string;
+    #   default = "$RPC_SECRET";
+    #   description = "RPC secret for Garage cluster (generate via `openssl rand -hex 32`)";
+    #   example = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
+    # };
+    #
+    # adminToken = createOption {
+    #   type = string;
+    #   default = "$ADMIN_TOKEN";
+    #   description = "Admin token for Garage web interface";
+    # };
+    #
     webBindAddr = createOption {
       type = string;
       default = "0.0.0.0:3902";
@@ -146,6 +146,7 @@ in
     services.garage = {
       enable = true;
       package = pkgs.garage;
+      environmentFile = config.age.secrets.garage-env.path;
 
       extraEnvironment = {
         RUST_BACKTRACE = "yes";
@@ -160,10 +161,10 @@ in
 
         rpc_bind_addr = cfg.rpcBindAddr;
         rpc_public_addr = cfg.rpcPublicAddr;
-        rpc_secret = cfg.rpcSecret;
+        # rpc_secret = cfg.rpcSecret;
 
         web_bind_addr = cfg.webBindAddr;
-        admin_token = cfg.adminToken;
+        # admin_token = cfg.adminToken;
 
         s3_api = {
           api_bind_addr = cfg.s3Api.apiBindAddr;
