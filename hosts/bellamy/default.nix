@@ -116,7 +116,7 @@
         user = "thein3rovert";
         accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
         secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
-        endpointUrl = "https://s3.thein3rovert.dev";
+        endpointUrl = "https://${config.snippets.thein3rovert.networkMap.storage3.vHost}";
       };
     };
     containers = {

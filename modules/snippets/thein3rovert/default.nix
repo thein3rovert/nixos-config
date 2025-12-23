@@ -42,7 +42,11 @@ in
           "minio.${baseDomain}"
         ];
       };
-
+      storage3 = {
+        hostName = "Bellamy";
+        port = 3900;
+        vHost = "s3.${baseDomain}";
+      };
     };
   };
 }
