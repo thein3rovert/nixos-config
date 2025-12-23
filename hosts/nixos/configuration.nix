@@ -198,7 +198,7 @@ in
         instead fo the decrypted credential itself so this way makes sure that
         systemd server the decypted key when started.
       */
-      systemd.garage-s3-credentials = {
+      systemd.minio-client = {
         enable = true;
         user = "thein3rovert";
         accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
@@ -219,11 +219,29 @@ in
 
     services = {
       adguard.enable = false;
+      # garage = {
+      #   enable = true;
+      #   user = "${homelab.baseUser}";
+      #   group = "${homelab.baseGroup}";
+      #   rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
+      # };
       garage = {
         enable = true;
-        user = "${homelab.baseUser}";
-        group = "${homelab.baseGroup}";
-        rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
+        user = "thein3rovert";
+        group = "users";
+        metadataDir = "/var/lib/garage/meta";
+        dataDir = "/var/lib/garage/data";
+        # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
+        # adminToken = builtins.readFile config.age.secrets.adminToken.path;
+        webBindAddr = "127.0.0.1:3902"; # Only accessible locally
+        rpcBindAddr = "0.0.0.0:3901";
+        rpcPublicAddr = "127.0.0.1:3901";
+        # S3 API should listen on all interfaces so reverse proxy can reach it
+        s3Api.apiBindAddr = "127.0.0.1:3900"; # Only accessible locally
+        s3Api.rootDomain = ".s3.garage.localhost";
+
+        s3Web.rootDomain = ".web.garage.localhost";
+        s3Web.bindAddr = "127.0.0.1:3902";
       };
       zerobyte.enable = true;
       mysql.enable = false;

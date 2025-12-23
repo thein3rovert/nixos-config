@@ -50,6 +50,13 @@
         owner = "thein3rovert";
         mode = "400";
       };
+      garage-env = {
+        file = "${self.inputs.secrets}/garage/garage-env.age";
+        path = "/home/thein3rovert/.secrets/.garage-env";
+        owner = "thein3rovert";
+        group = "users";
+        mode = "0400";
+      };
       garage_thein3rovert_id = {
         file = "${self.inputs.secrets}/aws/accessKey/thein3rovert.age";
         path = "/home/thein3rovert/.secrets/thein3rovert_s3_id";
