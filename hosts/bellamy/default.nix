@@ -116,6 +116,7 @@
         user = "thein3rovert";
         accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
         secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
+        endpointUrl = "https://s3.thein3rovert.dev";
       };
     };
     containers = {
@@ -141,7 +142,7 @@
         dataDir = "/var/storage/garage/data";
         # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
         # adminToken = builtins.readFile config.age.secrets.adminToken.path;
-        webBindAddr = "127.0.0.1:3902"; # Only accessible locally
+        apiBindAddr = "127.0.0.1:3902"; # Only accessible locally
         rpcBindAddr = "0.0.0.0:3901";
         rpcPublicAddr = "127.0.0.1:3901";
         # S3 API should listen on all interfaces so reverse proxy can reach it
