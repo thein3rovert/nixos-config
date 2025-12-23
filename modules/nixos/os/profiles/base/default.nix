@@ -34,9 +34,6 @@
         # Override the inxi package to include recommended dependencies
         (inxi.override { withRecommends = true; })
 
-        # Increase the priority of uutils-coreutils-noprefix to ensure it's selected
-        (lib.hiPrio uutils-coreutils-noprefix)
-
         # Core system utilities
         git # Version control
         htop # Process viewer
@@ -68,15 +65,6 @@
       };
       nh.enable = true;
       ssh.knownHosts = config.snippets.ssh.knownHosts;
-      # INFO: SSH known hosts configuration
-      # Don't forget to add host to snippets
-      # Example:
-      # ssh.knownHosts = {
-      #   "github.com" = {
-      #     hostNames = [ "github.com" ];
-      #     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEc...";
-      #   };
-      # }
     };
 
     # ==============================
@@ -85,8 +73,10 @@
     nixosSetup = {
       programs = {
         jnix.enable = true;
+        uutils.enable = true;
       };
     };
+
     # ==============================
     #     Network Configuration
     # ==============================
@@ -104,7 +94,7 @@
       };
 
       # === Optional Security Services ===
-      # polkit.enable = true;    # PolicyKit for defining and handling authorizations
+      polkit.enable = true; # PolicyKit for defining and handling authorizations
       # rtkit.enable = true;     # RealtimeKit for real-time scheduling (audio apps)
     };
 
@@ -115,6 +105,11 @@
 
       fwupd.enable = true;
       usbmuxd.enable = true;
+
+      logind.settings.Login = {
+        HandlePowerKey = "suspend";
+        HandlePowerKeyLongPress = "poweroff";
+      };
 
       # === Network File System Caching ===
       # Start cachefilesd for disk caching of network filesystems (like NFS)
