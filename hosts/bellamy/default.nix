@@ -92,9 +92,9 @@
 
   environment.etc."motd".text = ''
     ▗▄▄▖ ▗▄▄▄▖▗▖   ▗▖    ▗▄▖ ▗▖  ▗▖▗▖  ▗▖
-    ▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌ ▐▌▐▛▚▞▜▌ ▝▚▞▘ 
-    ▐▛▀▚▖▐▛▀▀▘▐▌   ▐▌   ▐▛▀▜▌▐▌  ▐▌  ▐▌  
-    ▐▙▄▞▘▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖▐▌ ▐▌▐▌  ▐▌  ▐▌  
+    ▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌ ▐▌▐▛▚▞▜▌ ▝▚▞▘
+    ▐▛▀▚▖▐▛▀▀▘▐▌   ▐▌   ▐▛▀▜▌▐▌  ▐▌  ▐▌
+    ▐▙▄▞▘▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖▐▌ ▐▌▐▌  ▐▌  ▐▌
 
     Welcome, ${builtins.getEnv "USER"}! 🎉
   '';
@@ -106,6 +106,17 @@
     profiles = {
       base.enable = true;
       server.enable = true;
+      /*
+        NOTE: I did this to avoid agenix putting the filepath to the needed credentials
+        instead fo the decrypted credential itself so this way makes sure that
+        systemd server the decypted key when started.
+      */
+      systemd.minio-client = {
+        enable = true;
+        user = "thein3rovert";
+        accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
+        secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
+      };
     };
     containers = {
       freshrss.enable = true;
@@ -156,9 +167,9 @@
     allowSFTP = true;
     banner = ''
           ▗▄▄▖ ▗▄▄▄▖▗▖   ▗▖    ▗▄▖ ▗▖  ▗▖▗▖  ▗▖
-          ▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌ ▐▌▐▛▚▞▜▌ ▝▚▞▘ 
-          ▐▛▀▚▖▐▛▀▀▘▐▌   ▐▌   ▐▛▀▜▌▐▌  ▐▌  ▐▌  
-          ▐▙▄▞▘▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖▐▌ ▐▌▐▌  ▐▌  ▐▌  
+          ▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌ ▐▌▐▛▚▞▜▌ ▝▚▞▘
+          ▐▛▀▚▖▐▛▀▀▘▐▌   ▐▌   ▐▛▀▜▌▐▌  ▐▌  ▐▌
+          ▐▙▄▞▘▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖▐▌ ▐▌▐▌  ▐▌  ▐▌
 
       Welcome to Bellamy Production Server (NixOS) 🚀
     '';
