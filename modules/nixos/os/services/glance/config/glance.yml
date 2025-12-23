@@ -75,7 +75,7 @@ pages:
               - title: adguard
                 same-tab: true
                 timeout: 5s
-                url: http://adguard.l.thein3rovert.com
+                url: http://ad-guard.l.thein3rovert.com
                 icon: di:adguard-home.png
           - type: monitor
             cache: 1m
@@ -120,6 +120,11 @@ pages:
                 timeout: 5s
                 url: https://incus.l.thein3rovert.com
                 icon: di:incus.png
+              - title: FossFlow
+                same-tab: true
+                timeout: 5s
+                url: http://fossflow.l.thein3rovert.com
+                icon: si:tldraw.png
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
@@ -129,6 +134,11 @@ pages:
                 timeout: 5s
                 url: https://uptime-kuma.${BASE_DOMAIN}/
                 icon: di:uptime-kuma.png
+              - title: ZeroByte
+                same-tab: true
+                timeout: 5s
+                url: http://zerobyte.l.thein3rovert.com/
+                icon:  sh:zerobyte.png
           - type: rss
             title: thein3rovert rss feed
             style: horizontal-cards

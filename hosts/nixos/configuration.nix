@@ -219,18 +219,14 @@ in
 
     services = {
       adguard.enable = false;
-      # garage = {
-      #   enable = true;
-      #   user = "${homelab.baseUser}";
-      #   group = "${homelab.baseGroup}";
-      #   rpcSecret = "ce7d8b8dd7dd981b6ae42f841f59e9687c97cb5a29b1d5a13bbc9ec028a99424";
-      # };
       garage = {
         enable = true;
+        # Current webui version and api version are not compatible
         webui = {
           enable = false;
-            apiBaseUrl =  "http://127.0.0.1:3903";
+          apiBaseUrl = "http://127.0.0.1:3903";
         };
+
         user = "thein3rovert";
         group = "users";
         metadataDir = "/var/lib/garage/meta";
