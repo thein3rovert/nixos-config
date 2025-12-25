@@ -327,8 +327,10 @@
               imports = [
                 ./hosts/lexa
                 agenix.nixosModules.default
+                self.nixosModules.users
                 self.nixosModules.containers
                 self.nixosModules.nixosOs
+                self.nixosModules.snippets
               ];
             };
 

@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ modulesPath, pkgs, ... }:
+{
+  modulesPath,
+  pkgs,
+  config,
+  ...
+}:
 
 {
   imports = [
@@ -20,7 +25,19 @@
 
   services.openssh = {
     enable = true;
+    # If user == exist, root login is false
     settings.PermitRootLogin = "yes";
+  };
+
+  # ==============================
+  #       User Management
+  # ==============================
+  # Users configured with yescrypt password hashing
+  myUsers = {
+    thein3rovert = {
+      enable = true;
+      password = "$y$j9T$zPz9u.btt2JUDlLkkMoux.$nqviLDKqy6q.vG9Vl1f4w3jbE/ctd/sIj.AZXjxJyd1";
+    };
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
@@ -33,16 +50,17 @@
       "networkmanager"
       "wheel"
     ];
-    # Add ssh keys
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
     ];
   };
+
   environment.systemPackages = with pkgs; [
-    # Essential system tools
-    vim # Text editor
+    vim
     htop
     git
+    fastfetch
+    openssh
   ];
 
   security.sudo.extraRules = [
@@ -57,6 +75,7 @@
     }
   ];
 
+  programs.ssh.knownHosts = config.snippets.ssh.knownHosts;
   security.wrappers.ping = {
     source = "${pkgs.iputils}/bin/ping";
     owner = "root";

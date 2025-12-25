@@ -330,6 +330,10 @@ in
       "sudo"
       "wheel"
     ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8TgAMiILb7nAoRfJZry+r/ELp8qrITV305fJdIq2qJ danielolaibi@gmail.com"
+    ];
+
     # NOTE: Fix home-manager not showing on PATH
     packages = [ inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default ];
     initialHashedPassword = "$6$rTNa.yDm.2BaIJwX$p4z.EvBm9cmpovrM9FmQ5jvWyNrpuem.894A9X0lKVu5nvJMkNUP0CF1X/7LjkCd0Lf4UUQf67bhagYwboGdB0";
