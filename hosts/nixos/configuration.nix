@@ -330,6 +330,8 @@ in
       "sudo"
       "wheel"
     ];
+
+    # Lexa ( Remove after adding base user config )
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8TgAMiILb7nAoRfJZry+r/ELp8qrITV305fJdIq2qJ danielolaibi@gmail.com"
     ];

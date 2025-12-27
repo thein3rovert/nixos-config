@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   imports = [
     ./base
     ./server
@@ -7,5 +6,6 @@
     ./zram
     ./fonts
     ./systemd
+    ./types
   ];
 }
