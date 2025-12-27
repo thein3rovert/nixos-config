@@ -1,5 +1,8 @@
-{ inputs, self, ... }:
 {
+  inputs,
+  self,
+  ...
+}: {
   # Import clan-core flake module
   imports = [
     inputs.clan-core.flakeModules.default
@@ -35,17 +38,18 @@
           self.nixosModules.hardware
           self.nixosModules.core
           self.nixosModules.containers
+          self.nixosModules.snippets
 
           # Overlays
           {
-            nixpkgs.overlays = [ self.overlays.default ];
+            nixpkgs.overlays = [self.overlays.default];
           }
 
           # Home-Manager configuration
           {
             home-manager = {
               backupFileExtension = "backup";
-              extraSpecialArgs = { inherit self; };
+              extraSpecialArgs = {inherit self;};
               useGlobalPkgs = true;
               useUserPackages = true;
             };
