@@ -135,9 +135,10 @@ in
           };
 
           # Production VPS
+          # INFO: Using custom ssh key for reproducibility
           bellamy = lib.recursiveUpdate defaultSSHConfig {
             hostname = "95.216.216.22";
-            identityFile = "~/.ssh/id_ed25519";
+            identityFile = "~/.ssh/thein3rovert_nixos";
             user = "thein3rovert";
           };
 
@@ -161,12 +162,22 @@ in
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
-
+          finn = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.10.10.10";
+            identityFile = "~/.ssh/thein3rovert_nixos";
+            user = "thein3rovert";
+          };
+          lexa = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.135.108.10";
+            identityFile = "~/.ssh/thein3rovert_nixos";
+            user = "thein3rovert";
+          };
           octavia = lib.recursiveUpdate defaultSSHConfig {
             hostname = "10.20.0.2";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
+
         };
       };
 

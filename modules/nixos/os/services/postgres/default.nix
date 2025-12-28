@@ -29,6 +29,9 @@ in
 
         host all all 10.88.0.0/16 trust
         host all all 10.89.0.0/16 trust
+
+        # Add your VPS IP
+        host all all 100.105.187.63/32 md5
       '';
       initialScript = pkgs.writeText "initialScript.sql" ''
         CREATE USER n8n WITH PASSWORD 'n8n';
