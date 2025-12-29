@@ -134,24 +134,31 @@
       minio.enable = true;
 
       # TODO: Learn better way to use agenix fpr env
-      garage = {
-        enable = true;
-        user = "thein3rovert";
-        group = "users";
-        metadataDir = "/var/storage/garage/meta";
-        dataDir = "/var/storage/garage/data";
-        # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
-        # adminToken = builtins.readFile config.age.secrets.adminToken.path;
-        apiBindAddr = "127.0.0.1:3902"; # Only accessible locally
-        rpcBindAddr = "0.0.0.0:3901";
-        rpcPublicAddr = "127.0.0.1:3901";
-        # S3 API should listen on all interfaces so reverse proxy can reach it
-        s3Api.apiBindAddr = "127.0.0.1:3900"; # Only accessible locally
-        s3Api.rootDomain = "s3.thein3rovert.dev";
+      garage =
+        let
+          apiPort = 3900;
+          rpcPort = 3901;
+          adminPort = 3903;
+          webuiPort = 3909;
+        in
+        {
+          enable = true;
+          user = "thein3rovert";
+          group = "users";
+          metadataDir = "/var/storage/garage/meta";
+          dataDir = "/var/storage/garage/data";
+          # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
+          # adminToken = builtins.readFile config.age.secrets.adminToken.path;
+          apiBindAddr = "127.0.0.1:${toString apiPort}"; # Only accessible locally
+          rpcBindAddr = "0.0.0.0:${toString rpcPort}";
+          rpcPublicAddr = "127.0.0.1:${toString rpcPort}";
+          # S3 API should listen on all interfaces so reverse proxy can reach it
+          s3Api.apiBindAddr = "127.0.0.1:${toString adminPort}"; # Only accessible locally
+          s3Api.rootDomain = "s3.thein3rovert.dev";
 
-        s3Web.rootDomain = "s3-web.thein3rovert.dev";
-        s3Web.bindAddr = "127.0.0.1:3902";
-      };
+          # s3Web.rootDomain = "s3-web.thein3rovert.dev";
+          # s3Web.bindAddr = "127.0.0.1:3902";
+        };
     };
 
     programs = {

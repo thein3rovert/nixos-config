@@ -213,11 +213,13 @@ in
           root_domain = cfg.s3Api.rootDomain;
         };
 
-        s3_web = {
-          bind_addr = cfg.s3Web.bindAddr;
-          root_domain = cfg.s3Web.rootDomain;
-          index = cfg.s3Web.index;
-        };
+        # Since i am not using the web
+        # s3_web = {
+        #   bind_addr = cfg.s3Web.bindAddr;
+        #   root_domain = cfg.s3Web.rootDomain;
+        #   index = cfg.s3Web.index;
+        # };
+
         admin = {
           api_bind_addr = cfg.apiBindAddr;
         };
@@ -235,7 +237,10 @@ in
     # Garage Web UI service
     systemd.services.garage-webui = If cfg.webui.enable {
       description = "Garage Web UI";
-      after = [ "network.target" "garage.service" ];
+      after = [
+        "network.target"
+        "garage.service"
+      ];
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
@@ -251,8 +256,9 @@ in
         API_BASE_URL = cfg.webui.apiBaseUrl;
         S3_REGION = cfg.s3Api.s3Region;
         S3_ENDPOINT_URL = cfg.webui.s3EndpointUrl;
-      } // (if cfg.webui.basePath != "" then { BASE_PATH = cfg.webui.basePath; } else {})
-        // (if cfg.webui.authUserPass != null then { AUTH_USER_PASS = cfg.webui.authUserPass; } else {});
+      }
+      // (if cfg.webui.basePath != "" then { BASE_PATH = cfg.webui.basePath; } else { })
+      // (if cfg.webui.authUserPass != null then { AUTH_USER_PASS = cfg.webui.authUserPass; } else { });
 
       script = ''
         # Debug: show what we're setting
