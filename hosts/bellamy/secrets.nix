@@ -45,20 +45,27 @@
         group = "users";
         mode = "0400";
       };
+      garage-web-ui-env = {
+        file = "${self.inputs.secrets}/garage/garage-webui-env.age";
+        path = "/home/thein3rovert/.secrets/.garage-webui-env";
+        owner = "thein3rovert";
+        group = "users";
+        mode = "0400";
+      };
 
       garage_thein3rovert_id = {
-              file = "${self.inputs.secrets}/minio-client/accessKey/iv3-garage-id.age";
-              path = "/home/thein3rovert/.secrets/thein3rovert_s3_id";
-              owner = "thein3rovert";
-              mode = "400";
-            };
+        file = "${self.inputs.secrets}/minio-client/accessKey/iv3-garage-id.age";
+        path = "/home/thein3rovert/.secrets/thein3rovert_s3_id";
+        owner = "thein3rovert";
+        mode = "400";
+      };
 
-            garage_thein3rovert_secret = {
-              file = "${self.inputs.secrets}/minio-client/accessSecret/iv3-garage-secret.age";
-              path = "/home/thein3rovert/.secrets/thein3rovert_s3_secret";
-              owner = "thein3rovert";
-              mode = "400";
-            };
+      garage_thein3rovert_secret = {
+        file = "${self.inputs.secrets}/minio-client/accessSecret/iv3-garage-secret.age";
+        path = "/home/thein3rovert/.secrets/thein3rovert_s3_secret";
+        owner = "thein3rovert";
+        mode = "400";
+      };
     };
   };
 }
