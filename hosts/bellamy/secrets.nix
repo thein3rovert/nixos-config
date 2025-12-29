@@ -45,7 +45,7 @@
         group = "users";
         mode = "0400";
       };
-      garage-web-ui-env = {
+      garage-webui-env = {
         file = "${self.inputs.secrets}/garage/garage-webui-env.age";
         path = "/home/thein3rovert/.secrets/.garage-webui-env";
         owner = "thein3rovert";

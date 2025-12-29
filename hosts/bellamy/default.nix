@@ -139,11 +139,12 @@
           apiPort = 3900;
           webuiPort = 3909;
           adminPort = 3903;
+          garageWebuiEnv = config.age.secrets.garage-webui-env.path;
         in
         {
           enable = true;
           port = webuiPort;
-          # environmentFile = garageWebuiEnv;
+          environmentFile = garageWebuiEnv;
           waitForServices = [ "garage.service" ];
 
           # Module options (can be overridden by environmentFile)
@@ -151,6 +152,7 @@
           s3Region = region;
           s3EndpointUrl = "http://127.0.0.1:${toString apiPort}";
         };
+
       # TODO: Learn better way to use agenix fpr env
       garage =
         let
@@ -166,11 +168,15 @@
           dataDir = "/var/storage/garage/data";
           # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
           # adminToken = builtins.readFile config.age.secrets.adminToken.path;
-          apiBindAddr = "127.0.0.1:${toString apiPort}"; # Only accessible locally
+
+          # [ ADMIN ]
+          apiBindAddr = "127.0.0.1:${toString adminPort}"; # Only accessible locally
+
           rpcBindAddr = "0.0.0.0:${toString rpcPort}";
           rpcPublicAddr = "127.0.0.1:${toString rpcPort}";
           # S3 API should listen on all interfaces so reverse proxy can reach it
-          s3Api.apiBindAddr = "127.0.0.1:${toString adminPort}"; # Only accessible locally
+
+          s3Api.apiBindAddr = "127.0.0.1:${toString apiPort}"; # Only accessible locally
           s3Api.rootDomain = "s3.thein3rovert.dev";
 
           # s3Web.rootDomain = "s3-web.thein3rovert.dev";

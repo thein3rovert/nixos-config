@@ -20,6 +20,7 @@
     ./garage
     ./fossflow
     # lxc
+    ./garage-webui
     ./ad-guard
     ./zerobyte
   ];
