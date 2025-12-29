@@ -186,7 +186,7 @@ in
   config = If cfg.enable {
     services.garage = {
       enable = true;
-      package = pkgs.garage;
+      package = pkgs.garage_2;
       environmentFile = config.age.secrets.garage-env.path;
 
       extraEnvironment = {
@@ -235,43 +235,43 @@ in
     };
 
     # Garage Web UI service
-    systemd.services.garage-webui = If cfg.webui.enable {
-      description = "Garage Web UI";
-      after = [
-        "network.target"
-        "garage.service"
-      ];
-      wantedBy = [ "multi-user.target" ];
-
-      serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-        RestartSec = "5s";
-        EnvironmentFile = config.age.secrets.garage-env.path;
-      };
-
-      environment = {
-        PORT = toString cfg.webui.port;
-        CONFIG_PATH = cfg.webui.configPath;
-        API_BASE_URL = cfg.webui.apiBaseUrl;
-        S3_REGION = cfg.s3Api.s3Region;
-        S3_ENDPOINT_URL = cfg.webui.s3EndpointUrl;
-      }
-      // (if cfg.webui.basePath != "" then { BASE_PATH = cfg.webui.basePath; } else { })
-      // (if cfg.webui.authUserPass != null then { AUTH_USER_PASS = cfg.webui.authUserPass; } else { });
-
-      script = ''
-        # Debug: show what we're setting
-        echo "Setting API_ADMIN_KEY from GARAGE_ADMIN_TOKEN"
-        echo "GARAGE_ADMIN_TOKEN length: ''${#GARAGE_ADMIN_TOKEN}"
-
-        # Use GARAGE_ADMIN_TOKEN from environmentFile as API_ADMIN_KEY
-        export API_ADMIN_KEY="''${GARAGE_ADMIN_TOKEN}"
-        echo "API_ADMIN_KEY set, length: ''${#API_ADMIN_KEY}"
-
-        exec ${pkgs.garage-webui}/bin/garage-webui
-      '';
-    };
+    # systemd.services.garage-webui = If cfg.webui.enable {
+    #   description = "Garage Web UI";
+    #   after = [
+    #     "network.target"
+    #     "garage.service"
+    #   ];
+    #   wantedBy = [ "multi-user.target" ];
+    #
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     Restart = "on-failure";
+    #     RestartSec = "5s";
+    #     EnvironmentFile = config.age.secrets.garage-env.path;
+    #   };
+    #
+    #   environment = {
+    #     PORT = toString cfg.webui.port;
+    #     CONFIG_PATH = cfg.webui.configPath;
+    #     API_BASE_URL = cfg.webui.apiBaseUrl;
+    #     S3_REGION = cfg.s3Api.s3Region;
+    #     S3_ENDPOINT_URL = cfg.webui.s3EndpointUrl;
+    #   }
+    #   // (if cfg.webui.basePath != "" then { BASE_PATH = cfg.webui.basePath; } else { })
+    #   // (if cfg.webui.authUserPass != null then { AUTH_USER_PASS = cfg.webui.authUserPass; } else { });
+    #
+    #   script = ''
+    #     # Debug: show what we're setting
+    #     echo "Setting API_ADMIN_KEY from GARAGE_ADMIN_TOKEN"
+    #     echo "GARAGE_ADMIN_TOKEN length: ''${#GARAGE_ADMIN_TOKEN}"
+    #
+    #     # Use GARAGE_ADMIN_TOKEN from environmentFile as API_ADMIN_KEY
+    #     export API_ADMIN_KEY="''${GARAGE_ADMIN_TOKEN}"
+    #     echo "API_ADMIN_KEY set, length: ''${#API_ADMIN_KEY}"
+    #
+    #     exec ${pkgs.garage-webui}/bin/garage-webui
+    #   '';
+    # };
 
     # The garage service already creates /etc/garage.toml, so webui can optionally read it
   };

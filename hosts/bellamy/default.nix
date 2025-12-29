@@ -133,13 +133,30 @@
       jotty.enable = true;
       minio.enable = true;
 
+      garage-webui =
+        let
+          region = "garage";
+          apiPort = 3900;
+          webuiPort = 3909;
+          adminPort = 3903;
+        in
+        {
+          enable = true;
+          port = webuiPort;
+          # environmentFile = garageWebuiEnv;
+          waitForServices = [ "garage.service" ];
+
+          # Module options (can be overridden by environmentFile)
+          apiBaseUrl = "http://127.0.0.1:${toString adminPort}";
+          s3Region = region;
+          s3EndpointUrl = "http://127.0.0.1:${toString apiPort}";
+        };
       # TODO: Learn better way to use agenix fpr env
       garage =
         let
           apiPort = 3900;
           rpcPort = 3901;
           adminPort = 3903;
-          webuiPort = 3909;
         in
         {
           enable = true;
