@@ -111,7 +111,6 @@
               certResolver = "godaddy";
             };
           };
-
         };
       };
     };
