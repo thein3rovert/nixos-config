@@ -5,6 +5,15 @@
   self,
   ...
 }:
+let
+  inherit (lib)
+    mkMerge
+    mkIf
+    ;
+  system = pkgs.stdenv;
+  merge = mkMerge;
+  If = mkIf;
+in
 {
   imports = [ self.homeManagerModules.default ];
 
@@ -16,7 +25,7 @@
      The file uses lib.mkIf to apply specific configurations
      based on the operating system: Darwin or Linux
   */
-  config = lib.mkMerge [
+  config = merge [
 
     #--------------------------------------
     # DEFAULT
@@ -37,7 +46,11 @@
         username = "thein3rovert";
       };
 
-      programs.home-manager.enable = true;
+      programs = {
+        home-manager.enable = true;
+        bash.enable = true;
+      };
+
       xdg.enable = true;
 
       # ------------------------------
@@ -57,7 +70,7 @@
     # FIX: isLinux not working on linux system
     # NOTE: Not applying config to linux system
 
-    (lib.mkIf pkgs.stdenv.isLinux {
+    (If system.isLinux {
       # gtk.gtk3.bookmarks = lib.mkAfter [
       #   "file://${config.home.homeDirectory}/sync"
       # ];
@@ -66,7 +79,7 @@
 
         packages = with pkgs; [
           btop
-          nixd
+          obsidian
         ];
 
         stateVersion = "25.05";
