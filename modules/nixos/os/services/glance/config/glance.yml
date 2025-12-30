@@ -124,7 +124,12 @@ pages:
                 same-tab: true
                 timeout: 5s
                 url: http://fossflow.l.thein3rovert.com
-                icon: si:tldraw.png
+                icon: sh:tldraw.png
+              - title: Garage S3
+                same-tab: true
+                timeout: 5s
+                url: http://s3-web.l.thein3rovert.com/
+                icon: sh:garage.svg
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
