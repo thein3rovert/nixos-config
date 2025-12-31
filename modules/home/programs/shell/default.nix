@@ -19,7 +19,7 @@
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
 
-      initExtra = ''
+      initContent = ''
         # Source Powerlevel10k theme
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true

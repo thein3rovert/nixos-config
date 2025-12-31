@@ -11,7 +11,7 @@
     mkIf
     ;
 in {
-  # imports = [ self.homeManagerModules.default ];
+  imports = [ self.homeManagerModules.default ];
 
   /*
   NOTE:
@@ -50,6 +50,9 @@ in {
       # ------------------------------
       # CUSTOM MODULES IMPORT
       # ------------------------------
+
+      # Enable shell configuration with ZSH and Powerlevel10k
+      homeSetup.shell.enable = true;
     }
 
     # ------------------------------
