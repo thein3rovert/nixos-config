@@ -5,5 +5,6 @@
     ./eza
     ./fzf
     ./tmux
+    ./shell
   ];
 }

@@ -7,7 +7,8 @@
   config,
   self,
   ...
-}: {
+}:
+{
   imports = [
     # Include the default incus configuration.
     "${modulesPath}/virtualisation/lxc-container.nix"
@@ -16,7 +17,7 @@
   ];
 
   home-manager = {
-    extraSpecialArgs = {inherit self;};
+    extraSpecialArgs = { inherit self; };
     useGlobalPkgs = true;
     useUserPackages = true;
   };
@@ -66,11 +67,11 @@
 
   security.sudo.extraRules = [
     {
-      users = ["thein3rovert"];
+      users = [ "thein3rovert" ];
       commands = [
         {
           command = "ALL";
-          options = ["NOPASSWD"];
+          options = [ "NOPASSWD" ];
         }
       ];
     }
@@ -89,10 +90,10 @@
       tailscale = {
         enable = true;
       };
-      profiles = {
-        shell.enable = true;
-      };
     };
+    # profiles = {
+    #   shell.enable = false;
+    # };
   };
 
   networking.nameservers = [

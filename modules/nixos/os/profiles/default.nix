@@ -7,6 +7,5 @@
     ./fonts
     ./systemd
     ./types
-    ./shell
   ];
 }
