@@ -148,9 +148,11 @@
         # ================================
         #      EXTENDED LIB WITH TYPES
         # ================================
-        lib = nixpkgs.lib.extend (final: prev: {
-          t = import ./modules/nixos/os/profiles/types/lib/types.nix {lib = final;};
-        });
+        lib = nixpkgs.lib.extend (
+          final: prev: {
+            t = import ./modules/nixos/os/profiles/types/lib/types.nix {lib = final;};
+          }
+        );
 
         # ================================
         #      NIXOS CONFIGURATIONS
@@ -334,6 +336,7 @@
               self.nixosModules.containers
               self.nixosModules.nixosOs
               self.nixosModules.snippets
+              self.inputs.home-manager.nixosModules.home-manager
             ];
           };
 

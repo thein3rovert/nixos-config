@@ -4,36 +4,30 @@
   lib,
   self,
   ...
-}:
-let
-  inherit (lib)
+}: let
+  inherit
+    (lib)
     mkMerge
     mkIf
     ;
-  system = pkgs.stdenv;
-  merge = mkMerge;
-  If = mkIf;
-in
-{
-  imports = [ self.homeManagerModules.default ];
+in {
+  # imports = [ self.homeManagerModules.default ];
 
   /*
-    NOTE:
-        lib.mkMerge in Nix merges a list of attribute sets,
-        combining them left to right
+  NOTE:
+      lib.mkMerge in Nix merges a list of attribute sets,
+      combining them left to right
 
-     The file uses lib.mkIf to apply specific configurations
-     based on the operating system: Darwin or Linux
+   The file uses lib.mkIf to apply specific configurations
+   based on the operating system: Darwin or Linux
   */
-  config = merge [
-
+  config = mkMerge [
     #--------------------------------------
     # DEFAULT
     #--------------------------------------
     {
       home = {
-        packages =
-          with pkgs;
+        packages = with pkgs;
           [
             curl
             nixos-rebuild-ng
@@ -56,7 +50,6 @@ in
       # ------------------------------
       # CUSTOM MODULES IMPORT
       # ------------------------------
-
     }
 
     # ------------------------------
@@ -70,7 +63,7 @@ in
     # FIX: isLinux not working on linux system
     # NOTE: Not applying config to linux system
 
-    (If system.isLinux {
+    (mkIf pkgs.stdenv.isLinux {
       # gtk.gtk3.bookmarks = lib.mkAfter [
       #   "file://${config.home.homeDirectory}/sync"
       # ];
@@ -79,10 +72,10 @@ in
 
         packages = with pkgs; [
           btop
-          obsidian
+          # obsidian
         ];
 
-        stateVersion = "25.05";
+        stateVersion = "25.11";
         username = "thein3rovert";
       };
 
