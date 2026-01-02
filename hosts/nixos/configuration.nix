@@ -342,6 +342,14 @@ in
   };
 
   # ================================
+  #      TEMP FIX
+  # ================================
+  # Resolving Asymmetric Routing in Tailscale with Subnet Routes
+  networking.localCommands = ''
+    ip rule add from 10.10.10.12 to 10.10.10.0/24 lookup main priority 5200 2>/dev/null || true
+  '';
+
+  # ================================
   #      SYSTEM STATE VERSION
   # ================================
   /*
