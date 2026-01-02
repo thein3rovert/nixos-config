@@ -31,8 +31,8 @@ in
           ports = [ "${host}:${toString port}:3001" ];
           volumes = [
             "${dataVolume}:/app/data"
-
           ];
+          extraOptions = [ "--cap-add=NET_RAW" ];
           traefik = {
             enable = true;
             url = "http://localhost:8380/";
@@ -42,5 +42,13 @@ in
         };
       };
     };
+
+    # Use if nixos servcics is handling uptime-kuma
+    # systemd.services.uptime-kuma = {
+    #   serviceConfig = {
+    #     AmbientCapabilities = [ "CAP_NET_RAW" ];
+    #     CapabilityBoundingSet = [ "CAP_NET_RAW" ];
+    #   };
+    # };
   };
 }
