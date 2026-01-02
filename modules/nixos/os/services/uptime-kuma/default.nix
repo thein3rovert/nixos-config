@@ -6,7 +6,7 @@
 let
 
   if-uptime-kuma-enable = lib.mkIf config.nixosSetup.services.uptime-kuma.enable;
-  imageName = "louislam/uptime-kuma";
+  imageName = "docker.io/louislam/uptime-kuma:latest";
   host = "127.0.0.1";
   port = 8380;
   dataVolume = "uptime-kuma_data";
@@ -33,6 +33,9 @@ in
             "${dataVolume}:/app/data"
           ];
           extraOptions = [ "--cap-add=NET_RAW" ];
+          labels = {
+            "io.containers.autoupdate" = "registry";
+          };
           traefik = {
             enable = true;
             url = "http://localhost:8380/";

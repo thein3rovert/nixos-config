@@ -57,6 +57,11 @@ in
               default = [ ];
               description = "Extra options for OCI container (e.g., --cap-add, --device)";
             };
+            labels = mkOption {
+              type = types.attrsOf types.str;
+              default = { };
+              description = "Labels to attach to the container at runtime";
+            };
 
             traefik = mkOption {
               type = types.nullOr (
@@ -164,6 +169,7 @@ in
           environment = containerCfg.environment;
           environmentFiles = containerCfg.environmentFiles;
           extraOptions = containerCfg.extraOptions;
+          labels = containerCfg.labels;
         };
       }) config.myContainers.containers
     );
