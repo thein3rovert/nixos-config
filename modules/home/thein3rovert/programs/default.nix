@@ -6,5 +6,6 @@
     ./zsh
     ./starship
     ./git
+    ./kitty
   ];
 }

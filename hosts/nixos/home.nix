@@ -17,7 +17,7 @@ let
   # ==============================
   # Custom flake modules
   customImport = self.homeManagerModules.default;
-  kittyConfig = ../../modules/home/thein3rovert/programs/kitty;
+  # kittyConfig = ../../modules/home/thein3rovert/programs/kitty;
 
   # ==============================
   #      SSH Configuration
@@ -48,7 +48,7 @@ in
       # ==============================
       imports = [
         customImport
-        kittyConfig
+        # kittyConfig
         self.inputs.zen-browser.homeModules.beta
       ];
 
@@ -190,6 +190,7 @@ in
           programs.cli.enable = true;
           programs.git.enable = true;
           programs.zsh.enable = true;
+          programs.kitty.enable = true;
           programs.starship.enable = true;
         };
       };

@@ -34,6 +34,18 @@
             color_red = "#cc241d";
             color_yellow = "#d79921";
           };
+          gruvbox_material = {
+            color_fg0 = "#d4be98";
+            color_bg1 = "#1d2021";
+            color_bg3 = "#665c54";
+            color_blue = "#83a598";
+            color_aqua = "#89b482";
+            color_green = "#a9b665";
+            color_orange = "#e78a4e";
+            color_purple = "#d3869b";
+            color_red = "#ea6962";
+            color_yellow = "#d8a657";
+          };
         };
 
         os = {
