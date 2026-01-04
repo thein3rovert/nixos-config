@@ -112,10 +112,24 @@ in
     # ---- AI ----
     github-copilot-cli
   ];
+
+  # ================================
+  #     NFS CONFIGURATION
+  # ================================
   services.nfs.settings = {
     # This enables client-side NFS support
   };
   services.rpcbind.enable = true;
+  # TODO: Create a NFS mmodules
+  fileSystems."/mnt/backups" = {
+    device = "100.105.187.63:/backups";
+    fsType = "nfs";
+    options = [
+      "vers=4"
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
   # ================================
   #     HARDWARE CONFIGURATION
   # ================================
