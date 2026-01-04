@@ -189,9 +189,9 @@ in
           # Package collections
           packages.cli.enable = true;
           packages.coding.enable = true;
-          packages.desktop.enable = true;
 
           # Program configurations
+          programs.apps.enable = true;
           programs.git.enable = true;
           programs.zsh.enable = true;
           programs.starship.enable = true;
