@@ -108,11 +108,14 @@ in
     awscli
     minio-client
     firefox-unstable
-
+    nfs-utils
     # ---- AI ----
     github-copilot-cli
   ];
-
+  services.nfs.settings = {
+    # This enables client-side NFS support
+  };
+  services.rpcbind.enable = true;
   # ================================
   #     HARDWARE CONFIGURATION
   # ================================
