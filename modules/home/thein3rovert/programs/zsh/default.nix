@@ -96,7 +96,9 @@
             gco = "git checkout";
             gb = "git branch";
             glog = "git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit";
+            grf = "git reflog --date=relative";
             gpu = "git pull origin";
+
             cat = "bat";
 
             # History Search
@@ -117,6 +119,7 @@
             # Clan deplomeny
             clan-rebuild-switch = "clan machines update";
             cl = "clan machines list";
+
           };
         };
 

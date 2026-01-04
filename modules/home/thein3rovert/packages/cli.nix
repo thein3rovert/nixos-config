@@ -156,9 +156,6 @@ in
           xclip
           tmux
 
-          # Azure
-          # azure-cli
-
           # Keybind dependencies
           yad
 
