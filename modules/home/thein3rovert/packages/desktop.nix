@@ -11,27 +11,33 @@
   config = lib.mkIf config.homeSetup.thein3rovert.packages.desktop.enable {
 
     home.packages = with pkgs; [
+      #====================
       # Desktop Utilities
-      swww # Wallpaper setter (move to desktop folder)
-      pomodoro-gtk # Pomodoro timer with GTK interface
-      obsidian
-      rofi
-      gnome-tweaks
-      wasistlos
-      spotify
+      # ===================
+
+      # Applications
       obs-studio
-      textsnatcher
+      obsidian
+      pomodoro-gtk # Pomodoro timer with GTK interface
+      zathura
+      discord
+      tauon
+
+      swww # Wallpaper setter (move to desktop folder)
+      rofi # Styling
+      gnome-tweaks
       hyprcursor
       hyprshot
-      zathura
       banana-cursor
       nwg-look
-      discord
-      sticky-notes
-      todoist-electron
 
-      # Music Player
-      tauon
+      # Optionals
+      /*
+        spotify
+        wasistlos
+        textsnatcher
+      */
+
     ];
   };
 }
