@@ -190,6 +190,12 @@
   };
 
   # ==============================
+  #      NFS Configuration
+  # ==============================
+  services.nfs.server = {
+    enable = true;
+  };
+  # ==============================
   #      SSH Configuration
   # ==============================
   services.openssh = {
