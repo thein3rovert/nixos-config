@@ -3,6 +3,5 @@
   imports = [
     # ./desktop
     ./programs
-    ./packages
   ];
 }
