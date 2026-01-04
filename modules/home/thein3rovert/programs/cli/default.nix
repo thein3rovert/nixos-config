@@ -4,45 +4,11 @@
   pkgs,
   ...
 }:
-let
-  hostname =
-    if (builtins.pathExists ../../../../option.nix) then
-      (import ../../../../option.nix).currentHostnames
-    else
-      # Create the host
-      [
-        "nixos"
-        "welljaha"
-      ];
-
-  currentHost =
-    # --- Check if host config has a networking attributes---
-    # ---if yes and and networking has hostName,---
-    # ---use the Hostname.---
-    if config ? networking && config.networking ? hostName then
-      config.networking.hostName
-    else
-      builtins.getEnv "HOSTNAME";
-in
 {
-  options.homeSetup.thein3rovert.packages.cli.enable = lib.mkEnableOption "CLI packages";
+  options.homeSetup.thein3rovert.programs.cli.enable = lib.mkEnableOption "CLI packages";
 
   config =
-    lib.mkIf
-      (config.homeSetup.thein3rovert.packages.cli.enable
-        # &&
-        # any: check/iterate over each element in a list (list against list)
-        # elem: checks if a single element exit in a list (single values against list)
-        # FIX: This works but it only apply to the current host, i
-        # it need to be an option so it can be enabled by the other
-        # host
-        #
-        #   builtins.elem currentHost hostname
-        # # builtins.any (host: builtins.elem host hostname) [
-        #   # Add hostname to apply config to host
-        #   "nixos"
-        # ]
-      )
+    lib.mkIf (config.homeSetup.thein3rovert.programs.cli.enable)
 
       {
 
@@ -145,13 +111,16 @@ in
           luajitPackages.jsregexp # JavaScript regular expressions for LuaJIT
           nil # Neovim LSP configuration tool
           nixfmt-rfc-style
-
+          checkstyle # Linter
+          python3
+          # kanata
           # Rust Development
           cargo # Rust package manager and build tool
 
           # Node.js
           nodejs_24
 
+          #Clipboard
           wl-clipboard
           xclip
           tmux

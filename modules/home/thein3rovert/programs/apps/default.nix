@@ -20,6 +20,7 @@
       zathura
       discord
       tauon
+      vscode
 
       # TODO: Move to desktop -> hyprland when available
       swww # Wallpaper setter (move to desktop folder)

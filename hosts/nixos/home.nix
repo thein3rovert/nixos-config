@@ -186,12 +186,8 @@ in
       # ==============================
       homeSetup = {
         thein3rovert = {
-          # Package collections
-          packages.cli.enable = true;
-          packages.coding.enable = true;
-
-          # Program configurations
           programs.apps.enable = true;
+          programs.cli.enable = true;
           programs.git.enable = true;
           programs.zsh.enable = true;
           programs.starship.enable = true;
