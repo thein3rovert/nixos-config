@@ -33,7 +33,12 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
     ];
   };
-
+  ## For updating my driver
+  boot.extraModulePackages = with config.boot.kernelPackages; [ rtw88 ];
+  boot.kernelParams = [
+    "rtw_8821ce.disable_msi=1"
+    "rtw_8821ce.disable_aspm=1"
+  ];
   security.sudo.extraRules = [
     {
       users = [
@@ -49,17 +54,24 @@
     }
   ];
   security.sudo.wheelNeedsPassword = false;
-
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO"
+  ];
   # SSH for remote management
   services.openssh = {
     enable = true;
-    settings.PasswordAuthentication = false;
+    settings.PasswordAuthentication = true;
   };
+
+  # Fix poweroff on led close
+  services.logind.lidSwitch = "ignore";
+  services.logind.lidSwitchExternalPower = "ignore";
 
   # Basic packages
   environment.systemPackages = with pkgs; [
     vim
     git
+    fastfetch
   ];
 
   system.stateVersion = "25.05";
