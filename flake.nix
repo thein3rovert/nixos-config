@@ -286,6 +286,32 @@
                 self.nixosModules.users
               ];
             };
+            # ---- Node: Bellamy (Prod) ----
+            marcus = {
+              deployment = {
+                targetHost = "10.10.10.13";
+                targetPort = 22;
+                targetUser = "in3rovert";
+                buildOnTarget = true;
+                tags = [
+                  "prod"
+                  "production"
+                  "bare-metal"
+                ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/marcus
+                agenix.nixosModules.default
+                inputs.disko.nixosModules.disko
+                self.inputs.home-manager.nixosModules.home-manager
+                self.nixosModules.base
+                self.nixosModules.containers
+                self.nixosModules.nixosOs
+                self.nixosModules.snippets
+                self.nixosModules.users
+              ];
+            };
 
             # ---- Node: Demo ----
             demo = {
