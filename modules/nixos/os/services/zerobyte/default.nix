@@ -22,7 +22,10 @@ in
     extraVolumes = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
+        # Remove from default if reused by other host,
+        # this is a lazy solution
         "/home/thein3rovert/nixos-config:/nixos-config"
+        "/home/thein3rovert/Documents/project/thein3rovert_vault:/thein3rovert_vault"
       ];
       description = "Additional volume mounts for local directories";
       example = [
@@ -49,7 +52,8 @@ in
             "/etc/localtime:/etc/localtime:ro"
             "${dataPath}:/var/lib/zerobyte"
             # "${repository}:/var/lib/zerobyte/repositories"
-          ] ++ cfg.extraVolumes;
+          ]
+          ++ cfg.extraVolumes;
           environment = {
             TZ = homelab.timeZone or "Europe/Paris";
           };
