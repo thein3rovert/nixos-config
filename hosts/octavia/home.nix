@@ -58,9 +58,6 @@
           programs.zsh.enable = true;
           programs.starship.enable = true;
 
-          # Package collections
-          packages.cli.enable = true;
-
           # NOTE: Kitty disabled due to infinite recursion issue
           # programs.kitty.enable = true;
         };
