@@ -27,6 +27,7 @@
     # Add ssh keys
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEiYYJN/Zy38lnIdx1C1I9kQOtgKQTaTt7/bagchFrxN danielolaibi@gmail.com"
     ];
   };
   environment.systemPackages = with pkgs; [
