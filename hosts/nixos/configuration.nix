@@ -109,7 +109,12 @@ in
     minio-client
     firefox-unstable
     nfs-utils
+
     # ---- AI ----
+    /*
+      Building my custom package of this
+      for updated version
+    */
     github-copilot-cli
   ];
 
