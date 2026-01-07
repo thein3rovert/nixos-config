@@ -108,6 +108,8 @@ in
     awscli
     minio-client
     firefox-unstable
+
+    # ------ NFS --
     nfs-utils
 
     # ---- AI ----
