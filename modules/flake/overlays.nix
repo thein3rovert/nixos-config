@@ -4,9 +4,9 @@
     # Define the default overlay
     default =
       # Standard overlay function signature:
-      # - _final: the final (fully built) package set
+      # - final: the final (fully built) package set
       # - prev: the previous package set before applying this overlay
-      _final: prev:
+      final: prev:
 
       let
         # Import a secondary nixpkgs source from your flake inputs
@@ -16,6 +16,9 @@
           # Reuse the same system architecture as the current package set
           inherit (prev) system;
         };
+
+        # Import custom packages from the pkgs directory
+        customPackages = import ../../pkgs { pkgs = final; };
       in
       {
         firefox-unstable = nixos-unstable-small.firefox;
@@ -28,6 +31,8 @@
           thunderbird
           # zed-editor
           ;
-      };
+      }
+      # Merge custom packages into the overlay
+      // customPackages;
   };
 }
