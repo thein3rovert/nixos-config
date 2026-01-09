@@ -2,4 +2,4 @@ all:
   children:
     servers:
       hosts:
-        100.81.26.84 # finn
+        100.88.29.64 # lexa
