@@ -5,8 +5,11 @@
   ...
 }:
 let
-  # WARNING: When ever the config is broken, it requires we restart the preseed manually
-  # using the command systemctl start incus-preseed.services.
+
+  /*
+     WARNING: When ever the config is broken, it requires we restart the preseed manually
+      using the command systemctl start incus-preseed.services. Issue might be fixed in later version
+  */
   cfg = config.nixosSetup.programs.incus;
 in
 {
