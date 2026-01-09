@@ -1,0 +1,22 @@
+---
+- name: Create temporary backup directory
+  file:
+    path: "{{ backup_temp_dir }}"
+    state: directory
+
+- name: Backup each service directory as tar.gz
+  include_tasks: backup-single.yml
+  loop: "{{ service_data_paths }}"
+  loop_control:
+    loop_var: service_path
+
+- name: Back up important single files
+  include_tasks: backup-single-files.yml
+  loop: "{{ extra_backup_files }}"
+  loop_control:
+    loop_var: backup_file
+
+- name: Remove temporary backup directory
+  file:
+    path: "{{ backup_temp_dir }}"
+    state: absent

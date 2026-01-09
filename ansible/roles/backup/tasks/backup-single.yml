@@ -1,0 +1,10 @@
+---
+- name: Create tar for {{ service_path }}
+  command: >
+    tar czf {{ backup_temp_dir }}/{{ service_path | basename }}.tar.gz
+    {{ service_path }}
+
+- name: Upload service tar to MinIO
+  command: >
+    mc cp {{ backup_temp_dir }}/{{ service_path | basename }}.tar.gz
+    {{ minio_alias }}/{{ minio_bucket }}/services/{{ service_path | basename }}-{{ date_tag }}.tar.gz

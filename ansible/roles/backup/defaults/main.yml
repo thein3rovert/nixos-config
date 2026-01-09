@@ -1,0 +1,18 @@
+---
+backup_temp_dir: "/tmp/ansible-backups"
+minio_alias: "garage"
+minio_bucket: "thein3rovert-bucket"
+date_tag: "{{ ansible_date_time.date }}"
+
+service_data_paths:
+  - "/var/lib/traefik"
+  - "/var/lib/tailscale"
+  - "/var/lib/jotty"
+  - "/var/lib/minio"
+  - "/var/storage"
+  - "/var/lib/containers/storage/secrets"
+  - "/var/lib/containers/storage/volumes"
+  - "/etc/containers/networks"
+
+extra_backup_files:
+  - "/var/lib/containers/storage/db.sql"

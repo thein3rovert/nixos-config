@@ -1,0 +1,9 @@
+---
+- name: Copy file to temp folder
+  command: >
+    cp {{ backup_file }} {{ backup_temp_dir }}/
+
+- name: Upload file to MinIO
+  command: >
+    mc cp {{ backup_temp_dir }}/{{ backup_file | basename }}
+    {{ minio_alias }}/{{ minio_bucket }}/files/{{ backup_file | basename }}-{{ date_tag }}
