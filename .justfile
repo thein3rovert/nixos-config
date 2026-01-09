@@ -46,8 +46,20 @@ backup:
 update-secrets:
   nix flake update secrets
 
+# ==============================
+#       ANSIBLE COMMANDS
+# ==============================
+
 # Run a specific role
+[group('ansible')]
 run role:
     ansible-playbook ansible/site.yml --tags {{ role }} --ask-become-pass # --ask-vault-pass
 
-
+# Run a specific environment (production, dev)
+[group('ansible')]
+ini env:
+  ansible-inventory --list -i ansible/inventory/{{ env }}.yml
+#
+# [group('ansible')]
+# ini-dev:
+#   ansible-inventory --list -i ansible/inventory/dev.yml

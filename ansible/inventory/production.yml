@@ -4,8 +4,10 @@ all:
       hosts:
         bellamy:
           ansible_host: bellamy # bellamy
-        prod_srv_2:
-          ansible_host: 100.81.26.84 # finn
+        finn:
+          ansible_host: finn # finn
+        # prod_srv_2:
+        #   ansible_host: 100.81.26.84 # lexa
     # databases:
     #   hosts:
     #
