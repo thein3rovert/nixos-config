@@ -37,7 +37,7 @@ in
             config = {
               "ipv4.address" = "10.135.108.203/24";
               "ipv4.nat" = "true";
-              "ipv4.dhcp" = "false";
+              "ipv4.dhcp" = "true"; # Set to true after test
 
               "ipv4.firewall" = "false";
               "ipv6.address" = "auto";
@@ -46,6 +46,17 @@ in
 
               # Disable DNS to avoid conflict with AdGuardHome
               "dns.mode" = "none";
+            };
+          }
+          {
+            name = "lxdbr1";
+            description = "Custom: lxd tutorial bridge";
+            type = "bridge";
+            config = {
+              "ipv4.address" = "192.168.67.1/24";
+              "ipv6.nat" = "false";
+              "ipv4.dhcp" = "false";
+              "ipv6.address" = "none";
             };
           }
         ];
@@ -126,7 +137,10 @@ in
       tempAddresses = "disabled";
       hostId = "007f0200"; # change this to something unique on your network
       hostName = "nixos"; # change this
-      firewall.trustedInterfaces = [ "incusbr0" ]; # internalbr0
+      firewall.trustedInterfaces = [
+        "incusbr0"
+        "lxdbr0"
+      ]; # internalbr0
 
       # bridges = {
       #   externalbr0 = {
