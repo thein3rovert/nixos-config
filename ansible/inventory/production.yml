@@ -1,0 +1,11 @@
+all:
+  children:
+    servers:
+      hosts:
+        prod_srv_1:
+          100.105.187.63: # bellamy
+        prod_srv_2:
+          100.81.26.84: # finn
+    # databases:
+    #   hosts:
+    #     
