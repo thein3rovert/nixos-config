@@ -29,8 +29,15 @@ in
         config = {
           "core.https_address" = ":8443";
         };
+
+        # ================================
+        #        INCUS NETWOTK SETTINGS
+        # ================================
         networks = [
           {
+
+            # ---- Network 1: Default ----
+
             name = "incusbr0"; # internalbr0
             description = "Default: Internal/NATted bridge";
             type = "bridge";
@@ -48,7 +55,11 @@ in
               "dns.mode" = "none";
             };
           }
+
+          # INFO: Network used by ltsp server
           {
+            # ---- Network 2: Custom(For LTSP_server and client) ----
+
             name = "lxdbr1";
             description = "Custom: lxd tutorial bridge";
             type = "bridge";
@@ -60,7 +71,12 @@ in
             };
           }
         ];
-        ## Storage_pools
+
+        # ============================================
+        #        INCUS STORAGE POOL SETTINGS
+        # ============================================
+
+        # ---- Storage Pool 1: Default ----
         storage_pools = [
           {
             name = "default";
@@ -72,6 +88,8 @@ in
             };
           }
         ];
+
+        # ---- Storage Pool 1 Profile: Default ----
         profiles = [
           {
             name = "default";
@@ -84,6 +102,8 @@ in
               };
             };
           }
+
+          # ---- Storage Pool 2 Profile: Custom ----
           {
             name = "thein3rovert";
             description = "My custom Incus profile";
@@ -142,6 +162,7 @@ in
         "lxdbr0"
       ]; # internalbr0
 
+      # INFO: Only needed when bridge is present
       # bridges = {
       #   externalbr0 = {
       #     interfaces = [ "wlp1s0" ]; # change this to your network adapter
