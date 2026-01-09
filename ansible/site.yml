@@ -1,10 +1,11 @@
 ---
 - name: Backup NixOS services to MinIO
-  hosts: prod_srv_1 #  hosts: bellamy,other-host,another-host
+  hosts: bellamy #  hosts: bellamy,other-host,another-host
   become: yes
+  gather_facts: true
 
   tasks:
-    name: Run Backup Role
-    ansible.builtin.import_role:
+    - name: Run Backup Role
+      ansible.builtin.import_role:
         name: backup
-    tags: backup
+      tags: backup

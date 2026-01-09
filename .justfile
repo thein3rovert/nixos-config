@@ -44,4 +44,10 @@ backup:
 # Update agenix secrets
 [group('servers')]
 update-secrets:
-  nix flake update secrets 
+  nix flake update secrets
+
+# Run a specific role
+run role:
+    ansible-playbook ansible/site.yml --tags {{ role }} --ask-become-pass # --ask-vault-pass
+
+
