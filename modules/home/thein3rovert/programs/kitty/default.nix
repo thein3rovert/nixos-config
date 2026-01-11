@@ -63,7 +63,8 @@
         repaint_delay = "60";
         sync_to_monitor = "no";
         # background_opacity = "1.0";
-        background_blur = "1";
+        # background_blur = "1";
+        background_opacity = "0.80";
         tab_bar_style = "powerline";
         tab_powerline_style = "round";
         font_family = "JetbrainsMono Nerd Font";
