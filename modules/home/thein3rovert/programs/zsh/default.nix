@@ -99,7 +99,7 @@
             grf = "git reflog --date=relative";
             gpu = "git pull origin";
 
-            cat = "bat";
+            cat = "bat --style=plain";
 
             # History Search
             h = "history";

@@ -358,7 +358,8 @@ in
     # Lexa ( Remove after adding base user config )
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8TgAMiILb7nAoRfJZry+r/ELp8qrITV305fJdIq2qJ danielolaibi@gmail.com"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHslvxbDHisZaTqmsly3ZfSERVOfoEN4qPcVzIzmvIK danielolaibi@gmail.com" # Laptop
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHslvxbDHisZaTqmsly3ZfSERVOfoEN4qPcVzIzmvIK danielolaibi@gmail.com" # Marcus
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIvUw5YDyQHeNZdKUhTYnP3KvpZwJtyF+yOhDQO04DHZ n8n"
     ];
 
     # NOTE: Fix home-manager not showing on PATH
