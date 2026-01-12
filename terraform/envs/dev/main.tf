@@ -18,7 +18,7 @@ module "ubuntu_vm" {
   source = "../../modules/cloud-init"
   
   vm_name       = "ubuntu-test"
-  target_node   = "pve"
+  target_node   = "thein3rovert"
   template_name = "ubuntu-cloud-template"
   cores         = 2
   memory        = 2048
