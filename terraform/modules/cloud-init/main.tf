@@ -11,19 +11,36 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   name        = var.vm_name
   target_node = var.target_node
   clone       = var.template_name
+  full_clone = true
+
+  kvm = false
   
   cpu {
   cores   = var.cores
+  type  = "qemu64"
 }
   memory  = var.memory
-  
-  disk {
-    size    = var.disk_size
-    type    = "disk"
-    slot = "scsi1"
-    storage = var.storage
+    
+  # DELETE THIS ENTIRE BLOCK
+  # disk {
+  #   size    = var.disk_size
+  #   type    = "disk"
+  #   slot    = "scsi1"
+  #   storage = var.storage
+  # }
+
+ # Add this to force disk attachment
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = "10G"
+          storage = var.storage
+        }
+      }
+    }
   }
-  
+
   network {
     id = 0
     model  = "virtio"
