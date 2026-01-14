@@ -5,16 +5,27 @@
   ...
 }:
 {
-  options.hardwareSetup.intel.gpu.enable = lib.mkEnableOption "Intel GPU configuration";
+  options.hardwareSetup.intel.gpu = {
+    enable = lib.mkEnableOption "Intel GPU configuration";
+
+    driver = lib.mkOption {
+      description = "INtel GPU driver to use";
+
+      type = lib.types.enum [
+        "i915"
+        "xe"
+      ];
+      default = "i915";
+    };
+  };
+
   config = lib.mkIf config.hardwareSetup.intel.gpu.enable {
-    boot.initrd.kernelModules = [ "i915" ];
+    boot.initrd.kernelModules = [ config.hardwareSetup.intel.gpu.driver ];
 
     environment.sessionVariables = {
-
       LIBVA_DRIVER_NAME = "iHD";
       VDPAU_DRIVER = "va_gl";
     };
-
     hardware = {
       intel-gpu-tools.enable = true;
 
@@ -26,14 +37,16 @@
           (intel-vaapi-driver.override { enableHybridCodec = true; })
           libvdpau-va-gl
 
+          intel-ocl
+          vpl-gpu-rt
+          intel-compute-runtime
+
           # Core Intel driver
-          libva
-          libva-utils
+          # libva
+          # libva-utils
 
           # Native Intel drivers best for GPUs
-          # vaapiIntel # Not sure if valid
-          # vaapiVdpau
-          libva-vdpau-driver
+          # libva-vdpau-driver
         ];
 
         extraPackages32 = with pkgs; [
