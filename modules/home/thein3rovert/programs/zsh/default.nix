@@ -59,6 +59,15 @@
               git push
             }
 
+            gcc() {
+              msg="$*"
+              if [ -z "$msg" ]; then
+                msg="ongoing homelab adjustments"
+              fi
+
+              git add .
+              git commit -m "chore: $msg"
+            }
 
           '';
           shellAliases = {
