@@ -48,23 +48,17 @@
 
             export PATH="$HOME/bin:$PATH"
 
-            # Git Commit Message Function
-            cmsg() {
-                if [ -z "$4" ]; then
-                  git commit -m "$1($2): $3"
-                else
-                  git commit -m "$1($2): $3" -m "$4"
-                fi
-              }
             gch() {
-              scope=$1
-              shift
               msg="$*"
               if [ -z "$msg" ]; then
                 msg="ongoing homelab adjustments"
               fi
-              git commit -m "chore($scope): $msg"
+
+              git add .
+              git commit -m "chore: $msg"
+              git push
             }
+
 
           '';
           shellAliases = {
@@ -96,7 +90,7 @@
             gco = "git checkout";
             gb = "git branch";
             glog = "git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit";
-            grf = "git reflog --date=relative";
+            gflog = "git reflog --date=relative";
             gpu = "git pull origin";
 
             cat = "bat --style=plain";
@@ -119,7 +113,6 @@
             # Clan deplomeny
             clan-rebuild-switch = "clan machines update";
             cl = "clan machines list";
-
           };
         };
 
