@@ -177,7 +177,12 @@ in
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
-
+          # TODO: REMOVE AFTER TEST
+          ubuntu-srv-01 = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.10.10.14";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "root";
+          };
         };
       };
 
