@@ -8,7 +8,7 @@ let
   if-jotty-enable = lib.mkIf config.nixosSetup.services.jotty.enable;
   imageName = "ghcr.io/fccview/jotty:latest";
   host = "127.0.0.1";
-  port = 8382;
+  port = config.snippets.thein3rovert.networkMap.jotty.port;
   dataDir = "/var/lib/jotty";
 in
 {
