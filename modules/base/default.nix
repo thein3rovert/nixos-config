@@ -38,12 +38,12 @@ in
       '';
     };
     baseGroup = createOption {
-          type = string;
-          default = "users";
-          description = ''
-            Group to run the hoelab group as
-          '';
-        };
+      type = string;
+      default = "users";
+      description = ''
+        Group to run the hoelab group as
+      '';
+    };
 
     user = createOption {
       default = "share";
@@ -90,7 +90,7 @@ in
     # Host IP addresses for each server
     hosts = createOption {
       type = attributeSetOf string;
-      default = {};
+      default = { };
       description = "IP addresses for each homelab host/server";
     };
 
@@ -113,7 +113,10 @@ in
       # DNS servers
       dnsServers = createOption {
         type = listOf string;
-        default = [ "1.1.1.1" "8.8.8.8" ];
+        default = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
         description = "DNS server addresses";
       };
 
@@ -127,7 +130,7 @@ in
       # Static IP assignments for services
       staticAssignments = createOption {
         type = attributeSetOf string;
-        default = {};
+        default = { };
         description = "Static IP assignments for specific services";
       };
     };
@@ -136,14 +139,19 @@ in
     # Ports Configuration
     # ============================================
     containerPorts = createOption {
-      type = lib.types.attrsOf lib.types.int;
+      type = lib.types.attrsOf (lib.types.either lib.types.int (lib.types.listOf lib.types.int));
       default = { };
       description = "Ports used by Nixos Podman Containers";
     };
+    # servicePorts = createOption {
+    #   type = lib.types.attrsOf lib.types.int;
+    #   default = { };
+    #   description = "Ports used by Nixos Services";
+    # };
     servicePorts = createOption {
-      type = lib.types.attrsOf lib.types.int;
+      type = lib.types.attrsOf (lib.types.either lib.types.int (lib.types.listOf lib.types.int));
       default = { };
-      description = "Ports used by Nixos Services";
+      description = "Ports used by Nixos Podman services";
     };
     customPorts = createOption {
       type = lib.types.attrsOf lib.types.int;
@@ -156,7 +164,10 @@ in
     # ============================================
     containers = {
       runtime = createOption {
-        type = types.enum [ "podman" "docker" ];
+        type = types.enum [
+          "podman"
+          "docker"
+        ];
         default = "podman";
         description = "Container runtime to use";
       };
@@ -185,7 +196,10 @@ in
       };
 
       architecture = createOption {
-        type = types.enum [ "x86_64" "aarch64" ];
+        type = types.enum [
+          "x86_64"
+          "aarch64"
+        ];
         default = "x86_64";
         description = "System architecture";
       };
@@ -233,36 +247,36 @@ in
       );
     };
     containerStorage = createOption {
-          type = attributeSetOf (
-            types.submodule {
-              options = {
-                path = createOption {
-                  type = string;
-                  description = "Path to the Volume";
-                };
+      type = attributeSetOf (
+        types.submodule {
+          options = {
+            path = createOption {
+              type = string;
+              description = "Path to the Volume";
+            };
 
-                owner = createOption {
-                  type = string;
-                  default = cfg.baseUser;
-                  description = "Owner of the volume";
-                };
+            owner = createOption {
+              type = string;
+              default = cfg.baseUser;
+              description = "Owner of the volume";
+            };
 
-                group = createOption {
-                  type = string;
-                  default = cfg.group;
-                  description = "Group of the volume";
-                };
+            group = createOption {
+              type = string;
+              default = cfg.group;
+              description = "Group of the volume";
+            };
 
-                permissions = createOption {
-                  type = string;
-                  # NOTE: Find a better base permission
-                  default = "755";
-                  description = "Permissions for the volume";
-                };
-              };
-            }
-          );
-        };
+            permissions = createOption {
+              type = string;
+              # NOTE: Find a better base permission
+              default = "755";
+              description = "Permissions for the volume";
+            };
+          };
+        }
+      );
+    };
   };
 
   # If BaseDoman is enabled

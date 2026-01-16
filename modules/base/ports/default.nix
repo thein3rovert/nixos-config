@@ -8,7 +8,6 @@ in
 {
   homelab = {
     containerPorts = {
-      traefik = 80;
       linkding = 5860;
       zerobyte = 4096;
       uptime-kuma = 8380;
@@ -17,11 +16,16 @@ in
     };
 
     servicePorts = {
+      traefik = 80;
       adguard = 53;
       ssh = 22;
       garage-api = 3900;
-      minio-console = 3007;
-      minio-api = 3008;
+      # minio-console = 3007;
+      minio = [
+        3007
+        3008
+      ];
+      # minio-api = 3008;
     };
 
     customPorts = {

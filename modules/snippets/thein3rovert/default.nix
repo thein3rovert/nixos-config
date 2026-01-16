@@ -11,38 +11,42 @@ in
 
       traefik = {
         hostName = "bellamy";
-        port = 80;
+        port = cfg.servicePorts.traefik;
         vHost = "traefik.${baseDomain}";
       };
 
       jotty = {
         hostName = "Bellamy";
-        port = 8382;
+        port = cfg.containerPorts.jotty;
         vHost = "jotty.${baseDomain}";
       };
 
       freshrss = {
         hostName = "Bellamy";
-        port = 8083;
+        port = cfg.containerPorts.freshrss;
         vHost = "freshrss.${baseDomain}";
       };
 
       uptime-kuma = {
         hostName = "Bellamy";
-        port = 8380;
+        port = cfg.containerPorts.uptime-kuma;
         vHost = "uptime-kuma.${baseDomain}";
       };
-      s3 = {
-        hostName = "Bellamy";
-        port = [
-          3007
-          3008
-        ];
-        vHost = [
-          "minio-console.${baseDomain}"
-          "minio.${baseDomain}"
-        ];
-      };
+      s3 =
+        let
+        in
+        {
+          hostName = "Bellamy";
+          port = cfg.servicePorts.minio;
+          # port = [
+          #   3007
+          #   3008
+          # ];
+          vHost = [
+            "minio-console.${baseDomain}"
+            "minio.${baseDomain}"
+          ];
+        };
       garage-api = {
         hostName = "Bellamy";
         port = cfg.servicePorts.garage-api;
