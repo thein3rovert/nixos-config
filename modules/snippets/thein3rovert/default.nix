@@ -6,7 +6,7 @@ in
 {
   options.snippets.thein3rovert.networkMap = lib.mkOption {
     type = lib.types.attrs;
-    description = "Hostnames, ports, and vHosts for cute.haus services.";
+    description = "Hostnames, ports, and vHosts for thein3rovert.dev services.";
     default = {
 
       traefik = {
