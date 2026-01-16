@@ -5,6 +5,7 @@
     {{ service_path }}
 
 - name: Upload service tar to MinIO
+  become: false
   command: >
     mc cp {{ backup_temp_dir }}/{{ service_path | basename }}.tar.gz
     {{ minio_alias }}/{{ minio_bucket }}/services/{{ service_path | basename }}-{{ date_tag }}.tar.gz

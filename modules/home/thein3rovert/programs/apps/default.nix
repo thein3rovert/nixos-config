@@ -30,6 +30,7 @@
       hyprshot
       banana-cursor
       nwg-look
+      bibata-cursors
     ];
   };
 }

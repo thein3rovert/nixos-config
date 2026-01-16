@@ -118,6 +118,8 @@ in
       for updated version
     */
     github-copilot-cli
+
+    bibata-cursors
   ];
 
   # ================================
