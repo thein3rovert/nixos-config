@@ -116,7 +116,7 @@
         user = "thein3rovert";
         accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
         secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
-        endpointUrl = "https://${config.snippets.thein3rovert.networkMap.storage3.vHost}";
+        endpointUrl = "https://${config.snippets.thein3rovert.networkMap.garage-api.vHost}";
       };
     };
     containers = {
@@ -136,7 +136,7 @@
       garage-webui =
         let
           region = "garage";
-          apiPort = 3900;
+          apiPort = config.snippets.thein3rovert.networkMap.garage-api.port;
           webuiPort = 3909;
           adminPort = 3903;
           garageWebuiEnv = config.age.secrets.garage-webui-env.path;

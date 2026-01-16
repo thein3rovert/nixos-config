@@ -1,6 +1,7 @@
-{ lib, ... }:
+{ lib, config, ... }:
 let
   baseDomain = "thein3rovert.dev";
+  cfg = config.homelab;
 in
 {
   options.snippets.thein3rovert.networkMap = lib.mkOption {
@@ -42,9 +43,9 @@ in
           "minio.${baseDomain}"
         ];
       };
-      storage3 = {
+      garage-api = {
         hostName = "Bellamy";
-        port = 3900;
+        port = cfg.servicePorts.garage-api;
         vHost = "s3.${baseDomain}";
       };
     };

@@ -16,6 +16,7 @@ in
     servicePorts = {
       adguard = 53;
       ssh = 22;
+      garage-api = 3900;
     };
 
     customPorts = {
