@@ -122,6 +122,8 @@
             # Clan deplomeny
             clan-rebuild-switch = "clan machines update";
             cl = "clan machines list";
+
+            tv-config = "tv files ~/nixos-config";
           };
         };
 
