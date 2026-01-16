@@ -1,5 +1,0 @@
-- name: Upload file to MinIO
-  shell: |
-    mc cp {{ backup_temp_dir }}/{{ backup_file | basename }} \
-          {{ minio_alias }}/{{ minio_bucket }}/files/
-

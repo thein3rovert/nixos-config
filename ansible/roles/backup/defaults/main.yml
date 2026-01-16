@@ -9,7 +9,7 @@ service_data_paths:
   - "/var/lib/tailscale"
   - "/var/lib/jotty"
   - "/var/lib/minio"
-  - "/var/storage"
+  # - "/var/storage"
   - "/var/lib/containers/storage/secrets"
   - "/var/lib/containers/storage/volumes"
   - "/etc/containers/networks"

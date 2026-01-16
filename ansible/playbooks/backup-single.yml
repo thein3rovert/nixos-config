@@ -1,5 +1,0 @@
-- name: Upload service tar to MinIO
-  shell: |
-    mc cp {{ backup_temp_dir }}/{{ service_path | basename }}.tar.gz \
-          {{ minio_alias }}/{{ minio_bucket }}/services/
-
