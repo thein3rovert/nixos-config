@@ -34,10 +34,11 @@ in
       };
       s3 =
         let
+          s3-port = cfg.servicePorts.minio;
         in
         {
           hostName = "Bellamy";
-          port = cfg.servicePorts.minio;
+          port = if lib.isList s3-port then s3-port else [ s3-port ];
           # port = [
           #   3007
           #   3008
