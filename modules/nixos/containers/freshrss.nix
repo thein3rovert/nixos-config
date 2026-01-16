@@ -7,7 +7,7 @@ let
   imageName = "freshrss/freshrss";
   imageTag = "latest";
   host = "127.0.0.1";
-  port = 8083;
+  port = config.snippets.thein3rovert.networkMap.freshrss.port;
 
   dataVolume = "freshrss_data";
   extensionsVolume = "freshrss_extensions";
