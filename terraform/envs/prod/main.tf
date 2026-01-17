@@ -27,4 +27,22 @@ provider "proxmox" {
 #   ssh_keys    = file("/home/thein3rovert/.ssh/id_ed25519.pub")
 # }
 
+module "ubuntu_container" {
+  source = "../../modules/lxc"
+
+  target_node = var.target_node
+  hostname    = var.hostname
+  template    = local.ostemplate
+  cores       = 2
+  memory      = 2048
+  swap        = 512
+  disk_size   = "8G"
+  rootfs {
+    storage = var.rootfs_storage
+    size    = "8G"
+  }
+  storage  = "local-lvm"
+  ssh_keys = file("/home/thein3rovert/.ssh/id_ed25519.pub")
+}
+
 

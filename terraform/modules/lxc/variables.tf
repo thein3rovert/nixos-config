@@ -1,6 +1,7 @@
 variable "target_node" {}
+variable "vmid" {}
 variable "hostname" {}
-variable "template" {}
+variable "ostemplate" {}
 variable "password" { default = "password" }
 variable "cores" { default = 2 }
 variable "memory" { default = 2048 }
@@ -10,3 +11,7 @@ variable "disk_size" { default = "8G" }
 variable "bridge" { default = "vmbr0" }
 variable "ip_config" { default = "dhcp" }
 variable "ssh_keys" {}
+variable "ip" {}
+variable "gw" {}
+variable "container_id" {}
+variable "cidr_suffix" {}

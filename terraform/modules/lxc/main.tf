@@ -10,28 +10,36 @@ terraform {
 resource "proxmox_lxc" "ubuntu_container" {
   target_node  = var.target_node
   hostname     = var.hostname
-  ostemplate   = var.template
+  ostemplate   = var.ostemplate
   password     = var.password
   unprivileged = true
-  
-  cores  = var.cores
-  memory = var.memory
-  swap   = var.swap
-  
+  vmid         = var.container_id
+  cores        = var.cores
+  memory       = var.memory
+  swap         = var.swap
+  start        = true
+  onboot       = true
+
+
+  features {
+    nesting = true
+  }
+
   rootfs {
     storage = var.storage
     size    = var.disk_size
   }
-  
+
   network {
     name   = "eth0"
     bridge = var.bridge
-    ip     = var.ip_config
+    # ip     = var.ip_config
+    ip_config = var.ip_prefix != null ? "${var.ip_prefix}.${var.container_id}/${var.cidr_suffix}" : "dhcp"
+    gw        = var.gateway
   }
-  
+
   ssh_public_keys = var.ssh_keys
-  
-  start = true
+
 
   lifecycle {
     prevent_destroy = false
