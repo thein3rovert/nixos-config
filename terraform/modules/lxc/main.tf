@@ -34,6 +34,6 @@ resource "proxmox_lxc" "ubuntu_container" {
   start = true
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
