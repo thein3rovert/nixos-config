@@ -110,7 +110,8 @@
           prettierd # Prettier daemon for formatting
           luajitPackages.jsregexp # JavaScript regular expressions for LuaJIT
           nil # Neovim LSP configuration tool
-          nixfmt-rfc-style
+          # nixfmt-rfc-style now nixfmt
+          nixfmt
           checkstyle # Linter
           python3
           # kanata
