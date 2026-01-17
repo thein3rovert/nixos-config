@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     endpoints = {
-      s3 = "https://minio.thein3rovert.dev"
+      s3 = "https://s3.thein3rovert.dev"
     }
     bucket                      = "terraform-state"
     key                         = "root-container/terraform.tfstate"
