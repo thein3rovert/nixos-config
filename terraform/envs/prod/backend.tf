@@ -3,8 +3,8 @@ terraform {
     endpoints = {
       s3 = "https://s3.thein3rovert.dev"
     }
-    bucket                      = "terraform-state"
-    key                         = "terraform/prod/terraform.tfstate"
+    bucket                      = "thein3rovert-bucket"
+    key                         = "terraform-state/prod/terraform-state.tfstate"
     region                      = "garage"
     
     skip_credentials_validation = true
