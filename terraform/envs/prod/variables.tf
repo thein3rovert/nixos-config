@@ -2,6 +2,7 @@
 variable "proxmox_host_ip" {
   type        = string
   description = "The IP address of the Proxmox host for the CI provisioner."
+  default     = ""
 }
 variable "rootfs_storage" {
   type        = string
@@ -17,7 +18,7 @@ variable "root_password" {
 variable "container_id" {
   type        = number
   description = "The ID for the LXC container. If null, Proxmox will assign the next available ID."
-  default     = "110"
+  default     = "103"
   validation {
     condition     = var.ip_base == null || (var.ip_base != null && var.container_id != null)
     error_message = "If you specify an 'ip_prefix', you must also specify a 'container_id'."

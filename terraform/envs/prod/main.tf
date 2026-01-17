@@ -34,7 +34,7 @@ module "ubuntu_container" {
   password    = var.root_password
   hostname    = var.hostname
   vmid        = var.container_id
-  ostemplate  = local.ostemplate
+  ostemplate  = var.ostemplate
   cores       = 2
   memory      = 2048
   swap        = 512
