@@ -11,7 +11,7 @@ variable "rootfs_storage" {
 variable "root_password" {
   type        = string
   description = "The root password for the LXC container. Set to null for a random password."
-  default     = "a_very_secret_password!"
+  default     = "mypassword"
   sensitive   = true
 }
 variable "container_id" {
@@ -61,29 +61,30 @@ variable "target_node" {
   description = "The name of the target Proxmox node."
   default     = "thein3rovert"
 }
-# variable "ostemplate" {
-#   type        = string
-#   description = "The name of the LXC template to use (e.g., 'local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz')."
-#   default     = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-#   # default     = "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
-# }
 
-variable "ostemplate_choice" {
-  description = "Choose an OS template: 1 for Ubuntu, 2 for Alpine"
-  type        = number
-  default     = 1
-  validation {
-    condition     = contains([1, 2], var.ostemplate_choice)
-    error_message = "Valid choices: 1 (Ubuntu), 2 (Alpine)"
-  }
+variable "ostemplate" {
+  type        = string
+  description = "The name of the LXC template to use (e.g., 'local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz')."
+  default     = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+  # default     = "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
 }
-locals {
-  ostemplate = (
-    var.ostemplate_choice == 1
-    ? "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-    : "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
-  )
-}
+
+# variable "ostemplate_choice" {
+#   description = "Choose an OS template: 1 for Ubuntu, 2 for Alpine"
+#   type        = number
+#   default     = 1
+#   validation {
+#     condition     = contains([1, 2], var.ostemplate_choice)
+#     error_message = "Valid choices: 1 (Ubuntu), 2 (Alpine)"
+#   }
+# }
+# locals {
+#   ostemplate = (
+#     var.ostemplate_choice == 1
+#     ? "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+#     : "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
+#   )
+# }
 
 variable "ssh_public_key_path" {
   type        = string
