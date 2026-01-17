@@ -58,14 +58,15 @@
         mode = "0400";
       };
       garage_thein3rovert_id = {
-        file = "${self.inputs.secrets}/aws/accessKey/thein3rovert.age";
-        path = "/home/thein3rovert/.secrets/thein3rovert_s3_id";
+        file = "${self.inputs.secrets}/minio-client/accessKey/iv3-garage-id.age";
+        # old: file = "${self.inputs.secrets}/aws/accessKey/thein3rovert.age";
         owner = "thein3rovert";
         mode = "400";
       };
 
       garage_thein3rovert_secret = {
-        file = "${self.inputs.secrets}/aws/accessSecret/thein3rovert_secret.age";
+        # old: file = "${self.inputs.secrets}/aws/accessSecret/thein3rovert_secret.age";
+        file = "${self.inputs.secrets}/minio-client/accessSecret/iv3-garage-secret.age";
         path = "/home/thein3rovert/.secrets/thein3rovert_s3_secret";
         owner = "thein3rovert";
         mode = "400";
