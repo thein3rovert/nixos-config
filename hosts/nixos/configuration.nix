@@ -225,12 +225,21 @@ in
         instead fo the decrypted credential itself so this way makes sure that
         systemd server the decypted key when started.
       */
-      systemd.minio-client = {
-        enable = true;
-        user = "thein3rovert";
-        accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
-        secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
-        endpointUrl = "https://${config.snippets.thein3rovert.networkMap.garage-api.vHost}";
+      systemd = {
+        minio-client = {
+          enable = true;
+          user = "thein3rovert";
+          accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
+          secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
+          endpointUrl = "https://${config.snippets.thein3rovert.networkMap.garage-api.vHost}";
+        };
+        aws-cli = {
+          enable = true;
+          user = "thein3rovert";
+          profile = "garage";
+          accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
+          secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
+        };
       };
     };
 

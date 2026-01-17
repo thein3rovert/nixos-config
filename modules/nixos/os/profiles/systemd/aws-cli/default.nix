@@ -57,10 +57,10 @@ in
           set -e
           mkdir -p /tmp/aws-setup
           cat > /tmp/aws-setup/credentials << EOF
-[${cfg.profile}]
-aws_access_key_id = $(cat ${cfg.accessKeySecretPath})
-aws_secret_access_key = $(cat ${cfg.secretKeySecretPath})
-EOF
+          [${cfg.profile}]
+          aws_access_key_id = $(cat ${cfg.accessKeySecretPath})
+          aws_secret_access_key = $(cat ${cfg.secretKeySecretPath})
+          EOF
           mkdir -p /home/${cfg.user}/.aws
           cp /tmp/aws-setup/credentials /home/${cfg.user}/.aws/credentials
           chmod 600 /home/${cfg.user}/.aws/credentials
