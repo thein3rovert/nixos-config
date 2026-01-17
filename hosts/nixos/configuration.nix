@@ -230,6 +230,7 @@ in
         user = "thein3rovert";
         accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
         secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
+        endpointUrl = "https://${config.snippets.thein3rovert.networkMap.garage-api.vHost}";
       };
     };
 
@@ -247,7 +248,7 @@ in
     services = {
       adguard.enable = false;
       garage = {
-        enable = true;
+        enable = false;
         # Current webui version and api version are not compatible
         webui = {
           enable = false;
