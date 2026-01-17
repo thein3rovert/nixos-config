@@ -1,9 +1,9 @@
 # variables.tf - Input variables for our Proxmox LXC module
-variable "proxmox_host_ip" {
-  type        = string
-  description = "The IP address of the Proxmox host for the CI provisioner."
-  default     = ""
-}
+# variable "proxmox_host_ip" {
+#   type        = string
+#   description = "The IP address of the Proxmox host for the CI provisioner."
+#   default     = ""
+# }
 variable "rootfs_storage" {
   type        = string
   description = "The storage pool for the container's root disk (e.g., local-lvm)."
