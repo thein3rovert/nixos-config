@@ -34,8 +34,8 @@ resource "proxmox_lxc" "ubuntu_container" {
     name   = "eth0"
     bridge = var.bridge
     # ip     = var.ip_config
-    ip_config = var.ip_prefix != null ? "${var.ip_prefix}.${var.container_id}/${var.cidr_suffix}" : "dhcp"
-    gw        = var.gateway
+    ip = var.ip_base != null ? "${var.ip_base}.${var.container_id}/${var.cidr_suffix}" : "dhcp"
+    gw = var.gateway
   }
 
   ssh_public_keys = var.ssh_keys
