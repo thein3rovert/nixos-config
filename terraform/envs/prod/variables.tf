@@ -94,6 +94,12 @@ variable "ssh_public_key_path" {
   default     = "~/.ssh/id_ed25519.pub"
 }
 
+variable "extra_tags" {
+  description = "Additional tags to add to the container."
+  type        = list(string)
+  default     = ["prod"]
+}
+
 # variable "ostemplate" {
 #   type        = string
 #   description = "The name of the LXC template to use."

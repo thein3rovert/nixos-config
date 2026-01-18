@@ -49,6 +49,7 @@ module "ubuntu_container" {
   bridge          = var.bridge
   container_id    = var.container_id
   proxmox_host_ip = var.proxmox_host_ip
+  extra_tags      = var.extra_tags
 
 }
 
