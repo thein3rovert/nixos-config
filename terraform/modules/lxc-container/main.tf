@@ -33,17 +33,7 @@ resource "proxmox_lxc" "ubuntu_container" {
 
   start = true
 
-  features = "nesting=1,keyctl=1"
-  lxc {
-    key   = "lxc.cgroup2.devices.allow"
-    value = "c 10:200 rwm"
-  }
-  lxc {
-    key   = "lxc.mount.entry"
-    value = "/dev/net/tun dev/net/tun none bind,create=file"
-  }
-
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }

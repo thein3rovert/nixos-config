@@ -85,6 +85,13 @@ validate env:
   #!/usr/bin/env bash
   source ~/.proxmox_api_secrets
   cd ./terraform/envs/{{ env }} && terraform validate
+
+[group('terraform')]
+destroy env:
+  #!/usr/bin/env bash
+  source ~/.proxmox_api_secrets
+  cd ./terraform/envs/{{ env }} && terraform destroy
+
 # [group('ansible')]
 # ini-dev:
 #   ansible-inventory --list -i ansible/inventory/dev.yml
