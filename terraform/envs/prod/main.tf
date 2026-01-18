@@ -42,6 +42,14 @@ module "ubuntu_container" {
   storage     = var.rootfs_storage
   ssh_keys    = file(var.ssh_public_key_path)
 
+  # Override of default
+  gateway         = var.gateway
+  cidr_suffix     = var.cidr_suffix
+  ip_base         = var.ip_base
+  bridge          = var.bridge
+  container_id    = var.container_id
+  proxmox_host_ip = var.proxmox_host_ip
+
 }
 
 
