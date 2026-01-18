@@ -35,7 +35,7 @@ variable "hostname" {
 variable "ip_base" {
   type        = string
   description = "The IP prefix for a static IP (e.g., '10.20.0'), setting a container_id is required for this. If null, DHCP will be used."
-  default     = "10.10.20.0"
+  default     = "10.10.10"
 }
 
 variable "cidr_suffix" {
@@ -47,7 +47,7 @@ variable "cidr_suffix" {
 variable "gateway" {
   type        = string
   description = "The network gateway IP address. Required for static IP configuration. (e.g., 10.10.20.1)"
-  default     = "10.10.20.1"
+  default     = "10.10.10.1"
 }
 
 # Create local for gateway and ip-prefix
