@@ -22,8 +22,19 @@ resource "proxmox_lxc" "ubuntu_container" {
 
 
   features {
-    nesting = true
+    nesting = true # Allows running Docker/containers inside the LXC container
+    keyctl  = true # Enables kernel keyring operations (required by systemd and some security features)
   }
+
+  # Block not provided
+  # lxc {
+  #   key   = "lxc.cgroup2.devices.allow"
+  #   value = "c 10:200 rwm"
+  # }
+  # lxc {
+  #   key   = "lxc.mount.entry"
+  #   value = "/dev/net/tun dev/net/tun none bind,create=file"
+  # }
 
   rootfs {
     storage = var.storage
@@ -43,5 +54,13 @@ resource "proxmox_lxc" "ubuntu_container" {
 
   lifecycle {
     prevent_destroy = false
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ci@${var.proxmox_host_ip} \
+    'echo -e "lxc.cgroup2.devices.allow: c 10:200 rwm\nlxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file" | sudo tee -a /etc/pve/lxc/${self.vmid}.conf && \
+     sudo pct stop ${self.vmid} && sudo pct start ${self.vmid}'
+  EOT
   }
 }

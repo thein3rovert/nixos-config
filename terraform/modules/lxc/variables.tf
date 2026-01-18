@@ -1,3 +1,7 @@
+variable "proxmox_host_ip" {
+  type        = string
+  description = "The IP address of the Proxmox host for the CI provisioner."
+}
 variable "target_node" {}
 variable "vmid" {}
 variable "hostname" {}
@@ -13,11 +17,11 @@ variable "ssh_keys" {}
 variable "container_id" {
   type        = number
   description = "The ID for the LXC container. If null, Proxmox will assign the next available ID."
-  default     = "102"
-  validation {
-    condition     = var.ip_base == null || (var.ip_base != null && var.container_id != null)
-    error_message = "If you specify an 'ip_prefix', you must also specify a 'container_id'."
-  }
+  # default     = "102"
+  # validation {
+  #   condition     = var.ip_base == null || (var.ip_base != null && var.container_id != null)
+  #   error_message = "If you specify an 'ip_prefix', you must also specify a 'container_id'."
+  # }
 }
 variable "ip_base" {
   type        = string
