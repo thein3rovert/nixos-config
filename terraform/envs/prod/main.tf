@@ -8,10 +8,6 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url          = "https://10.10.10.8:8006/api2/json"
-  pm_tls_insecure     = true
-  pm_api_token_id     = "terraform-prov@pve!terraform"
-  pm_api_token_secret = "0f955002-e7ec-4290-b930-22dd85e536ba"
 }
 
 # module "ubuntu_container" {

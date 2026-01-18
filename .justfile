@@ -69,15 +69,21 @@ init env:
 
 [group('terraform')]
 plan env:
+  #!/usr/bin/env bash
+  source ~/.proxmox_api_secrets
   cd ./terraform/envs/{{ env }} && terraform plan
 
 [group('terraform')]
 apply env:
+  #!/usr/bin/env bash
+  source ~/.proxmox_api_secrets
   cd ./terraform/envs/{{ env }} && terraform apply
 
 
 [group('terraform')]
 validate env:
+  #!/usr/bin/env bash
+  source ~/.proxmox_api_secrets
   cd ./terraform/envs/{{ env }} && terraform validate
 # [group('ansible')]
 # ini-dev:
