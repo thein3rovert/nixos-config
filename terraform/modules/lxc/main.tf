@@ -65,4 +65,6 @@ resource "proxmox_lxc" "ubuntu_container" {
      pct stop ${self.vmid} && pct start ${self.vmid}'
   EOT
   }
+
+  tags = join(",", concat(["terraform", "ubuntu"], var.extra_tags))
 }

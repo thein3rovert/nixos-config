@@ -40,3 +40,8 @@ variable "gateway" {
   description = "The network gateway IP address. Required for static IP configuration. (e.g., 10.10.20.1)"
   default     = "10.10.10.1"
 }
+
+variable "extra_tags" {
+  description = "Additional tags to add to the container."
+  type        = list(string)
+}
