@@ -73,7 +73,7 @@ plan env:
 
 [group('terraform')]
 apply env:
-  cd ./terraform/envs/{{ env }} && terraform plan
+  cd ./terraform/envs/{{ env }} && terraform apply
 
 
 [group('terraform')]
