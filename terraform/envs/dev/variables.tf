@@ -31,13 +31,14 @@ variable "container_id" {
     error_message = "If you specify an 'ip_prefix', you must also specify a 'container_id'."
   }
 }
-variable "bridge" { default = "vmbr0" }
-
-
+variable "bridge" {
+  type    = string
+  default = "vmbr0"
+}
 
 variable "ip_base" {
   type        = string
-  description = "The IP prefix for a static IP (e.g., '10.20.0'), setting a container_id is required for this. If null, DHCP will be used."
+  description = "The IP prefix for a static IP (e.g., '10.10.0'), setting a container_id is required for this. If null, DHCP will be used."
   default     = "10.10.10"
 }
 
