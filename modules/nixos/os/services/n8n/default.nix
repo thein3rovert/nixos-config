@@ -25,6 +25,7 @@ in
       environment = {
         N8N_RUNNERS_MODE = "internal";
         N8N_RUNNERS_CHILD_PROCESS = "true";
+        N8N_CONCURRENCY_PRODUCTION_LIMIT = "1";
         # Force PATH so it overrides the default
         PATH = lib.mkForce "${pkgs.nodejs}/bin:${pkgs.n8n}/bin:/run/wrappers/bin:/usr/bin";
       };

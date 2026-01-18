@@ -61,6 +61,7 @@ in
         l = "eza --tree --level=2 --icons --git"; # Previous Command - ltree
         lt = "eza --tree --level=2 --long --icons --git";
         ls = "eza";
+        mkdir = "mkdir -p";
 
         # Processes and Memory
         grep = "rg";
