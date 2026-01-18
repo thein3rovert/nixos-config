@@ -32,9 +32,9 @@ ping:
     ansible-playbook -i ansible/inventory.ini ansible/playbooks/ping.yml
 
 # Deploy blog - verbose output
-[group('servers')]
-deploy:
-   ansible-playbook -i ansible/inventory.ini ansible/playbooks/deploy.yml -vvv
+# [group('servers')]
+# deploy:
+#    ansible-playbook -i ansible/inventory.ini ansible/playbooks/deploy.yml -vvv
 
 [group('servers')]
 update-glance:
@@ -62,7 +62,23 @@ run role:
 [group('ansible')]
 ini env:
   ansible-inventory --list -i ansible/inventory/{{ env }}.yml
-#
+
+[group('terraform')]
+init env:
+  cd ./terraform/envs/{{ env }} && terraform init
+
+[group('terraform')]
+plan env:
+  cd ./terraform/envs/{{ env }} && terraform plan
+
+[group('terraform')]
+apply env:
+  cd ./terraform/envs/{{ env }} && terraform plan
+
+
+[group('terraform')]
+validate env:
+  cd ./terraform/envs/{{ env }} && terraform validate
 # [group('ansible')]
 # ini-dev:
 #   ansible-inventory --list -i ansible/inventory/dev.yml
