@@ -4,6 +4,13 @@ variable "proxmox_host_ip" {
   description = "The IP address of the Proxmox host for the CI provisioner."
   default     = "10.10.10.8"
 }
+
+variable "hostname" {
+  type        = string
+  description = "The hostname for the new LXC container."
+  default     = "thein3rovert-iac"
+}
+
 variable "rootfs_storage" {
   type        = string
   description = "The storage pool for the container's root disk (e.g., local-lvm)."
@@ -26,11 +33,7 @@ variable "container_id" {
 }
 variable "bridge" { default = "vmbr0" }
 
-variable "hostname" {
-  type        = string
-  description = "The hostname for the new LXC container."
-  default     = "thein3rovert-iac"
-}
+
 
 variable "ip_base" {
   type        = string

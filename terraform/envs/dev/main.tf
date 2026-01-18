@@ -28,7 +28,7 @@ module "ubuntu_container" {
 
   target_node = var.target_node
   password    = var.root_password
-  hostname    = var.hostname
+  hostname    = "monty"
   vmid        = var.container_id
   ostemplate  = var.ostemplate
   cores       = 2
@@ -43,7 +43,7 @@ module "ubuntu_container" {
   cidr_suffix     = var.cidr_suffix
   ip_base         = var.ip_base
   bridge          = var.bridge
-  container_id    = var.container_id
+  container_id    = 104
   proxmox_host_ip = var.proxmox_host_ip
   extra_tags      = var.extra_tags
 
