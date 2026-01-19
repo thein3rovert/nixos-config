@@ -131,6 +131,10 @@
           };
         };
       };
+      disabled_mcps = [
+        "context7"
+        "websearch"
+      ];
     };
   };
 }
