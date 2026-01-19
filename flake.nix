@@ -302,6 +302,7 @@
               nixpkgs.system = "x86_64-linux";
               imports = [
                 ./hosts/marcus
+                self.inputs.home-manager.nixosModules.home-manager
               ];
             };
 
