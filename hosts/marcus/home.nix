@@ -27,6 +27,7 @@ in
         # ------------------------------
         packages = with pkgs; [
           vim
+          htop
         ];
         stateVersion = "25.05";
       };

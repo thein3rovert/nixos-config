@@ -21,7 +21,7 @@
     programs.opencode = {
       enable = true;
       settings = {
-        theme = "opencode";
+        theme = "lucent-orng";
         plugin = [ "oh-my-opencode" ];
         formatter = {
           alejandra = {
