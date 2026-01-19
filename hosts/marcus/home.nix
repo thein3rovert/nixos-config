@@ -1,8 +1,20 @@
 { self, inputs, ... }:
+let
+
+  customImport = self.homeManagerModules.default;
+in
 {
   home-manager.users.thein3rovert =
     { pkgs, ... }:
     {
+
+      # ==============================
+      #         Module Imports
+      # ==============================
+      imports = [
+        customImport
+      ];
+
       # ------------------------------
       # HOME USER
       # ------------------------------
@@ -19,6 +31,7 @@
         stateVersion = "25.05";
       };
 
+      homeSetup.programs.agent.enable = true;
       # ------------------------------------
       # PROGRAM
       # -------------------------------------

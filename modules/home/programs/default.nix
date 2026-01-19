@@ -6,5 +6,6 @@
     ./fzf
     ./tmux
     ./shell
+    ./agent
   ];
 }

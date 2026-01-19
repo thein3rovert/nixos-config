@@ -8,7 +8,7 @@
   options.homeSetup.programs.agent.enable =
     lib.mkEnableOption "Base AI agent for with opencode experiment";
 
-  config = lib.mkIf config.homeSetup.programs.eza.enable {
+  config = lib.mkIf config.homeSetup.programs.agent.enable {
     home.packages = with pkgs; [
       bun
       (python3.withPackages (
@@ -18,7 +18,7 @@
       ))
     ];
 
-    programs.agent = {
+    programs.opencode = {
       enable = true;
       settings = {
         theme = "opencode";
