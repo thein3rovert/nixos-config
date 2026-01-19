@@ -137,7 +137,6 @@
             "nixos"
             "vps-het-1"
             "wellsjaha"
-            "marcus"
 
             # Managed by incus
             # "lexa" (LXC)
