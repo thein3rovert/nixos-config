@@ -130,6 +130,20 @@
             doom_loop = "ask";
           };
         };
+        librarian = {
+          model = "github-copilot/gpt-4.1";
+          permission = {
+            edit = "deny";
+            bash = "deny";
+          };
+        };
+        explore = {
+          model = "github-copilot/gpt-4.1";
+          permission = {
+            edit = "deny";
+            bash = "deny";
+          };
+        };
       };
       disabled_mcps = [
         "context7"
