@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   ...
@@ -28,7 +29,15 @@
       "networkmanager"
       "wheel"
     ];
-    packages = with pkgs; [ ];
+
+    /*
+      NOTE:
+      Fixes home-manager not showing after enabled error
+      these is a temp fix, not best practise as t's mixing
+      system-level and home-manager package management.
+    */
+    packages = [ inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"
     ];

@@ -1,25 +1,28 @@
+#INFO: This home-manager config is meant to be shared by all user thein3rovert
+# but is it currently broken somehow and i'm trying to fix it.
 {
   config,
   pkgs,
   lib,
   self,
   ...
-}: let
-  inherit
-    (lib)
+}:
+let
+  inherit (lib)
     mkMerge
     mkIf
     ;
-in {
+in
+{
   imports = [ self.homeManagerModules.default ];
 
   /*
-  NOTE:
-      lib.mkMerge in Nix merges a list of attribute sets,
-      combining them left to right
+    NOTE:
+        lib.mkMerge in Nix merges a list of attribute sets,
+        combining them left to right
 
-   The file uses lib.mkIf to apply specific configurations
-   based on the operating system: Darwin or Linux
+     The file uses lib.mkIf to apply specific configurations
+     based on the operating system: Darwin or Linux
   */
   config = mkMerge [
     #--------------------------------------
@@ -27,7 +30,8 @@ in {
     #--------------------------------------
     {
       home = {
-        packages = with pkgs;
+        packages =
+          with pkgs;
           [
             curl
             nixos-rebuild-ng

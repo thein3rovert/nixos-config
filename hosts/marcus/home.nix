@@ -15,7 +15,6 @@
         # ------------------------------
         packages = with pkgs; [
           vim
-          cowsay
         ];
         stateVersion = "25.05";
       };

@@ -137,6 +137,7 @@
             "nixos"
             "vps-het-1"
             "wellsjaha"
+            "marcus"
 
             # Managed by incus
             # "lexa" (LXC)
@@ -286,7 +287,8 @@
                 self.nixosModules.users
               ];
             };
-            # ---- Node: Bellamy (Prod) ----
+
+            # ---- Node: Marcus (Prod) ----
             marcus = {
               deployment = {
                 targetHost = "10.10.10.13";
