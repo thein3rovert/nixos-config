@@ -32,11 +32,17 @@
 
     /*
       NOTE:
-      Fixes home-manager not showing after enabled error
-      these is a temp fix, not best practise as t's mixing
+      Fixes home-manager not showing after enabled error.
+      These is a temp fix, not best practise as t's mixing
       system-level and home-manager package management.
+
+      This is used when using a system level home-manager instead of
+      standalone, so home-manager packagea are installed but it doesnt show
+      home-manager on path when we run `which home-manager`.autoSubUidGidRange
+      It's also been added to the base user if in any case the a specfic server enable
+      base use config
     */
-    # packages = [ inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+    packages = [ inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default ];
 
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO thein3rovert"

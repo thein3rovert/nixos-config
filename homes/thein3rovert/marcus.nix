@@ -1,3 +1,6 @@
+# INFO: This is means to be used with the standalone
+# home-manager but because that is not in use now i
+# will just keep these tills its needed
 { self, inputs, ... }:
 let
 
