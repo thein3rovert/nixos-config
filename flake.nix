@@ -137,6 +137,7 @@
             "nixos"
             "vps-het-1"
             "wellsjaha"
+            "marcus"
 
             # Managed by incus
             # "lexa" (LXC)
@@ -304,6 +305,21 @@
               imports = [
                 ./hosts/marcus
                 self.inputs.home-manager.nixosModules.home-manager
+                # self.homeManagerModules.default
+                {
+                  nixpkgs.overlays = [ self.overlays.default ];
+                }
+                {
+                  home-manager = {
+                    backupFileExtension = "backup";
+                    extraSpecialArgs = { inherit self; };
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+                  };
+                  nixpkgs = {
+                    config.allowUnfree = true;
+                  };
+                }
               ];
             };
 

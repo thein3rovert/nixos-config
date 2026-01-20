@@ -34,7 +34,7 @@ in
           with pkgs;
           [
             curl
-            nixos-rebuild-ng
+            # nixos-rebuild-ng
             rclone
           ]
           ++ [
@@ -57,11 +57,18 @@ in
 
       # Enable shell configuration with ZSH and Powerlevel10k
       homeSetup.shell.enable = true;
+      homeSetup.programs.agent.enable = true;
     }
 
     # ------------------------------
     # TODO: Add config for different OS (Darwin)
     # ------------------------------
+    (lib.mkIf pkgs.stdenv.isDarwin {
+      home = {
+        homeDirectory = "/Users/thein3rovert";
+        shellAliases."docker" = "podman";
+      };
+    })
 
     # ---------------
     # FOR LINUX
@@ -86,7 +93,7 @@ in
         username = "thein3rovert";
       };
 
-      systemd.user.startServices = true; # Needed for auto-mounting agenix secrets.
+      # systemd.user.startServices = true; # Needed for auto-mounting agenix secrets.
     })
   ];
 }
