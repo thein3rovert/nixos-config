@@ -57,7 +57,7 @@ in
 
       # Enable shell configuration with ZSH and Powerlevel10k
       homeSetup.shell.enable = true;
-      homeSetup.programs.agent.enable = true;
+      # homeSetup.programs.agent.enable = true;
     }
 
     # ------------------------------
