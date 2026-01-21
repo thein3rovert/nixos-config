@@ -144,6 +144,11 @@ pages:
                 timeout: 5s
                 url: http://zerobyte.l.thein3rovert.com/
                 icon:  sh:zerobyte.png
+              - title: Dockhand
+                same-tab: true
+                timeout: 5s
+                url: http://dockhand.l.thein3rovert.com/
+                icon:  sh:dockhand.png
           - type: rss
             title: thein3rovert rss feed
             style: horizontal-cards
