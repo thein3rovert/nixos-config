@@ -23,5 +23,6 @@
     ./garage-webui
     ./ad-guard
     ./zerobyte
+    ./dockhand
   ];
 }

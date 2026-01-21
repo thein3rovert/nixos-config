@@ -13,7 +13,7 @@ let
   port = 3000;
 
   dataVolume = "dockhand_data:/app/data";
-  socketVolume = "/var/run/docker.sock:/var/run/docker.sock";
+  socketVolume = "/run/podman/podman.sock:/var/run/docker.sock";
 in
 {
   options.nixosSetup.services.dockhand = {
