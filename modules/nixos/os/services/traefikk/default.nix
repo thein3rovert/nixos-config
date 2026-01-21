@@ -67,6 +67,7 @@
           # Container LXC
           services.ad-guard.loadBalancer.servers = [ { url = "http://10.10.10.10:3000/"; } ];
           services.fossflow.loadBalancer.servers = [ { url = "http://10.10.10.12:8087/"; } ];
+          services.dockhand.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
           services.garage-webui.loadBalancer.servers = [
             {
               url = "http://100.105.187.63:3909/";
@@ -116,6 +117,11 @@
             garage-webui = {
               rule = "Host(`s3-web.l.thein3rovert.com`)";
               service = "garage-webui";
+              entryPoints = [ "web" ];
+            };
+            dockhand = {
+              rule = "Host(`dockhand.l.thein3rovert.com`)";
+              service = "dockhand";
               entryPoints = [ "web" ];
             };
             # incus = {
