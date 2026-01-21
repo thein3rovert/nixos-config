@@ -132,6 +132,7 @@
       uptime-kuma.enable = true;
       jotty.enable = true;
       minio.enable = true;
+      hawser.enable = true;
 
       garage-webui =
         let

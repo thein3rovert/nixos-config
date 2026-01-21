@@ -281,7 +281,7 @@ in
         s3Web.bindAddr = "127.0.0.1:3902";
       };
       zerobyte.enable = true;
-      hawser.enable = true;
+      hawser.enable = false;
       dockhand.enable = true;
       mysql.enable = false;
       n8n.enable = true;
