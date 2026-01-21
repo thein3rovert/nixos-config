@@ -24,5 +24,6 @@
     ./ad-guard
     ./zerobyte
     ./dockhand
+    ./hawser
   ];
 }
