@@ -240,6 +240,9 @@ in
           accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
           secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
         };
+        proxmox = {
+          enable = true;
+        };
       };
     };
 
