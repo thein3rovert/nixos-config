@@ -12,8 +12,8 @@ variable "rootfs_storage" {
 variable "root_password" {
   type        = string
   description = "The root password for the LXC container. Set to null for a random password."
-  default     = "mypassword"
-  sensitive   = true
+  # default     = "mypassword"
+  sensitive = true
 }
 variable "container_id" {
   type        = number

@@ -50,14 +50,14 @@ module "ubuntu_container" {
 }
 
 module "nixos_container_02" {
-  source = "../../modules/lxc"
+  source = "../../modules/lxc/nixos-lxc"
 
   target_node = var.target_node
   password    = var.root_password
-  hostname    = "agent"
+  hostname    = "trikru"
   vmid        = var.container_id
   ostemplate  = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
-  cores       = 2
+  cores       = 1
   memory      = 2048
   swap        = 512
   disk_size   = "8G"
@@ -71,7 +71,7 @@ module "nixos_container_02" {
   bridge          = var.bridge
   container_id    = 102
   proxmox_host_ip = var.proxmox_host_ip
-  extra_tags      = ["nixos"]
+  extra_tags      = ["ai"]
 
 }
 
