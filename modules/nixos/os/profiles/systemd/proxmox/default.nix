@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -20,14 +21,18 @@ in
     systemd.user.services.installProxmoxSecrets = {
       description = "Install Proxmox API secrets file";
       after = [ "default.target" ];
+      # serviceConfig = {
+      #   Type = "oneshot";
+      #   ExecStart = ''
+      #     cp ${proxmox_secret_file} $HOME/.proxmox_api_secrets
+      #     chmod 600 $HOME/.proxmox_api_secrets
+      #   '';
+      # };
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = ''
-          cp ${proxmox_secret_file} $HOME/.proxmox_api_secrets
-          chmod 600 $HOME/.proxmox_api_secrets
-        '';
+        ExecStart = "${pkgs.runtimeShell} -c 'cp ${proxmox_secret_file} $HOME/.proxmox_api_secrets && chmod 600 $HOME/.proxmox_api_secrets'";
+        wantedBy = [ "default.target" ];
       };
-      wantedBy = [ "default.target" ];
     };
   };
 }
