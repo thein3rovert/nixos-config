@@ -71,6 +71,13 @@
         owner = "thein3rovert";
         mode = "400";
       };
+
+      proxmox_api_secrets = {
+        file = "${self.inputs.secrets}/proxmox/proxmox_api_secrets.age";
+        path = "/home/thein3rovert/.secrets/proxmox_api_secrets";
+        owner = "thein3rovert";
+        # mode = "400";
+      };
     };
   };
 }
