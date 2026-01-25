@@ -1,17 +1,14 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
   inherit (lib)
     mkEnableOption
-    mkDefault
     mkIf
     ;
   If = mkIf;
-  setDefault = mkDefault;
   createEnableOption = mkEnableOption;
   cfg = config.nixosSetup.profiles.proxmox;
 
