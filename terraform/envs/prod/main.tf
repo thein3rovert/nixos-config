@@ -71,7 +71,7 @@ module "nixos_container_02" {
   bridge          = var.bridge
   container_id    = 102
   proxmox_host_ip = var.proxmox_host_ip
-  extra_tags      = "[nixos]"
+  extra_tags      = ["nixos"]
 
 }
 
