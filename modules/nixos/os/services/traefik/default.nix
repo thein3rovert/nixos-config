@@ -73,6 +73,11 @@
               url = "http://localhost:3900/";
             }
           ];
+          services.memos.loadBalancer.servers = [
+            {
+              url = "http://localhost:5230/";
+            }
+          ];
 
           middlewares = {
             auth = {
@@ -100,6 +105,14 @@
                     # sans = [ "*.thein3rovert.dev" ]; # Uncomment for wildcard
                   }
                 ];
+              };
+            };
+            memos = {
+              rule = "Host(`memos.thein3rovert.dev`)";
+              service = "memos";
+              entryPoints = [ "websecure" ];
+              tls = {
+                certResolver = "godaddy";
               };
             };
           };
