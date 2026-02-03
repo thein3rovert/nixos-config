@@ -10,6 +10,7 @@
     ./glance
     ./uptime-kuma
     ./jotty
+    ./memos
     ./traefikk
     ./adguard
     ./test

@@ -131,6 +131,7 @@
       glance.enable = true;
       uptime-kuma.enable = true;
       jotty.enable = true;
+      memos.enable = true;
       minio.enable = true;
       hawser.enable = true;
 
