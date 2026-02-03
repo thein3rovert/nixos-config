@@ -91,11 +91,11 @@ pages:
                 timeout: 5s
                 url: https://freshrss.${BASE_DOMAIN}/
                 icon: di:freshrss.png
-              - title: Jotty
+              - title: memos
                 same-tab: true
                 timeout: 5s
-                url: https://jotty.${BASE_DOMAIN}/
-                icon: di:jotty.png
+                url: https://memos.${BASE_DOMAIN}/
+                icon: di:memos.png
           - type: monitor
             cache: 1m
             title: Development & Management
