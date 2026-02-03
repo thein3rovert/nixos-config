@@ -22,5 +22,8 @@ in
       # TODO: ADD PATH UNDER NETWORKING BASE MODULES
       volumes = [ dataVolume ];
     };
+    systemd.tmpfiles.rules = [
+      "d /var/lib/memos 0755 root root -"
+    ];
   };
 }
