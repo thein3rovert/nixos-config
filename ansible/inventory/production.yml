@@ -6,8 +6,5 @@ all:
           ansible_host: bellamy # bellamy
         finn:
           ansible_host: finn # finn
-        # prod_srv_2:
-        #   ansible_host: 100.81.26.84 # lexa
-    # databases:
-    #   hosts:
-    #
+        trikru:
+          ansible_host: trikru
