@@ -130,7 +130,7 @@
       linkding.enable = true;
       glance.enable = true;
       uptime-kuma.enable = true;
-      jotty.enable = true;
+      # jotty.enable = true; Replace with memos
       memos.enable = true;
       minio.enable = true;
       hawser.enable = true;
