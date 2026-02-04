@@ -34,6 +34,11 @@
   networking.hostName = "Bellamy";
 
   # ==============================
+  #      Homelab Configuration
+  # ==============================
+  homelab.enable = true;
+
+  # ==============================
   #     Network Configuration
   # ==============================
 

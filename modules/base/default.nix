@@ -312,16 +312,40 @@ in
 
   # If BaseDoman is enabled
   config = If cfg.enable {
-    # Create new user group and users
-    users = {
-      groups.${cfg.group} = {
-        gid = 993;
-      };
+    # ============================================
+    # User Management
+    # ============================================
+    # users = {
+    #   groups.${cfg.group} = {
+    #     gid = 993;
+    #   };
+    #
+    #   users.${cfg.user} = {
+    #     uid = 994;
+    #     isSystemUser = true;
+    #     group = cfg.group;
+    #   };
+    # };
 
-      users.${cfg.user} = {
-        uid = 994;
-        isSystemUser = true;
-        group = cfg.group;
+    # ============================================
+    # Services Control Configuration
+    # ============================================
+    homelab.services = {
+      # Global master switch - enabled by default
+      enable = lib.mkDefault true;
+
+      # Per-host service control
+      # Define your hosts here with their service settings
+      hosts = {
+        Bellamy = {
+          enable = lib.mkDefault true;
+          description = "Production application server";
+        };
+        # Add more hosts as needed:
+        # Kira = {
+        #   enable = lib.mkDefault false;
+        #   description = "Storage server";
+        # };
       };
     };
 
