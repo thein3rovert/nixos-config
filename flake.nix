@@ -19,6 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Test
     # Deployment tool for NixOS machines
     colmena.url = "github:zhaofengli/colmena";
 
