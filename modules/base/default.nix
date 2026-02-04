@@ -26,6 +26,7 @@ in
     ./storage
     ./containers
     ./networks
+    ./services
   ];
 
   options.homelab = {
