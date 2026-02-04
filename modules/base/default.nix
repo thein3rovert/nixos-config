@@ -213,6 +213,36 @@ in
     };
 
     # ============================================
+    # Services Control Configuration
+    # ============================================
+    services = {
+      enable = createEnableOption "Global master switch for all homelab services across all hosts";
+
+      hosts = createOption {
+        type = attributeSetOf (
+          types.submodule {
+            options = {
+              enable = createEnableOption "Enable services for this specific host";
+
+              description = createOption {
+                type = string;
+                default = "Host-specific service control";
+                description = "Optional description for this host's service configuration";
+              };
+            };
+          }
+        );
+        default = { };
+        description = ''
+          Per-host service control. Each hostname can have its own enable switch.
+          Example:
+            homelab.services.hosts.bellamy.enable = false;
+            homelab.services.hosts.kira.enable = true;
+        '';
+      };
+    };
+
+    # ============================================
     # Storage Configuration
     # ============================================
 
