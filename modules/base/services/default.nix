@@ -5,28 +5,47 @@ let
     mkOption
     mkIf
     mkForce
+    types
+    attrNames
     ;
 
   cfg = config.homelab.services;
+  hostname = config.networking.hostName;
+
+  # Get the host-specific service configuration
+  hostServiceCfg = cfg.hosts.${hostname} or { enable = true; };
 in
 {
   options.homelab.services = {
-    enable = mkEnableOption "Master switch for all homelab services";
+    enable = mkEnableOption "Global master switch for all homelab services across all hosts";
 
-    description = mkOption {
-      type = lib.types.str;
-      default = "Controls whether service modules can be activated";
+    hosts = mkOption {
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            enable = mkEnableOption "Enable services for this specific host";
+
+            description = mkOption {
+              type = types.str;
+              default = "Host-specific service control";
+              description = "Optional description for this host's service configuration";
+            };
+          };
+        }
+      );
+      default = { };
       description = ''
-        When disabled, all service modules will be forcibly disabled regardless 
-        of their individual enable settings in host configurations.
-        This provides a base layer control for all services.
+        Per-host service control. Each hostname can have its own enable switch.
+        Example:
+          homelab.services.hosts.bellamy.enable = false;
+          homelab.services.hosts.kira.enable = true;
       '';
     };
   };
 
-  config = mkIf (!cfg.enable) {
-    # When homelab.services.enable is false, forcibly disable all services
-    # This overrides any host-level service enablement
+  config = mkIf (!cfg.enable || !hostServiceCfg.enable) {
+    # When either global services are disabled OR this specific host's services are disabled,
+    # forcibly disable all services - this overrides any host-level service enablement
     nixosSetup.services = mkForce {
       # Explicitly disable all services by setting them to false
       traefik.enable = mkForce false;
