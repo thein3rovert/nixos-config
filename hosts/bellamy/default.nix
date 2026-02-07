@@ -35,6 +35,10 @@
 
   # ==============================
   #      Homelab Configuration
+  /*
+    INFO: If this is set to false, all homelab services will be
+    disabled
+  */
   # ==============================
   homelab.enable = true;
 

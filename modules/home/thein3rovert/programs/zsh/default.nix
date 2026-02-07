@@ -70,6 +70,26 @@
               git commit -m "chore: $msg"
             }
 
+            # WSL Home Manager Management
+            # Usage: Set WSL_HOST environment variable to your WSL IP or hostname
+            # Example: export WSL_HOST="192.168.1.100" or export WSL_HOST="wsl.local"
+            # Requires: WSL has Nix + Home Manager installed, and config cloned to ~/nixos-config
+            wsl-switch() {
+              local host="''${WSL_HOST:-wsl}"
+              echo "Deploying Home Manager to WSL ($host)..."
+              ssh "$host" "cd ~/nixos-config && git pull && home-manager switch --flake .#thein3rovert@wsl"
+            }
+
+            wsl-update() {
+              local host="''${WSL_HOST:-wsl}"
+              echo "Updating flake and deploying to WSL ($host)..."
+              ssh "$host" "cd ~/nixos-config && nix flake update && home-manager switch --flake .#thein3rovert@wsl"
+            }
+
+            wsl-ssh() {
+              ssh "''${WSL_HOST:-wsl}"
+            }
+
           '';
           shellAliases = {
             # Dirs
