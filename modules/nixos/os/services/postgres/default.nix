@@ -52,6 +52,6 @@ in
       databases = [ "n8n" ];
     };
 
-    networking.firewall.allowedTCPPorts = [ 5432 ];
+    networking.firewall.allowedTCPPorts = [ config.homelab.servicePorts.postgresql ];
   };
 }

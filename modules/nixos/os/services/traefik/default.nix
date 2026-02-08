@@ -78,6 +78,11 @@
               url = "http://localhost:5230/";
             }
           ];
+          services.forgejo.loadBalancer.servers = [
+            {
+              url = "http://localhost:3002/";
+            }
+          ];
 
           middlewares = {
             auth = {
@@ -119,6 +124,22 @@
           routers.garage = {
             rule = "Host(`s3.thein3rovert.dev`)";
             service = "garage";
+            entryPoints = [ "websecure" ];
+            tls = {
+              certResolver = "godaddy";
+            };
+          };
+          routers.forgejo = {
+            rule = "Host(`code.thein3rovert.dev`)";
+            service = "forgejo";
+            entryPoints = [ "websecure" ];
+            tls = {
+              certResolver = "godaddy";
+            };
+          };
+          routers.ssh = {
+            rule = "Host(`ssh.thein3rovert.dev`)";
+            service = "ssh";
             entryPoints = [ "websecure" ];
             tls = {
               certResolver = "godaddy";

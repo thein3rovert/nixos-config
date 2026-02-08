@@ -20,7 +20,7 @@
     services.forgejo = {
       enable = true;
       database = lib.mkIf (config.nixosSetup.services.forgejo.database == "postgresql") {
-        createDatabase = true;
+        createDatabase = false;
         host = config.homelab.ipAddresses.staticAssignments.forgejo;
         # INFO: Create database user in postgresql config
         name = "forgejo";
@@ -74,9 +74,9 @@
           LANDING_PAGE = "explore";
           LFS_START_SERVER = true;
           ROOT_URL = "https://${config.snippets.thein3rovert.networkMap.forgejo.vHost}/";
-          SSH_DOMAIN = config.snippets.thein3rovert.networkMap.forgejo.sshhVHost;
-          SSH_LISTEN_PORT = 2222;
-          SSH_PORT = 2222;
+          SSH_DOMAIN = config.snippets.thein3rovert.networkMap.forgejo.sshVHost;
+          SSH_LISTEN_PORT = config.homelab.servicePorts.ssh-forgejo;
+          SSH_PORT = config.homelab.servicePorts.ssh-forgejo;
           START_SSH_SERVER = true;
         };
 
@@ -101,9 +101,9 @@
         ui.DEFAULT_THEME = "forgejo-auto";
 
         "ui.meta" = {
-          AUTHOR = "Aly Raffauf";
+          AUTHOR = "thein3rovert";
           DESCRIPTION = "Self-hosted git forge for projects + toys.";
-          KEYWORDS = "git,source code,forge,forĝejo,aly raffauf";
+          KEYWORDS = "git,source code,forge,forĝejo,thein3rovert";
         };
       };
     };
