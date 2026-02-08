@@ -12,55 +12,55 @@ pages:
     hide-footer: true
     # head-widgets:
     #   - type: split-column
-        # widgets:
-        #   - type: server-stats
-        #     hide-header: true
-            # servers:
-            #   - type: local
-            #     name: Bellamy
-            #     hide-mountpoints-by-default: true
-            #     mountpoints:
-            #       "/":
-            #           hide: true
+    # widgets:
+    #   - type: server-stats
+    #     hide-header: true
+    # servers:
+    #   - type: local
+    #     name: Bellamy
+    #     hide-mountpoints-by-default: true
+    #     mountpoints:
+    #       "/":
+    #           hide: true
     columns:
       - size: small
         widgets:
-            - type: custom-api
-              title: Random Fact
-              cache: 6h
-              url: https://uselessfacts.jsph.pl/api/v2/facts/random
-              template: |
-                <p class="size-h4 color-paragraph">{{ .JSON.String "text" }}</p>
-            - type: group
-              widgets:
-                - type: reddit
-                  subreddit: selfhosted
-                  collapse-after: 6
-                  app-auth:
-                      name: thein3rovert-red
-                      id: QNf0FF5oFlI_VXaqdMKPEA
-                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
-                - type: reddit
-                  subreddit: nixos
-                  collapse-after: 6
-                  app-auth:
-                      name: thein3rovert-red
-                      id: QNf0FF5oFlI_VXaqdMKPEA
-                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
-                - type: reddit
-                  subreddit: minilab
-                  collapse-after: 6
-                  app-auth:
-                      name: thein3rovert-red
-                      id: QNf0FF5oFlI_VXaqdMKPEA
-                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
-                - type: reddit
-                  subreddit: obsidian
-                  collapse-after: 6
-                  app-auth:
-                      name: thein3rovert-red
-                      id: QNf0FF5oFlI_VXaqdMKPEA
-                      secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+          - type: custom-api
+            title: Random Fact
+            cache: 6h
+            url: https://uselessfacts.jsph.pl/api/v2/facts/random
+            template: |
+              <p class="size-h4 color-paragraph">{{ .JSON.String "text" }}</p>
+          - type: group
+            widgets:
+              - type: reddit
+                subreddit: selfhosted
+                collapse-after: 6
+                app-auth:
+                  name: thein3rovert-red
+                  id: QNf0FF5oFlI_VXaqdMKPEA
+                  secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+              - type: reddit
+                subreddit: nixos
+                collapse-after: 6
+                app-auth:
+                  name: thein3rovert-red
+                  id: QNf0FF5oFlI_VXaqdMKPEA
+                  secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+              - type: reddit
+                subreddit: minilab
+                collapse-after: 6
+                app-auth:
+                  name: thein3rovert-red
+                  id: QNf0FF5oFlI_VXaqdMKPEA
+                  secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
+              - type: reddit
+                subreddit: obsidian
+                collapse-after: 6
+                app-auth:
+                  name: thein3rovert-red
+                  id: QNf0FF5oFlI_VXaqdMKPEA
+                  secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
       - size: full
         widgets:
           - type: monitor
@@ -110,7 +110,7 @@ pages:
                 timeout: 5s
                 url: http://n8n.l.thein3rovert.com/
                 icon: di:n8n.png
-              - title: s3 
+              - title: s3
                 same-tab: true
                 timeout: 5s
                 url: https://minio-console.${BASE_DOMAIN}/
@@ -130,6 +130,11 @@ pages:
                 timeout: 5s
                 url: http://s3-web.l.thein3rovert.com/
                 icon: sh:garage.svg
+              - title: Forgejo
+                same-tab: true
+                timeout: 5s
+                url: https://code.${BASE_DOMAIN}/
+                icon: sh:forgejo.svg
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
@@ -143,12 +148,12 @@ pages:
                 same-tab: true
                 timeout: 5s
                 url: http://zerobyte.l.thein3rovert.com/
-                icon:  sh:zerobyte.png
+                icon: sh:zerobyte.png
               - title: Dockhand
                 same-tab: true
                 timeout: 5s
                 url: http://dockhand.l.thein3rovert.com/
-                icon:  sh:dockhand.png
+                icon: sh:dockhand.png
           - type: rss
             title: thein3rovert rss feed
             style: horizontal-cards
@@ -167,7 +172,6 @@ pages:
           - type: hacker-news
             limit: 15
             collapse-after: 5
-
 
       - size: small
         widgets:
