@@ -143,6 +143,10 @@
       memos.enable = true;
       minio.enable = true;
       hawser.enable = true;
+      forgejo = {
+        enable = true;
+        database = "postgresql";
+      };
 
       garage-webui =
         let
