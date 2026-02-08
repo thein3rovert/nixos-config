@@ -79,6 +79,7 @@
           tree # Display directories as trees
           zip # Compression utility
           unzip # Decompression utility
+          lazygit
 
           # Networking and HTTP Tools
           httpie # Command-line HTTP client
