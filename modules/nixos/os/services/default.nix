@@ -26,5 +26,6 @@
     ./zerobyte
     ./dockhand
     ./hawser
+    ./forgejo
   ];
 }

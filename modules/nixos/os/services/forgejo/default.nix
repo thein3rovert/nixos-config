@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options.nixosSetup.services.forgejo = {
     enable = lib.mkEnableOption "Forgejo git forge";
@@ -16,10 +21,11 @@
       enable = true;
       database = lib.mkIf (config.nixosSetup.services.forgejo.database == "postgresql") {
         createDatabase = true;
-        host = config.homelab.ipAddresses;
+        host = config.homelab.ipAddresses.staticAssignments.forgejo;
         # INFO: Create database user in postgresql config
         name = "forgejo";
         # passwordFile = config.age.secrets.postgres-forgejo.path;
+        password = "test-12345";
         type = "postgres";
         user = "forgejo";
       };
@@ -63,12 +69,12 @@
         security.PASSWORD_CHECK_PWN = true;
 
         server = {
-          DOMAIN = config.mySnippets.cute-haus.networkMap.forgejo.vHost;
-          HTTP_PORT = config.mySnippets.cute-haus.networkMap.forgejo.port;
+          DOMAIN = config.snippets.thein3rovert.networkMap.forgejo.vHost;
+          HTTP_PORT = config.snippets.thein3rovert.networkMap.forgejo.port;
           LANDING_PAGE = "explore";
           LFS_START_SERVER = true;
-          ROOT_URL = "https://${config.mySnippets.cute-haus.networkMap.forgejo.vHost}/";
-          SSH_DOMAIN = config.mySnippets.cute-haus.networkMap.forgejo.sshVHost;
+          ROOT_URL = "https://${config.snippets.thein3rovert.networkMap.forgejo.vHost}/";
+          SSH_DOMAIN = config.snippets.thein3rovert.networkMap.forgejo.sshhVHost;
           SSH_LISTEN_PORT = 2222;
           SSH_PORT = 2222;
           START_SSH_SERVER = true;
