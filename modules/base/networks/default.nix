@@ -160,11 +160,13 @@ in
       traefik = 80;
       adguard = 53;
       ssh = 22;
+      ssh-forgejo = 2222;
       garage-api = 3900;
       minio = [
         3007
         3008
       ];
+      postgresql = 5432;
     };
 
     customPorts = {

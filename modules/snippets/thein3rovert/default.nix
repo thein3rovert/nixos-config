@@ -56,8 +56,8 @@ in
       forgejo = {
         hostName = "Bellamy";
         port = 3002; # TODO: Move port to config
-        sshVHost = "ssh.thein3rovert.dev";
-        vHost = "forgejo.${baseDomain}";
+        sshVHost = "ssh.${baseDomain}";
+        vHost = "code.${baseDomain}";
       };
     };
   };
