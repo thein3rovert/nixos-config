@@ -109,6 +109,7 @@ in
     # Host IP addresses for each server
     hosts = {
       emily = "10.10.10.12";
+      emilyts = "100.105.217.77";
       finn = "10.10.10.10";
       lexa = "10.10.10.7";
       bellamy = "95.216.216.22";
@@ -137,7 +138,7 @@ in
         adguard = config.homelab.hosts.finn;
         traefik = config.homelab.hosts.emily;
         linkding = config.homelab.hosts.bellamy;
-
+        forgejo = config.homelab.hosts.emilyts;
         # Have their own specific IPs
         nginx = "192.168.1.20";
         pihole = "192.168.1.21";
