@@ -2,12 +2,17 @@
 {
   home.packages = with pkgs; [
     tmux
+    wl-clipboard # Wayland clipboard
+    xclip # X11 clipboard (fallback)
   ];
   programs.tmux = {
     enable = true;
     sensibleOnTop = false;
     extraConfig = ''
-          # remap prefix from 'C-b' to 'C-a'
+      # Reduce escape-time to fix delay when pressing Escape key
+      set -sg escape-time 10
+
+      # remap prefix from 'C-b' to 'C-a'
       unbind C-b
       set-option -g prefix C-a
       bind-key C-a send-prefix
@@ -77,6 +82,26 @@
 
       # messages
       set -g message-style 'fg=yellow bg=red bold'
+
+      # ============================================
+      # Clipboard Integration
+      # ============================================
+      # Enable clipboard passthrough
+      set -g set-clipboard on
+
+      # Use vi keys in copy mode
+      setw -g mode-keys vi
+
+      # Configure copy mode for system clipboard (auto-detect Wayland/X11)
+      # Enter copy mode: Prefix + [
+      # Start selection: v 
+      # Copy to clipboard: y 
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'if command -v wl-copy >/dev/null 2>&1; then wl-copy; elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard; elif command -v xsel >/dev/null 2>&1; then xsel --clipboard --input; fi' \; display-message "Copied to clipboard"
+      bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel 'if command -v wl-copy >/dev/null 2>&1; then wl-copy; elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard; elif command -v xsel >/dev/null 2>&1; then xsel --clipboard --input; fi' \; display-message "Copied to clipboard"
+
+      # Mouse selection copies to clipboard
+      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel 'if command -v wl-copy >/dev/null 2>&1; then wl-copy; elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard; elif command -v xsel >/dev/null 2>&1; then xsel --clipboard --input; fi'
     '';
     plugins = with pkgs.tmuxPlugins; [
       yank
