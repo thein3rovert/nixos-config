@@ -24,8 +24,7 @@
         host = config.homelab.ipAddresses.staticAssignments.forgejo;
         # INFO: Create database user in postgresql config
         name = "forgejo";
-        # passwordFile = config.age.secrets.postgres-forgejo.path;
-        password = "test-12345";
+        passwordFile = config.age.secrets.postgres-forgejo.path;
         type = "postgres";
         user = "forgejo";
       };

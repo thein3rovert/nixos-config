@@ -59,7 +59,10 @@
         owner = "thein3rovert";
         mode = "400";
       };
-
+      postgres-forgejo = {
+        file = "${self.inputs.secrets}/forgejo/forgejo-db.age";
+        path = "/home/thein3rovert/.secrets/forgejo-db";
+      };
       garage_thein3rovert_secret = {
         file = "${self.inputs.secrets}/minio-client/accessSecret/iv3-garage-secret.age";
         path = "/home/thein3rovert/.secrets/thein3rovert_s3_secret";
