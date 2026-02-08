@@ -22,7 +22,6 @@ let
 in
 {
   imports = [
-    ./ports
     ./storage
     ./containers
     ./networks
@@ -67,30 +66,6 @@ in
       description = ''
         TimeZone to use for homelab services
       '';
-    };
-
-    # ============================================
-    # Ports Configuration
-    # ============================================
-    containerPorts = createOption {
-      type = lib.types.attrsOf (lib.types.either lib.types.int (lib.types.listOf lib.types.int));
-      default = { };
-      description = "Ports used by Nixos Podman Containers";
-    };
-    # servicePorts = createOption {
-    #   type = lib.types.attrsOf lib.types.int;
-    #   default = { };
-    #   description = "Ports used by Nixos Services";
-    # };
-    servicePorts = createOption {
-      type = lib.types.attrsOf (lib.types.either lib.types.int (lib.types.listOf lib.types.int));
-      default = { };
-      description = "Ports used by Nixos Podman services";
-    };
-    customPorts = createOption {
-      type = lib.types.attrsOf lib.types.int;
-      default = { };
-      description = "Ports used by custom Services and Applications";
     };
 
     # ============================================

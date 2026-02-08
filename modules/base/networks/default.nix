@@ -76,6 +76,27 @@ in
         description = "Static IP assignments for specific services";
       };
     };
+
+    # ============================================
+    # Ports Configuration
+    # ============================================
+    containerPorts = mkOption {
+      type = types.attrsOf (types.either types.int (types.listOf types.int));
+      default = { };
+      description = "Ports used by Nixos Podman Containers";
+    };
+
+    servicePorts = mkOption {
+      type = types.attrsOf (types.either types.int (types.listOf types.int));
+      default = { };
+      description = "Ports used by Nixos Podman services";
+    };
+
+    customPorts = mkOption {
+      type = types.attrsOf types.int;
+      default = { };
+      description = "Ports used by custom Services and Applications";
+    };
   };
 
   # ============================================
@@ -121,6 +142,33 @@ in
         nginx = "192.168.1.20";
         pihole = "192.168.1.21";
       };
+    };
+
+    # ============================================
+    # Ports Configuration
+    # ============================================
+    containerPorts = {
+      linkding = 5860;
+      zerobyte = 4096;
+      uptime-kuma = 8380;
+      freshrss = 8083;
+      jotty = 8382;
+    };
+
+    servicePorts = {
+      traefik = 80;
+      adguard = 53;
+      ssh = 22;
+      garage-api = 3900;
+      minio = [
+        3007
+        3008
+      ];
+    };
+
+    customPorts = {
+      ipam = 5050;
+      api = 4873;
     };
   };
 }
