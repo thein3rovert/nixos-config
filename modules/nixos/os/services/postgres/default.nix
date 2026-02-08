@@ -38,6 +38,10 @@ in
         CREATE DATABASE n8n;
         GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
         ALTER DATABASE n8n OWNER to n8n
+
+        CREATE USER forgejo WITH PASSWORD 'forgejo';
+        CREATE DATABASE forgejo OWNER forgejo;
+        GRANT ALL PRIVILEGES ON DATABASE forgejo TO forgejo;
       '';
     };
 
