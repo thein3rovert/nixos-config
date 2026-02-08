@@ -62,32 +62,6 @@ in
     };
 
     # ============================================
-    # Container Configuration
-    # ============================================
-    containers = {
-      runtime = mkOption {
-        type = types.enum [
-          "podman"
-          "docker"
-        ];
-        default = "podman";
-        description = "Container runtime to use";
-      };
-
-      network = mkOption {
-        type = types.str;
-        default = "homelab";
-        description = "Default container network name";
-      };
-
-      storageDriver = mkOption {
-        type = types.str;
-        default = "overlay2";
-        description = "Container storage driver";
-      };
-    };
-
-    # ============================================
     # Host Information
     # ============================================
     hostInfo = {
