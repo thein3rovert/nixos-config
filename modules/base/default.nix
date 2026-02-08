@@ -7,18 +7,11 @@ let
     mkIf
     ;
 
-  #Types
-  string = types.str;
-  listOf = types.listOf;
-
   # custom
   cfg = config.homelab;
 
   # Functions
   If = mkIf;
-  createEnableOption = mkEnableOption;
-  createOption = mkOption;
-  attributeSetOf = types.attrsOf;
 in
 {
   imports = [
@@ -28,41 +21,41 @@ in
   ];
 
   options.homelab = {
-    enable = createEnableOption "My homelab services and configuration variables";
-    baseUser = createOption {
+    enable = mkEnableOption "My homelab services and configuration variables";
+    baseUser = mkOption {
       default = "thein3rovert";
-      type = string;
+      type = types.str;
       description = ''
         User to run the base homelab service as
       '';
     };
-    baseGroup = createOption {
-      type = string;
+    baseGroup = mkOption {
+      type = types.str;
       default = "users";
       description = ''
         Group to run the hoelab group as
       '';
     };
 
-    user = createOption {
+    user = mkOption {
       default = "share";
-      type = string;
+      type = types.str;
       description = ''
         User to run the hoelab service as
       '';
     };
 
-    group = createOption {
-      type = string;
+    group = mkOption {
+      type = types.str;
       default = "share";
       description = ''
         Group to run the hoelab service as
       '';
     };
 
-    timeZone = createOption {
+    timeZone = mkOption {
       default = "Europe/London";
-      type = string;
+      type = types.str;
       description = ''
         TimeZone to use for homelab services
       '';
@@ -72,7 +65,7 @@ in
     # Container Configuration
     # ============================================
     containers = {
-      runtime = createOption {
+      runtime = mkOption {
         type = types.enum [
           "podman"
           "docker"
@@ -81,14 +74,14 @@ in
         description = "Container runtime to use";
       };
 
-      network = createOption {
-        type = string;
+      network = mkOption {
+        type = types.str;
         default = "homelab";
         description = "Default container network name";
       };
 
-      storageDriver = createOption {
-        type = string;
+      storageDriver = mkOption {
+        type = types.str;
         default = "overlay2";
         description = "Container storage driver";
       };
@@ -98,13 +91,13 @@ in
     # Host Information
     # ============================================
     hostInfo = {
-      hostname = createOption {
-        type = string;
+      hostname = mkOption {
+        type = types.str;
         default = "homelab";
         description = "Hostname of the server";
       };
 
-      architecture = createOption {
+      architecture = mkOption {
         type = types.enum [
           "x86_64"
           "aarch64"
@@ -113,79 +106,13 @@ in
         description = "System architecture";
       };
 
-      location = createOption {
-        type = string;
+      location = mkOption {
+        type = types.str;
         default = "home";
         description = "Physical location of the server";
       };
     };
 
-    # ============================================
-    # Storage Configuration
-    # ============================================
-
-    servicesStorage = createOption {
-      type = attributeSetOf (
-        types.submodule {
-          options = {
-            path = createOption {
-              type = string;
-              description = "Path to the Volume";
-            };
-
-            owner = createOption {
-              type = string;
-              default = cfg.baseUser;
-              description = "Owner of the volume";
-            };
-
-            group = createOption {
-              type = string;
-              default = cfg.group;
-              description = "Group of the volume";
-            };
-
-            permissions = createOption {
-              type = string;
-              # NOTE: Find a better base permission
-              default = "755";
-              description = "Permissions for the volume";
-            };
-          };
-        }
-      );
-    };
-    containerStorage = createOption {
-      type = attributeSetOf (
-        types.submodule {
-          options = {
-            path = createOption {
-              type = string;
-              description = "Path to the Volume";
-            };
-
-            owner = createOption {
-              type = string;
-              default = cfg.baseUser;
-              description = "Owner of the volume";
-            };
-
-            group = createOption {
-              type = string;
-              default = cfg.group;
-              description = "Group of the volume";
-            };
-
-            permissions = createOption {
-              type = string;
-              # NOTE: Find a better base permission
-              default = "755";
-              description = "Permissions for the volume";
-            };
-          };
-        }
-      );
-    };
   };
 
   config = If cfg.enable {

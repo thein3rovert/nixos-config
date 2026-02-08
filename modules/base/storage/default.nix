@@ -1,40 +1,109 @@
-{
-  config,
-  ...
-}:
+{ lib, config, ... }:
 let
-  homelab = config.homelab;
+  inherit (lib)
+    mkOption
+    types
+    ;
+
+  cfg = config.homelab;
 in
 {
-  homelab = {
+  # ============================================
+  # Storage Options
+  # ============================================
+  options.homelab = {
+    servicesStorage = mkOption {
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            path = mkOption {
+              type = types.str;
+              description = "Path to the Volume";
+            };
+            owner = mkOption {
+              type = types.str;
+              default = cfg.baseUser;
+              description = "Owner of the volume";
+            };
+            group = mkOption {
+              type = types.str;
+              default = cfg.group;
+              description = "Group of the volume";
+            };
+            permissions = mkOption {
+              type = types.str;
+              default = "755";
+              description = "Permissions for the volume";
+            };
+          };
+        }
+      );
+      default = { };
+      description = "Storage configuration for NixOS services";
+    };
+
+    containerStorage = mkOption {
+      type = types.attrsOf (
+        types.submodule {
+          options = {
+            path = mkOption {
+              type = types.str;
+              description = "Path to the Volume";
+            };
+            owner = mkOption {
+              type = types.str;
+              default = cfg.baseUser;
+              description = "Owner of the volume";
+            };
+            group = mkOption {
+              type = types.str;
+              default = cfg.group;
+              description = "Group of the volume";
+            };
+            permissions = mkOption {
+              type = types.str;
+              default = "755";
+              description = "Permissions for the volume";
+            };
+          };
+        }
+      );
+      default = { };
+      description = "Storage configuration for containers";
+    };
+  };
+
+  # ============================================
+  # Storage Configuration
+  # ============================================
+  config.homelab = {
     # Container storage configuration
     containerStorage = {
       traefik = {
         path = "/var/lib/containers/traefik";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
       linkding = {
         path = "/var/lib/containers/linkding";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
       zerobyte = {
         path = "/var/lib/containers/zerobyte";
-        owner = homelab.baseUser;
-        group = homelab.baseGroup;
+        owner = cfg.baseUser;
+        group = cfg.baseGroup;
         permissions = "755";
       };
 
-      # Add more container storage paths as needed
       nginx = {
         path = "/var/lib/containers/nginx";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
     };
@@ -43,59 +112,57 @@ in
     servicesStorage = {
       adguard = {
         path = "/var/lib/adguardhome";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
       ssh = {
         path = "/var/lib/ssh";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "700";
       };
 
-      # Custom application storage
       ipam = {
         path = "/var/lib/ipam";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
       api = {
         path = "/var/lib/api";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
-      # Common shared storage locations
       media = {
         path = "/srv/media";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
       backups = {
         path = "/srv/backups";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "750";
       };
 
       config = {
         path = "/srv/config";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
 
       logs = {
         path = "/var/log/homelab";
-        owner = homelab.user;
-        group = homelab.group;
+        owner = cfg.user;
+        group = cfg.group;
         permissions = "755";
       };
     };
