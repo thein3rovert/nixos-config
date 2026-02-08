@@ -93,18 +93,17 @@ in
     # ============================================
     # User Management
     # ============================================
-    # users = {
-    #   groups.${cfg.group} = {
-    #     gid = 993;
-    #   };
-    #
-    #   users.${cfg.user} = {
-    #     uid = 994;
-    #     isSystemUser = true;
-    #     group = cfg.group;
-    #   };
-    # };
-    # ============================================
+    users = {
+      groups.${cfg.baseGroup} = {
+        gid = 993;
+      };
+
+      users.${cfg.baseUser} = {
+        uid = 994;
+        isSystemUser = true;
+        group = cfg.baseGroup;
+      };
+    };
   };
 
 }

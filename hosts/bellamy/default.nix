@@ -40,7 +40,7 @@
     disabled
   */
   # ==============================
-  homelab.enable = true;
+  # homelab.enable = true;
 
   # ==============================
   #     Network Configuration
