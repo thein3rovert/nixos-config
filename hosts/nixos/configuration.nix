@@ -120,6 +120,9 @@ in
     github-copilot-cli
 
     bibata-cursors
+
+    # OBSIDIAN HEADLESS MODE
+    xvfb
   ];
 
   # ================================
