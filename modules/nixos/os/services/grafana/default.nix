@@ -42,6 +42,7 @@ in
 
         settings = {
           server = {
+            http_addr = "0.0.0.0";
             http_port = config.myDns.networkMap.localNetworkMap.grafana.port;
             domain = config.myDns.networkMap.localNetworkMap.grafana.vHost;
           };
@@ -57,12 +58,12 @@ in
             #   access = "proxy";
             #   url = "https://${config.mySnippets.tailnet.networkMap.prometheus.vHost}";
             # }
-            # {
-            #   name = "Loki";
-            #   type = "loki";
-            #   access = "proxy";
-            #   url = "https://${config.mySnippets.tailnet.networkMap.loki.vHost}";
-            # }
+            {
+              name = "Loki";
+              type = "loki";
+              access = "proxy";
+              url = "http://127.0.0.1:${toString config.myDns.networkMap.localNetworkMap.loki.port}";
+            }
           ];
         };
       };
