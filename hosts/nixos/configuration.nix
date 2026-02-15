@@ -289,6 +289,7 @@ in
       dockhand.enable = true;
       mysql.enable = false;
       n8n.enable = true;
+      grafana.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {

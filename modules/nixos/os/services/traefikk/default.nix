@@ -74,6 +74,10 @@
             }
           ];
 
+          # Monitoring
+          services.dockhand.loadBalancer.grafana = [ { url = "http://10.10.10.12:3010/"; } ];
+          services.dockhand.loadBalancer.loki = [ { url = "http://10.10.10.12:3030/"; } ];
+
           routers = {
             api = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.traefik.vHost}`)";
@@ -122,6 +126,17 @@
             dockhand = {
               rule = "Host(`dockhand.l.thein3rovert.com`)";
               service = "dockhand";
+              entryPoints = [ "web" ];
+            };
+
+            grafana = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.grafana.vHost}`)";
+              service = "grafana";
+              entryPoints = [ "web" ];
+            };
+            loki = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.loki.vHost}`)";
+              service = "loki";
               entryPoints = [ "web" ];
             };
             # incus = {

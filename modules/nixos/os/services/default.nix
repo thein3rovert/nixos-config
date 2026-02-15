@@ -7,8 +7,12 @@
     ./audiobookshelf
     ./nginx
     ./traefik
+
+    # Monitoring
     ./glance
     ./uptime-kuma
+    ./grafana
+
     ./jotty
     ./memos
     ./traefikk
