@@ -139,6 +139,11 @@ pages:
             cache: 1m
             title: Monitoring & Utilities
             sites:
+              - title: grafana
+                same-tab: true
+                timeout: 5s
+                url: http://grafana.l.thein3rovert.com/
+                icon: di:grafana.png
               - title: uptime-kuma
                 same-tab: true
                 timeout: 5s
