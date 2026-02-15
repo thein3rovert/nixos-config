@@ -33,13 +33,16 @@ in
   # Define options schema
   options.nixosSetup.services.grafana = {
     enable = createEnableOption "Monitoring Grafana";
+  };
+
+  config = If cfg.enable {
     services = {
       grafana = {
         enable = true;
 
         settings = {
           server = {
-            http_port = config.myDns.networkMap.localNetworkMap.grafana.vHost;
+            http_port = config.myDns.networkMap.localNetworkMap.grafana.port;
             domain = config.myDns.networkMap.localNetworkMap.grafana.vHost;
           };
         };
@@ -63,88 +66,87 @@ in
           ];
         };
       };
-    };
 
-    # ==================================
-    #        LOKI configuration
-    # ==================================
-    loki = {
-      enable = true;
+      # ==================================
+      #        LOKI configuration
+      # ==================================
+      loki = {
+        enable = true;
 
-      configuration = {
-        auth_enabled = false;
+        configuration = {
+          auth_enabled = false;
 
-        server = {
-          http_listen_port = config.myDns.networkMap.localNetworkMap.loki.port;
-          grpc_listen_port = 0;
-        };
-
-        common = {
-          instance_addr = "0.0.0.0";
-          path_prefix = "/tmp/loki";
-
-          storage = {
-            filesystem = {
-              chunks_directory = "/tmp/loki/chunks";
-              rules_directory = "/tmp/loki/rules";
-            };
+          server = {
+            http_listen_port = config.myDns.networkMap.localNetworkMap.loki.port;
+            grpc_listen_port = 0;
           };
 
-          replication_factor = 1;
+          common = {
+            instance_addr = "0.0.0.0";
+            path_prefix = "/tmp/loki";
 
-          ring = {
-            kvstore = {
-              store = "inmemory";
+            storage = {
+              filesystem = {
+                chunks_directory = "/tmp/loki/chunks";
+                rules_directory = "/tmp/loki/rules";
+              };
             };
-          };
-        };
 
-        frontend = {
-          max_outstanding_per_tenant = 2048;
-        };
+            replication_factor = 1;
 
-        pattern_ingester = {
-          enabled = true;
-        };
-
-        limits_config = {
-          max_global_streams_per_user = 0;
-          ingestion_rate_mb = 50000;
-          ingestion_burst_size_mb = 50000;
-          volume_enabled = true;
-        };
-
-        query_range = {
-          results_cache = {
-            cache = {
-              embedded_cache = {
-                enabled = true;
-                max_size_mb = 100;
+            ring = {
+              kvstore = {
+                store = "inmemory";
               };
             };
           };
-        };
 
-        schema_config = {
-          configs = [
-            {
-              from = "2020-10-24";
-              store = "tsdb";
-              object_store = "filesystem";
-              schema = "v13";
-              index = {
-                prefix = "index_";
-                period = "24h";
+          frontend = {
+            max_outstanding_per_tenant = 2048;
+          };
+
+          pattern_ingester = {
+            enabled = true;
+          };
+
+          limits_config = {
+            max_global_streams_per_user = 0;
+            ingestion_rate_mb = 50000;
+            ingestion_burst_size_mb = 50000;
+            volume_enabled = true;
+          };
+
+          query_range = {
+            results_cache = {
+              cache = {
+                embedded_cache = {
+                  enabled = true;
+                  max_size_mb = 100;
+                };
               };
-            }
-          ];
-        };
+            };
+          };
 
-        analytics = {
-          reporting_enabled = false;
+          schema_config = {
+            configs = [
+              {
+                from = "2020-10-24";
+                store = "tsdb";
+                object_store = "filesystem";
+                schema = "v13";
+                index = {
+                  prefix = "index_";
+                  period = "24h";
+                };
+              }
+            ];
+          };
+
+          analytics = {
+            reporting_enabled = false;
+          };
         };
       };
     };
-
   };
 }
