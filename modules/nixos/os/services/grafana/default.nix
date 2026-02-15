@@ -156,42 +156,6 @@ in
 
         scrapeConfigs = [
           # {
-          #   job_name = "bazarr";
-          #   static_configs = [
-          #     {
-          #       targets = [ "jubilife:9708" ];
-          #     }
-          #   ];
-          # }
-          #
-          # {
-          #   job_name = "lidarr";
-          #   static_configs = [
-          #     {
-          #       targets = [ "jubilife:9709" ];
-          #     }
-          #   ];
-          # }
-          #
-          # {
-          #   job_name = "prowlarr";
-          #   static_configs = [
-          #     {
-          #       targets = [ "jubilife:9710" ];
-          #     }
-          #   ];
-          # }
-          #
-          # {
-          #   job_name = "radarr";
-          #   static_configs = [
-          #     {
-          #       targets = [ "jubilife:9711" ];
-          #     }
-          #   ];
-          # }
-          #
-          # {
           #   job_name = "smartctl";
           #   static_configs = [
           #     {
@@ -200,46 +164,16 @@ in
           #     }
           #   ];
           # }
-          #
-          # {
-          #   job_name = "sonarr";
-          #   static_configs = [
-          #     {
-          #       targets = [ "jubilife:9712" ];
-          #     }
-          #   ];
-          # }
-
           {
             job_name = "node";
             static_configs = [
               {
-                targets = [ "snowpoint:3021" ];
-                labels.instance = "snowpoint";
+                targets = [ "bellamy:3021" ];
+                labels.instance = "bellamy";
               }
               {
-                targets = [ "celestic:3021" ];
-                labels.instance = "celestic";
-              }
-              {
-                targets = [ "oreburgh:3021" ];
-                labels.instance = "oreburgh";
-              }
-              {
-                targets = [ "jubilife:3021" ];
-                labels.instance = "jubilife";
-              }
-              {
-                targets = [ "eterna:3021" ];
-                labels.instance = "eterna";
-              }
-              {
-                targets = [ "solaceon:3021" ];
-                labels.instance = "solaceon";
-              }
-              {
-                targets = [ "slateport:3021" ];
-                labels.instance = "slateport";
+                targets = [ "marcus:3021" ];
+                labels.instance = "marcus";
               }
             ];
           }
