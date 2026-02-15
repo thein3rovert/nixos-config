@@ -242,13 +242,17 @@
             }
           );
 
-          # ================================
-          #        NIXOS MODULES
-          # ================================
+          # ============================================
+          #        NIXOS MODULES and ARKADIA MODULES
+          # ============================================
           nixosModules =
             let
               # Auto-discover only tools module
-              # We pass the parent directory and extract only 'tools'
+              /*
+                Dont want to point to nixos/modules as it containers
+                manual important modules for now.
+                TODO: Migrate later on when confident
+              */
               all-auto-modules = arkadia-lib.arkadia.module.create-modules {
                 src = ./modules/nixos/development;
               };
@@ -256,7 +260,7 @@
               #   tools = all-auto-modules.tools;
               # };
             in
-            all-auto-modules
+            all-auto-modules # Merge arkadia modules into manual modules
             // {
               # Manual modules
               base = ./modules/base;
