@@ -250,13 +250,13 @@
               # Auto-discover only tools module
               # We pass the parent directory and extract only 'tools'
               all-auto-modules = arkadia-lib.arkadia.module.create-modules {
-                src = ./modules/nixos;
+                src = ./modules/nixos/development;
               };
-              auto-modules = {
-                tools = all-auto-modules.tools;
-              };
+              # auto-modules = {
+              #   tools = all-auto-modules.tools;
+              # };
             in
-            auto-modules
+            all-auto-modules
             // {
               # Manual modules
               base = ./modules/base;
