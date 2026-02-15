@@ -70,7 +70,16 @@ in
           port = 8087;
           vHost = "zerobyte.${config.myDns.networkMap.name}";
         };
-
+        grafana = {
+          hostName = "${emily}";
+          port = 3010;
+          vHost = "grafana.${config.myDns.networkMap.name}";
+        };
+        loki = {
+          hostName = "${emily}";
+          port = 3010;
+          vHost = "loki.${config.myDns.networkMap.name}";
+        };
       };
     };
   };
