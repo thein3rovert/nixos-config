@@ -46,8 +46,8 @@ update-glance:
 
 # Update agenix secrets
 [group('flake')]
-update-secrets:
-  nix flake update secrets
+update-nix input:
+  nix flake update {{input}}
 
 # ==============================
 #       ANSIBLE COMMANDS
