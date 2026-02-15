@@ -4,7 +4,7 @@
   ...
 }:
 {
-  options.myNixOS.services.promtail = {
+  options.nixosSetup.services.promtail = {
     enable = lib.mkEnableOption "promtail for tailing logs";
 
     lokiUrl = lib.mkOption {
@@ -14,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf config.myNixOS.services.promtail.enable {
+  config = lib.mkIf config.nixosSetup.services.promtail.enable {
     services.promtail = {
       enable = true;
 
@@ -30,7 +30,7 @@
 
         clients = [
           {
-            url = config.myNixOS.services.promtail.lokiUrl;
+            url = config.nixosSetup.services.promtail.lokiUrl;
           }
         ];
 

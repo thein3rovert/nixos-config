@@ -260,30 +260,32 @@ in
 
     services = {
       adguard.enable = false;
-      garage = {
-        enable = false;
-        # Current webui version and api version are not compatible
-        webui = {
-          enable = false;
-          apiBaseUrl = "http://127.0.0.1:3903";
-        };
-
-        user = "thein3rovert";
-        group = "users";
-        metadataDir = "/var/lib/garage/meta";
-        dataDir = "/var/lib/garage/data";
-        # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
-        # adminToken = builtins.readFile config.age.secrets.adminToken.path;
-        apiBindAddr = "127.0.0.1:3903"; # Only accessible locally
-        rpcBindAddr = "0.0.0.0:3901";
-        rpcPublicAddr = "127.0.0.1:3901";
-        # S3 API should listen on all interfaces so reverse proxy can reach it
-        s3Api.apiBindAddr = "127.0.0.1:3900"; # Only accessible locally
-        s3Api.rootDomain = ".s3.garage.localhost";
-
-        s3Web.rootDomain = ".web.garage.localhost";
-        s3Web.bindAddr = "127.0.0.1:3902";
-      };
+      # garage = {
+      #   enable = false;
+      #   # Current webui version and api version are not compatible
+      #   webui = {
+      #     enable = false;
+      #     apiBaseUrl = "http://127.0.0.1:3903";
+      #   };
+      #
+      #   user = "thein3rovert";
+      #   group = "users";
+      #   metadataDir = "/var/lib/garage/meta";
+      #   dataDir = "/var/lib/garage/data";
+      #   # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
+      #   # adminToken = builtins.readFile config.age.secrets.adminToken.path;
+      #   apiBindAddr = "127.0.0.1:3903"; # Only accessible locally
+      #   rpcBindAddr = "0.0.0.0:3901";
+      #   rpcPublicAddr = "127.0.0.1:3901";
+      #   # S3 API should listen on all interfaces so reverse proxy can reach it
+      #   s3Api.apiBindAddr = "127.0.0.1:3900"; # Only accessible locally
+      #   s3Api.rootDomain = ".s3.garage.localhost";
+      #
+      #   s3Web.rootDomain = ".web.garage.localhost";
+      #   s3Web.bindAddr = "127.0.0.1:3902";
+      # };
+      prometheusNode.enable = true;
+      promtail.enable = true;
       zerobyte.enable = true;
       hawser.enable = false;
       dockhand.enable = true;
