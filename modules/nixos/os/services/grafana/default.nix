@@ -52,12 +52,12 @@ in
           enable = true;
 
           datasources.settings.datasources = [
-            # {
-            #   name = "Prometheus";
-            #   type = "prometheus";
-            #   access = "proxy";
-            #   url = "https://${config.mySnippets.tailnet.networkMap.prometheus.vHost}";
-            # }
+            {
+              name = "Prometheus";
+              type = "prometheus";
+              access = "proxy";
+              url = "http://127.0.0.1:${toString config.myDns.networkMap.localNetworkMap.prometheus.port}";
+            }
             {
               name = "Loki";
               type = "loki";
@@ -160,7 +160,7 @@ in
           #   static_configs = [
           #     {
           #       targets = [ "jubilife:9633" ];
-          #       labels.instance = "jubilife";
+          #       labels.instance = "nixos";
           #     }
           #   ];
           # }
@@ -175,6 +175,11 @@ in
                 targets = [ "marcus:3021" ];
                 labels.instance = "marcus";
               }
+              {
+                targets = [ "nixos:3021" ];
+                labels.instance = "nixos";
+              }
+
             ];
           }
         ];
