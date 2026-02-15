@@ -48,6 +48,26 @@
         "type": "github"
       }
     },
+    "arkadia": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771161763,
+        "narHash": "sha256-f2PAYRbwi6MiCEGFuizJU4j/cAlSTgUAmf5IvrhH1NI=",
+        "owner": "thein3rovert",
+        "repo": "arkadia",
+        "rev": "8f0982aefe785be2bfe59c9634bfac44b1bd45ea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "thein3rovert",
+        "repo": "arkadia",
+        "type": "github"
+      }
+    },
     "base16-schemes": {
       "flake": false,
       "locked": {
@@ -524,6 +544,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "arkadia": "arkadia",
         "clan-core": "clan-core",
         "colmena": "colmena",
         "disko": "disko_2",

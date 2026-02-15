@@ -121,8 +121,6 @@ in
 
     bibata-cursors
 
-    # OBSIDIAN HEADLESS MODE
-    xvfb
   ];
 
   # ================================

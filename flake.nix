@@ -63,12 +63,19 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Arkadia library framework
+    arkadia = {
+      url = "github:thein3rovert/arkadia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       self,
       agenix,
+      arkadia,
       clan-core,
       colmena,
       disko,
@@ -81,6 +88,14 @@
       # ghostty,
       ...
     }@inputs:
+    let
+      # Initialize Arkadia library
+      arkadia-lib = arkadia.mkLib {
+        inherit inputs;
+        src = ./.;
+        arkadia.namespace = "nixos-config";
+      };
+    in
     flake-parts.lib.mkFlake { inherit inputs; } {
       # ================================
       #      FLAKE PART CONFIG
@@ -157,6 +172,7 @@
           lib = nixpkgs.lib.extend (
             final: prev: {
               t = import ./modules/nixos/os/profiles/types/lib/types.nix { lib = final; };
+              arkadia = arkadia-lib.arkadia;
             }
           );
 
@@ -173,6 +189,7 @@
                   nix-colors
                   colmena
                   nixpkgs-unstable-small
+                  arkadia-lib
                   ;
                 lib = self.lib;
               };
@@ -212,7 +229,7 @@
                 {
                   home-manager = {
                     backupFileExtension = "backup";
-                    extraSpecialArgs = { inherit self; };
+                    extraSpecialArgs = { inherit self arkadia-lib; };
                     useGlobalPkgs = true;
                     useUserPackages = true;
                   };
@@ -258,6 +275,7 @@
                   self
                   inputs
                   nix-colors
+                  arkadia-lib
                   ;
               };
             };
