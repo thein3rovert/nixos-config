@@ -75,8 +75,8 @@
           ];
 
           # Monitoring
-          services.dockhand.loadBalancer.grafana = [ { url = "http://10.10.10.12:3010/"; } ];
-          services.dockhand.loadBalancer.loki = [ { url = "http://10.10.10.12:3030/"; } ];
+          services.grafana.loadBalancer.servers = [ { url = "http://10.10.10.12:3010/"; } ];
+          services.loki.loadBalancer.servers = [ { url = "http://10.10.10.12:3030/"; } ];
 
           routers = {
             api = {
@@ -139,6 +139,7 @@
               service = "loki";
               entryPoints = [ "web" ];
             };
+
             # incus = {
             #   rule = "HostSNI(`${config.myDns.networkMap.localNetworkMap.incus.vHost}`)";
             #   service = "incus";
