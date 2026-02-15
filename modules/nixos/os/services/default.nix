@@ -12,6 +12,8 @@
     ./glance
     ./uptime-kuma
     ./grafana
+    ./promtail
+    ./prometheusNode
 
     ./jotty
     ./memos

@@ -147,6 +147,8 @@
         enable = true;
         database = "postgresql";
       };
+      prometheusNode.enable = true;
+      promtail.enable = true;
 
       garage-webui =
         let
@@ -168,7 +170,6 @@
           s3EndpointUrl = "http://127.0.0.1:${toString apiPort}";
         };
 
-      # TODO: Learn better way to use agenix fpr env
       garage =
         let
           apiPort = 3900;
