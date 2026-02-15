@@ -95,6 +95,13 @@
         src = ./.;
         arkadia.namespace = "nixos-config";
       };
+
+      # OPTION: Use Arkadia to auto-discover all modules in modules/nixos/
+      # Uncomment below to auto-discover instead of manual listing:
+      # auto-modules = arkadia-lib.arkadia.module.create-modules {
+      #   src = ./modules/nixos;
+      #   alias = { default = "tools"; };
+      # };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       # ================================
@@ -210,6 +217,7 @@
                 self.nixosModules.hardware
                 self.nixosModules.nixosOs
                 self.nixosModules.snippets
+                self.nixosModules.tools # <-- New: cowsay and jq
                 self.nixosModules.users
 
                 # Overlays
@@ -253,6 +261,7 @@
             locale-en-uk = ./modules/nixos/locale/en-uk;
             nixosOs = ./modules/nixos/os;
             snippets = ./modules/snippets;
+            tools = ./modules/nixos/tools; # <-- New: cowsay and jq
             users = ./modules/nixos/users;
           };
 
