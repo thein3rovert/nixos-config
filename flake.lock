@@ -55,11 +55,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771161763,
-        "narHash": "sha256-f2PAYRbwi6MiCEGFuizJU4j/cAlSTgUAmf5IvrhH1NI=",
+        "lastModified": 1771167363,
+        "narHash": "sha256-TXFzJtT0HwNi/X0vGpjVfKE6IQJeQOEZjWAGppe5ODM=",
         "owner": "thein3rovert",
         "repo": "arkadia",
-        "rev": "8f0982aefe785be2bfe59c9634bfac44b1bd45ea",
+        "rev": "7ead15352ee00c404d44a955afdfb71d20e305f2",
         "type": "github"
       },
       "original": {

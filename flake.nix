@@ -95,13 +95,6 @@
         src = ./.;
         arkadia.namespace = "nixos-config";
       };
-
-      # OPTION: Use Arkadia to auto-discover all modules in modules/nixos/
-      # Uncomment below to auto-discover instead of manual listing:
-      # auto-modules = arkadia-lib.arkadia.module.create-modules {
-      #   src = ./modules/nixos;
-      #   alias = { default = "tools"; };
-      # };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       # ================================
@@ -252,18 +245,29 @@
           # ================================
           #        NIXOS MODULES
           # ================================
-          nixosModules = {
-            # INFO: Contain Reusable Variables, Types and more ...
-            base = ./modules/base;
-            containers = ./modules/nixos/containers;
-            core = ./modules/core;
-            hardware = ./modules/hardware;
-            locale-en-uk = ./modules/nixos/locale/en-uk;
-            nixosOs = ./modules/nixos/os;
-            snippets = ./modules/snippets;
-            tools = ./modules/nixos/tools; # <-- New: cowsay and jq
-            users = ./modules/nixos/users;
-          };
+          nixosModules =
+            let
+              # Auto-discover only tools module
+              # We pass the parent directory and extract only 'tools'
+              all-auto-modules = arkadia-lib.arkadia.module.create-modules {
+                src = ./modules/nixos;
+              };
+              auto-modules = {
+                tools = all-auto-modules.tools;
+              };
+            in
+            auto-modules
+            // {
+              # Manual modules
+              base = ./modules/base;
+              containers = ./modules/nixos/containers;
+              core = ./modules/core;
+              hardware = ./modules/hardware;
+              locale-en-uk = ./modules/nixos/locale/en-uk;
+              nixosOs = ./modules/nixos/os;
+              snippets = ./modules/snippets;
+              users = ./modules/nixos/users;
+            };
 
           # ================================
           #           OVERLAYS

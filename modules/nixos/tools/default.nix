@@ -19,6 +19,7 @@ in
   environment.systemPackages = with pkgs; [
     cowsay
     jq
+    xvfb-run
   ];
 
   # You can also use Arkadia functions for more complex logic
