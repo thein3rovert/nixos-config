@@ -342,6 +342,8 @@
                 ./hosts/marcus
                 self.inputs.home-manager.nixosModules.home-manager
                 # self.homeManagerModules.default
+                self.nixosModules.nixosOs
+                self.nixosModules.containers
                 {
                   nixpkgs.overlays = [ self.overlays.default ];
                 }

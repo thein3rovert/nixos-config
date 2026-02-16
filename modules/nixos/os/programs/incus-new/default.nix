@@ -13,17 +13,10 @@ let
 in
 {
   options.nixosSetup.programs.incus-v.enable = lib.mkEnableOption ''
-      incusd, a daemon that manages containers and virtual machines.
-
-    Users in the "incus-admin" group can interact with
-    the daemon (e.g. to start or stop containers) using the
-    {command}`incus` command line tool, among others.
-    Users in the "incus" group can also interact with
-    the daemon, but with lower permissions
-    (i.e. administrative operations are forbidden).
+    incusd, a daemon that manages containers and virtual machines.
   '';
   config = lib.mkIf cfg.enable {
-    virtualisation.incus-v = {
+    virtualisation.incus = {
       enable = true;
       ui.enable = true;
 
@@ -118,7 +111,7 @@ in
       };
       useDHCP = false;
       tempAddresses = "disabled";
-      hostId = "992d7f9ad3339496";
+      hostId = "d3339496";
       hostName = "marcus"; # change this
       firewall.trustedInterfaces = [
         "internalbr0"
