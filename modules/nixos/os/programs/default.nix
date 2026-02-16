@@ -9,5 +9,7 @@
     ./uutils
     ./scripts
     ./incus
+    # Temp test
+    ./incus-new
   ];
 }

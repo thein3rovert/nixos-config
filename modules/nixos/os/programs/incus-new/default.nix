@@ -1,0 +1,147 @@
+{
+  config,
+  lib,
+  ...
+}:
+let
+
+  /*
+     WARNING: When ever the config is broken, it requires we restart the preseed manually
+      using the command systemctl start incus-preseed.services. Issue might be fixed in later version
+  */
+  cfg = config.nixosSetup.programs.incus-v;
+in
+{
+  options.nixosSetup.programs.incus-v.enable = lib.mkEnableOption ''
+      incusd, a daemon that manages containers and virtual machines.
+
+    Users in the "incus-admin" group can interact with
+    the daemon (e.g. to start or stop containers) using the
+    {command}`incus` command line tool, among others.
+    Users in the "incus" group can also interact with
+    the daemon, but with lower permissions
+    (i.e. administrative operations are forbidden).
+  '';
+  config = lib.mkIf cfg.enable {
+    virtualisation.incus-v = {
+      enable = true;
+      ui.enable = true;
+
+      preseed = {
+
+        # ================================
+        #        INCUS NETWOTK SETTINGS
+        # ================================
+        networks = [
+          {
+
+            # ---- Network 1: Default ----
+
+            name = "internalbr0"; # internalbr0
+            description = "Default: Internal/NATted bridge";
+            type = "bridge";
+            config = {
+              "ipv4.address" = "auto";
+              "ipv4.nat" = "true";
+
+              "ipv6.address" = "auto";
+              "ipv6.nat" = "true";
+            };
+          }
+        ];
+        # ============================================
+        #        INCUS PROFILE SETTINGS
+        # ============================================
+        profiles = [
+          {
+            name = "default";
+            description = "Default Incus Profile Nixos";
+
+            devices = {
+              eth0 = {
+                name = "eth0";
+                network = "internalbr0";
+                type = "nic";
+              };
+
+              root = {
+                type = "disk";
+                pool = "default";
+                path = "/";
+              };
+            };
+          }
+
+          # ---- Additional Bridge: Optional ----
+          # {
+          #   name = "bridged";
+          #   description = "Instances bridged to LAN";
+          #   devices = {
+          #     eth0 = {
+          #       name = "eth0";
+          #       nictype = "bridged";
+          #       parent = "externalbr0";
+          #       type = "nic";
+          #     };
+          #     root = {
+          #       path = "/";
+          #       pool = "default";
+          #       type = "disk";
+          #     };
+          #   };
+          # }
+        ];
+
+        # ============================================
+        #        INCUS STORAGE POOL SETTINGS
+        # ============================================
+
+        # ---- Storage Pool 1: Default ----
+        storage_pools = [
+          {
+            name = "default";
+            description = "Default Incus Storage";
+            driver = "dir";
+            config = {
+              source = "/var/lib/incus/storage-pools/default";
+            };
+          }
+        ];
+      };
+
+    };
+
+    # Incus Networking Base
+    networking = {
+      nftables = {
+        enable = true;
+      };
+      useDHCP = false;
+      tempAddresses = "disabled";
+      hostId = "992d7f9ad3339496";
+      hostName = "marcus"; # change this
+      firewall.trustedInterfaces = [
+        "internalbr0"
+      ];
+
+      # INFO: Only needed when bridge is present
+      # bridges = {
+      #   externalbr0 = {
+      #     interfaces = [ "wlp1s0" ]; # change this to your network adapter
+      #   };
+      # };
+      # interfaces = {
+      #   externalbr0 = {
+      #     useDHCP = true;
+      #     macAddress = "b0:ac:82:c8:32:ff";
+      #   };
+      # };
+
+    };
+
+    # Add Inucus to extra group
+    # TODO: Use homelab user as base users or add incus-admin to homelab base
+    users.users.thein3rovert.extraGroups = [ "incus-admin" ];
+
+  };
+}
