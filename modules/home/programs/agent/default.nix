@@ -70,6 +70,55 @@
         "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
       google_auth = false;
       agents = {
+
+        Prometheus = {
+          model = "github-copilot/gpt-4.1";
+          permission = {
+            edit = "allow";
+            bash = {
+              "*" = "allow";
+              "rm *" = "ask";
+              "rmdir *" = "ask";
+              "mv *" = "ask";
+              "chmod *" = "ask";
+              "chown *" = "ask";
+              "git *" = "ask";
+              "git status*" = "allow";
+              "git log*" = "allow";
+              "git diff*" = "allow";
+              "git branch*" = "allow";
+              "git show*" = "allow";
+              "git stash list*" = "allow";
+              "git remote -v" = "allow";
+              "git add *" = "allow";
+            };
+          };
+        };
+
+        Hephaestus = {
+          model = "github-copilot/gpt-4.1";
+          permission = {
+            edit = "allow";
+            bash = {
+              "*" = "allow";
+              "rm *" = "ask";
+              "rmdir *" = "ask";
+              "mv *" = "ask";
+              "chmod *" = "ask";
+              "chown *" = "ask";
+              "git *" = "ask";
+              "git status*" = "allow";
+              "git log*" = "allow";
+              "git diff*" = "allow";
+              "git branch*" = "allow";
+              "git show*" = "allow";
+              "git stash list*" = "allow";
+              "git remote -v" = "allow";
+              "git add *" = "allow";
+            };
+          };
+        };
+
         Sisyphus = {
           model = "github-copilot/gpt-4.1";
           permission = {
