@@ -96,7 +96,7 @@
       server.enable = true;
     };
     services = {
-      linkdingTest.enable = true;
+      # linkdingTest.enable = true;
       traefikk.enable = false;
 
       tailscale = {
