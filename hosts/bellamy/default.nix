@@ -135,6 +135,7 @@
       traefik = {
         enable = true;
       };
+      blog.enable = true;
       tailscale.enable = true;
       linkding.enable = true;
       glance.enable = true;

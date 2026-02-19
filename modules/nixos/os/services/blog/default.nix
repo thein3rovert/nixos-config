@@ -11,15 +11,14 @@ let
   port = 8084;
 in
 {
-  options.nixosSetup.services.dockhand = {
+  options.nixosSetup.services.blog = {
     enable = lib.mkEnableOption "My personal Blog";
   };
 
   config = if-blog-enable {
-    virtualisation.oci-containers.containers.dockhand = {
+    virtualisation.oci-containers.containers.blog = {
       image = "${imageName}:${imageTag}";
       ports = [ "${toString port}:80" ];
     };
   };
-
 }
