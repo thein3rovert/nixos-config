@@ -83,6 +83,11 @@
               url = "http://localhost:3002/";
             }
           ];
+          services.blog.loadBalancer.servers = [
+            {
+              url = "http://localhost:8084/";
+            }
+          ];
 
           middlewares = {
             auth = {
@@ -115,6 +120,14 @@
             memos = {
               rule = "Host(`memos.thein3rovert.dev`)";
               service = "memos";
+              entryPoints = [ "websecure" ];
+              tls = {
+                certResolver = "godaddy";
+              };
+            };
+            blog = {
+              rule = "Host(`blog.thein3rovert.dev`)";
+              service = "blog";
               entryPoints = [ "websecure" ];
               tls = {
                 certResolver = "godaddy";

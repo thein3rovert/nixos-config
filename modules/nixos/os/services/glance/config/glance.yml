@@ -144,6 +144,16 @@ pages:
                 timeout: 5s
                 url: http://grafana.l.thein3rovert.com/
                 icon: di:grafana.png
+              # - title: Prometheus
+              #   same-tab: true
+              #   timeout: 5s
+              #   url: http://prometheus.l.thein3rovert.com/
+              #   icon: di:prometheus.png
+              # - title: Loki
+              #   same-tab: true
+              #   timeout: 5s
+              #   url: http://loki.l.thein3rovert.com/
+              #   icon: di:loki.png
               - title: uptime-kuma
                 same-tab: true
                 timeout: 5s

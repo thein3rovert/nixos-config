@@ -75,8 +75,8 @@
           ];
 
           # Monitoring
-          services.grafana.loadBalancer.servers = [ { url = "http://10.10.10.12:3010/"; } ];
-          services.loki.loadBalancer.servers = [ { url = "http://10.10.10.12:3030/"; } ];
+          services.grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3010/"; } ];
+          services.loki.loadBalancer.servers = [ { url = "http://127.0.0.1:3030/"; } ];
 
           routers = {
             api = {
