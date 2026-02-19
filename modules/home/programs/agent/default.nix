@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -18,11 +19,35 @@
       ))
     ];
 
+    xdg.configFile = {
+      "opencode/commands" = {
+        source = "${inputs.polis}/commands";
+        recursive = true;
+      };
+      "opencode/context" = {
+        source = "${inputs.polis}/context";
+        recursive = true;
+      };
+      "opencode/prompts" = {
+        source = "${inputs.polis}/prompts";
+        recursive = true;
+      };
+      "opencode/skills" = {
+        source = "${inputs.polis}/skills";
+        recursive = true;
+      };
+      # "opencode/rules" = {
+      #   source = "${inputs.agents}/rules";
+      #   recursive = true;
+      # };
+    };
+
     programs.opencode = {
       enable = true;
       settings = {
         theme = "lucent-orng";
         plugin = [ "oh-my-opencode" ];
+        agent = builtins.fromJSON (builtins.readFile "${inputs.polis}/agents/agents.json");
         formatter = {
           alejandra = {
             command = [
