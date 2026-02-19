@@ -58,6 +58,12 @@
       flake = false;
     };
 
+    polis = {
+      # url = "path:/home/m3tam3re/p/AI/AGENTS";
+      url = "git+ssh://git@github.com/thein3rovert/polis.git";
+      flake = false;
+    };
+
     # Zen browser
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -85,6 +91,7 @@
       nixpkgs,
       nixpkgs-unstable-small,
       zen-browser,
+      polis,
       # ghostty,
       ...
     }@inputs:
@@ -230,7 +237,7 @@
                 {
                   home-manager = {
                     backupFileExtension = "backup";
-                    extraSpecialArgs = { inherit self arkadia-lib; };
+                    extraSpecialArgs = { inherit self inputs arkadia-lib; };
                     useGlobalPkgs = true;
                     useUserPackages = true;
                   };
@@ -350,7 +357,7 @@
                 {
                   home-manager = {
                     backupFileExtension = "backup";
-                    extraSpecialArgs = { inherit self; };
+                    extraSpecialArgs = { inherit self inputs; };
                     useGlobalPkgs = true;
                     useUserPackages = true;
                   };
