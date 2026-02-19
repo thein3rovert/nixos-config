@@ -19,7 +19,6 @@
     ./memos
     ./traefikk
     ./adguard
-    ./test
     ./minio
     ./postgres
     ./myslql
