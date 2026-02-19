@@ -26,6 +26,7 @@
     ./n8n
     ./garage
     ./fossflow
+    ./blog
     # lxc
     ./garage-webui
     ./ad-guard
