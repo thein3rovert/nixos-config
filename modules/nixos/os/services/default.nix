@@ -33,5 +33,6 @@
     ./dockhand
     ./hawser
     ./forgejo
+    ./forgejo-runner
   ];
 }

@@ -34,6 +34,8 @@
       }
     ];
 
+    age.secrets.forgejo-runner.file = "${self.inputs.secrets}/forgejo/runner/forgejo-runner-secret.age";
+
     services.gitea-actions-runner =
       let
         # Normalize arch name e.g. "x86_64-linux" -> "x86_64_linux"
@@ -43,7 +45,7 @@
         instances =
           let
             # Path to the runner token secret (managed by agenix)
-            tokenFile = config.age.secrets.forgejo-runer.path;
+            tokenFile = config.age.secrets.forgejo-runner.path;
           in
           {
             # Runner 1: Docker-based runner — runs CI jobs inside Docker containers
@@ -60,7 +62,8 @@
                 runner.capacity = config.nixosSetup.services.forgejo-runner.dockerContainers;
               };
               # Connect to your Forgejo instance over Tailscale
-              url = "http://${config.myDns.networkMap.localNetworkMap.forgejo.homeName}:${toString config.myDns.networkMap.localNetworkMap.forgejo.port}";
+              # url = "http://${config.myDns.networkMap.localNetworkMap.forgejo.hostName}:${toString config.myDns.networkMap.localNetworkMap.forgejo.port}";
+              url = "http://100.105.187.63:${toString config.myDns.networkMap.localNetworkMap.forgejo.port}";
             };
 
             # Runner 2: Native NixOS runner — runs CI jobs directly on the host
@@ -90,7 +93,7 @@
                 runner.capacity = config.nixosSetup.services.forgejo-runner.nativeRunners;
               };
 
-              url = "http://${config.myDns.networkMap.localNetworkMap.forgejo.homeName}:${toString config.myDns.networkMap.localNetworkMap.forgejo.port}";
+              url = "http://100.105.187.63:3002";
             };
           };
       };

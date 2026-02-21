@@ -98,6 +98,11 @@
         enable = true;
         authKeyFile = config.age.secrets.tailscale.path;
       };
+      forgejo-runner = {
+        enable = true;
+        dockerContainers = 1;
+        nativeRunners = 1;
+      };
     };
     # profiles = {
     #   shell.enable = false;
