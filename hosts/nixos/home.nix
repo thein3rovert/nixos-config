@@ -183,6 +183,17 @@ in
             identityFile = "~/.ssh/id_ed25519";
             user = "root";
           };
+          marcus = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.10.10.13";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+          };
+          nixos-runner = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "10.127.42.183";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+            proxyJump = "marcus";
+          };
         };
       };
 
