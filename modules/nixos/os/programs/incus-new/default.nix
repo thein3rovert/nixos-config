@@ -61,6 +61,9 @@ in
           {
             name = "default";
             description = "Default Incus Profile Nixos";
+            config = {
+              "security.nesting" = "true";
+            };
 
             devices = {
               eth0 = {
