@@ -404,7 +404,30 @@
               ];
             };
 
-            # ---- Node: Lexa [ lxc 01 ] ----
+            # ---- Node: Runner [ lxc 02 ] ----
+            nixos-runner = {
+              deployment = {
+                targetHost = "nixos-runner";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = true;
+                tags = [
+                  "prod"
+                  "runner"
+                ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/runner
+                agenix.nixosModules.default
+                self.nixosModules.users
+                self.nixosModules.containers
+                self.nixosModules.nixosOs
+                self.nixosModules.snippets
+              ];
+            };
+
+            # ---- Node: Lexa [ proxmox-lxc 01 ] ----
             lexa = {
               deployment = {
                 targetHost = "10.135.108.10";

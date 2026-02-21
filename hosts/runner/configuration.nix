@@ -19,17 +19,24 @@
   # to colmena flake config instead.
   # This also helps to fix infinite recursion
 
-  networking = {
-    dhcpcd.enable = false;
-    useDHCP = false;
-    useHostResolvConf = false;
-  };
-
+  # networking = {
+  #   dhcpcd.enable = false;
+  #   useDHCP = false;
+  #   useHostResolvConf = false;
+  # };
+  #
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "yes";
   };
 
+  nix.settings = {
+    sandbox = false;
+    trusted-users = [
+      "root"
+      "thein3rovert"
+    ];
+  };
   # ==============================
   #       User Management
   # ==============================
@@ -84,7 +91,7 @@
     services = {
       ad-guard.enable = false;
       tailscale = {
-        enable = true;
+        enable = false;
       };
     };
     # profiles = {
