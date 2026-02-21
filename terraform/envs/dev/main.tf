@@ -75,4 +75,82 @@ module "k8s_jumpbox" {
   extra_tags      = ["k8s-hardway"]
 }
 
+# Kubernetes the Hard Way - Server (Debian 12)
+module "k8s_server" {
+  source = "../../modules/lxc"
+
+  target_node = var.target_node
+  password    = var.root_password
+  hostname    = "server"
+  vmid        = 111
+  ostemplate  = "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
+  cores       = 1
+  memory      = 2048
+  swap        = 512
+  disk_size   = "20G"
+  storage     = var.rootfs_storage
+  ssh_keys    = file(var.ssh_public_key_path)
+
+  gateway         = var.gateway
+  cidr_suffix     = var.cidr_suffix
+  ip_base         = var.ip_base
+  bridge          = var.bridge
+  container_id    = 111
+  proxmox_host_ip = var.proxmox_host_ip
+  os_type         = "debian"
+  extra_tags      = ["k8s-hardway"]
+}
+
+# Kubernetes the Hard Way - Node 0 (Debian 12)
+module "k8s_node_0" {
+  source = "../../modules/lxc"
+
+  target_node = var.target_node
+  password    = var.root_password
+  hostname    = "node-0"
+  vmid        = 112
+  ostemplate  = "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
+  cores       = 1
+  memory      = 2048
+  swap        = 512
+  disk_size   = "20G"
+  storage     = var.rootfs_storage
+  ssh_keys    = file(var.ssh_public_key_path)
+
+  gateway         = var.gateway
+  cidr_suffix     = var.cidr_suffix
+  ip_base         = var.ip_base
+  bridge          = var.bridge
+  container_id    = 112
+  proxmox_host_ip = var.proxmox_host_ip
+  os_type         = "debian"
+  extra_tags      = ["k8s-hardway"]
+}
+
+# Kubernetes the Hard Way - Node 1 (Debian 12)
+module "k8s_node_1" {
+  source = "../../modules/lxc"
+
+  target_node = var.target_node
+  password    = var.root_password
+  hostname    = "node-1"
+  vmid        = 113
+  ostemplate  = "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
+  cores       = 1
+  memory      = 2048
+  swap        = 512
+  disk_size   = "20G"
+  storage     = var.rootfs_storage
+  ssh_keys    = file(var.ssh_public_key_path)
+
+  gateway         = var.gateway
+  cidr_suffix     = var.cidr_suffix
+  ip_base         = var.ip_base
+  bridge          = var.bridge
+  container_id    = 113
+  proxmox_host_ip = var.proxmox_host_ip
+  os_type         = "debian"
+  extra_tags      = ["k8s-hardway"]
+}
+
 
