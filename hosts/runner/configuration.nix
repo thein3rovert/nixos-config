@@ -24,7 +24,7 @@
   #   useDHCP = false;
   #   useHostResolvConf = false;
   # };
-  #
+
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "yes";
@@ -103,21 +103,20 @@
     # };
   };
 
+  networking.interfaces.eth0.ipv4.addresses = [
+    {
+      address = "10.10.20.10";
+      prefixLength = 24;
+    }
+  ];
+  networking.defaultGateway = "10.10.20.1";
+  networking.nameservers = [
+    "1.1.1.1"
+    "8.8.8.8"
+  ];
+
   # networking.networkmanager.dns = "none";
-  # services.resolved.enable = false;
-  # systemd.network = {
-  #   enable = true;
-  #   networks."50-eth0" = {
-  #     matchConfig.Name = "eth0";
-  #     networkConfig = {
-  #       DHCP = "ipv4";
-  #       Address = "10.135.108.10/24";
-  #       Gateway = "10.135.108.203";
-  #       IPv6AcceptRA = true;
-  #     };
-  #     linkConfig.RequiredForOnline = "routable";
-  #   };
-  # };
+  services.resolved.enable = false;
 
   system.stateVersion = "26.05"; # Did you read the comment?
 }

@@ -2,7 +2,7 @@
 {
   age = {
     identityPaths = [
-      "/home/thein3rovert/.ssh//myHost_ssh/thein3rovert_runner"
+      "/home/thein3rovert/.ssh/thein3rovert_runner"
     ];
     secrets = {
       tailscale = {
