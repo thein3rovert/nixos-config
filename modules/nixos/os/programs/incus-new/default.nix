@@ -41,6 +41,18 @@ in
               "ipv6.nat" = "true";
             };
           }
+
+          # Access container from any server on the same LAN
+          # macvlan over WiFi doesn't work
+          # {
+          #   name = "lanbr0";
+          #   description = "Custom: LAN bridge for direct access";
+          #   type = "macvlan";
+          #   config = {
+          #     "parent" = "wlo1"; # your LAN/WIFI interface
+          #   };
+          # }
+
         ];
         # ============================================
         #        INCUS PROFILE SETTINGS
@@ -56,6 +68,14 @@ in
                 network = "internalbr0";
                 type = "nic";
               };
+
+              # New interface for serving LAN bridge
+              # macvlan over WiFi doesn't work:
+              # eth1 = {
+              #   name = "eth1";
+              #   network = "lanbr0";
+              #   type = "nic";
+              # };
 
               root = {
                 type = "disk";
@@ -109,7 +129,9 @@ in
       nftables = {
         enable = true;
       };
-      useDHCP = false;
+      useDHCP = lib.mkForce true;
+      # interfaces.eth1.useDHCP = true;
+
       tempAddresses = "disabled";
       hostId = "d3339496";
       hostName = "marcus"; # change this
