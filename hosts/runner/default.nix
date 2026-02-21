@@ -1,7 +1,7 @@
 {
   imports = [
     ./configuration.nix
-    # ./secret.nix
+    ./secret.nix
     # ./home.nix
   ];
 }

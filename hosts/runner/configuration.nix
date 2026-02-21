@@ -88,6 +88,10 @@
     setuid = true;
   };
   nixosSetup = {
+    programs = {
+      podman.enable = true;
+    };
+
     services = {
       ad-guard.enable = false;
       tailscale = {
