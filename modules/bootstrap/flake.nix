@@ -22,7 +22,7 @@
       ...
     }:
     {
-      nixosConfigurations.finn = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.runner = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
@@ -37,7 +37,14 @@
           modules = [
             ./configuration.nix
           ];
-          format = "proxmox-lxc";
+          format = "lxc"; # proxmox-lxc ( Used if images is for proxmox )
+        };
+        # Hoping it works for incus
+        lxc-meta = nixos-generators.nixosGenerate {
+          system = "x86_64-linux";
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = [ ./configuration.nix ];
+          format = "lxc-metadata";
         };
       };
 
@@ -53,11 +60,11 @@
               pkgs.htop
             ];
           };
-        finn =
+        runner =
           { pkgs, ... }:
           {
             deployment = {
-              targetHost = "finn";
+              targetHost = "runner";
               targetPort = 22;
               targetUser = "thein3rovert";
               buildOnTarget = true;
