@@ -45,3 +45,9 @@ variable "extra_tags" {
   description = "Additional tags to add to the container."
   type        = list(string)
 }
+
+variable "os_type" {
+  description = "The OS type for tagging purposes (e.g., 'ubuntu', 'debian')."
+  type        = string
+  default     = "ubuntu"
+}

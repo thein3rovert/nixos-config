@@ -66,5 +66,5 @@ resource "proxmox_lxc" "ubuntu_container" {
   EOT
   }
 
-  tags = join(",", concat(["terraform", "ubuntu"], var.extra_tags))
+  tags = join(",", concat(["terraform", var.os_type], var.extra_tags))
 }
