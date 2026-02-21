@@ -87,7 +87,11 @@ in
           port = 3030;
           vHost = "loki.${config.myDns.networkMap.name}";
         };
-
+        forgejo = {
+          hostName = "runner";
+          port = 3002;
+          vHost = "runner.${config.myDns.networkMap.name}";
+        };
       };
     };
   };

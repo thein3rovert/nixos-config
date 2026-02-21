@@ -1,0 +1,98 @@
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
+{
+  # Define the options for this module so other configs can enable/configure it
+  options.nixosSetup.services.forgejo-runner = {
+    enable = lib.mkEnableOption "Forĝejo runners";
+    # How many native NixOS runners (run jobs directly on the host)
+    nativeRunners = lib.mkOption {
+      type = lib.types.int;
+      default = 1;
+      description = "How many native NixOS runners to run for the Forĝejo runner.";
+    };
+    # How many Docker-based runners (run jobs inside containers)
+    dockerContainers = lib.mkOption {
+      type = lib.types.int;
+      default = 1;
+      description = "How many docker containers to run for the Forĝejo runner.";
+    };
+  };
+
+  # Only apply this config if the module is enabled
+  config = lib.mkIf config.nixosSetup.services.forgejo-runner.enable {
+
+    # Ensure Tailscale is enabled since Forgejo is accessed over the Tailnet
+    assertions = [
+      {
+        assertion = config.services.tailscale.enable;
+        message = "We contact Forĝejo over tailscale, but services.tailscale.enable != true.";
+      }
+    ];
+
+    services.gitea-actions-runner =
+      let
+        # Normalize arch name e.g. "x86_64-linux" -> "x86_64_linux"
+        arch = lib.replaceStrings [ "-" ] [ "_" ] pkgs.stdenv.hostPlatform.system;
+      in
+      {
+        instances =
+          let
+            # Path to the runner token secret (managed by agenix)
+            tokenFile = config.age.secrets.forgejo-runer.path;
+          in
+          {
+            # Runner 1: Docker-based runner — runs CI jobs inside Docker containers
+            thein3rovert-containers = {
+              inherit tokenFile;
+              enable = true;
+              # Pick the right Docker image based on architecture
+              labels =
+                lib.optional (arch == "aarch64_linux") "ubuntu-24.04-arm:docker://gitea/runner-images:ubuntu-latest"
+                ++ lib.optional (arch == "x86_64_linux") "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest";
+              name = "${arch}-${config.networking.hostName}-thein3rovert-containers";
+              settings = {
+                container.network = "host"; # containers share host network
+                runner.capacity = config.nixosSetup.services.forgejo-runner.dockerContainers;
+              };
+              # Connect to your Forgejo instance over Tailscale
+              url = "http://${config.myDns.networkMap.localNetworkMap.forgejo.homeName}:${toString config.myDns.networkMap.localNetworkMap.forgejo.port}";
+            };
+
+            # Runner 2: Native NixOS runner — runs CI jobs directly on the host
+            thein3rovert-nixos = {
+              inherit tokenFile;
+              enable = true;
+              # Tools available to jobs running natively
+              hostPackages =
+                with pkgs;
+                [
+                  bash
+                  cachix
+                  coreutils
+                  curl
+                  gawk
+                  gitMinimal
+                  gnused
+                  jq
+                  nodejs
+                  wget
+                ]
+                ++ [ config.nix.package ]; # include nix itself for nix builds
+              labels = [ "nixos-${arch}:host" ]; # label so jobs can target this runner
+              name = "${arch}-${config.networking.hostName}-thein3rovert-nixos";
+              settings = {
+                container.network = "host";
+                runner.capacity = config.nixosSetup.services.forgejo-runner.nativeRunners;
+              };
+
+              url = "http://${config.myDns.networkMap.localNetworkMap.forgejo.homeName}:${toString config.myDns.networkMap.localNetworkMap.forgejo.port}";
+            };
+          };
+      };
+  };
+}
