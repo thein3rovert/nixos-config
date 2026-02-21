@@ -34,7 +34,7 @@ in
             description = "Default: Internal/NATted bridge";
             type = "bridge";
             config = {
-              "ipv4.address" = "auto";
+              "ipv4.address" = "10.10.20.1/24";
               "ipv4.nat" = "true";
 
               "ipv6.address" = "auto";
