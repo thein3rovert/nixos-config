@@ -95,7 +95,8 @@
     services = {
       ad-guard.enable = false;
       tailscale = {
-        enable = false;
+        enable = true;
+        authKeyFile = config.age.secrets.tailscale.path;
       };
     };
     # profiles = {

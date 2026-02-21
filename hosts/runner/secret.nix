@@ -6,7 +6,7 @@
     ];
     secrets = {
       tailscale = {
-        file = "${self.inputs.secrets}/tailscale/tailscale-auth.age";
+        file = "${self.inputs.secrets}/tailscale/runner/tailscale-auth.age";
         path = "/home/thein3rovert/.secrets/tailscale-auth";
       };
     };
