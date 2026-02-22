@@ -75,6 +75,15 @@
       url = "github:thein3rovert/arkadia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+  };
+
+  nixConfig = {
+    accept-flake-config = true;
+    extra-substituters = [ "https://thein3rovert.cachix.org" ];
+    extra-trusted-public-keys = [
+      "thein3rovert.cachix.org-1:gvwn/ed5w81ylC4IgBrHEvypkAybKaDlg2zdSbmyJ+o="
+    ];
   };
 
   outputs =
@@ -156,7 +165,7 @@
           # Helper function to generate configurations for all Linux hosts
           forAllLinuxHosts = self.inputs.nixpkgs.lib.genAttrs [
             "bellamy"
-            "demo"
+            # "demo"
             "nixos"
             "vps-het-1"
             "wellsjaha"
@@ -169,7 +178,7 @@
             # "octavia"
 
             # Managed by Proxmox
-            # finn  (Lxc - Killed by grounders)
+            "finn" # (Lxc - Killed by grounders)
           ];
         in
         {

@@ -17,6 +17,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIObli1unUWlbZaja5VMzTIvPBJOCI/E6vs/qhrVkSHLO"
   ];
 
+  nixpkgs.hostPlatform = "x86_64-linux";
   users.users.thein3rovert = {
     isNormalUser = true;
     shell = pkgs.zsh;
