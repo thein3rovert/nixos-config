@@ -46,7 +46,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           name: thein3rovert
       - name: Build nixos
-        run: nix build --no-link --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
+        run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
 
   build-marcus:
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           name: thein3rovert
       - name: Build marcus
-        run: nix build --no-link --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
+        run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
 
   build-bellamy:
     runs-on: ubuntu-latest
@@ -94,7 +94,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           name: thein3rovert
       - name: Build bellamy
-        run: nix build --no-link --accept-flake-config --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
+        run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
 
 name: build-nixos
 "on":
