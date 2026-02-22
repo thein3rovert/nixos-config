@@ -13,9 +13,20 @@ jobs:
           fi
           echo "SSH_PRIVATE_KEY secret exists"
 
+  validate-cachix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Cachix auth token exists
+        run: |
+          if [ -z "${{ secrets.CACHIX_AUTH_TOKEN }}" ]; then
+            echo "CACHIX_AUTH_TOKEN secret is not set!"
+            exit 1
+          fi
+          echo "CACHIX_AUTH_TOKEN secret exists"
+
   check-flake:
     runs-on: ubuntu-latest
-    needs: validate-ssh
+    needs: [validate-ssh, validate-cachix]
     steps:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
@@ -25,6 +36,11 @@ jobs:
         with:
           fetch-depth: 1
       - uses: DeterminateSystems/nix-installer-action@main
+      - name: Cachix
+        uses: cachix/cachix-action@master
+        with:
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          name: thein3rovert
       - name: Check flake evaluation
         run: nix -Lv flake check --all-systems
 name: check-nix
