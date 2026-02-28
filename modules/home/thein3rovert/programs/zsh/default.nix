@@ -37,6 +37,7 @@
             export NIX_PATH="nixpkgs=channel:nixos-unstable"
             export NIX_LOG="info"
             export TERM="xterm-256color"
+            # export TERM="tmux-256color"
             export TERMINAL="kitty"
             export HOSTNAME="nixos"
 
