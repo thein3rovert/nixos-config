@@ -34,5 +34,8 @@
     ./hawser
     ./forgejo
     ./forgejo-runner
+
+    # Kubernetes
+    ./rancher
   ];
 }

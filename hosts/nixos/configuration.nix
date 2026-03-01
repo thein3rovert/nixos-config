@@ -259,6 +259,7 @@ in
     };
 
     services = {
+      rancher.enable = true;
       adguard.enable = false;
       # garage = {
       #   enable = false;
