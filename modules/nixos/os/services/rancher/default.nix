@@ -1,3 +1,4 @@
+# Since i use podman, rancher dosnt work on podman
 {
   config,
   lib,
@@ -17,8 +18,12 @@ in
       ];
       volumes = [
         "/var/lib/rancher:/var/lib/rancher"
+        "/sys/fs/cgroup:/sys/fs/cgroup:rw"
       ];
-      extraOptions = [ "--privileged" ];
+      extraOptions = [
+        "--privileged"
+        "--cgroupns=host"
+      ];
     };
     systemd.tmpfiles.rules = [
       "d /var/lib/rancher 0755 root root -"
