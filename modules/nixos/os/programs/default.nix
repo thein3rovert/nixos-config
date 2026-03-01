@@ -2,6 +2,7 @@
 {
   imports = [
     ./podman
+    ./docker
     ./vscode
     ./obs-studio
     ./virt-manager
