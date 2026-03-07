@@ -14,11 +14,14 @@ in
   config = lib.mkIf cfg.enable {
     # Bootloader configuration
     boot.loader.efi.canTouchEfiVariables = true; # Allow the bootloader to modify EFI variables
-    boot.loader.grub.enable = true; # Enable GRUB bootloader
-    boot.loader.grub.devices = [ "nodev" ]; # Specify devices for GRUB installation (nodev means no specific device)
-    boot.loader.grub.efiSupport = true; # Enable EFI support for GRUB
-    boot.loader.grub.useOSProber = true; # Use OS prober to detect other operating systems
 
+    # boot.loader.grub.enable = false; # Enable GRUB bootloader
+    # boot.loader.grub.devices = [ "nodev" ]; # Specify devices for GRUB installation (nodev means no specific device)
+    # boot.loader.grub.efiSupport = true; # Enable EFI support for GRUB
+    # boot.loader.grub.useOSProber = true; # Use OS prober to detect other operating systems
+
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.systemd-boot.configurationLimit = 10;
     # Kernel parameters
     boot.kernel.sysctl = {
       "vm.max_map_count" = 2147483642; # Set the maximum number of memory map areas a process may have
