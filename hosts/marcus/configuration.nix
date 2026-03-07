@@ -85,8 +85,17 @@
     };
     services = {
       rancher.enable = true;
+      tailscale = {
+        enable = true;
+        authKeyFile = config.age.secrets.tailscale.path;
+      };
     };
   };
+
+  # Pinning to a specific source IP
+  networking.localCommands = ''
+    ip rule add from 10.10.10.13 to 10.10.10.0/24 lookup main priority 5200 2>/dev/null || true
+  '';
 
   security.sudo.wheelNeedsPassword = false;
   users.users.root.openssh.authorizedKeys.keys = [
