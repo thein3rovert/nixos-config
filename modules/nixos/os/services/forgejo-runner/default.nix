@@ -34,7 +34,7 @@
       }
     ];
 
-    age.secrets.forgejo-runner.file = "${self.inputs.secrets}/forgejo/runner/forgejo-runner-secret.age";
+    # age.secrets.forgejo-runner.file = "${self.inputs.secrets}/forgejo/runner/forgejo-runner-secret.age";
 
     services.gitea-actions-runner =
       let
