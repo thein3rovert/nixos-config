@@ -28,6 +28,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker" # Since we use docker instead of podman
     ];
 
     /*
@@ -72,6 +73,11 @@
   nixosSetup = {
     programs = {
       incus-v.enable = true;
+      docker.enable = true;
+
+    };
+    services = {
+      rancher.enable = true;
     };
   };
 
