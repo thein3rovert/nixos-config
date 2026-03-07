@@ -11,5 +11,8 @@
       enable = true;
       autoPrune.enable = true;
     };
+    virtualisation.oci-containers.backend = "docker";
+    virtualisation.docker.logDriver = "json-file";
+    users.groups.docker = { }; # Create docker group
   };
 }

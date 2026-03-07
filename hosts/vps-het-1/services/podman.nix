@@ -30,6 +30,12 @@
       ${pkgs.podman}/bin/podman network create web --subnet=10.89.0.0/24 --internal
     '';
   };
+  systemd.services.podman.serviceConfig = {
+    TimeoutStopSec = "60s";
+  };
+  systemd.services.podman-restart.serviceConfig = {
+    TimeoutStopSec = "60s";
+  };
   # Enable the Podman service
   environment.systemPackages = with pkgs; [ podman-compose ];
   users.users.thein3rovert-cloud.extraGroups = [

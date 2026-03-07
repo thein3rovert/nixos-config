@@ -54,6 +54,13 @@
   boot.kernelParams = [
     "rtw_8821ce.disable_msi=1"
     "rtw_8821ce.disable_aspm=1"
+    # Kubernetes
+    "systemd.unified_cgroup_hierarchy=0"
+    "SYSTEMD_CGROUP_ENABLE_LEGACY_FORCE=1"
+    "iptable_nat"
+    "iptable_filter"
+    "nf_conntrack"
+    "br_netfilter"
   ];
   security.sudo.extraRules = [
     {
