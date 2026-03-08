@@ -1,0 +1,95 @@
+name: Run Ansible Playbooks
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - dev
+      role:
+        description: 'Role to run (leave empty for all roles)'
+        required: false
+        type: string
+        default: ''
+      host:
+        description: 'Specific host to target (leave empty for all hosts)'
+        required: false
+        type: string
+        default: ''
+      dry_run:
+        description: 'Perform dry run (check mode)'
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  ansible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout nixos-config
+        uses: actions/checkout@v4
+
+      - name: Checkout ansible playbooks
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/playbooks  # Adjust to your playbooks repo
+          path: ansible
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 100.105.187.63 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 100.81.26.84 >> ~/.ssh/known_hosts
+          # Add more hosts as needed
+
+      - name: Create vault password file
+        run: |
+          echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ansible/.vault_pass
+          chmod 600 ansible/.vault_pass
+
+      - name: Run Ansible Playbook
+        run: |
+          cd ansible
+          
+          # Determine dry-run flag
+          DRY_RUN=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            DRY_RUN="dry-"
+          fi
+          
+          # Execute appropriate command
+          if [ -n "${{ github.event.inputs.role }}" ] && [ -n "${{ github.event.inputs.host }}" ]; then
+            echo "Running role '${{ github.event.inputs.role }}' on host '${{ github.event.inputs.host }}' in '${{ github.event.inputs.environment }}'"
+            just ${DRY_RUN}run-host "${{ github.event.inputs.role }}" "${{ github.event.inputs.host }}" "${{ github.event.inputs.environment }}"
+          elif [ -n "${{ github.event.inputs.role }}" ]; then
+            echo "Running role '${{ github.event.inputs.role }}' on all '${{ github.event.inputs.environment }}' hosts"
+            if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
+              just ${DRY_RUN}run-dev "${{ github.event.inputs.role }}"
+            else
+              just ${DRY_RUN}run "${{ github.event.inputs.role }}"
+            fi
+          else
+            echo "Running all roles on all '${{ github.event.inputs.environment }}' hosts"
+            if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
+              just ${DRY_RUN}all-dev
+            else
+              just ${DRY_RUN}all
+            fi
+          fi
