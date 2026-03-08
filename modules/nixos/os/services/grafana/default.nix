@@ -41,6 +41,7 @@ in
         enable = true;
 
         settings = {
+          security.secret_key = "tesst-pass";
           server = {
             http_addr = "0.0.0.0";
             http_port = config.myDns.networkMap.localNetworkMap.grafana.port;

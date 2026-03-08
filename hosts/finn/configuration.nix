@@ -93,12 +93,22 @@
   # networking.defaultGateway = "10.135.108.1";
 
   # Disable router DNS
+  # services.resolved = {
+  #   enable = true;
+  #   extraConfig = ''
+  #     DNSStubListener=no
+  #   '';
+  # };
+  #
   services.resolved = {
     enable = true;
-    extraConfig = ''
-      DNSStubListener=no
-    '';
+    settings = {
+      Resolve = {
+        DNSStubListener = "no";
+      };
+    };
   };
+
   # networking.networkmanager.dns = "none";
   # services.resolved.enable = false;
   programs.zsh.enable = true;

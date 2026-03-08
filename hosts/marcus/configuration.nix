@@ -86,8 +86,8 @@
   };
 
   # Fix poweroff on led close
-  services.logind.lidSwitch = "ignore";
-  services.logind.lidSwitchExternalPower = "ignore";
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
+  services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
   # Basic packages
   environment.systemPackages = with pkgs; [

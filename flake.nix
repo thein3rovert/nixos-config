@@ -50,7 +50,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Smaller unstable channel for faster updates
-    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    # INFO: Breaking changes removing for now
+    # nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
 
     # Private secrets repository
     secrets = {
@@ -98,7 +99,7 @@
       home-manager,
       nix-colors,
       nixpkgs,
-      nixpkgs-unstable-small,
+      # nixpkgs-unstable-small,
       zen-browser,
       polis,
       # ghostty,
@@ -204,7 +205,7 @@
                   inputs
                   nix-colors
                   colmena
-                  nixpkgs-unstable-small
+                  # nixpkgs-unstable-small
                   arkadia-lib
                   ;
                 lib = self.lib;

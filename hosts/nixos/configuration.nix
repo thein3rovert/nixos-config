@@ -81,7 +81,6 @@ in
 
     # ---- GUI Applications ----
     # TODO: MOVE TO DESKTOP MODULES
-    evolve-core # Evolve tool core
     dunst # Notification daemon
     blueberry # Bluetooth manager
     networkmanagerapplet # Network manager GUI
@@ -107,7 +106,7 @@ in
     terraform
     awscli
     minio-client
-    firefox-unstable
+    # firefox-unstable
 
     # ------ NFS --
     nfs-utils
