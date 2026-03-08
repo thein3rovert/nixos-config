@@ -26,6 +26,7 @@
             ];
             theme = "dst";
           };
+
           initContent = ''
 
             # Check if the current TTY is /dev/tty1 and run Hyprland
@@ -72,6 +73,7 @@
             }
 
           '';
+
           shellAliases = {
             # Dirs
             ".." = "cd ..";
@@ -90,7 +92,7 @@
             grep = "rg";
             ps = "procs";
 
-            # Git
+            # GIT
             ga = "git add";
             gc = "git commit -m";
             gs = "git status";
@@ -105,23 +107,27 @@
             gpu = "git pull origin";
 
             cat = "bat --style=plain";
+            zed = "zeditor";
 
             # History Search
             h = "history";
             hg = "history | grep ";
 
-            # Editor
-            zed = "zeditor"; # Zed editor
-
+            # TMUX
             tmux = "tmux new-session -A -s default";
 
-            # Nix
+            # NIX
             nix-test = "nix-instantiate --eval --strict -A";
-            # Clan deplomeny
+
+            # DEPLOYMENT
             clan-rebuild-switch = "clan machines update";
             cl = "clan machines list";
 
-            tv-config = "tv files ~/nixos-config";
+            # QUICK ACCESS
+            notes = "cd /home/thein3rovert/Documents/project";
+            nvim-config = "cd /home/thein3rovert/.config/nvim";
+            project = "cd /home/thein3rovert/Documents/project";
+            search-files = "tv files ~/nixos-config";
           };
         };
 
