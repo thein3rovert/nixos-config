@@ -11,26 +11,33 @@
       let
         # Import a secondary nixpkgs source from your flake inputs
         # (e.g., a newer or smaller "unstable" channel)
-        nixos-unstable-small = import self.inputs.nixpkgs-unstable-small {
-          config.allowUnfree = true;
-          # Reuse the same system architecture as the current package set
-          inherit (prev) system;
-        };
+
+        # Uncomment nixos-unstable-small (Breaking changes)
+        # nixos-unstable-small = import self.inputs.nixpkgs-unstable-small {
+        #   config.allowUnfree = true;
+        #   # Reuse the same system architecture as the current package set
+        #   inherit (prev) system;
+        # };
 
         # Import custom packages from the pkgs directory
         customPackages = import ../../pkgs { pkgs = final; };
       in
       {
-        firefox-unstable = nixos-unstable-small.firefox;
+
+        # Uncomment nixos-unstable-small (Breaking changes)
+        # firefox-unstable = nixos-unstable-small.firefox;
+
         # Pull (inherit) specific packages from the nixos-unstable-small channel
         # and make them available in the current package set.
         # This effectively overrides your current versions of these packages
         # with newer ones from nixos-unstable-small.
-        inherit (nixos-unstable-small)
-          firefox
-          thunderbird
-          # zed-editor
-          ;
+
+        # Uncomment nixos-unstable-small (Breaking changes)
+        # inherit (nixos-unstable-small)
+        #   firefox
+        #   thunderbird
+        #   # zed-editor
+        #   ;
       }
       # Merge custom packages into the overlay
       // customPackages;
