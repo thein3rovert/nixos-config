@@ -1,3 +1,0 @@
-environment: dev
-backup_enabled: false
-db_port: 5432

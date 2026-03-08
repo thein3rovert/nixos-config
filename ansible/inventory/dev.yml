@@ -1,5 +1,0 @@
-all:
-  children:
-    servers:
-      hosts:
-        100.88.29.64 # lexa

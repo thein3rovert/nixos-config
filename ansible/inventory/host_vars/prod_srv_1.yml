@@ -1,7 +1,0 @@
-server_id: 1
-local_storage: /var/storage
-
-db_memory: 16GB
-db_role: primary
-
-backup_storage: /var/storage/backup

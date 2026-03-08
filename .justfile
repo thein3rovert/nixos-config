@@ -26,23 +26,10 @@ clean:
 
 # TODO: MVOE ALL TO NEW MODULES FORMAT
 
-# Ping all servers
-[group('servers')]
-ping:
-    ansible-playbook -i ansible/inventory.ini ansible/playbooks/ping.yml
-
-# Deploy blog - verbose output
-# [group('servers')]
-# deploy:
-#    ansible-playbook -i ansible/inventory.ini ansible/playbooks/deploy.yml -vvv
-
+# Update glance service
 [group('servers')]
 update-glance:
     ansible-playbook -i ansible/inventory.ini ansible/playbooks/restart-glance.yml
-
-# [group('servers')]
-# backup:
-#   ansible-playbook -i ansible/inventory.ini ansible/playbooks/backup.yml
 
 # Update agenix secrets
 [group('flake')]
@@ -53,10 +40,55 @@ update-nix input:
 #       ANSIBLE COMMANDS
 # ==============================
 
-# Run a specific role
+# List available ansible roles
+[group('ansible')]
+list-roles:
+    @ls -1 ansible/roles/ | grep -v README.md
+
+# List hosts in inventory
+[group('ansible')]
+list-hosts env="production":
+    ansible-inventory -i ansible/inventory/{{ env }}.yml --list
+
+# Run all playbooks on production
+[group('ansible')]
+ansible-all:
+    cd ansible && just all
+
+# Run all playbooks on dev
+[group('ansible')]
+ansible-all-dev:
+    cd ansible && just all-dev
+
+# Run a specific role on production
 [group('ansible')]
 run role:
-    ansible-playbook ansible/site.yml --tags {{ role }} --ask-become-pass # --ask-vault-pass
+    cd ansible && just run {{ role }}
+
+# Run a specific role on dev
+[group('ansible')]
+run-dev role:
+    cd ansible && just run-dev {{ role }}
+
+# Run a specific role on a specific host
+[group('ansible')]
+run-host role host env="production":
+    cd ansible && just run-host {{ role }} {{ host }} {{ env }}
+
+# Dry run a specific role on a specific host
+[group('ansible')]
+dry-run-host role host env="production":
+    cd ansible && just dry-run-host {{ role }} {{ host }} {{ env }}
+
+# Ping a specific host
+[group('ansible')]
+ansible-ping host env="production":
+    cd ansible && just run-host ping {{ host }} {{ env }}
+
+# Edit ansible vault
+[group('ansible')]
+vault-edit:
+    cd ansible && just edit
 
 # Run a specific environment (production, dev)
 [group('ansible')]
