@@ -44,6 +44,16 @@ in
       spiceUSBRedirection.enable = true;
     };
 
+    # Fix for virt-secret-init-encryption.service using /usr/bin/sh
+    systemd.services.virt-secret-init-encryption = {
+      serviceConfig = {
+        ExecStart = [
+          "" # Clear the original ExecStart
+          "${pkgs.bash}/bin/sh -c 'umask 0077 && (${pkgs.coreutils}/bin/dd if=/dev/random status=none bs=32 count=1 | ${pkgs.systemd}/bin/systemd-creds encrypt --name=secrets-encryption-key - /var/lib/libvirt/secrets/secrets-encryption-key)'"
+        ];
+      };
+    };
+
     # Enable the SPICE vdagent daemon, improving clipboard, display resizing, and other integration
     # features between host and (mostly Linux) guest VMs.
     services.spice-vdagentd.enable = true;
