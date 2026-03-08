@@ -38,7 +38,14 @@ in
   # Container Configuration
   # ============================================
   config.homelab.containers = {
-    runtime = "podman";
+    runtime = lib.mkDefault (
+      if config.nixosSetup.programs.podman.enable or false then
+        "podman"
+      else if config.nixosSetup.programs.docker.enable or false then
+        "docker"
+      else
+        "podman" # fallback default
+    );
     network = "homelab";
     storageDriver = "overlay2";
   };

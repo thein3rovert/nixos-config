@@ -13,7 +13,7 @@
 
     virtualisation = {
       oci-containers = {
-        backend = "podman";
+        backend = "${config.homelab.containers.runtime}";
       };
 
       podman = {
