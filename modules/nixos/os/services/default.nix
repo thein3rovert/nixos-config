@@ -1,41 +1,56 @@
 { lib, ... }:
 {
   imports = [
-    # ./minio
+    # Web Services & Apps
     ./linkding
-    ./tailscale
+    ./jotty
+    ./memos
+    ./blog
+    ./fossflow
+
+    # Media
     ./audiobookshelf
+
+    # Networking & Proxy
+    ./tailscale
     ./nginx
     ./traefik
+    ./traefikk # Note: duplicate of traefik?
 
-    # Monitoring
+    # DNS & Network Services
+    ./adguard
+    ./ad-guard # Note: duplicate of adguard?
+
+    # Monitoring & Observability
     ./glance
     ./uptime-kuma
     ./grafana
     ./promtail
     ./prometheusNode
 
-    ./jotty
-    ./memos
-    ./traefikk
-    ./adguard
+    # Storage & Object Storage
     ./minio
-    ./postgres
-    ./myslql
-    ./n8n
     ./garage
-    ./fossflow
-    ./blog
-    # lxc
     ./garage-webui
-    ./ad-guard
-    ./zerobyte
+
+    # Databases
+    ./postgres
+    ./myslql # Note: typo? should be mysql?
+
+    # Automation & Workflows
+    ./n8n
+
+    # Container Management
     ./dockhand
     ./hawser
+    ./zerobyte
+
+    # Git & CI/CD
     ./forgejo
     ./forgejo-runner
 
     # Kubernetes
     ./rancher
+    ./vault
   ];
 }
