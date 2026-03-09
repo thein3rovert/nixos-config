@@ -125,6 +125,12 @@ module "k8s_node_0" {
   proxmox_host_ip = var.proxmox_host_ip
   os_type         = "debian"
   extra_tags      = ["k8s-hardway"]
+
+  # K8s-specific features to match manual Proxmox configuration
+  enable_keyctl      = true
+  enable_all_devices = true
+  disable_seccomp    = true
+  firewall_enabled   = false
 }
 
 # Kubernetes the Hard Way - Node 1 (Debian 12)
@@ -151,6 +157,12 @@ module "k8s_node_1" {
   proxmox_host_ip = var.proxmox_host_ip
   os_type         = "debian"
   extra_tags      = ["k8s-hardway"]
+
+  # K8s-specific features to match manual Proxmox configuration
+  enable_keyctl      = true
+  enable_all_devices = true
+  disable_seccomp    = true
+  firewall_enabled   = false
 }
 
 
