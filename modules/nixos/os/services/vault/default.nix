@@ -28,7 +28,7 @@ in
     };
     systemd.tmpfiles.rules = [
       "d /var/lib/vault/config 0755 root root -"
-      "d /var/lib/vault/data 0755 root root -"
+      "d /var/lib/vault/data 0777 root root -"
     ];
   };
 }
