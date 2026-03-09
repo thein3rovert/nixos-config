@@ -77,6 +77,7 @@
           # Monitoring
           services.grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3010/"; } ];
           services.loki.loadBalancer.servers = [ { url = "http://127.0.0.1:3030/"; } ];
+          services.vault.loadBalancer.servers = [ { url = "http://100.105.217.77:8200/"; } ];
 
           routers = {
             api = {
@@ -137,6 +138,11 @@
             loki = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.loki.vHost}`)";
               service = "loki";
+              entryPoints = [ "web" ];
+            };
+            vault = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.vault.vHost}`)";
+              service = "vault";
               entryPoints = [ "web" ];
             };
 

@@ -92,6 +92,11 @@ in
           port = 3002;
           vHost = "runner.${config.myDns.networkMap.name}";
         };
+        vault = {
+          hostName = "runner";
+          port = 8200;
+          vHost = "vault.${config.myDns.networkMap.name}";
+        };
       };
     };
   };
