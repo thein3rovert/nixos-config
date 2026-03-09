@@ -13,10 +13,16 @@ in
       image = "hashicorp/vault";
       ports = [
         "8200:8200"
+        "8201:8201"
       ];
       volumes = [
         "/var/lib/vault/config:/vault/config"
         "/var/lib/vault/data:/vault/data"
+      ];
+      cmd = [
+        "vault"
+        "server"
+        "-config=/vault/config/vault.hcl"
       ];
       extraOptions = [ "--cap-add=IPC_LOCK" ];
     };
