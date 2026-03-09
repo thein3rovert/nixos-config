@@ -135,6 +135,12 @@ pages:
                 timeout: 5s
                 url: https://code.${BASE_DOMAIN}/
                 icon: sh:forgejo.svg
+              - title: Vault
+                same-tab: true
+                timeout: 5s
+                url: http://vault.l.thein3rovert.com
+                icon: sh:hashicorp-vault.svg
+
           - type: monitor
             cache: 1m
             title: Monitoring & Utilities
