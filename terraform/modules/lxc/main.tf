@@ -22,20 +22,9 @@ resource "proxmox_lxc" "ubuntu_container" {
 
 
   features {
-    nesting = true # Allows running Docker/containers inside the LXC container
-    # INFO: only root@pam is allow to set this
-    # keyctl  = true # Enables kernel keyring operations (required by systemd and some security features)
+    nesting = true              # Allows running Docker/containers inside the LXC container
+    keyctl  = var.enable_keyctl # Enables kernel keyring operations (required by systemd and some security features)
   }
-
-  # Block not provided
-  # lxc {
-  #   key   = "lxc.cgroup2.devices.allow"
-  #   value = "c 10:200 rwm"
-  # }
-  # lxc {
-  #   key   = "lxc.mount.entry"
-  #   value = "/dev/net/tun dev/net/tun none bind,create=file"
-  # }
 
   rootfs {
     storage = var.storage
@@ -43,11 +32,11 @@ resource "proxmox_lxc" "ubuntu_container" {
   }
 
   network {
-    name   = "eth0"
-    bridge = var.bridge
-    # ip     = var.ip_config
-    ip = var.ip_base != null ? "${var.ip_base}.${var.container_id}/${var.cidr_suffix}" : "dhcp"
-    gw = var.gateway
+    name     = "eth0"
+    bridge   = var.bridge
+    ip       = var.ip_base != null ? "${var.ip_base}.${var.container_id}/${var.cidr_suffix}" : "dhcp"
+    gw       = var.gateway
+    firewall = var.firewall_enabled
   }
 
   ssh_public_keys = var.ssh_keys
@@ -60,9 +49,18 @@ resource "proxmox_lxc" "ubuntu_container" {
   provisioner "local-exec" {
     command = <<-EOT
     sleep 15  # Wait for container to fully initialize
+    
+    # Base configuration for all containers
+    BASE_CONFIG="lxc.cgroup2.devices.allow: c 10:200 rwm\nlxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file"
+    
+    # Additional K8s configuration if enabled
+    ${var.enable_all_devices ? "K8S_CONFIG=\"\\nlxc.cgroup2.devices.allow: a\"" : "K8S_CONFIG=\"\""}
+    ${var.disable_seccomp ? "K8S_CONFIG=\"$K8S_CONFIG\\nlxc.seccomp.profile:\"" : ""}
+    
+    # Apply configuration
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${var.proxmox_host_ip} \
-    'echo -e "lxc.cgroup2.devices.allow: c 10:200 rwm\nlxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file" | tee -a /etc/pve/lxc/${self.vmid}.conf && \
-     pct stop ${self.vmid} && pct start ${self.vmid}'
+    "echo -e \"$BASE_CONFIG$K8S_CONFIG\" | tee -a /etc/pve/lxc/${self.vmid}.conf && \
+     pct stop ${self.vmid} && pct start ${self.vmid}"
   EOT
   }
 

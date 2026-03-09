@@ -51,3 +51,27 @@ variable "os_type" {
   type        = string
   default     = "ubuntu"
 }
+
+variable "enable_keyctl" {
+  description = "Enable keyctl feature for kernel keyring operations (required for Kubernetes)"
+  type        = bool
+  default     = false
+}
+
+variable "enable_all_devices" {
+  description = "Enable all device access via cgroup2 (required for Kubernetes networking)"
+  type        = bool
+  default     = false
+}
+
+variable "disable_seccomp" {
+  description = "Disable seccomp profile (required for some Kubernetes operations)"
+  type        = bool
+  default     = false
+}
+
+variable "firewall_enabled" {
+  description = "Enable Proxmox firewall on the network interface"
+  type        = bool
+  default     = false
+}
