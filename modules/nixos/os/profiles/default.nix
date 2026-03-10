@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   imports = [
     ./base
     ./server
@@ -7,5 +8,6 @@
     ./fonts
     ./systemd
     ./types
+    ./locale
   ];
 }

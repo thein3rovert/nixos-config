@@ -17,7 +17,7 @@
       base = ./modules/base;
       core = ./modules/core;
       hardware = ./modules/hardware;
-      locale-en-uk = ./modules/nixos/locale/en-uk;
+      locale-en-uk = ./modules/nixos/os/profiles/locale/en-uk;
       nixosOs = ./modules/nixos/os;
       snippets = ./modules/snippets;
       users = ./modules/nixos/users;

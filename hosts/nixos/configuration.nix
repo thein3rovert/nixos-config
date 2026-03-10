@@ -216,7 +216,7 @@ in
       fonts = {
         enable = true;
         customFonts = [
-          ../../modules/fonts/IoskeleyMono-Hinted
+          ../../modules/nixos/os/profiles/fonts/IoskeleyMono-Hinted
         ];
       };
 
