@@ -15,7 +15,6 @@
     nixosModules = {
       # INFO: Contain Reusable Variables, Types and more ...
       base = ./modules/base;
-      containers = ./modules/nixos/containers;
       core = ./modules/core;
       hardware = ./modules/hardware;
       locale-en-uk = ./modules/nixos/locale/en-uk;
@@ -68,7 +67,6 @@
 
               # Custom modules
               modules.base
-              modules.containers
               modules.core
               modules.hardware
               modules.nixosOs

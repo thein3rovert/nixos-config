@@ -8,6 +8,11 @@ let
   cfg = config.homelab;
 in
 {
+  imports = [
+    ./base.nix
+    ./traefik.nix
+  ];
+
   # ============================================
   # Container Options
   # ============================================

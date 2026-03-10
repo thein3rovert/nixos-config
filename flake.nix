@@ -222,7 +222,7 @@
 
                 # Custom modules
                 self.nixosModules.base
-                self.nixosModules.containers
+
                 self.nixosModules.core
                 self.nixosModules.hardware
                 self.nixosModules.nixosOs
@@ -281,7 +281,6 @@
             // {
               # Manual modules
               base = ./modules/base;
-              containers = ./modules/nixos/containers;
               core = ./modules/core;
               hardware = ./modules/hardware;
               locale-en-uk = ./modules/nixos/locale/en-uk;
@@ -334,7 +333,7 @@
                 inputs.disko.nixosModules.disko
                 self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.base
-                self.nixosModules.containers
+
                 self.nixosModules.nixosOs
                 self.nixosModules.snippets
                 self.nixosModules.users
@@ -361,7 +360,7 @@
                 # self.homeManagerModules.default
                 agenix.nixosModules.default
                 self.nixosModules.nixosOs
-                self.nixosModules.containers
+
                 {
                   nixpkgs.overlays = [ self.overlays.default ];
                 }
@@ -410,7 +409,7 @@
                 ./hosts/finn
                 agenix.nixosModules.default
                 self.inputs.home-manager.nixosModules.home-manager
-                self.nixosModules.containers
+
                 self.nixosModules.nixosOs
               ];
             };
@@ -432,7 +431,7 @@
                 ./hosts/runner
                 agenix.nixosModules.default
                 self.nixosModules.users
-                self.nixosModules.containers
+
                 self.nixosModules.nixosOs
                 self.nixosModules.snippets
               ];
@@ -452,7 +451,7 @@
                 ./hosts/lexa
                 agenix.nixosModules.default
                 self.nixosModules.users
-                self.nixosModules.containers
+
                 self.nixosModules.nixosOs
                 self.nixosModules.snippets
                 self.inputs.home-manager.nixosModules.home-manager
@@ -523,7 +522,7 @@
                 inputs.disko.nixosModules.disko
                 self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.base
-                self.nixosModules.containers
+
                 self.nixosModules.hardware
                 self.nixosModules.nixosOs
                 self.nixosModules.snippets
