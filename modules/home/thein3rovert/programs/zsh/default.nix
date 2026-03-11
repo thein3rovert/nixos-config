@@ -122,6 +122,18 @@
             # DEPLOYMENT
             clan-rebuild-switch = "clan machines update";
             cl = "clan machines list";
+            proxmox-env = "source ~/Documents/project/scripts/terraform/proxmox/proxmox_vault_env.sh";
+
+            # SYSTEMD
+            sc-status = "systemctl status";
+            sc-restart = "systemctl restart";
+            sc-start = "systemctl start";
+            sc-stop = "systemctl stop";
+            sc-enabled = "systemctl enable";
+
+            jc-follow = "journalctl -f";
+            jc-log = "journalctl -u";
+            jc-follow-log = "journalctl -fu";
 
             # QUICK ACCESS
             notes = "cd /home/thein3rovert/Documents/project";
