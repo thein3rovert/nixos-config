@@ -1,13 +1,34 @@
 terraform {
   required_providers {
+    vault = {
+      source  = "hashicorp/vault"
+      version = "~> 4.0"
+    }
     proxmox = {
       source  = "telmate/proxmox"
-      version = "3.0.2-rc07" # Using the required version
+      version = "3.0.2-rc07"
     }
   }
 }
 
+# Vault provider configuration
+provider "vault" {
+  address = var.vault_address
+  token   = var.vault_token
+}
+
+# Retrieve Proxmox credentials from Vault
+data "vault_kv_secret_v2" "proxmox" {
+  mount = "secret"
+  name  = "proxmox"
+}
+
+# Proxmox provider using Vault secrets
 provider "proxmox" {
+  pm_api_url          = data.vault_kv_secret_v2.proxmox.data["pm_api_url"]
+  pm_api_token_id     = data.vault_kv_secret_v2.proxmox.data["pm_api_token_id"]
+  pm_api_token_secret = data.vault_kv_secret_v2.proxmox.data["pm_api_token_secret"]
+  pm_tls_insecure     = true
 }
 
 

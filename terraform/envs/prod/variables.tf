@@ -9,12 +9,6 @@ variable "rootfs_storage" {
   description = "The storage pool for the container's root disk (e.g., local-lvm)."
   default     = "local-lvm"
 }
-variable "root_password" {
-  type        = string
-  description = "The root password for the LXC container. Set to null for a random password."
-  # default     = "mypassword"
-  sensitive = true
-}
 variable "container_id" {
   type        = number
   description = "The ID for the LXC container. If null, Proxmox will assign the next available ID."
@@ -98,6 +92,19 @@ variable "extra_tags" {
   description = "Additional tags to add to the container."
   type        = list(string)
   default     = ["prod"]
+}
+
+# Vault variables
+variable "vault_address" {
+  type        = string
+  description = "The address of the Vault server."
+  default     = "http://100.105.217.77:8200"
+}
+
+variable "vault_token" {
+  type        = string
+  description = "The token to authenticate with Vault."
+  sensitive   = true
 }
 
 # variable "ostemplate" {

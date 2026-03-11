@@ -1,13 +1,39 @@
 terraform {
   required_providers {
+    vault = {
+      source  = "hashicorp/vault"
+      version = "~> 4.0"
+    }
     proxmox = {
       source  = "telmate/proxmox"
-      version = "3.0.2-rc07" # Using the required version
+      version = "3.0.2-rc07"
     }
   }
 }
 
+# Vault provider configuration
+provider "vault" {
+  address = var.vault_address
+  token   = var.vault_token
+}
+
+# Retrieve Proxmox credentials from Vault
+data "vault_kv_secret_v2" "proxmox" {
+  mount = "secret"
+  name  = "proxmox"
+}
+
+# Local values for credentials from Vault
+locals {
+  root_password = data.vault_kv_secret_v2.proxmox.data["root_password"]
+}
+
+# Proxmox provider using Vault secrets
 provider "proxmox" {
+  pm_api_url          = data.vault_kv_secret_v2.proxmox.data["pm_api_url"]
+  pm_api_token_id     = data.vault_kv_secret_v2.proxmox.data["pm_api_token_id"]
+  pm_api_token_secret = data.vault_kv_secret_v2.proxmox.data["pm_api_token_secret"]
+  pm_tls_insecure     = true
 }
 
 # module "ubuntu_container" {
@@ -27,7 +53,7 @@ module "ubuntu_container" {
   source = "../../modules/lxc"
 
   target_node = var.target_node
-  password    = var.root_password
+  password    = local.root_password
   hostname    = var.hostname
   vmid        = var.container_id
   ostemplate  = var.ostemplate
@@ -53,7 +79,7 @@ module "nixos_container_02" {
   source = "../../modules/lxc/nixos-lxc"
 
   target_node = var.target_node
-  password    = var.root_password
+  password    = local.root_password
   hostname    = "trikru"
   vmid        = var.container_id
   ostemplate  = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"

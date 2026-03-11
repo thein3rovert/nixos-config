@@ -1,0 +1,12 @@
+# Example terraform.tfvars for dev environment
+# Copy this file to terraform.tfvars and fill in your actual values
+# terraform.tfvars is gitignored and will not be committed
+
+# Vault Configuration
+vault_token = "hvs.YOUR_VAULT_TOKEN_HERE"
+
+# Optional: Override default vault address if needed
+# vault_address = "http://100.105.217.77:8200"
+
+# Optional: Override other variables
+# root_password = "your-secure-password"

@@ -1,0 +1,16 @@
+# Example terraform.tfvars for prod environment
+# Copy this file to terraform.tfvars and fill in your actual values
+# terraform.tfvars is gitignored and will not be committed
+
+# Vault Configuration
+vault_token = "hvs.YOUR_VAULT_TOKEN_HERE"
+
+# Optional: Override default vault address if needed
+# vault_address = "http://100.105.217.77:8200"
+
+# Required: Set root password for prod containers
+root_password = "your-secure-password-here"
+
+# Optional: Override other variables
+# container_id = 103
+# hostname = "your-hostname"
