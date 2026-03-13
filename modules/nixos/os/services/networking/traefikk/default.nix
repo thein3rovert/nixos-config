@@ -55,29 +55,36 @@
           };
         };
         http = {
-          # TODO: Encapsulate IP and Port in variable
-          # Example:
-          # homelab.local.ip, homelab.vm.ip homelab.container.ip
-
-          services.linkding.loadBalancer.servers = [ { url = "http://10.20.0.1:9090/"; } ];
-          # services.adguard.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
-          services.n8n.loadBalancer.servers = [ { url = "http://10.10.10.12:5678/"; } ];
-          services.zerobyte.loadBalancer.servers = [ { url = "http://127.0.0.1:4096/"; } ];
+          services.linkding.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.linkding.url}/"; }
+          ];
+          services.n8n.loadBalancer.servers = [ { url = "http://${config.homelab.ipRegistry.n8n.url}/"; } ];
+          services.zerobyte.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.zerobyte.url}/"; }
+          ];
 
           # Container LXC
-          services.ad-guard.loadBalancer.servers = [ { url = "http://10.10.10.10:3000/"; } ];
-          services.fossflow.loadBalancer.servers = [ { url = "http://10.10.10.12:8087/"; } ];
-          services.dockhand.loadBalancer.servers = [ { url = "http://10.10.10.12:3000/"; } ];
+          services.ad-guard.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.ad-guard.url}/"; }
+          ];
+          services.fossflow.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.fossflow.url}/"; }
+          ];
+          services.dockhand.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.dockhand.url}/"; }
+          ];
           services.garage-webui.loadBalancer.servers = [
-            {
-              url = "http://100.105.187.63:3909/";
-            }
+            { url = "http://${config.homelab.ipRegistry.garage-webui.url}/"; }
           ];
 
           # Monitoring
-          services.grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3010/"; } ];
-          services.loki.loadBalancer.servers = [ { url = "http://127.0.0.1:3030/"; } ];
-          services.vault.loadBalancer.servers = [ { url = "http://100.105.217.77:8200/"; } ];
+          services.grafana.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.grafana.url}/"; }
+          ];
+          services.loki.loadBalancer.servers = [ { url = "http://${config.homelab.ipRegistry.loki.url}/"; } ];
+          services.vault.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.vault.url}/"; }
+          ];
 
           routers = {
             api = {
@@ -166,7 +173,7 @@
             tls.passthrough = true;
           };
           services.incus.loadBalancer.servers = [
-            { address = "10.10.10.12:8443"; }
+            { address = "${config.homelab.ipRegistry.incus.url}"; }
           ];
         };
 
