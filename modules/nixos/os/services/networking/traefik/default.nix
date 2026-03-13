@@ -70,22 +70,22 @@
         http = {
           services.garage.loadBalancer.servers = [
             {
-              url = "http://localhost:3900/";
+              url = "http://${config.homelab.ipRegistry.garage.url}/";
             }
           ];
           services.memos.loadBalancer.servers = [
             {
-              url = "http://localhost:5230/";
+              url = "http://${config.homelab.ipRegistry.memos.url}/";
             }
           ];
           services.forgejo.loadBalancer.servers = [
             {
-              url = "http://localhost:3002/";
+              url = "http://${config.homelab.ipRegistry.forgejo.url}/";
             }
           ];
           services.blog.loadBalancer.servers = [
             {
-              url = "http://localhost:8084/";
+              url = "http://${config.homelab.ipRegistry.blog.url}/";
             }
           ];
 

@@ -1,7 +1,7 @@
 { lib, config, ... }:
 let
-  baseDomain = "thein3rovert.dev";
   cfg = config.homelab;
+  baseDomain = cfg.domain.prod;
 in
 {
   options.snippets.thein3rovert.networkMap = lib.mkOption {
@@ -67,7 +67,7 @@ in
       };
       forgejo = {
         hostName = "Bellamy";
-        port = 3002; # TODO: Move port to config
+        port = cfg.servicePorts.forgejo;
         sshVHost = "ssh.${baseDomain}";
         vHost = "code.${baseDomain}";
       };

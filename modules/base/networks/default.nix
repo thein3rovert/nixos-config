@@ -60,6 +60,7 @@ in
         3008
       ];
       postgresql = 5432;
+      forgejo = 3002;
     };
 
     customPorts = {
