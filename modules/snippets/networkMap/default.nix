@@ -16,7 +16,7 @@ in
   options.myDns.networkMap = {
     # Create local network map and main
     name = createOption {
-      default = "${homelab.baseDomain}";
+      default = "${homelab.domain.local}";
       description = "Local DNS";
       type = string;
     };

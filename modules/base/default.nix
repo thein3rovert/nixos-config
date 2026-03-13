@@ -87,6 +87,23 @@ in
       };
     };
 
+    # ============================================
+    # Domain Configuration
+    # ============================================
+    domain = {
+      local = mkOption {
+        default = "l.thein3rovert.com";
+        type = types.str;
+        description = "Local base domain for homelab services";
+      };
+
+      prod = mkOption {
+        default = "thein3rovert.dev";
+        type = types.str;
+        description = "Production base domain for VPS services";
+      };
+    };
+
   };
 
   config = If cfg.enable {
