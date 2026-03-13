@@ -54,12 +54,18 @@ in
           vHost = "traefik.${config.myDns.networkMap.name}";
         };
 
-        ## Container network map
         ad-guard = {
           hostName = "lexa";
           port = 3000;
           vHost = "ad-guard.${config.myDns.networkMap.name}";
         };
+
+        postgres = {
+          hostName = "${emily}";
+          port = 5432;
+          vHost = "postgres.${config.myDns.networkMap.name}";
+        };
+
         fossflow = {
           hostName = "${emily}";
           port = 8087;
@@ -82,10 +88,25 @@ in
           port = 3020;
           vHost = "prometheus.${config.myDns.networkMap.name}";
         };
+        prometheusNode = {
+          hostName = "${emily}";
+          port = 3021;
+          vHost = "prometheusNode.${config.myDns.networkMap.name}";
+        };
+        promtail = {
+          hostName = "${emily}";
+          port = 3031;
+          vHost = "promtail.${config.myDns.networkMap.name}";
+        };
         loki = {
           hostName = "${emily}";
           port = 3030;
           vHost = "loki.${config.myDns.networkMap.name}";
+        };
+        hawser = {
+          hostName = "${emily}";
+          port = 2376;
+          vHost = "hawser.${config.myDns.networkMap.name}";
         };
         forgejo = {
           hostName = "runner";
@@ -101,6 +122,11 @@ in
           hostName = "${emily}";
           port = 3909;
           vHost = "s3-web.${config.myDns.networkMap.name}";
+        };
+        rancher = {
+          hostName = "marcus";
+          port = 3909;
+          vHost = "rancher.${config.myDns.networkMap.name}";
         };
       };
     };
