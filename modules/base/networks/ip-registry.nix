@@ -67,7 +67,7 @@ in
     };
     dockhand = {
       ip = hosts.emily.ip;
-      port = 3000;
+      port = networkMap.dockhand.port;
       url = "${config.homelab.ipRegistry.dockhand.ip}:${toString config.homelab.ipRegistry.dockhand.port}";
     };
     incus = {
@@ -78,7 +78,7 @@ in
 
     # VM Services
     linkding = {
-      ip = "10.20.0.1";
+      ip = hosts.wellsjaha.ip;
       port = networkMap.linkding.port;
       url = "${config.homelab.ipRegistry.linkding.ip}:${toString config.homelab.ipRegistry.linkding.port}";
     };
@@ -91,7 +91,7 @@ in
     };
     garage-webui = {
       ip = hosts.bellamy.tailscaleIp;
-      port = 3909;
+      port = networkMap.garage-webui.port;
       url = "${config.homelab.ipRegistry.garage-webui.ip}:${toString config.homelab.ipRegistry.garage-webui.port}";
     };
 
@@ -106,7 +106,7 @@ in
     };
     memos = {
       ip = "localhost";
-      port = 5230;
+      port = prodMap.memos.port;
       url = "${config.homelab.ipRegistry.memos.ip}:${toString config.homelab.ipRegistry.memos.port}";
     };
     forgejo = {
@@ -116,7 +116,7 @@ in
     };
     blog = {
       ip = "localhost";
-      port = 8084;
+      port = prodMap.blog.port;
       url = "${config.homelab.ipRegistry.blog.ip}:${toString config.homelab.ipRegistry.blog.port}";
     };
   };

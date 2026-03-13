@@ -42,11 +42,18 @@ in
   # ============================================
   config.homelab = {
     containerPorts = {
-      linkding = 5860;
+      linkding = 9090;
       zerobyte = 4096;
       uptime-kuma = 8380;
       freshrss = 8083;
       jotty = 8382;
+      dockhand = 3000;
+      fossflow = 8087;
+      ad-guard = 3000;
+      vault = 8200;
+      memos = 5230;
+      blog = 8084;
+      glance = 8280;
     };
 
     servicePorts = {
@@ -61,6 +68,8 @@ in
       ];
       postgresql = 5432;
       forgejo = 3002;
+      n8n = 5678;
+      garage-webui = 3909;
     };
 
     customPorts = {

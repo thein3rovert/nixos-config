@@ -76,6 +76,11 @@ in
           port = 8087;
           vHost = "zerobyte.${config.myDns.networkMap.name}";
         };
+        dockhand = {
+          hostName = "${emily}";
+          port = 3000;
+          vHost = "dockhand.${config.myDns.networkMap.name}";
+        };
 
         # MONITORING
         grafana = {

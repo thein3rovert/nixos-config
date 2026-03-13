@@ -120,16 +120,15 @@
               entryPoints = [ "web" ];
             };
             garage-webui = {
-              rule = "Host(`s3-web.l.thein3rovert.com`)";
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.garage-webui.vHost}`)";
               service = "garage-webui";
               entryPoints = [ "web" ];
             };
             dockhand = {
-              rule = "Host(`dockhand.l.thein3rovert.com`)";
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.dockhand.vHost}`)";
               service = "dockhand";
               entryPoints = [ "web" ];
             };
-
             grafana = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.grafana.vHost}`)";
               service = "grafana";

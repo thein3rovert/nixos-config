@@ -8,17 +8,20 @@ in
     type = lib.types.attrs;
     description = "Hostnames, ports, and vHosts for thein3rovert.dev services.";
     default = {
-
+      memos = {
+        hostName = "Bellamy";
+        port = cfg.containerPorts.memos;
+        vHost = "memos.${baseDomain}";
+      };
+      blog = {
+        hostName = "Bellamy";
+        port = cfg.containerPorts.blog;
+        vHost = "blog.${baseDomain}";
+      };
       glance = {
         hostName = "Bellamy";
-        port = cfg.servicePorts.glance;
+        port = cfg.containerPorts.glance;
         vHost = "glance.${baseDomain}";
-      };
-
-      tailscale = {
-        hostName = "Bellamy";
-        port = cfg.servicePorts.tailscale;
-        vHost = "tailscale.${baseDomain}";
       };
 
       traefik = {

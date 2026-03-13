@@ -77,6 +77,7 @@ in
         tailscaleIp = "100.110.115.126";
       };
       wellsjaha = {
+        ip = "10.20.0.1";
         tailscaleIp = "100.103.139.31";
       };
     };
