@@ -5,6 +5,9 @@ let
   attributeSetOf = types.attrsOf;
 in
 {
+  # ============================================
+  # IP Addresses Options
+  # ============================================
   options.homelab = {
     ipAddresses = mkOption {
       type = attributeSetOf (
@@ -28,13 +31,31 @@ in
     };
   };
 
+  # ============================================
+  # IP Addresses Configuration
+  #
+  # /*
+  #  Local Services: Services running on the main host (127.0.0.1)
+  #  LXC Containers: Services running in LXC containers (10.10.10.x)
+  #  VM Services: Services running in virtual machines (10.20.0.x)
+  #  Tailscale Services: Services accessible via Tailscale VPN (100.x.x.x)
+  #  Production VPS: Services running on the production VPS (bellamy)
+  # */
+  #
+  # ============================================
   config.homelab = {
-    # Host IP addresses for each server
     ipAddresses = {
+      # ============================================
+      # Local Services
+      # ============================================
       localhost = {
         ip = "127.0.0.1";
         tailscaleIp = "";
       };
+
+      # ============================================
+      # LXC Container Hosts
+      # ============================================
       emily = {
         ip = "10.10.10.12";
         tailscaleIp = "100.105.217.77";
@@ -47,14 +68,30 @@ in
         ip = "10.10.10.7";
         tailscaleIp = "100.88.29.64";
       };
-      bellamy = {
-        ip = "95.216.216.22";
-        tailscaleIp = "100.105.187.63";
-      };
       marcus = {
         ip = "10.10.10.13";
         tailscaleIp = "100.68.54.18";
       };
+
+      # ============================================
+      # Production VPS
+      # ============================================
+      bellamy = {
+        ip = "95.216.216.22";
+        tailscaleIp = "100.105.187.63";
+      };
+
+      # ============================================
+      # VM Services
+      # ============================================
+      wellsjaha = {
+        ip = "10.20.0.1";
+        tailscaleIp = "100.103.139.31";
+      };
+
+      # ============================================
+      # Tailscale Only (no local IP)
+      # ============================================
       nixos-runner = {
         tailscaleIp = "100.111.90.52";
       };
@@ -75,10 +112,6 @@ in
       };
       ubuntu-ct-01 = {
         tailscaleIp = "100.110.115.126";
-      };
-      wellsjaha = {
-        ip = "10.20.0.1";
-        tailscaleIp = "100.103.139.31";
       };
     };
   };

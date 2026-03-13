@@ -6,6 +6,9 @@ let
   hosts = config.homelab.ipAddresses;
 in
 {
+  # ============================================
+  # IP Registry Options
+  # ============================================
   options.homelab.ipRegistry = mkOption {
     type = types.attrsOf (
       types.submodule {
@@ -31,8 +34,22 @@ in
     description = "Centralized IP registry for services";
   };
 
+  # ============================================
+  # IP Registry Configuration
+  #
+  # /*
+  #  Local Services: Services running on localhost (127.0.0.1)
+  #  Container Services: Services running in LXC containers
+  #  VM Services: Services running in virtual machines
+  #  Tailscale Services: Services accessible via Tailscale VPN
+  #  Production VPS: Services running on the production VPS
+  # */
+  #
+  # ============================================
   config.homelab.ipRegistry = {
-    # Local Services (running on emily - using localhost)
+    # ============================================
+    # Local Services
+    # ============================================
     zerobyte = {
       ip = hosts.localhost.ip;
       port = networkMap.zerobyte.port;
@@ -49,7 +66,9 @@ in
       url = "${config.homelab.ipRegistry.loki.ip}:${toString config.homelab.ipRegistry.loki.port}";
     };
 
+    # ============================================
     # Container LXC Services
+    # ============================================
     ad-guard = {
       ip = hosts.finn.ip;
       port = networkMap.ad-guard.port;
@@ -76,14 +95,18 @@ in
       url = "${config.homelab.ipRegistry.incus.ip}:${toString config.homelab.ipRegistry.incus.port}";
     };
 
+    # ============================================
     # VM Services
+    # ============================================
     linkding = {
       ip = hosts.wellsjaha.ip;
       port = networkMap.linkding.port;
       url = "${config.homelab.ipRegistry.linkding.ip}:${toString config.homelab.ipRegistry.linkding.port}";
     };
 
+    # ============================================
     # Tailscale Services
+    # ============================================
     vault = {
       ip = hosts.emily.tailscaleIp;
       port = networkMap.vault.port;
@@ -95,10 +118,13 @@ in
       url = "${config.homelab.ipRegistry.garage-webui.ip}:${toString config.homelab.ipRegistry.garage-webui.port}";
     };
 
-    # =========================
-    #       PRODUCTION (VPS)
-    # =========================
-    # Production VPS Services (localhost on bellamy VPS)
+    # ============================================
+    # Production VPS Services
+    #
+    # /* Services running on bellamy VPS (localhost)
+    # */
+    #
+    # ============================================
     garage = {
       ip = "localhost";
       port = prodMap.garage-api.port;
