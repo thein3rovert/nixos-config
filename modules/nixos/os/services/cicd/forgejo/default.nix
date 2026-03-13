@@ -21,7 +21,7 @@
       enable = true;
       database = lib.mkIf (config.nixosSetup.services.forgejo.database == "postgresql") {
         createDatabase = false;
-        host = config.homelab.ipAddresses.staticAssignments.forgejo;
+        host = config.homelab.ipAddresses.emily.tailscaleIp;
         # INFO: Create database user in postgresql config
         name = "forgejo";
         passwordFile = config.age.secrets.postgres-forgejo.path;

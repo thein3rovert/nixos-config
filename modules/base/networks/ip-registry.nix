@@ -98,7 +98,6 @@ in
     # =========================
     #       PRODUCTION (VPS)
     # =========================
-
     # Production VPS Services (localhost on bellamy VPS)
     garage = {
       ip = "localhost";
