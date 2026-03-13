@@ -271,7 +271,7 @@
                 TODO: Migrate later on when confident
               */
               all-auto-modules = arkadia-lib.arkadia.module.create-modules {
-                src = ./modules/nixos/development;
+                src = ./modules/arkadia/development;
               };
               # auto-modules = {
               #   tools = all-auto-modules.tools;
