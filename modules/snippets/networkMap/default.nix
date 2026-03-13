@@ -8,9 +8,9 @@ let
   createOption = mkOption;
   string = types.str;
   list = types.attrs;
-  emily = "nixos";
 
   homelab = config.homelab;
+  ports = config.homelab;
 in
 {
   options.myDns.networkMap = {
@@ -28,109 +28,109 @@ in
       default = {
         linkding = {
           hostName = "wellsjaha";
-          port = 9090;
+          port = ports.containerPorts.linkding;
           vHost = "linkding.${config.myDns.networkMap.name}";
         };
         adguard = {
-          hostName = "${emily}";
-          port = 3000;
+          hostName = "emily";
+          port = ports.servicePorts.adguard;
           vHost = "adguard.${config.myDns.networkMap.name}";
         };
         n8n = {
-          hostName = "${emily}";
-          port = 5678;
+          hostName = "emily";
+          port = ports.servicePorts.n8n;
           vHost = "n8n.${config.myDns.networkMap.name}";
         };
 
         incus = {
-          hostName = "${emily}";
+          hostName = "emily";
           port = 8443;
           vHost = "incus.${config.myDns.networkMap.name}";
         };
 
         traefik = {
-          hostName = "${emily}";
-          port = 5678;
+          hostName = "emily";
+          port = ports.servicePorts.traefik;
           vHost = "traefik.${config.myDns.networkMap.name}";
         };
 
         ad-guard = {
-          hostName = "lexa";
-          port = 3000;
+          hostName = "finn";
+          port = ports.containerPorts.ad-guard;
           vHost = "ad-guard.${config.myDns.networkMap.name}";
         };
 
         postgres = {
-          hostName = "${emily}";
-          port = 5432;
+          hostName = "emily";
+          port = ports.servicePorts.postgresql;
           vHost = "postgres.${config.myDns.networkMap.name}";
         };
 
         fossflow = {
-          hostName = "${emily}";
-          port = 8087;
+          hostName = "emily";
+          port = ports.containerPorts.fossflow;
           vHost = "fossflow.${config.myDns.networkMap.name}";
         };
         zerobyte = {
-          hostName = "${emily}";
-          port = 4096;
+          hostName = "emily";
+          port = ports.containerPorts.zerobyte;
           vHost = "zerobyte.${config.myDns.networkMap.name}";
         };
         dockhand = {
-          hostName = "${emily}";
-          port = 3000;
+          hostName = "emily";
+          port = ports.containerPorts.dockhand;
           vHost = "dockhand.${config.myDns.networkMap.name}";
         };
 
         # MONITORING
         grafana = {
-          hostName = "${emily}";
-          port = 3010;
+          hostName = "emily";
+          port = ports.servicePorts.grafana;
           vHost = "grafana.${config.myDns.networkMap.name}";
         };
         prometheus = {
-          hostName = "${emily}";
-          port = 3020;
+          hostName = "emily";
+          port = ports.servicePorts.prometheus;
           vHost = "prometheus.${config.myDns.networkMap.name}";
         };
         prometheusNode = {
-          hostName = "${emily}";
-          port = 3021;
+          hostName = "emily";
+          port = ports.servicePorts.prometheusNode;
           vHost = "prometheusNode.${config.myDns.networkMap.name}";
         };
         promtail = {
-          hostName = "${emily}";
-          port = 3031;
+          hostName = "emily";
+          port = ports.servicePorts.promtail;
           vHost = "promtail.${config.myDns.networkMap.name}";
         };
         loki = {
-          hostName = "${emily}";
-          port = 3030;
+          hostName = "emily";
+          port = ports.servicePorts.loki;
           vHost = "loki.${config.myDns.networkMap.name}";
         };
         hawser = {
-          hostName = "${emily}";
-          port = 2376;
+          hostName = "emily";
+          port = ports.servicePorts.hawser;
           vHost = "hawser.${config.myDns.networkMap.name}";
         };
         forgejo = {
           hostName = "runner";
-          port = 3002;
+          port = ports.servicePorts.forgejo;
           vHost = "runner.${config.myDns.networkMap.name}";
         };
         vault = {
           hostName = "runner";
-          port = 8200;
+          port = ports.containerPorts.vault;
           vHost = "vault.${config.myDns.networkMap.name}";
         };
         garage-webui = {
-          hostName = "${emily}";
-          port = 3909;
+          hostName = "bellamy";
+          port = ports.servicePorts.garage-webui;
           vHost = "s3-web.${config.myDns.networkMap.name}";
         };
         rancher = {
           hostName = "marcus";
-          port = 3909;
+          port = ports.containerPorts.rancher;
           vHost = "rancher.${config.myDns.networkMap.name}";
         };
       };
