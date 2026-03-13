@@ -97,6 +97,11 @@ in
           port = 8200;
           vHost = "vault.${config.myDns.networkMap.name}";
         };
+        garage-webui = {
+          hostName = "${emily}";
+          port = 3909;
+          vHost = "s3-web.${config.myDns.networkMap.name}";
+        };
       };
     };
   };

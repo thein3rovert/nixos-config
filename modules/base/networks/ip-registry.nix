@@ -2,6 +2,7 @@
 let
   inherit (lib) mkOption types;
   networkMap = config.myDns.networkMap.localNetworkMap;
+  prodMap = config.snippets.thein3rovert.networkMap;
 in
 {
   options.homelab.ipRegistry = mkOption {
@@ -73,7 +74,7 @@ in
       url = "${config.homelab.ipRegistry.incus.ip}:${toString config.homelab.ipRegistry.incus.port}";
     };
 
-    # VM Services
+    #INFO: NOT IN USE WELLSJAHA TEST LINKDING
     linkding = {
       ip = "10.20.0.1";
       port = networkMap.linkding.port;
@@ -83,13 +84,39 @@ in
     # Tailscale Services
     vault = {
       ip = "100.105.217.77";
-      port = networkMap.vault.port;
+      port = networkMap.vauforgejoforgejolt.port;
       url = "http://${config.homelab.ipRegistry.vault.ip}:${toString config.homelab.ipRegistry.vault.port}/";
     };
     garage-webui = {
       ip = "100.105.187.63";
-      port = 3909;
+      port = networkMap.garage-webui.port;
       url = "http://${config.homelab.ipRegistry.garage-webui.ip}:${toString config.homelab.ipRegistry.garage-webui.port}/";
+    };
+
+    # =========================
+    #       PRODUCTION (VPS)
+    # =========================
+
+    # Production VPS Services (localhost on VPS)
+    garage = {
+      ip = "localhost";
+      port = prodMap.garage-api.port;
+      url = "http://${config.homelab.ipRegistry.garage.ip}:${toString config.homelab.ipRegistry.garage.port}/";
+    };
+    memos = {
+      ip = "localhost";
+      port = 5230;
+      url = "http://${config.homelab.ipRegistry.memos.ip}:${toString config.homelab.ipRegistry.memos.port}/";
+    };
+    forgejo = {
+      ip = "localhost";
+      port = prodMap.forgejo.port;
+      url = "http://${config.homelab.ipRegistry.forgejo.ip}:${toString config.homelab.ipRegistry.forgejo.port}/";
+    };
+    blog = {
+      ip = "localhost";
+      port = 8084;
+      url = "http://${config.homelab.ipRegistry.blog.ip}:${toString config.homelab.ipRegistry.blog.port}/";
     };
   };
 }
