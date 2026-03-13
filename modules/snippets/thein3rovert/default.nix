@@ -9,8 +9,20 @@ in
     description = "Hostnames, ports, and vHosts for thein3rovert.dev services.";
     default = {
 
+      glance = {
+        hostName = "Bellamy";
+        port = cfg.servicePorts.glance;
+        vHost = "glance.${baseDomain}";
+      };
+
+      tailscale = {
+        hostName = "Bellamy";
+        port = cfg.servicePorts.tailscale;
+        vHost = "tailscale.${baseDomain}";
+      };
+
       traefik = {
-        hostName = "bellamy";
+        hostName = "Bellamy";
         port = cfg.servicePorts.traefik;
         vHost = "traefik.${baseDomain}";
       };
