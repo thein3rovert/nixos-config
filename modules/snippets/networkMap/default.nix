@@ -28,7 +28,7 @@ in
       default = {
         linkding = {
           hostName = "wellsjaha";
-          port = "9090";
+          port = 9090;
           vHost = "linkding.${config.myDns.networkMap.name}";
         };
         adguard = {
@@ -73,7 +73,7 @@ in
         };
         zerobyte = {
           hostName = "${emily}";
-          port = 8087;
+          port = 4096;
           vHost = "zerobyte.${config.myDns.networkMap.name}";
         };
         dockhand = {

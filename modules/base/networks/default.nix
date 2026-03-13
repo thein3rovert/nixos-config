@@ -54,6 +54,7 @@ in
       memos = 5230;
       blog = 8084;
       glance = 8280;
+      rancher = 3909;
     };
 
     servicePorts = {
@@ -70,6 +71,13 @@ in
       forgejo = 3002;
       n8n = 5678;
       garage-webui = 3909;
+      hawser = 2376;
+      grafana = 3010;
+      loki = 3030;
+      promtail = 3031;
+      prometheusNode = 3021;
+      prometheus = 3020;
+
     };
 
     customPorts = {
