@@ -24,14 +24,14 @@ in
       authentication = ''
         # Make local host trust worthy
         local all all trust
-        host all all 127.0.0.1/32 trust
+        host all all ${config.homelab.ipAddresses.localhost.ip}/32 trust
         host all all ::1/128 trust
 
-        host all all 10.88.0.0/16 trust
-        host all all 10.89.0.0/16 trust
+        host all all ${config.homelab.ipAddresses.podman0.ip}/16 trust
+        host all all  ${config.homelab.ipAddresses.podman-web.ip}/16  trust
 
         # Add your VPS IP
-        host all all 100.105.187.63/32 md5
+        host all all  ${config.homelab.ipAddresses.bellamy.tailscaleIp}/32 md5
       '';
       initialScript = pkgs.writeText "initialScript.sql" ''
         CREATE USER n8n WITH PASSWORD 'n8n';
