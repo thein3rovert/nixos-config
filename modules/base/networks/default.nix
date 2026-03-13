@@ -10,6 +10,7 @@ let
   attributeSetOf = types.attrsOf;
 in
 {
+  imports = [ ./ip-registry.nix ];
   # ============================================
   # Network Options
   # ============================================
