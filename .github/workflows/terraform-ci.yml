@@ -36,10 +36,19 @@ jobs:
           S3_ACCESS_KEY=$(vault kv get -field=access_key_id secret/s3)
           S3_SECRET_KEY=$(vault kv get -field=secret_access_key secret/s3)
           
+          # Fetch SSH public key from Vault
+          SSH_PUB_KEY=$(vault kv get -field=ssh_public_keys secret/ssh)
+          
           echo "::add-mask::$S3_ACCESS_KEY"
           echo "::add-mask::$S3_SECRET_KEY"
           echo "S3_ACCESS_KEY_ID=$S3_ACCESS_KEY" >> $GITHUB_ENV
           echo "S3_SECRET_ACCESS_KEY=$S3_SECRET_KEY" >> $GITHUB_ENV
+          echo "SSH_PUBLIC_KEY=$SSH_PUB_KEY" >> $GITHUB_ENV
+
+      - name: Setup SSH key for Terraform
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ env.SSH_PUBLIC_KEY }}" > ~/.ssh/id_ed25519.pub
 
       - name: Terraform fmt check
         id: fmt
