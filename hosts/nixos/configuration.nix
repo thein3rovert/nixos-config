@@ -268,6 +268,7 @@ in
       mysql.enable = false;
       n8n.enable = true;
       grafana.enable = true;
+      copyparty.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {
