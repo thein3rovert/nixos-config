@@ -3,7 +3,7 @@ terraform {
     proxmox = {
       source  = "telmate/proxmox"
       version = "3.0.2-rc07" # Using the required version
-}
+    }
   }
 }
 
@@ -11,16 +11,16 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   name        = var.vm_name
   target_node = var.target_node
   clone       = var.template_name
-  full_clone = true
+  full_clone  = true
 
   kvm = false
-  
+
   cpu {
-  cores   = var.cores
-  type  = "qemu64"
-}
-  memory  = var.memory
-    
+    cores = var.cores
+    type  = "qemu64"
+  }
+  memory = var.memory
+
   # DELETE THIS ENTIRE BLOCK
   # disk {
   #   size    = var.disk_size
@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   #   storage = var.storage
   # }
 
- # Add this to force disk attachment
+  # Add this to force disk attachment
   disks {
     scsi {
       scsi0 {
@@ -42,11 +42,11 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   }
 
   network {
-    id = 0
+    id     = 0
     model  = "virtio"
     bridge = var.bridge
   }
-  
+
   os_type   = "cloud-init"
   ipconfig0 = var.ip_config
   ciuser    = var.ci_user

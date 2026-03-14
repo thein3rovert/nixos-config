@@ -34,7 +34,7 @@ jobs:
 
       - name: Terraform init (${{ matrix.environment }})
         id: init
-        run: terraform init -backend=false
+        run: terraform init -backend=false -reconfigure
         working-directory: terraform/envs/${{ matrix.environment }}
 
       - name: Terraform validate (${{ matrix.environment }})
