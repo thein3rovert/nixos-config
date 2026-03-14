@@ -23,6 +23,8 @@ in
       extraOptions = [
         "--privileged"
         "--cgroupns=host"
+        # Fixed issue with reset-flag (Remvoe reset flag)
+        "--entrypoint=/var/lib/rancher/patched-entrypoint.sh"
       ];
     };
     systemd.tmpfiles.rules = [

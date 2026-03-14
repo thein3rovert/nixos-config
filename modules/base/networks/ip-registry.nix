@@ -94,6 +94,11 @@ in
       port = networkMap.incus.port;
       url = "${config.homelab.ipRegistry.incus.ip}:${toString config.homelab.ipRegistry.incus.port}";
     };
+    incus-v2 = {
+      ip = hosts.marcus.tailscaleIp;
+      port = networkMap.incus-v2.port;
+      url = "${config.homelab.ipRegistry.incus-v2.ip}:${toString config.homelab.ipRegistry.incus-v2.port}";
+    };
     copyparty = {
       ip = hosts.emily.ip;
       port = networkMap.copyparty.port;

@@ -96,6 +96,11 @@ pages:
                 timeout: 5s
                 url: https://memos.${BASE_DOMAIN}/
                 icon: di:memos.png
+              - title: copyparty
+                same-tab: true
+                timeout: 5s
+                url: http://copyparty.l.thein3rovert.com/
+                icon: di:copyparty.png
           - type: monitor
             cache: 1m
             title: Development & Management
@@ -139,6 +144,11 @@ pages:
                 same-tab: true
                 timeout: 5s
                 url: http://vault.l.thein3rovert.com
+                icon: sh:hashicorp-vault.svg
+              - title: Rancher
+                same-tab: true
+                timeout: 5s
+                url: http://rancher.l.thein3rovert.com
                 icon: sh:hashicorp-vault.svg
 
           - type: monitor
@@ -195,6 +205,10 @@ pages:
 
       - size: small
         widgets:
+          - type: search
+            search-engine: google
+            target: _self
+
           - type: clock
             time-format: 24h
             date-format: d MMMM yyyy
@@ -207,26 +221,25 @@ pages:
             units: metric
             hour-format: 24h
 
-          - type: search
-            search-engine: google
-            target: _self
-
-          - type: calendar
-            first-day-of-week: monday
-
           - type: bookmarks
             groups:
-              - title: Dev
+              - title: Personal
                 links:
-                  - title: DevDocs
-                    same-tab: true
-                    url: https://devdocs.io/
                   - title: github
                     same-tab: true
                     url: https://github.com/thein3rovert
+                  - title: m_incus
+                    same-tab: true
+                    url: http://incus-v2.l.thein3rovert.com/thein3rovert
+                  - title: DevDocs
+                    same-tab: true
+                    url: https://devdocs.io/
+
               - title: Torrents
                 color: 10 70 50
                 links:
                   - title: TorrentHR
                     same-tab: true
                     url: https://www.torrenthr.org/login.php
+          - type: calendar
+            first-day-of-week: monday

@@ -68,6 +68,11 @@ in
           port = 8443;
           vHost = "incus.${config.myDns.networkMap.name}";
         };
+        incus-marcus = {
+          hostName = "marcus";
+          port = 8443;
+          vHost = "incus-v2.${config.myDns.networkMap.name}";
+        };
         rancher = {
           hostName = "marcus";
           port = ports.containerPorts.rancher;

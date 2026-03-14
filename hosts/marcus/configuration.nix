@@ -57,10 +57,18 @@
     # Kubernetes
     "systemd.unified_cgroup_hierarchy=0"
     "SYSTEMD_CGROUP_ENABLE_LEGACY_FORCE=1"
-    "iptable_nat"
-    "iptable_filter"
-    "nf_conntrack"
-    "br_netfilter"
+    # "iptable_nat"
+    # "iptable_filter"
+    # "nf_conntrack"
+    # "br_netfilter"
+  ];
+  hardware.enableRedistributableFirmware = true;
+  boot.kernelModules = [
+    # "ip_tables"
+    # "iptable_nat"
+    # "iptable_filter"
+    # "nf_conntrack"
+    # "br_netfilter"
   ];
   security.sudo.extraRules = [
     {
@@ -84,7 +92,7 @@
 
     };
     services = {
-      rancher.enable = true;
+      rancher.enable = false;
       tailscale = {
         enable = true;
         authKeyFile = config.age.secrets.tailscale.path;
