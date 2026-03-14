@@ -149,7 +149,7 @@ pages:
                 same-tab: true
                 timeout: 5s
                 url: http://rancher.l.thein3rovert.com
-                icon: sh:hashicorp-vault.svg
+                icon: sh:rancher.svg
 
           - type: monitor
             cache: 1m

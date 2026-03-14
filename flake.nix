@@ -343,7 +343,7 @@
             # ---- Node: Marcus (Prod) ----
             marcus = {
               deployment = {
-                targetHost = "10.10.10.13";
+                targetHost = "100.68.54.18";
                 targetPort = 22;
                 targetUser = "thein3rovert";
                 buildOnTarget = true;
@@ -360,6 +360,7 @@
                 # self.homeManagerModules.default
                 agenix.nixosModules.default
                 self.nixosModules.nixosOs
+                self.nixosModules.base
 
                 {
                   nixpkgs.overlays = [ self.overlays.default ];
