@@ -76,6 +76,9 @@
           services.garage-webui.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.garage-webui.url}/"; }
           ];
+          services.copyparty.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.copyparty.url}/"; }
+          ];
 
           # Monitoring
           services.grafana.loadBalancer.servers = [
@@ -149,6 +152,11 @@
             vault = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.vault.vHost}`)";
               service = "vault";
+              entryPoints = [ "web" ];
+            };
+            copyparty = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.copyparty.vHost}`)";
+              service = "copyparty";
               entryPoints = [ "web" ];
             };
 

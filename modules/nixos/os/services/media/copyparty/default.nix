@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -12,7 +13,17 @@ let
 
   # Mount volumes
   dataVolume = "/mnt/storage/copyparty:/w";
-  configVolume = "/etc/copyparty:/cfg";
+  configVolume = "/var/lib/copyparty/config:/cfg";
+
+  configFile = pkgs.writeText "copyparty.conf" ''
+    [global]
+    hist: /cfg/hists/
+
+    [/shared]
+      /w
+      accs:
+        rw: *
+  '';
 in
 {
   options.nixosSetup.services.copyparty = {
@@ -23,8 +34,17 @@ in
     # Create required directories
     systemd.tmpfiles.rules = [
       "d /mnt/storage/copyparty 0755 1000 1000 -"
-      "d /etc/copyparty 0755 1000 1000 -"
+      "d /var/lib/copyparty/config 0755 1000 1000 -"
     ];
+
+    # Copy config file before container starts
+    systemd.services.podman-copyparty = {
+      preStart = ''
+        rm -f /var/lib/copyparty/config/copyparty.conf
+        cp ${configFile} /var/lib/copyparty/config/copyparty.conf
+        chown 1000:1000 /var/lib/copyparty/config/copyparty.conf
+      '';
+    };
 
     virtualisation.oci-containers.containers.copyparty = {
       image = "${imageName}:${imageTag}";
