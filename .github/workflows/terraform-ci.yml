@@ -65,6 +65,8 @@ jobs:
         run: terraform plan -no-color
         working-directory: terraform/envs/${{ matrix.environment }}
         env:
+          AWS_ACCESS_KEY_ID: ${{ env.S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.S3_SECRET_ACCESS_KEY }}
           TF_VAR_vault_address: ${{ secrets.VAULT_ADDR }}
           TF_VAR_vault_token: ${{ secrets.VAULT_TOKEN }}
         continue-on-error: true
