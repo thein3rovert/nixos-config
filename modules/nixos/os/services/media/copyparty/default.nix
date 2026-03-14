@@ -6,7 +6,7 @@
 let
 
   if-copyparty-enable = lib.mkIf config.nixosSetup.services.copyparty.enable;
-  imageName = "copyparty/ac";
+  imageName = "docker.io/copyparty/ac";
   imageTag = "latest";
   port = config.homelab.ipRegistry.copyparty.port;
 
@@ -20,6 +20,12 @@ in
   };
 
   config = if-copyparty-enable {
+    # Create required directories
+    systemd.tmpfiles.rules = [
+      "d /mnt/storage/copyparty 0755 1000 1000 -"
+      "d /etc/copyparty 0755 1000 1000 -"
+    ];
+
     virtualisation.oci-containers.containers.copyparty = {
       image = "${imageName}:${imageTag}";
       ports = [ "${toString port}:3923" ];
