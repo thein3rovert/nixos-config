@@ -77,6 +77,7 @@ in
 
       # Storage
       memos = 5230;
+      copyparty = 3923;
 
       # Web Applications
       zerobyte = 4096;

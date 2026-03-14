@@ -94,6 +94,11 @@ in
       port = networkMap.incus.port;
       url = "${config.homelab.ipRegistry.incus.ip}:${toString config.homelab.ipRegistry.incus.port}";
     };
+    copyparty = {
+      ip = hosts.emily.ip;
+      port = networkMap.copyparty.port;
+      url = "${config.homelab.ipRegistry.copyparty.ip}:${toString config.homelab.ipRegistry.copyparty.port}";
+    };
 
     # ============================================
     # VM Services

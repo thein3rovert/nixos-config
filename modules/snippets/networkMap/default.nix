@@ -162,6 +162,12 @@ in
           vHost = "s3-web.${config.myDns.networkMap.name}";
         };
 
+        copyparty = {
+          hostName = "emily";
+          port = ports.containerPorts.copyparty;
+          vHost = "copyparty.${config.myDns.networkMap.name}";
+        };
+
         # ============================================
         # Version Control
         # ============================================
