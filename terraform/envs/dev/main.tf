@@ -174,4 +174,29 @@ module "k8s_node_1" {
   firewall_enabled   = false
 }
 
+# GitHub Actions Runner (Ubuntu 22.04)
+module "github_runner" {
+  source = "../../modules/lxc"
+
+  target_node = var.target_node
+  password    = var.root_password
+  hostname    = "github-runner"
+  vmid        = 120
+  ostemplate  = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+  cores       = 2
+  memory      = 4096
+  swap        = 1024
+  disk_size   = "30G"
+  storage     = var.rootfs_storage
+  ssh_keys    = file(var.ssh_public_key_path)
+
+  gateway         = var.gateway
+  cidr_suffix     = var.cidr_suffix
+  ip_base         = var.ip_base
+  bridge          = var.bridge
+  container_id    = 120
+  proxmox_host_ip = var.proxmox_host_ip
+  os_type         = "ubuntu"
+  extra_tags      = ["github-runner", "ci"]
+}
 
