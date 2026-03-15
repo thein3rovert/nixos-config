@@ -28,7 +28,7 @@
               # After nixos yarara update, rewrite disable by default
               enabled = true;
               domain = "*.l.thein3rovert.com";
-              answer = "10.10.10.12";
+              answer = "100.105.217.77";
             }
           ];
         };
