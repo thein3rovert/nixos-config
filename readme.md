@@ -9,7 +9,7 @@
 Welcome to my Github for **building, breaking, and learning**!
 
 <p align="center">
-   <img src="./.github/assets/pkm ~ homelab.png.png" style="margin-bottom: 15px;"/> <br>
+   <img src="./.github/assets/pkm ~ homelab.png" style="margin-bottom: 15px;"/> <br>
    Screenshots last updated <b>2025-03-15</b>
 </p>
 
