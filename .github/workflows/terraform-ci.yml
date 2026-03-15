@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   terraform-validate:
-    runs-on: self-hosted
+    runs-on: [self-hosted, terraform]
     strategy:
       matrix:
         environment:

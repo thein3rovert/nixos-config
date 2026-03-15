@@ -25,11 +25,9 @@ jobs:
           echo "CACHIX_AUTH_TOKEN secret exists"
 
   build-nixos:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
     steps:
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -49,11 +47,9 @@ jobs:
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
 
   build-marcus:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
     steps:
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -73,11 +69,9 @@ jobs:
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
 
   build-bellamy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
     steps:
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
