@@ -409,6 +409,7 @@
               imports = [
                 ./hosts/finn
                 agenix.nixosModules.default
+                self.nixosModules.base
                 self.inputs.home-manager.nixosModules.home-manager
 
                 self.nixosModules.nixosOs

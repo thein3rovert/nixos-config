@@ -66,6 +66,8 @@
     enable = true;
     checkReversePath = "loose"; # Use "loose" instead of false
     trustedInterfaces = [ "tailscale0" ];
+    allowedTCPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ];
   };
   nix.settings = {
     sandbox = false;
