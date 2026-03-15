@@ -136,7 +136,7 @@ in
       # interfaces.eth1.useDHCP = true;
 
       tempAddresses = "disabled";
-      hostId = "d3339496";
+      hostId = "247140c6";
       hostName = "marcus"; # change this
       firewall.trustedInterfaces = [
         "internalbr0"

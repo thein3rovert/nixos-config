@@ -185,7 +185,7 @@ in
             user = "root";
           };
           marcus = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "10.10.10.13";
+            hostname = "10.10.10.11";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };

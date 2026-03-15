@@ -50,26 +50,46 @@
     ];
   };
   ## For updating my driver
-  boot.extraModulePackages = with config.boot.kernelPackages; [ rtw88 ];
+  # boot.extraModulePackages = with config.boot.kernelPackages; [ rtw88 ];
+
+  # boot.kernelParams = [
+  #   "rtw_8821ce.disable_msi=1"
+  #   "rtw_8821ce.disable_aspm=1"
+  #   # Kubernetes
+  #   "systemd.unified_cgroup_hierarchy=0"
+  #   "SYSTEMD_CGROUP_ENABLE_LEGACY_FORCE=1"
+  #
+  #
+  #   # "iptable_nat"
+  #   # "iptable_filter"
+  #   # "nf_conntrack"
+  #   # "br_netfilter"
+  # ];
+
   boot.kernelParams = [
     "rtw_8821ce.disable_msi=1"
     "rtw_8821ce.disable_aspm=1"
-    # Kubernetes
     "systemd.unified_cgroup_hierarchy=0"
-    "SYSTEMD_CGROUP_ENABLE_LEGACY_FORCE=1"
-    # "iptable_nat"
-    # "iptable_filter"
-    # "nf_conntrack"
-    # "br_netfilter"
   ];
-  hardware.enableRedistributableFirmware = true;
+
+  boot.extraModprobeConfig = ''
+    options rtw88_8821ce ips=0 fwlps=0
+  '';
+
   boot.kernelModules = [
-    # "ip_tables"
-    # "iptable_nat"
-    # "iptable_filter"
-    # "nf_conntrack"
-    # "br_netfilter"
+    "ip_tables"
+    "iptable_nat"
+    "iptable_filter"
+    "nf_conntrack"
+    "br_netfilter"
   ];
+
+  boot.kernel.sysctl = {
+    "net.bridge.bridge-nf-call-iptables" = 1;
+    "net.bridge.bridge-nf-call-ip6tables" = 1;
+    "net.ipv4.ip_forward" = 1;
+  };
+
   security.sudo.extraRules = [
     {
       users = [
@@ -100,10 +120,13 @@
     };
   };
 
-  # Pinning to a specific source IP
-  networking.localCommands = ''
-    ip rule add from 10.10.10.13 to 10.10.10.0/24 lookup main priority 5200 2>/dev/null || true
-  '';
+  # Pinning to a specific source IP (This is a band aid)
+  # Best solution is  removing the subnet route from finn in the Tailscale admin console.
+  # That way i don't need policy routing hacks on every machine in my tailnet
+
+  # networking.localCommands = ''
+  #   ip rule add from 10.10.10.13 to 10.10.10.0/24 lookup main priority 5200 2>/dev/null || true
+  # '';
 
   security.sudo.wheelNeedsPassword = false;
   users.users.root.openssh.authorizedKeys.keys = [
@@ -115,6 +138,11 @@
     settings.PasswordAuthentication = true;
   };
 
+  networking.firewall.trustedInterfaces = [
+    "internalbr0"
+    "wlo1"
+  ];
+
   # Fix poweroff on led close
   services.logind.settings.Login.HandleLidSwitch = "ignore";
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
@@ -124,6 +152,9 @@
     vim
     git
     fastfetch
+    jq
+    iptables
+    dig
   ];
 
   system.stateVersion = "25.05";

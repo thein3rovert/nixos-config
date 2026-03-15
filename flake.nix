@@ -343,7 +343,7 @@
             # ---- Node: Marcus (Prod) ----
             marcus = {
               deployment = {
-                targetHost = "100.68.54.18";
+                targetHost = "100.94.20.21";
                 targetPort = 22;
                 targetUser = "thein3rovert";
                 buildOnTarget = true;
