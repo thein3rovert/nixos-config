@@ -180,6 +180,17 @@
             entryPoints = [ "websecure" ];
             tls.passthrough = true;
           };
+          routers.incus-v2 = {
+            rule = "HostSNI(`${config.myDns.networkMap.localNetworkMap.incus-v2.vHost}`)";
+            service = "incus-v2";
+            entryPoints = [ "websecure" ];
+            tls.passthrough = true;
+          };
+
+          services.incus-v2.loadBalancer.servers = [
+            { address = "${config.homelab.ipRegistry.incus-v2.url}"; }
+          ];
+
           services.incus.loadBalancer.servers = [
             { address = "${config.homelab.ipRegistry.incus.url}"; }
           ];
