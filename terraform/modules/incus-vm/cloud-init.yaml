@@ -1,0 +1,20 @@
+#cloud-config
+hostname: ${hostname}
+
+ssh_authorized_keys:
+%{ for key in ssh_keys ~}
+  - ${key}
+%{ endfor ~}
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - curl
+  - wget
+  - git
+  - vim
+
+runcmd:
+  - systemctl enable ssh
+  - systemctl start ssh
