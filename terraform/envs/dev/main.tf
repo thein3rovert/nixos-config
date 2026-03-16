@@ -75,6 +75,12 @@ module "ubuntu_container" {
 
 }
 
+
+# ====================================
+#       LXC | KUBERNETES | PROXMOX
+#
+# ===JUMPBOX | KUBERNETES===
+
 # Kubernetes the Hard Way - Jumpbox (Debian 12)
 module "k8s_jumpbox" {
   source = "../../modules/lxc"
@@ -101,6 +107,13 @@ module "k8s_jumpbox" {
   extra_tags      = ["k8s-hardway"]
 }
 
+
+# ====================================
+#       LXC | KUBERNETES | PROXMOX
+#
+# ===SERVER | KUBERNETES | CONTROL PLANE===
+
+
 # Kubernetes the Hard Way - Server (Debian 12)
 module "k8s_server" {
   source = "../../modules/lxc"
@@ -126,6 +139,13 @@ module "k8s_server" {
   os_type         = "debian"
   extra_tags      = ["k8s-hardway"]
 }
+
+
+# ====================================
+#       LXC | KUBERNETES | PROXMOX
+#
+# ===NODE 0 | KUBERNETES | WORKER===
+
 
 # Kubernetes the Hard Way - Node 0 (Debian 12)
 module "k8s_node_0" {
@@ -159,6 +179,13 @@ module "k8s_node_0" {
   firewall_enabled   = false
 }
 
+
+# ====================================
+#       LXC | KUBERNETES | PROXMOX
+#
+# ===NODE 1 | KUBERNETES | WORKER===
+
+
 # Kubernetes the Hard Way - Node 1 (Debian 12)
 module "k8s_node_1" {
   source = "../../modules/lxc"
@@ -191,7 +218,10 @@ module "k8s_node_1" {
   firewall_enabled   = false
 }
 
-# GitHub Actions Runner (Ubuntu 22.04)
+# ====================================
+#       LXC | GITHUB-RUNNERS
+# ====================================
+
 module "github_runner" {
   source = "../../modules/lxc"
 
@@ -216,6 +246,10 @@ module "github_runner" {
   os_type         = "ubuntu"
   extra_tags      = ["github-runner", "ci"]
 }
+
+# ====================================
+#       VM | KUBERNETES | INCUS 
+# ====================================
 
 # Ubuntu VM on Incus (marcus server)
 module "incus_ubuntu_vm" {

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
-      version = "3.0.2-rc07" # Using the required version
+      version = "3.0.2-rc07"
     }
   }
 }
@@ -20,14 +20,6 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
     type  = "qemu64"
   }
   memory = var.memory
-
-  # DELETE THIS ENTIRE BLOCK
-  # disk {
-  #   size    = var.disk_size
-  #   type    = "disk"
-  #   slot    = "scsi1"
-  #   storage = var.storage
-  # }
 
   # Add this to force disk attachment
   disks {
