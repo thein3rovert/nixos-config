@@ -28,8 +28,12 @@ resource "incus_instance" "ubuntu_vm" {
     "limits.cpu"    = var.cpu_cores
     "limits.memory" = "${var.memory_mb}MiB"
     "cloud-init.user-data" = templatefile("${path.module}/cloud-init.yaml", {
-      hostname = var.vm_name
-      ssh_keys = var.ssh_keys
+      hostname    = var.vm_name
+      ssh_keys    = var.ssh_keys
+      static_ip   = var.static_ip
+      gateway     = var.gateway
+      cidr        = var.static_ip != null ? split("/", "${var.static_ip}/24")[1] : "24"
+      dns_servers = var.dns_servers
     })
   }
 }

@@ -33,3 +33,27 @@ variable "ssh_keys" {
   type        = list(string)
   default     = []
 }
+
+variable "static_ip" {
+  description = "Static IP address for the VM (optional, uses DHCP if not set)"
+  type        = string
+  default     = null
+}
+
+variable "gateway" {
+  description = "Network gateway (required if static_ip is set)"
+  type        = string
+  default     = null
+}
+
+variable "netmask" {
+  description = "Network netmask (e.g., 255.255.255.0)"
+  type        = string
+  default     = "255.255.255.0"
+}
+
+variable "dns_servers" {
+  description = "DNS servers"
+  type        = list(string)
+  default     = ["8.8.8.8", "8.8.4.4"]
+}
