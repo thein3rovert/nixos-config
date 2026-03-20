@@ -1,10 +1,42 @@
 #cloud-config
 hostname: ${hostname}
 
+users:
+  - default
+  - name: thein3rovert
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+%{ for key in ssh_keys ~}
+      - ${key}
+%{ endfor ~}
+
 ssh_authorized_keys:
 %{ for key in ssh_keys ~}
   - ${key}
 %{ endfor ~}
+
+%{ if static_ip != null ~}
+write_files:
+  - path: /etc/netplan/50-cloud-init.yaml
+    content: |
+      network:
+        version: 2
+        ethernets:
+          eth0:
+            addresses:
+              - ${static_ip}/${cidr}
+            routes:
+              - to: default
+                via: ${gateway}
+            nameservers:
+              addresses:
+%{ for dns in dns_servers ~}
+                - ${dns}
+%{ endfor ~}
+    permissions: '0644'
+%{ endif ~}
 
 package_update: true
 package_upgrade: true
@@ -18,3 +50,6 @@ packages:
 runcmd:
   - systemctl enable ssh
   - systemctl start ssh
+%{ if static_ip != null ~}
+  - netplan apply
+%{ endif ~}

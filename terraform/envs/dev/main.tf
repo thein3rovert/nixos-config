@@ -248,18 +248,41 @@ module "github_runner" {
 }
 
 # ====================================
-#       VM | KUBERNETES | INCUS 
+#       VM | KUBERNETES | INCUS
 # ====================================
 
 # Ubuntu VM on Incus (marcus server)
 module "incus_ubuntu_vm" {
   source = "../../modules/incus-vm"
 
-  vm_name   = "ubuntu-dev"
+  vm_name   = "k3s-server"
   image     = "images:ubuntu/24.04/cloud"
   cpu_cores = 2
   memory_mb = 2048
   disk_size = "20GB"
   ssh_keys  = [file(var.ssh_public_key_path)]
+
+  # Static IP configuration for k3s
+  static_ip   = "10.10.20.100"
+  gateway     = "10.10.20.1"
+  dns_servers = ["8.8.8.8", "8.8.4.4"]
 }
 
+# ====================================
+#       K3S | KUBERNETES | INCUS
+# ====================================
+
+# Install k3s on the Incus Ubuntu VM
+module "k3s_incus" {
+  source = "../../modules/container/kubernetes/k3s"
+
+  control_plane_ips = ["10.10.20.100"]
+  worker_ips        = []
+  ssh_user          = "thein3rovert"
+  ssh_pub_key_file_path = var.ssh_public_key_path
+  kube_api_loadbalancer_dns_name = "k3s-incus.local"
+  kube_vip_address  = "10.10.20.100"
+  kube_vip_enable   = false
+
+  depends_on = [module.incus_ubuntu_vm]
+}
