@@ -1,11 +1,16 @@
 locals {
+  # Merge control plane ip and worker ip into one combine list
+  # Example: ["10.0.0.1", "10.0.0.2"] + ["10.0.0.3", "10.0.0.4"] → ["10.0.0.1", "10.0.0.2", "10.0.0.3", "10.0.0.4"]
   control_plane_plus_worker_ips = concat(var.control_plane_ips, var.worker_ips)
 }
 
+# Run for both control plane and worker node
 resource "terraform_data" "install_prereqs" {
+  # For each ip in the combined list, create one instance of this resource
   count = length(local.control_plane_plus_worker_ips)
 
   input = {
+    # IP of specific node (pick the right one)
     ip = local.control_plane_plus_worker_ips[count.index]
     user = var.ssh_user
     private_key = sensitive(file("${var.ssh_pub_key_file_path}"))
@@ -89,6 +94,7 @@ resource "ssh_resource" "install_k3s_server" {
     always_run = "${timestamp()}"
   }
 
+  # Pick the first ip in the list as control plane
   host         = var.control_plane_ips[0]
   user         = var.ssh_user
   private_key  = file("${var.ssh_pub_key_file_path}")
@@ -99,6 +105,8 @@ resource "ssh_resource" "install_k3s_server" {
   bastion_private_key = var.bastion_host != null ? file("${var.ssh_pub_key_file_path}") : null
 
   commands = [
+    #  If a Tailscale IP is provided, it adds a second --tls-san for that IP too,
+    #  so the cert is also valid when accessed over the Tailscale VPN
      "curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san ${var.kube_api_loadbalancer_dns_name}${var.tailscale_ip != null ? " --tls-san ${var.tailscale_ip}" : ""}"
   ]
   depends_on = [ terraform_data.install_prereqs ]
@@ -129,17 +137,23 @@ resource "ssh_resource" "get_server_node_token" {
 locals {
   raw_server_node_token = sensitive(ssh_resource.get_server_node_token.result)
   server_node_token = regex(".*::server:.*", local.raw_server_node_token)
+
+# Takes in a list of control place, take element from index 1 to the end
+# Example: ["10.0.0.1", "10.0.0.2", "10.0.0.3"] and we take ["10.0.0.2", "10.0.0.3"]
   other_control_plane_server_ips = slice(var.control_plane_ips, 1, length(var.control_plane_ips))
 }
 
 # Install and join other control plane nodes to the cluster
+# Join existing control plane cluster to server (main control plane)
 resource "ssh_resource" "install_k3s_control_plane" {
   triggers = {
     always_run = "${timestamp()}"
   }
 
+  # Create one instance of control plane per IP
   count = length(local.other_control_plane_server_ips)
 
+  # Pick one ip in the list except [0]
   host         = local.other_control_plane_server_ips[count.index]
   user         = var.ssh_user
   private_key  = file("${var.ssh_pub_key_file_path}")
@@ -150,6 +164,7 @@ resource "ssh_resource" "install_k3s_control_plane" {
 bastion_private_key = var.bastion_host != null ? file("${var.ssh_pub_key_file_path}") : null
 
 
+  # Points to the first control plane node on the default K3s API port 6443
   commands = [
      "curl -fL https://get.k3s.io | sh -s - server --token ${local.server_node_token} --cluster-init --server https://${var.control_plane_ips[0]}:6443 --tls-san ${var.kube_api_loadbalancer_dns_name}"
   ]
