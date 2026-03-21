@@ -17,5 +17,7 @@ spec:
     bootstrapPassword: admin
     replicas: 1
     ingress:
+      enabled: true
+      ingressClassName: traefik
       tls:
         source: rancher

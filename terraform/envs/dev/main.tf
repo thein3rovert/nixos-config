@@ -257,8 +257,8 @@ module "incus_ubuntu_vm" {
 
   vm_name   = "k3s-server"
   image     = "images:ubuntu/24.04/cloud"
-  cpu_cores = 2
-  memory_mb = 2048
+  cpu_cores = 4
+  memory_mb = 4096
   disk_size = "20GB"
   ssh_keys  = [file(var.ssh_public_key_path)]
 
@@ -322,23 +322,25 @@ module "k3s_incus" {
 # ====================================
 
 # Install Rancher for managing k8s clusters
-module "rancher" {
-  source = "../../modules/apps/rancher"
-
-  control_plane_ips     = [local.rancher_access_ip]
-  ssh_user              = var.ssh_user
-  ssh_private_key_path  = var.ssh_private_key_path
-
-  rancher_hostname            = "rancher.local"
-  rancher_bootstrap_password  = "admin"
-
-  # Bastion host configuration (only if Tailscale not available for Rancher)
-  bastion_host = local.use_bastion_for_rancher ? "100.94.20.21" : null
-  bastion_user = "root"
-  bastion_port = 22
-
-  depends_on = [module.k3s_incus]
-}
+# NOTE: Rancher commented out - too resource intensive for dev setup
+# Use k9s or kubectl for cluster management instead
+# module "rancher" {
+#   source = "../../modules/apps/rancher"
+#
+#   control_plane_ips     = [local.rancher_access_ip]
+#   ssh_user              = var.ssh_user
+#   ssh_private_key_path  = var.ssh_private_key_path
+#
+#   rancher_hostname            = "rancher.local"
+#   rancher_bootstrap_password  = "admin"
+#
+#   # Bastion host configuration (only if Tailscale not available for Rancher)
+#   bastion_host = local.use_bastion_for_rancher ? "100.94.20.21" : null
+#   bastion_user = "root"
+#   bastion_port = 22
+#
+#   depends_on = [module.k3s_incus]
+# }
 
 # ====================================
 #       OUTPUTS
@@ -375,12 +377,12 @@ output "kube_api_endpoint" {
   value       = module.k3s_incus.kube_api_endpoint
 }
 
-output "rancher_url" {
-  description = "Rancher UI URL"
-  value       = module.rancher.rancher_url
-}
+# output "rancher_url" {
+#   description = "Rancher UI URL"
+#   value       = module.rancher.rancher_url
+# }
 
-output "rancher_instructions" {
-  description = "Instructions for accessing Rancher"
-  value       = module.rancher.rancher_instructions
-}
+# output "rancher_instructions" {
+#   description = "Instructions for accessing Rancher"
+#   value       = module.rancher.rancher_instructions
+# }
