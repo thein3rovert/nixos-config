@@ -302,6 +302,7 @@ module "k3s_incus" {
   kube_api_loadbalancer_dns_name = local.kube_api_loadbalancer_dns_name
   kube_vip_address  = local.kube_vip_address
   kube_vip_enable   = var.kube_vip_enable
+  tailscale_ip      = var.tailscale_ip
 
   # Bastion host configuration to reach VM on internal network
   bastion_host = "100.94.20.21"

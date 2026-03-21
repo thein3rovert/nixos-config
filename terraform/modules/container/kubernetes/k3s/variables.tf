@@ -21,6 +21,12 @@ variable "kube_api_loadbalancer_dns_name" {
   default = "k8s-auto"
 }
 
+variable "tailscale_ip" {
+  type        = string
+  description = "Tailscale IP address to add to TLS SAN"
+  default     = null
+}
+
 variable "kube_api_server_port" {
   type    = string
   default = "6443"

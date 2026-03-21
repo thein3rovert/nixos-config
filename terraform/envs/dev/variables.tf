@@ -134,3 +134,9 @@ variable "kube_vip_enable" {
   description = "Enable kube-vip for HA"
   default     = false
 }
+
+variable "tailscale_ip" {
+  type        = string
+  description = "Tailscale IP address to add to TLS SAN"
+  default     = null
+}
