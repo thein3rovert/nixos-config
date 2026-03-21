@@ -1,0 +1,13 @@
+version: 2
+ethernets:
+  enp5s0:
+    addresses:
+      - ${static_ip}/24
+    routes:
+      - to: default
+        via: ${gateway}
+    nameservers:
+      addresses:
+%{ for dns in dns_servers ~}
+        - ${dns}
+%{ endfor ~}

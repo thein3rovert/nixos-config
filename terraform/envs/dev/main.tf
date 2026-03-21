@@ -269,20 +269,79 @@ module "incus_ubuntu_vm" {
 }
 
 # ====================================
+#       LOCALS | DYNAMIC IP OUTPUTS
+# ====================================
+
+locals {
+  # Use static IP for k3s (since we configured it in cloud-init)
+  control_plane_ips = ["10.10.20.100"]
+  worker_ips        = []
+  kube_api_loadbalancer_dns_name = var.kube_api_loadbalancer_dns_name
+  kube_vip_address  = "10.10.20.100"
+}
+
+# ====================================
 #       K3S | KUBERNETES | INCUS
 # ====================================
+
+# Wait for cloud-init to complete before installing k3s
+resource "time_sleep" "wait_for_cloud_init" {
+  depends_on = [module.incus_ubuntu_vm]
+
+  create_duration = "60s"
+}
 
 # Install k3s on the Incus Ubuntu VM
 module "k3s_incus" {
   source = "../../modules/container/kubernetes/k3s"
 
-  control_plane_ips = ["10.10.20.100"]
-  worker_ips        = []
-  ssh_user          = "thein3rovert"
-  ssh_pub_key_file_path = var.ssh_public_key_path
-  kube_api_loadbalancer_dns_name = "k3s-incus.local"
-  kube_vip_address  = "10.10.20.100"
-  kube_vip_enable   = false
+  control_plane_ips = local.control_plane_ips
+  worker_ips        = local.worker_ips
+  ssh_user          = var.ssh_user
+  ssh_pub_key_file_path = var.ssh_pub_key_file_path
+  kube_api_loadbalancer_dns_name = local.kube_api_loadbalancer_dns_name
+  kube_vip_address  = local.kube_vip_address
+  kube_vip_enable   = var.kube_vip_enable
 
-  depends_on = [module.incus_ubuntu_vm]
+  # Bastion host configuration to reach VM on internal network
+  bastion_host = "100.94.20.21"
+  bastion_user = "root"
+  bastion_port = 22
+
+  depends_on = [time_sleep.wait_for_cloud_init]
+}
+
+# ====================================
+#       OUTPUTS
+# ====================================
+
+output "incus_vm_ip" {
+  description = "IP address of the Incus VM (DHCP until static IP applies)"
+  value       = module.incus_ubuntu_vm.vm_ipv4_address
+}
+
+output "incus_vm_static_ip" {
+  description = "Configured static IP for the Incus VM"
+  value       = "10.10.20.100"
+}
+
+output "k3s_install_result" {
+  description = "K3s installation result"
+  value       = module.k3s_incus.k3s_server_install_result
+}
+
+output "k3s_server_token" {
+  description = "K3s server token for joining nodes"
+  value       = module.k3s_incus.k3s_server_token
+  sensitive   = true
+}
+
+output "kubeconfig_location" {
+  description = "Location of kubeconfig on the server"
+  value       = "ssh ${var.ssh_user}@10.10.20.100 'sudo cat /etc/rancher/k3s/k3s.yaml'"
+}
+
+output "kube_api_endpoint" {
+  description = "Kubernetes API endpoint"
+  value       = module.k3s_incus.kube_api_endpoint
 }

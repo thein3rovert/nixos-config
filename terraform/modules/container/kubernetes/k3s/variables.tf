@@ -1,6 +1,6 @@
 variable "ssh_pub_key_file_path" {
   type = string
-  default = "./.ssh/id_rsa"
+  default = "~/.ssh/id_ed25519"
 }
 
 variable "control_plane_ips" {
@@ -39,4 +39,23 @@ variable "kube_vip_enable" {
 
 variable "kube_vip_address" {
   type    = string
+}
+
+## INCUS VM BASTION HOST
+variable "bastion_host" {
+  type        = string
+  description = "Bastion/jump host for SSH connections"
+  default     = null
+}
+
+variable "bastion_user" {
+  type        = string
+  description = "SSH user for bastion host"
+  default     = "root"
+}
+
+variable "bastion_port" {
+  type        = number
+  description = "SSH port for bastion host"
+  default     = 22
 }

@@ -17,27 +17,6 @@ ssh_authorized_keys:
   - ${key}
 %{ endfor ~}
 
-%{ if static_ip != null ~}
-write_files:
-  - path: /etc/netplan/50-cloud-init.yaml
-    content: |
-      network:
-        version: 2
-        ethernets:
-          eth0:
-            addresses:
-              - ${static_ip}/${cidr}
-            routes:
-              - to: default
-                via: ${gateway}
-            nameservers:
-              addresses:
-%{ for dns in dns_servers ~}
-                - ${dns}
-%{ endfor ~}
-    permissions: '0644'
-%{ endif ~}
-
 package_update: true
 package_upgrade: true
 
@@ -46,10 +25,9 @@ packages:
   - wget
   - git
   - vim
+  - openssh-server
 
 runcmd:
   - systemctl enable ssh
   - systemctl start ssh
-%{ if static_ip != null ~}
-  - netplan apply
-%{ endif ~}
+  - sleep 5

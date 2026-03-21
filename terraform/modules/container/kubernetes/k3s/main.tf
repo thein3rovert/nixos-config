@@ -73,6 +73,11 @@ resource "terraform_data" "install_prereqs" {
       host        = self.input.ip
       user        = self.input.user
       private_key = self.input.private_key
+
+      bastion_host        = var.bastion_host
+      bastion_user        = var.bastion_user
+      bastion_port        = var.bastion_port
+      bastion_private_key = var.bastion_host != null ? self.input.private_key : null
     }
   }
 }
@@ -87,6 +92,11 @@ resource "ssh_resource" "install_k3s_server" {
   host         = var.control_plane_ips[0]
   user         = var.ssh_user
   private_key  = file("${var.ssh_pub_key_file_path}")
+
+  bastion_host        = var.bastion_host
+  bastion_user        = var.bastion_user
+  bastion_port        = var.bastion_port
+  bastion_private_key = var.bastion_host != null ? file("${var.ssh_pub_key_file_path}") : null
 
   commands = [
      "curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san ${var.kube_api_loadbalancer_dns_name}"
@@ -103,6 +113,11 @@ resource "ssh_resource" "get_server_node_token" {
   host         = var.control_plane_ips[0]
   user         = var.ssh_user
   private_key  = file("${var.ssh_pub_key_file_path}")
+
+  bastion_host        = var.bastion_host
+  bastion_user        = var.bastion_user
+  bastion_port        = var.bastion_port
+  bastion_private_key = var.bastion_host != null ? file("${var.ssh_pub_key_file_path}") : null
 
   commands = [
      "sudo cat /var/lib/rancher/k3s/server/token"
@@ -128,6 +143,12 @@ resource "ssh_resource" "install_k3s_control_plane" {
   host         = local.other_control_plane_server_ips[count.index]
   user         = var.ssh_user
   private_key  = file("${var.ssh_pub_key_file_path}")
+
+  bastion_host        = var.bastion_host
+  bastion_user        = var.bastion_user
+  bastion_port        = var.bastion_port
+bastion_private_key = var.bastion_host != null ? file("${var.ssh_pub_key_file_path}") : null
+
 
   commands = [
      "curl -fL https://get.k3s.io | sh -s - server --token ${local.server_node_token} --cluster-init --server https://${var.control_plane_ips[0]}:6443 --tls-san ${var.kube_api_loadbalancer_dns_name}"

@@ -74,6 +74,11 @@ variable "ssh_public_key_path" {
   default     = "~/.ssh/id_ed25519.pub"
 }
 
+variable "ssh_pub_key_file_path" {
+  type    = string
+  default = "~/.ssh/id_ed25519"
+}
+
 variable "extra_tags" {
   description = "Additional tags to add to the container."
   type        = list(string)
@@ -93,3 +98,39 @@ variable "vault_token" {
   sensitive   = true
 }
 
+variable "ssh_user" {
+  type        = string
+  description = "SSH user for remote connections"
+  default     = "thein3rovert"
+}
+
+# K3s variables
+variable "control_plane_ips" {
+  type        = list(string)
+  description = "List of control plane node IPs"
+  default     = ["10.10.20.100"]
+}
+
+variable "worker_ips" {
+  type        = list(string)
+  description = "List of worker node IPs"
+  default     = []
+}
+
+variable "kube_api_loadbalancer_dns_name" {
+  type        = string
+  description = "DNS name for the Kubernetes API load balancer"
+  default     = "k3s-incus.local"
+}
+
+variable "kube_vip_address" {
+  type        = string
+  description = "VIP address for kube-vip"
+  default     = "10.10.20.100"
+}
+
+variable "kube_vip_enable" {
+  type        = bool
+  description = "Enable kube-vip for HA"
+  default     = false
+}

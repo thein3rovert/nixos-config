@@ -30,11 +30,12 @@ resource "incus_instance" "ubuntu_vm" {
     "cloud-init.user-data" = templatefile("${path.module}/cloud-init.yaml", {
       hostname    = var.vm_name
       ssh_keys    = var.ssh_keys
+    })
+    "cloud-init.network-config" = var.static_ip != null ? templatefile("${path.module}/network-config.yaml", {
       static_ip   = var.static_ip
       gateway     = var.gateway
-      cidr        = var.static_ip != null ? split("/", "${var.static_ip}/24")[1] : "24"
       dns_servers = var.dns_servers
-    })
+    }) : ""
   }
 }
 
