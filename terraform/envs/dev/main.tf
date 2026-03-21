@@ -279,10 +279,10 @@ locals {
   kube_api_loadbalancer_dns_name = var.kube_api_loadbalancer_dns_name
   kube_vip_address  = "10.10.20.100"
 
-  # Use Tailscale IP if available, otherwise use bastion
-  use_bastion = var.tailscale_ip == null
-  # If tailscale_ip is not null use else use control_plane_ips
-  effective_control_plane_ips = var.tailscale_ip != null ? [var.tailscale_ip] : local.control_plane_ips
+  # K3s always needs bastion since it connects to internal IP
+  # Rancher can use Tailscale IP directly if available
+  rancher_access_ip = var.tailscale_ip != null ? var.tailscale_ip : "10.10.20.100"
+  use_bastion_for_rancher = var.tailscale_ip == null
 }
 
 # ====================================
@@ -300,17 +300,17 @@ resource "time_sleep" "wait_for_cloud_init" {
 module "k3s_incus" {
   source = "../../modules/container/kubernetes/k3s"
 
-  control_plane_ips = local.effective_control_plane_ips
+  control_plane_ips = local.control_plane_ips
   worker_ips        = local.worker_ips
   ssh_user          = var.ssh_user
-  ssh_pub_key_file_path = var.ssh_pub_key_file_path
+  ssh_pub_key_file_path = var.ssh_private_key_path
   kube_api_loadbalancer_dns_name = local.kube_api_loadbalancer_dns_name
   kube_vip_address  = local.kube_vip_address
   kube_vip_enable   = var.kube_vip_enable
   tailscale_ip      = var.tailscale_ip
 
-  # Bastion host configuration to reach VM on internal network (only if Tailscale not available)
-  bastion_host = local.use_bastion ? "100.94.20.21" : null
+  # Bastion host configuration to reach VM on internal network (always needed for k3s)
+  bastion_host = "100.94.20.21"
   bastion_user = "root"
   bastion_port = 22
 
@@ -325,16 +325,15 @@ module "k3s_incus" {
 module "rancher" {
   source = "../../modules/apps/rancher"
 
-  control_plane_ips     = local.effective_control_plane_ips
+  control_plane_ips     = [local.rancher_access_ip]
   ssh_user              = var.ssh_user
-  ssh_private_key_path  = var.ssh_pub_key_file_path
-
+  ssh_private_key_path  = var.ssh_private_key_path
 
   rancher_hostname            = "rancher.local"
   rancher_bootstrap_password  = "admin"
 
-  # Bastion host configuration (only if Tailscale not available)
-  bastion_host = local.use_bastion ? "100.94.20.21" : null
+  # Bastion host configuration (only if Tailscale not available for Rancher)
+  bastion_host = local.use_bastion_for_rancher ? "100.94.20.21" : null
   bastion_user = "root"
   bastion_port = 22
 

@@ -99,7 +99,6 @@ resource "ssh_resource" "install_k3s_server" {
   bastion_private_key = var.bastion_host != null ? file("${var.ssh_pub_key_file_path}") : null
 
   commands = [
-    # If tailscale_ip present, change to tailscale_ip
      "curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san ${var.kube_api_loadbalancer_dns_name}${var.tailscale_ip != null ? " --tls-san ${var.tailscale_ip}" : ""}"
   ]
   depends_on = [ terraform_data.install_prereqs ]
