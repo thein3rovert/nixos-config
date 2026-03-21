@@ -32,7 +32,7 @@ in
         # Bookmarking & Links
         # ============================================
         linkding = {
-          hostName = "wellsjaha";
+          hostName = "k3s-server";
           port = ports.containerPorts.linkding;
           vHost = "linkding.${config.myDns.networkMap.name}";
         };

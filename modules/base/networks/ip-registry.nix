@@ -109,9 +109,10 @@ in
     # VM Services
     # ============================================
     linkding = {
-      ip = hosts.wellsjaha.ip;
+      ip = hosts.k3s-server.tailscaleIp;
       port = networkMap.linkding.port;
-      url = "${config.homelab.ipRegistry.linkding.ip}:${toString config.homelab.ipRegistry.linkding.port}";
+      # url = "${config.homelab.ipRegistry.linkding.ip}:${toString config.homelab.ipRegistry.linkding.port}";
+      url = "${config.homelab.ipRegistry.linkding.ip}:80";
     };
 
     # ============================================

@@ -81,7 +81,10 @@
           unzip # Decompression utility
           lazygit
           pgcli
+
+          # Kubernetes
           kubectl
+          k9s
 
           # Networking and HTTP Tools
           httpie # Command-line HTTP client
