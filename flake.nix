@@ -284,7 +284,7 @@
               core = ./modules/core;
               hardware = ./modules/hardware;
               locale-en-uk = ./modules/nixos/os/profiles/locale/en-uk;
-              nixosOs = ./modules/nixos/os;
+              nixosOs = ./modules/nixos;
               snippets = ./modules/snippets;
               users = ./modules/nixos/users;
             };
