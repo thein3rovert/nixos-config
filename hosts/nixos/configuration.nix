@@ -123,34 +123,6 @@ in
   ];
 
   # ================================
-  #     NFS CONFIGURATION
-  # ================================
-  services.nfs.settings = {
-    # This enables client-side NFS support
-  };
-  services.rpcbind.enable = true;
-  # TODO: Create a NFS mmodules
-  # INFO: Backup Filesystem
-  fileSystems."/mnt/backups" = {
-    device = "100.105.187.63:/backups";
-    fsType = "nfs";
-    options = [
-      "vers=4"
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
-  # INFO: Grage Backup Filesystem
-  fileSystems."/mnt/garage" = {
-    device = "100.105.187.63:/var/storage/garage";
-    fsType = "nfs";
-    options = [
-      "vers=4"
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
-  # ================================
   #     HARDWARE CONFIGURATION
   # ================================
   hardwareSetup = {
@@ -230,7 +202,16 @@ in
           ../../modules/nixos/profiles/fonts/IoskeleyMono-Hinted
         ];
       };
-
+      # ================================
+               #     NFS CONFIGURATION
+               # ================================
+               nfs = {
+               isClient = true;
+               mounts = [
+                 { mountPoint = "/mnt/backups"; device = "100.105.187.63:/backups"; }
+                { mountPoint = "/mnt/garage"; device = "100.105.187.63:/var/storage/garage"; readOnly = true; }
+               ];
+             };
       /*
         NOTE: I did this to avoid agenix putting the filepath to the needed credentials
         instead fo the decrypted credential itself so this way makes sure that
@@ -254,6 +235,7 @@ in
         proxmox = {
           enable = true;
         };
+
       };
     };
 

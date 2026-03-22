@@ -127,6 +127,16 @@
         secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
         endpointUrl = "https://${config.snippets.thein3rovert.networkMap.garage-api.vHost}";
       };
+      nfs = {
+        isServer = true;
+      exports = ''
+        /backups 10.10.10.12(rw,sync,no_subtree_check)
+         /backups 100.0.0.0/8(rw,sync,no_subtree_check)
+
+         /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
+         /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
+      '';
+      };
     };
     containers = {
       freshrss.enable = true;
@@ -209,16 +219,17 @@
   # ==============================
   #      NFS Configuration
   # ==============================
-  services.nfs.server = {
-    enable = true;
-    exports = ''
-      /backups 10.10.10.12(rw,sync,no_subtree_check)
-      /backups 100.0.0.0/8(rw,sync,no_subtree_check)
+  # services.nfs.server = {
+  #   enable = true;
+  #   exports = ''
+  #     /backups 10.10.10.12(rw,sync,no_subtree_check)
+  #     /backups 100.0.0.0/8(rw,sync,no_subtree_check)
 
-      /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
-      /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
-    '';
-  };
+  #     /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
+  #     /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
+  #   '';
+  # };
+
   # ==============================
   #      SSH Configuration
   # ==============================

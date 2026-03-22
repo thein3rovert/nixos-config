@@ -9,5 +9,6 @@
     ./systemd
     ./types
     ./locale
+    ./nfs
   ];
 }
