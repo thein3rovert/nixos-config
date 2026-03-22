@@ -130,8 +130,19 @@ in
   };
   services.rpcbind.enable = true;
   # TODO: Create a NFS mmodules
+  # INFO: Backup Filesystem
   fileSystems."/mnt/backups" = {
     device = "100.105.187.63:/backups";
+    fsType = "nfs";
+    options = [
+      "vers=4"
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
+  # INFO: Grage Backup Filesystem
+  fileSystems."/mnt/garage" = {
+    device = "100.105.187.63:/var/storage/garage";
     fsType = "nfs";
     options = [
       "vers=4"

@@ -213,7 +213,10 @@
     enable = true;
     exports = ''
       /backups 10.10.10.12(rw,sync,no_subtree_check)
-       /backups 100.0.0.0/8(rw,sync,no_subtree_check)
+      /backups 100.0.0.0/8(rw,sync,no_subtree_check)
+
+      /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
+      /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
     '';
   };
   # ==============================
