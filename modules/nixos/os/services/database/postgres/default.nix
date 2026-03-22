@@ -46,10 +46,11 @@ in
     };
 
     # Set up backup
+    # Save under var/backup
     services.postgresqlBackup = {
       enable = true;
       startAt = "03:10:00";
-      databases = [ "n8n" ];
+      databases = [ "n8n" "forgejo" ];
     };
 
     networking.firewall.allowedTCPPorts = [ config.homelab.servicePorts.postgresql ];
