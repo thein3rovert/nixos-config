@@ -50,7 +50,7 @@ provider "proxmox" {
 # }
 
 module "ubuntu_container" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = local.root_password
@@ -76,7 +76,7 @@ module "ubuntu_container" {
 }
 
 module "nixos_container_02" {
-  source = "../../modules/lxc/nixos-lxc"
+  source = "../../modules/infra/providers/proxmox/lxc/nixos-lxc"
 
   target_node = var.target_node
   password    = local.root_password

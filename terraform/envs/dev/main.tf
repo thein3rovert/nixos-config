@@ -50,7 +50,7 @@ provider "incus" {
 
 
 module "ubuntu_container" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = var.root_password
@@ -83,7 +83,7 @@ module "ubuntu_container" {
 
 # Kubernetes the Hard Way - Jumpbox (Debian 12)
 module "k8s_jumpbox" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = var.root_password
@@ -116,7 +116,7 @@ module "k8s_jumpbox" {
 
 # Kubernetes the Hard Way - Server (Debian 12)
 module "k8s_server" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = var.root_password
@@ -149,7 +149,7 @@ module "k8s_server" {
 
 # Kubernetes the Hard Way - Node 0 (Debian 12)
 module "k8s_node_0" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = var.root_password
@@ -188,7 +188,7 @@ module "k8s_node_0" {
 
 # Kubernetes the Hard Way - Node 1 (Debian 12)
 module "k8s_node_1" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = var.root_password
@@ -223,7 +223,7 @@ module "k8s_node_1" {
 # ====================================
 
 module "github_runner" {
-  source = "../../modules/lxc"
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = var.root_password
@@ -253,7 +253,7 @@ module "github_runner" {
 
 # Ubuntu VM on Incus (marcus server)
 module "incus_ubuntu_vm" {
-  source = "../../modules/incus-vm"
+  source = "../../modules/infra/providers/incus/vm"
 
   vm_name   = "k3s-server"
   image     = "images:ubuntu/24.04/cloud"
@@ -274,14 +274,14 @@ module "incus_ubuntu_vm" {
 
 locals {
   # Use static IP for k3s (since we configured it in cloud-init)
-  control_plane_ips = ["10.10.20.100"]
-  worker_ips        = []
+  control_plane_ips              = ["10.10.20.100"]
+  worker_ips                     = []
   kube_api_loadbalancer_dns_name = var.kube_api_loadbalancer_dns_name
-  kube_vip_address  = "10.10.20.100"
+  kube_vip_address               = "10.10.20.100"
 
   # K3s always needs bastion since it connects to internal IP
   # Rancher can use Tailscale IP directly if available
-  rancher_access_ip = var.tailscale_ip != null ? var.tailscale_ip : "10.10.20.100"
+  rancher_access_ip       = var.tailscale_ip != null ? var.tailscale_ip : "10.10.20.100"
   use_bastion_for_rancher = var.tailscale_ip == null
 }
 
@@ -300,14 +300,14 @@ resource "time_sleep" "wait_for_cloud_init" {
 module "k3s_incus" {
   source = "../../modules/container/kubernetes/k3s"
 
-  control_plane_ips = local.control_plane_ips
-  worker_ips        = local.worker_ips
-  ssh_user          = var.ssh_user
-  ssh_pub_key_file_path = var.ssh_private_key_path
+  control_plane_ips              = local.control_plane_ips
+  worker_ips                     = local.worker_ips
+  ssh_user                       = var.ssh_user
+  ssh_pub_key_file_path          = var.ssh_private_key_path
   kube_api_loadbalancer_dns_name = local.kube_api_loadbalancer_dns_name
-  kube_vip_address  = local.kube_vip_address
-  kube_vip_enable   = var.kube_vip_enable
-  tailscale_ip      = var.tailscale_ip
+  kube_vip_address               = local.kube_vip_address
+  kube_vip_enable                = var.kube_vip_enable
+  tailscale_ip                   = var.tailscale_ip
 
   # Bastion host configuration to reach VM on internal network (always needed for k3s)
   bastion_host = "100.94.20.21"
