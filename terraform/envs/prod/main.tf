@@ -75,30 +75,58 @@ module "ubuntu_container" {
 
 }
 
-module "nixos_container_02" {
-  source = "../../modules/infra/providers/proxmox/lxc/nixos-lxc"
+# Old NixOS LXC container - commented out in favor of VM
+# module "nixos_container_02" {
+#   source = "../../modules/infra/providers/proxmox/lxc/nixos-lxc"
+#
+#   target_node = var.target_node
+#   password    = local.root_password
+#   hostname    = "trikru"
+#   vmid        = var.container_id
+#   ostemplate  = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
+#   cores       = 1
+#   memory      = 2048
+#   swap        = 512
+#   disk_size   = "8G"
+#   storage     = var.rootfs_storage
+#   ssh_keys    = file(var.ssh_public_key_path)
+#
+#   # Override of default
+#   gateway         = var.gateway
+#   cidr_suffix     = var.cidr_suffix
+#   ip_base         = var.ip_base
+#   bridge          = var.bridge
+#   container_id    = 102
+#   proxmox_host_ip = var.proxmox_host_ip
+#   extra_tags      = ["ai"]
+#
+# }
+
+# Trikru LXC - Ubuntu container for OpenClaw homelab
+module "trikru_lxc" {
+  source = "../../modules/infra/providers/proxmox/lxc"
 
   target_node = var.target_node
   password    = local.root_password
   hostname    = "trikru"
-  vmid        = var.container_id
-  ostemplate  = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
-  cores       = 1
-  memory      = 2048
-  swap        = 512
-  disk_size   = "8G"
-  storage     = var.rootfs_storage
-  ssh_keys    = file(var.ssh_public_key_path)
+  vmid        = 102
+  ostemplate  = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
 
-  # Override of default
-  gateway         = var.gateway
-  cidr_suffix     = var.cidr_suffix
-  ip_base         = var.ip_base
+  cores     = 2
+  memory    = 2048
+  swap      = 512
+  disk_size = "20G"
+  storage   = var.rootfs_storage
+
   bridge          = var.bridge
+  ip_base         = var.ip_base
   container_id    = 102
+  cidr_suffix     = var.cidr_suffix
+  gateway         = var.gateway
   proxmox_host_ip = var.proxmox_host_ip
-  extra_tags      = ["ai"]
 
+  ssh_keys   = file(var.ssh_public_key_path)
+  extra_tags = ["ai", "openclaw", "homelab", "ubuntu"]
 }
 
 

@@ -27,6 +27,11 @@ data "vault_kv_secret_v2" "proxmox" {
   name  = "proxmox"
 }
 
+# Local values for credentials from Vault
+locals {
+  root_password = data.vault_kv_secret_v2.proxmox.data["root_password"]
+}
+
 # Proxmox provider using Vault secrets
 provider "proxmox" {
   pm_api_url          = data.vault_kv_secret_v2.proxmox.data["pm_api_url"]
