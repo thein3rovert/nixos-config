@@ -54,31 +54,32 @@ provider "incus" {
 }
 
 
-module "ubuntu_container" {
-  source = "../../modules/infra/providers/proxmox/lxc"
-
-  target_node = var.target_node
-  password    = var.root_password
-  hostname    = "monty"
-  vmid        = var.container_id
-  ostemplate  = var.ostemplate
-  cores       = 2
-  memory      = 2048
-  swap        = 512
-  disk_size   = "8G"
-  storage     = var.rootfs_storage
-  ssh_keys    = file(var.ssh_public_key_path)
-
-  # Override of default
-  gateway         = var.gateway
-  cidr_suffix     = var.cidr_suffix
-  ip_base         = var.ip_base
-  bridge          = var.bridge
-  container_id    = 104
-  proxmox_host_ip = var.proxmox_host_ip
-  extra_tags      = var.extra_tags
-
-}
+# Commented out - not needed for now
+# module "ubuntu_container" {
+#   source = "../../modules/infra/providers/proxmox/lxc"
+#
+#   target_node = var.target_node
+#   password    = var.root_password
+#   hostname    = "monty"
+#   vmid        = var.container_id
+#   ostemplate  = var.ostemplate
+#   cores       = 2
+#   memory      = 2048
+#   swap        = 512
+#   disk_size   = "8G"
+#   storage     = var.rootfs_storage
+#   ssh_keys    = file(var.ssh_public_key_path)
+#
+#   # Override of default
+#   gateway         = var.gateway
+#   cidr_suffix     = var.cidr_suffix
+#   ip_base         = var.ip_base
+#   bridge          = var.bridge
+#   container_id    = 104
+#   proxmox_host_ip = var.proxmox_host_ip
+#   extra_tags      = var.extra_tags
+#
+# }
 
 
 # ====================================
