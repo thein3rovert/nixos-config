@@ -103,31 +103,56 @@ provider "proxmox" {
 #
 # }
 
-# Trikru LXC - Ubuntu container for OpenClaw homelab
-module "trikru_lxc" {
-  source = "../../modules/infra/providers/proxmox/lxc"
+# Trikru LXC - commented out in favor of VM
+# module "trikru_lxc" {
+#   source = "../../modules/infra/providers/proxmox/lxc"
+#
+#   target_node = var.target_node
+#   password    = local.root_password
+#   hostname    = "trikru"
+#   vmid        = 102
+#   ostemplate  = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+#
+#   cores     = 2
+#   memory    = 2048
+#   swap      = 512
+#   disk_size = "20G"
+#   storage   = var.rootfs_storage
+#
+#   bridge          = var.bridge
+#   ip_base         = var.ip_base
+#   container_id    = 102
+#   cidr_suffix     = var.cidr_suffix
+#   gateway         = var.gateway
+#   proxmox_host_ip = var.proxmox_host_ip
+#
+#   ssh_keys   = file(var.ssh_public_key_path)
+#   extra_tags = ["ai", "openclaw", "homelab", "ubuntu"]
+# }
 
-  target_node = var.target_node
-  password    = local.root_password
-  hostname    = "trikru"
-  vmid        = 102
-  ostemplate  = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+# Trikru VM - Ubuntu VM for OpenClaw homelab (KVM enabled)
+module "trikru_vm" {
+  source = "../../modules/infra/providers/proxmox/vm"
 
-  cores     = 2
-  memory    = 2048
-  swap      = 512
-  disk_size = "20G"
-  storage   = var.rootfs_storage
+  target_node    = var.target_node
+  hostname       = "trikru"
+  vmid           = 102
+  clone_template = "ubuntu-22.04-cloud"
 
-  bridge          = var.bridge
-  ip_base         = var.ip_base
-  container_id    = 102
-  cidr_suffix     = var.cidr_suffix
-  gateway         = var.gateway
-  proxmox_host_ip = var.proxmox_host_ip
+  kvm_enabled = true # KVM now available after BIOS update
+  cores       = 2
+  memory      = 2048
+  disk_size   = "20G"
+  storage     = var.rootfs_storage
 
+  bridge      = var.bridge
+  ip_address  = "10.10.10.102"
+  cidr_suffix = var.cidr_suffix
+  gateway     = var.gateway
+
+  password   = local.root_password
   ssh_keys   = file(var.ssh_public_key_path)
-  extra_tags = ["ai", "openclaw", "homelab", "ubuntu"]
+  extra_tags = ["ai", "openclaw", "ubuntu"]
 }
 
 

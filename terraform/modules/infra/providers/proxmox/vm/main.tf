@@ -25,15 +25,23 @@ resource "proxmox_vm_qemu" "vm" {
 
   # Boot settings
   boot  = "order=scsi0"
-  agent = 1
+  agent = 0 # Disable guest agent to avoid permission issues
   kvm   = var.kvm_enabled
 
   # Disk configuration
+  scsihw = "virtio-scsi-pci"
   disks {
     scsi {
       scsi0 {
         disk {
           size    = var.disk_size
+          storage = var.storage
+        }
+      }
+    }
+    ide {
+      ide2 {
+        cloudinit {
           storage = var.storage
         }
       }
