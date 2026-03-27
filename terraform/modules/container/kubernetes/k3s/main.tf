@@ -110,6 +110,10 @@ resource "ssh_resource" "install_k3s_server" {
     "curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san ${var.kube_api_loadbalancer_dns_name}${var.tailscale_ip != null ? " --tls-san ${var.tailscale_ip}" : ""}"
   ]
   depends_on = [terraform_data.install_prereqs]
+
+  lifecycle {
+    ignore_changes = [triggers]
+  }
 }
 
 # Get k3s server token, used to join other nodes to the cluster
@@ -131,6 +135,10 @@ resource "ssh_resource" "get_server_node_token" {
     "sudo cat /var/lib/rancher/k3s/server/token"
   ]
   depends_on = [ssh_resource.install_k3s_server]
+
+  lifecycle {
+    ignore_changes = [triggers]
+  }
 }
 
 # Compute other required values
