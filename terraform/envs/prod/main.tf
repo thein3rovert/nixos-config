@@ -130,7 +130,13 @@ provider "proxmox" {
 #   extra_tags = ["ai", "openclaw", "homelab", "ubuntu"]
 # }
 
-# Trikru VM - Ubuntu VM for OpenClaw homelab (KVM enabled)
+# 🖥️ trikru — AI Agent VM
+# ━━━━━━━━━━━━━━━━━━━━━━━━
+# 📦 Stack: OpenClaw (AI agent gateway) | Ubuntu 22.04 LTS
+# ⚙️ Specs: 2 vCPU | 2GB RAM | 20GB Disk
+# 🌐 Network: 10.10.10.102/24
+# 🏷️ Tags: ai | openclaw | terraform | ubuntu
+# 📝 Notes: QEMU Guest Agent enabled | Named after the Trikru clan (The 100)
 module "trikru_vm" {
   source = "../../modules/infra/providers/proxmox/vm"
 
