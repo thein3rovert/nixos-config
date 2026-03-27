@@ -95,3 +95,9 @@ variable "extra_tags" {
   description = "Additional tags"
   default     = []
 }
+
+variable "agent_enabled" {
+  type        = bool
+  description = "Enable QEMU guest agent"
+  default     = false
+}

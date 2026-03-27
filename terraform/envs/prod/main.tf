@@ -139,11 +139,12 @@ module "trikru_vm" {
   vmid           = 102
   clone_template = "ubuntu-22.04-cloud"
 
-  kvm_enabled = true # KVM now available after BIOS update
-  cores       = 2
-  memory      = 2048
-  disk_size   = "20G"
-  storage     = var.rootfs_storage
+  kvm_enabled   = true # KVM now available after BIOS update
+  agent_enabled = true # QEMU guest agent installed
+  cores         = 2
+  memory        = 2048
+  disk_size     = "20G"
+  storage       = var.rootfs_storage
 
   bridge      = var.bridge
   ip_address  = "10.10.10.102"

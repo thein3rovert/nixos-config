@@ -25,7 +25,7 @@ resource "proxmox_vm_qemu" "vm" {
 
   # Boot settings
   boot  = "order=scsi0"
-  agent = 0 # Disable guest agent to avoid permission issues
+  agent = var.agent_enabled ? 1 : 0
   kvm   = var.kvm_enabled
 
   # Disk configuration
