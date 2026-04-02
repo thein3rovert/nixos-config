@@ -9,7 +9,7 @@ let
 
   imageName = "gtstef/filebrowser:${imageTag}";
   imageTag = "stable";
-  port = 8900;
+  port = config.homelab.containerPorts.filebrowser;
 
   # FileBrowser volumes
   dataVolume = "/var/lib/filebrowser/data:/home/filebrowser/data";

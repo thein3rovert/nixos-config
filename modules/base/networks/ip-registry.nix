@@ -104,6 +104,11 @@ in
       port = networkMap.copyparty.port;
       url = "${config.homelab.ipRegistry.copyparty.ip}:${toString config.homelab.ipRegistry.copyparty.port}";
     };
+    filebrowser = {
+      ip = hosts.emily.ip;
+      port = networkMap.filebrowser.port;
+      url = "${config.homelab.ipRegistry.filebrowser.ip}:${toString config.homelab.ipRegistry.filebrowser.port}";
+    };
 
     # ============================================
     # VM Services
