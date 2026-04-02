@@ -79,6 +79,9 @@
           services.copyparty.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.copyparty.url}/"; }
           ];
+          services.filebrowser.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.filebrowser.url}/"; }
+          ];
 
           # Monitoring
           services.grafana.loadBalancer.servers = [
@@ -157,6 +160,11 @@
             copyparty = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.copyparty.vHost}`)";
               service = "copyparty";
+              entryPoints = [ "web" ];
+            };
+            filebrowser = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.filebrowser.vHost}`)";
+              service = "filebrowser";
               entryPoints = [ "web" ];
             };
 
