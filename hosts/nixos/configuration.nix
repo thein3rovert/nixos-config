@@ -203,15 +203,22 @@ in
         ];
       };
       # ================================
-               #     NFS CONFIGURATION
-               # ================================
-               nfs = {
-               isClient = true;
-               mounts = [
-                 { mountPoint = "/mnt/backups"; device = "100.105.187.63:/backups"; }
-                { mountPoint = "/mnt/garage"; device = "100.105.187.63:/var/storage/garage"; readOnly = true; }
-               ];
-             };
+      #     NFS CONFIGURATION
+      # ================================
+      nfs = {
+        isClient = true;
+        mounts = [
+          {
+            mountPoint = "/mnt/backups";
+            device = "100.105.187.63:/backups";
+          }
+          {
+            mountPoint = "/mnt/garage";
+            device = "100.105.187.63:/var/storage/garage";
+            readOnly = true;
+          }
+        ];
+      };
       /*
         NOTE: I did this to avoid agenix putting the filepath to the needed credentials
         instead fo the decrypted credential itself so this way makes sure that
@@ -262,6 +269,7 @@ in
       n8n.enable = true;
       grafana.enable = true;
       copyparty.enable = true;
+      fileshare.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {
