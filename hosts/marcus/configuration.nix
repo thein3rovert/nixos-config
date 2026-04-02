@@ -108,7 +108,8 @@
   nixosSetup = {
     programs = {
       incus-v.enable = true;
-      docker.enable = true;
+      ## Change from docker to podman since k3s is running on incus instead
+      podman.enable = true;
 
     };
     services = {

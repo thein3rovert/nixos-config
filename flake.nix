@@ -361,6 +361,8 @@
                 agenix.nixosModules.default
                 self.nixosModules.nixosOs
                 self.nixosModules.base
+                # For services
+                self.nixosModules.snippets
 
                 {
                   nixpkgs.overlays = [ self.overlays.default ];
