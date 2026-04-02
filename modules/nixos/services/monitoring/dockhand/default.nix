@@ -9,7 +9,6 @@ let
   # create-linkding-containter = virtualisation.oci-containers."linkding";
   imageName = "fnsys/dockhand:latest";
   imageTag = "latest";
-  host = "127.0.0.1";
   port = 3000;
 
   dataVolume = "dockhand_data:/app/data";

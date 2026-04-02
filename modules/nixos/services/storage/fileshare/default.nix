@@ -7,13 +7,13 @@ let
 
   if-fileshare-enable = lib.mkIf config.nixosSetup.services.fileshare.enable;
   # create-linkding-containter = virtualisation.oci-containers."linkding";
-  imageName = "fnsys/dockhand:latest";
-  imageTag = "latest";
-  host = "127.0.0.1";
-  port = 3000;
+  imageName = "gtstef/filebrowser:${imageTag}";
+  imageTag = "stable";
+  port = 8900;
 
-  dataVolume = "dockhand_data:/app/data";
-  socketVolume = "/run/podman/podman.sock:/var/run/docker.sock";
+  # FileBrowser volumes
+  dataVolume = "/var/lib/filebrowser/data:/home/filebrowser/data";
+  filesVolume = "/var/lib/filebrowser/files:/files";
 in
 {
   options.nixosSetup.services.fileshare = {
@@ -26,8 +26,11 @@ in
       ports = [ "${toString port}:3000" ];
       volumes = [
         dataVolume
-        socketVolume
+        filesVolume
       ];
+      environment = {
+        FILEBROWSER_CONFIG = "data/config.yaml";
+      };
     };
   };
 
