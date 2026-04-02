@@ -86,7 +86,8 @@ in
       fossflow = 8087;
       ad-guard = 3000;
       glance = 8280;
-      rancher = 3909;
+      # Automation
+      kestra = 8090;
     };
 
     # ============================================

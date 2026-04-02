@@ -16,6 +16,10 @@
         file = "${self.inputs.secrets}/tailscale/shared/tailscale-auth.age";
         path = "/home/thein3rovert/.secrets/tailscale-auth";
       };
+      kestra-password = {
+        file = "${self.inputs.secrets}/kestra/kestra.age";
+        path = "/home/thein3rovert/.secrets/kestra-password";
+      };
     };
   };
 }
