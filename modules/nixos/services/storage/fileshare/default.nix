@@ -14,6 +14,7 @@ let
   # FileBrowser volumes
   dataVolume = "/var/lib/filebrowser/data:/home/filebrowser/data";
   filesVolume = "/var/lib/filebrowser/files:/files";
+  config-file = "/etc/filebrowser/config.yaml:/home/filebrowser/data/config.yaml:ro";
 in
 {
   options.nixosSetup.services.fileshare = {
@@ -57,7 +58,7 @@ in
       volumes = [
         dataVolume
         filesVolume
-        "/etc/filebrowser/config.yaml:/home/filebrowser/data/config.yaml:ro"
+        config-file
       ];
       environment = {
         FILEBROWSER_CONFIG = "data/config.yaml";
