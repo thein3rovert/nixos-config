@@ -6,7 +6,7 @@
 let
 
   if-fileshare-enable = lib.mkIf config.nixosSetup.services.fileshare.enable;
-  # create-linkding-containter = virtualisation.oci-containers."linkding";
+
   imageName = "gtstef/filebrowser:${imageTag}";
   imageTag = "stable";
   port = 8900;
@@ -49,7 +49,7 @@ in
             minLength: 5
             signup: false
         adminUsername: thein3rovert
-        adminPassword: filebrowser123
+        adminPassword: ${builtins.readFile config.age.secrets.fileshare.path}
     '';
 
     virtualisation.oci-containers.containers.fileshare = {

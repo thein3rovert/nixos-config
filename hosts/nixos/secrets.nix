@@ -78,6 +78,10 @@
         owner = "thein3rovert";
         # mode = "400";
       };
+      fileshare = {
+        file = "${self.inputs.secrets}/fileshare/fileshare.age";
+        path = "/home/thein3rovert/.secrets/fileshare";
+      };
     };
   };
 }
