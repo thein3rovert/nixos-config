@@ -173,6 +173,12 @@ in
           vHost = "copyparty.${config.myDns.networkMap.name}";
         };
 
+        filebrowser = {
+          hostName = "emily";
+          port = ports.containerPorts.filebrowser;
+          vHost = "filebrowser.${config.myDns.networkMap.name}";
+        };
+
         # ============================================
         # Version Control
         # ============================================
