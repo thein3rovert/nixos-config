@@ -4,5 +4,6 @@
     ./minio-client
     ./proxmox
     ./filebrowser
+    ./kestra
   ];
 }
