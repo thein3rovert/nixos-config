@@ -9,6 +9,14 @@ let
   cfg = config.nixosSetup.services.fileshare;
 in
 {
+  # Systemd service that runs before the FileBrowser container starts
+  # This service reads the agenix secret and generates the config.yaml file at runtime
+  #
+  # To verify the service ran successfully:
+  #   systemctl status setup-filebrowser-config
+  #   cat /var/lib/filebrowser/data/config.yaml
+  #
+  # The service should show "Active: inactive (dead)" with status=0/SUCCESS
   config = mkIf cfg.enable {
     systemd.services."setup-filebrowser-config" = {
       description = "Setup FileBrowser configuration with secrets";
