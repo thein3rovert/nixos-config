@@ -3,5 +3,6 @@
     ./aws-cli
     ./minio-client
     ./proxmox
+    ./filebrowser
   ];
 }
