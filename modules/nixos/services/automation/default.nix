@@ -2,5 +2,6 @@
 {
   imports = [
     ./n8n
+    ./kestra
   ];
 }
