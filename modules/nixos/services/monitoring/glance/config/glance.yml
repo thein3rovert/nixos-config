@@ -101,6 +101,11 @@ pages:
                 timeout: 5s
                 url: http://copyparty.l.thein3rovert.com/
                 icon: di:copyparty.png
+              - title: Filebrowser
+                same-tab: true
+                timeout: 5s
+                url: http://filebrowser.l.thein3rovert.com/
+                icon: di:filebrowser-quantum.png
           - type: monitor
             cache: 1m
             title: Development & Management
@@ -230,7 +235,7 @@ pages:
                     url: https://github.com/thein3rovert
                   - title: m_incus
                     same-tab: true
-                    url: http://incus-v2.l.thein3rovert.com/thein3rovert
+                    url: https://incus-v2.l.thein3rovert.com/thein3rovert
                   - title: DevDocs
                     same-tab: true
                     url: https://devdocs.io/
