@@ -4,5 +4,6 @@
     ./minio
     ./garage
     ./garage-webui
+    ./fileshare
   ];
 }
