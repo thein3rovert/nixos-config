@@ -37,11 +37,15 @@ in
         CREATE USER n8n WITH PASSWORD 'n8n';
         CREATE DATABASE n8n;
         GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
-        ALTER DATABASE n8n OWNER to n8n
+        ALTER DATABASE n8n OWNER to n8n;
 
         CREATE USER forgejo WITH PASSWORD 'forgejo';
         CREATE DATABASE forgejo OWNER forgejo;
         GRANT ALL PRIVILEGES ON DATABASE forgejo TO forgejo;
+
+        CREATE USER kestra WITH PASSWORD 'kestra';
+        CREATE DATABASE kestra OWNER kestra;
+        GRANT ALL PRIVILEGES ON DATABASE kestra TO kestra;
       '';
     };
 
@@ -50,7 +54,11 @@ in
     services.postgresqlBackup = {
       enable = true;
       startAt = "03:10:00";
-      databases = [ "n8n" "forgejo" ];
+      databases = [
+        "n8n"
+        "forgejo"
+        "kestra"
+      ];
     };
 
     networking.firewall.allowedTCPPorts = [ config.homelab.servicePorts.postgresql ];
