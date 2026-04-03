@@ -63,23 +63,10 @@ pages:
                   secret: yvfbv5hkSsl82bWleiZh1b1PCc4BlA
       - size: full
         widgets:
+          # Most Used - Quick Access
           - type: monitor
             cache: 1m
-            title: Networking & Internet - Private
-            sites:
-              - title: Traefik
-                same-tab: true
-                timeout: 5s
-                url: https://${BASE_DOMAIN}
-                icon: di:traefik.png
-              - title: adguard
-                same-tab: true
-                timeout: 5s
-                url: http://ad-guard.l.thein3rovert.com
-                icon: di:adguard-home.png
-          - type: monitor
-            cache: 1m
-            title: Productivity & Files
+            title: 🚀 Quick Access
             sites:
               - title: Linkding
                 same-tab: true
@@ -96,106 +83,133 @@ pages:
                 timeout: 5s
                 url: https://memos.${BASE_DOMAIN}/
                 icon: di:memos.png
-              - title: copyparty
-                same-tab: true
-                timeout: 5s
-                url: http://copyparty.l.thein3rovert.com/
-                icon: di:copyparty.png
-              - title: Filebrowser
-                same-tab: true
-                timeout: 5s
-                url: http://filebrowser.l.thein3rovert.com/
-                icon: di:filebrowser-quantum.png
-          - type: monitor
-            cache: 1m
-            title: Development & Management
-            sites:
               - title: Blog
                 same-tab: true
                 timeout: 5s
                 url: https://blog.${BASE_DOMAIN}/
                 icon: /assets/penguin.png
-              - title: n8n - private
+
+          # Automation & Workflows
+          - type: monitor
+            cache: 1m
+            title: ⚡ Automation & Workflows
+            sites:
+              - title: n8n
                 same-tab: true
                 timeout: 5s
                 url: http://n8n.l.thein3rovert.com/
                 icon: di:n8n.png
-              - title: s3
+              - title: Kestra
                 same-tab: true
                 timeout: 5s
-                url: https://minio-console.${BASE_DOMAIN}/
-                icon: di:minio.png
-              - title: incus
-                same-tab: true
-                timeout: 5s
-                url: https://incus.l.thein3rovert.com
-                icon: di:incus.png
-              - title: FossFlow
-                same-tab: true
-                timeout: 5s
-                url: http://fossflow.l.thein3rovert.com
-                icon: sh:tldraw.png
-              - title: Garage S3
-                same-tab: true
-                timeout: 5s
-                url: http://s3-web.l.thein3rovert.com/
-                icon: sh:garage.svg
+                url: http://kestra.l.thein3rovert.com/
+                icon: sh:kestra.svg
+
+          # Development & Code
+          - type: monitor
+            cache: 1m
+            title: 💻 Development & Code
+            sites:
               - title: Forgejo
                 same-tab: true
                 timeout: 5s
                 url: https://code.${BASE_DOMAIN}/
                 icon: sh:forgejo.svg
-              - title: Vault
+              - title: FossFlow
                 same-tab: true
                 timeout: 5s
-                url: http://vault.l.thein3rovert.com
-                icon: sh:hashicorp-vault.svg
-              - title: Rancher
-                same-tab: true
-                timeout: 5s
-                url: http://rancher.l.thein3rovert.com
-                icon: sh:rancher.svg
-
-          - type: monitor
-            cache: 1m
-            title: Monitoring & Utilities
-            sites:
-              - title: grafana
-                same-tab: true
-                timeout: 5s
-                url: http://grafana.l.thein3rovert.com/
-                icon: di:grafana.png
-              # - title: Prometheus
-              #   same-tab: true
-              #   timeout: 5s
-              #   url: http://prometheus.l.thein3rovert.com/
-              #   icon: di:prometheus.png
-              # - title: Loki
-              #   same-tab: true
-              #   timeout: 5s
-              #   url: http://loki.l.thein3rovert.com/
-              #   icon: di:loki.png
-              - title: uptime-kuma
-                same-tab: true
-                timeout: 5s
-                url: https://uptime-kuma.${BASE_DOMAIN}/
-                icon: di:uptime-kuma.png
+                url: http://fossflow.l.thein3rovert.com
+                icon: sh:tldraw.png
               - title: ZeroByte
                 same-tab: true
                 timeout: 5s
                 url: http://zerobyte.l.thein3rovert.com/
                 icon: sh:zerobyte.png
+
+          # Storage & Files
+          - type: monitor
+            cache: 1m
+            title: 💾 Storage & Files
+            sites:
+              - title: Filebrowser
+                same-tab: true
+                timeout: 5s
+                url: http://filebrowser.l.thein3rovert.com/
+                icon: di:filebrowser-quantum.png
+              - title: copyparty
+                same-tab: true
+                timeout: 5s
+                url: http://copyparty.l.thein3rovert.com/
+                icon: di:copyparty.png
+              - title: s3 Console
+                same-tab: true
+                timeout: 5s
+                url: https://minio-console.${BASE_DOMAIN}/
+                icon: di:minio.png
+              - title: Garage S3
+                same-tab: true
+                timeout: 5s
+                url: http://s3-web.l.thein3rovert.com/
+                icon: sh:garage.svg
+
+          # Monitoring & Observability
+          - type: monitor
+            cache: 1m
+            title: 📊 Monitoring & Observability
+            sites:
               - title: Dockhand
                 same-tab: true
                 timeout: 5s
                 url: http://dockhand.l.thein3rovert.com/
                 icon: sh:dockhand.png
+              - title: Grafana
+                same-tab: true
+                timeout: 5s
+                url: http://grafana.l.thein3rovert.com/
+                icon: di:grafana.png
+              - title: Uptime Kuma
+                same-tab: true
+                timeout: 5s
+                url: https://uptime-kuma.${BASE_DOMAIN}/
+                icon: di:uptime-kuma.png
+              - title: Traefik
+                same-tab: true
+                timeout: 5s
+                url: https://${BASE_DOMAIN}
+                icon: di:traefik.png
+
+          # Infrastructure Management
+          - type: monitor
+            cache: 1m
+            title: 🏗️ Infrastructure
+            sites:
+              - title: Incus (emily)
+                same-tab: true
+                timeout: 5s
+                url: https://incus.l.thein3rovert.com
+                icon: di:incus.png
+              - title: Rancher
+                same-tab: true
+                timeout: 5s
+                url: http://rancher.l.thein3rovert.com
+                icon: sh:rancher.svg
+              - title: AdGuard
+                same-tab: true
+                timeout: 5s
+                url: http://ad-guard.l.thein3rovert.com
+                icon: di:adguard-home.png
+              - title: Vault
+                same-tab: true
+                timeout: 5s
+                url: http://vault.l.thein3rovert.com
+                icon: sh:hashicorp-vault.svg
+
           - type: rss
             title: thein3rovert rss feed
             style: horizontal-cards
             feeds:
               - url: https://freshrss.${BASE_DOMAIN}/api/query.php?user=thein3rovert&t=6d33HntnFvgHLEi43rQBMD&f=rss
-                title: Recent Rss Weekly
+
           - type: videos
             channels:
               #- UCDAck-gFPTrgTx_qp59-bQA # Kubernetes guy
@@ -204,6 +218,7 @@ pages:
               - UCcdv38QxPjSMqbt5ffLhJLA
               - UCMQfWjDuns9-s37wq5vW4Tg
             style: grid-cards
+
           - type: hacker-news
             limit: 15
             collapse-after: 5
