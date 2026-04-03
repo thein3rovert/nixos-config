@@ -59,6 +59,9 @@
             { url = "http://${config.homelab.ipRegistry.linkding.url}/"; }
           ];
           services.n8n.loadBalancer.servers = [ { url = "http://${config.homelab.ipRegistry.n8n.url}/"; } ];
+          services.kestra.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.kestra.url}/"; }
+          ];
           services.zerobyte.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.zerobyte.url}/"; }
           ];
@@ -111,6 +114,11 @@
             n8n = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.n8n.vHost}`)";
               service = "n8n";
+              entryPoints = [ "web" ];
+            };
+            kestra = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.kestra.vHost}`)";
+              service = "kestra";
               entryPoints = [ "web" ];
             };
             zerobyte = {

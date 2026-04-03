@@ -59,6 +59,11 @@ in
           port = ports.servicePorts.n8n;
           vHost = "n8n.${config.myDns.networkMap.name}";
         };
+        kestra = {
+          hostName = "marcus";
+          port = ports.containerPorts.kestra;
+          vHost = "kestra.${config.myDns.networkMap.name}";
+        };
 
         # ============================================
         # Container Management

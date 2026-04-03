@@ -30,6 +30,9 @@ in
       environment = {
         TOKEN = "hgmFGT9LpRYArXBHh510pA20rBEnT5hu";
       };
+      extraOptions = [
+        "--no-healthcheck"
+      ];
     };
   };
 

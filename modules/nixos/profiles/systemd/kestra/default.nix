@@ -44,7 +44,7 @@ in
             server:
               basic-auth:
                 enabled: true
-                username: thein3rovert
+                username: thein3rovert@kestra.io
                 password: $PASSWORD
             repository:
               type: postgres

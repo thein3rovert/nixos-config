@@ -26,7 +26,7 @@ in
       image = imageName;
       ports = [
         "${toString port}:8080"
-        "8081:8081"
+        "8081:8081" # Helth check for /health /prometheus (Remain internal)
       ];
       volumes = [
         dataVolume
