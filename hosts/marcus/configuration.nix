@@ -119,6 +119,7 @@
         authKeyFile = config.age.secrets.tailscale.path;
       };
       kestra.enable = true;
+      hawser.enable = true;
     };
   };
 
