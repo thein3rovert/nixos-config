@@ -65,6 +65,16 @@ resource "proxmox_vm_qemu" "vm" {
   # Tags
   tags = join(",", concat(["terraform"], var.extra_tags))
 
+  # Description
+  description = var.description
+
+  # Startup/Shutdown order
+  startup_shutdown {
+    order            = -1
+    startup_delay    = -1
+    shutdown_timeout = -1
+  }
+
   lifecycle {
     prevent_destroy = false
   }

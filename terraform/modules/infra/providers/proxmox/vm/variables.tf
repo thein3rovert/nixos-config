@@ -101,3 +101,9 @@ variable "agent_enabled" {
   description = "Enable QEMU guest agent"
   default     = false
 }
+
+variable "description" {
+  type        = string
+  description = "VM description"
+  default     = null
+}
