@@ -1,29 +1,39 @@
-# variables.tf - Input variables for our Proxmox LXC module
+
+variable "target_node" {
+  type        = string
+  description = "The name of the target Proxmox node."
+  default     = "thein3rovert"
+}
+
 variable "proxmox_host_ip" {
   type        = string
   description = "The IP address of the Proxmox host for the CI provisioner."
   default     = "10.10.10.8"
+}
+
+variable "hostname" {
+  type        = string
+  description = "The hostname for the new LXC container."
+  default     = "thein3rovert-iac"
 }
 variable "rootfs_storage" {
   type        = string
   description = "The storage pool for the container's root disk (e.g., local-lvm)."
   default     = "local-lvm"
 }
+
+#========= Networking Configuration =================
+
+variable "bridge" { default = "vmbr0" }
+
 variable "container_id" {
   type        = number
   description = "The ID for the LXC container. If null, Proxmox will assign the next available ID."
-  default     = "103"
+  default     = "100"
   validation {
     condition     = var.ip_base == null || (var.ip_base != null && var.container_id != null)
     error_message = "If you specify an 'ip_prefix', you must also specify a 'container_id'."
   }
-}
-variable "bridge" { default = "vmbr0" }
-
-variable "hostname" {
-  type        = string
-  description = "The hostname for the new LXC container."
-  default     = "thein3rovert-iac"
 }
 
 variable "ip_base" {
@@ -44,44 +54,6 @@ variable "gateway" {
   default     = "10.10.10.1"
 }
 
-# Create local for gateway and ip-prefix
-#   locals {
-#   ip_prefix = "${var.ip_base}/${var.cidr_suffix}"
-# }
-# locals {
-#   gateway = cidrhost(var.ip_prefix, 1)
-# }
-
-variable "target_node" {
-  type        = string
-  description = "The name of the target Proxmox node."
-  default     = "thein3rovert"
-}
-
-variable "ostemplate" {
-  type        = string
-  description = "The name of the LXC template to use (e.g., 'local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz')."
-  default     = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-  # default     = "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
-}
-
-# variable "ostemplate_choice" {
-#   description = "Choose an OS template: 1 for Ubuntu, 2 for Alpine"
-#   type        = number
-#   default     = 1
-#   validation {
-#     condition     = contains([1, 2], var.ostemplate_choice)
-#     error_message = "Valid choices: 1 (Ubuntu), 2 (Alpine)"
-#   }
-# }
-# locals {
-#   ostemplate = (
-#     var.ostemplate_choice == 1
-#     ? "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-#     : "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
-#   )
-# }
-
 variable "ssh_public_key_path" {
   type        = string
   description = "The path to the public SSH key to install in the container."
@@ -94,7 +66,8 @@ variable "extra_tags" {
   default     = ["prod"]
 }
 
-# Vault variables
+#=========== Vault variables===============
+
 variable "vault_address" {
   type        = string
   description = "The address of the Vault server."
@@ -106,6 +79,25 @@ variable "vault_token" {
   description = "The token to authenticate with Vault."
   sensitive   = true
 }
+
+variable "ostemplate" {
+  type        = string
+  description = "The name of the LXC template to use (e.g., 'local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz')."
+  default     = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+  # default     = "local:vztmpl/alpine-3.22-default_20250617_amd64.tar.xz"
+}
+
+
+
+# Create local for gateway and ip-prefix
+#   locals {
+#   ip_prefix = "${var.ip_base}/${var.cidr_suffix}"
+# }
+# locals {
+#   gateway = cidrhost(var.ip_prefix, 1)
+# }
+
+
 
 # variable "ostemplate" {
 #   type        = string
