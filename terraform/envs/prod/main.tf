@@ -130,6 +130,47 @@ provider "proxmox" {
 #   extra_tags = ["ai", "openclaw", "homelab", "ubuntu"]
 # }
 
+
+# ====================================
+#       LXC | HASHICORP VAULT [BECCA]
+# ====================================
+module "homelab_vault" {
+  source = "../../modules/infra/providers/proxmox/lxc"
+
+  # -- Identity
+  hostname = "becca"
+  vmid     = 101
+  os_type  = "ubuntu"
+
+  # -- Template
+  ostemplate = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+
+  # -- Resources
+  cores     = 1
+  memory    = 1024
+  disk_size = "2G"
+  storage   = var.rootfs_storage
+
+  # -- Network
+  ip_base         = var.ip_base
+  cidr_suffix     = var.cidr_suffix
+  gateway         = var.gateway
+  bridge          = var.bridge
+  proxmox_host_ip = var.proxmox_host_ip
+
+  # -- Auth
+  password = local.root_password
+  ssh_keys = file(var.ssh_public_key_path)
+
+  # -- Proxmox
+  target_node  = var.target_node
+  container_id = 101
+
+  # -- Tags
+  extra_tags = ["vault"]
+}
+
+
 # 🖥️ trikru — AI Agent VM
 # ━━━━━━━━━━━━━━━━━━━━━━━━
 # 📦 Stack: OpenClaw (AI agent gateway) | Ubuntu 22.04 LTS
@@ -160,6 +201,25 @@ module "trikru_vm" {
   password   = local.root_password
   ssh_keys   = file(var.ssh_public_key_path)
   extra_tags = ["ai", "openclaw", "ubuntu"]
+
+  description = <<-EOT
+    🖥️ trikru — AI Agent VM
+    ━━━━━━━━━━━━━━━━━━━━━━━━
+    📦 Stack
+       • OpenClaw (AI agent gateway)
+       • Ubuntu 22.04 LTS (Jammy)
+    ⚙️ Specs
+       • 2 vCPU | 2GB RAM | 20GB Disk
+       • Node: thein3rovert
+    🌐 Network
+       • IP: 10.10.10.102/24
+       • Interface: eth0
+    🏷️ Tags: ai | openclaw | terraform | ubuntu
+    📝 Notes
+       • Managed by Terraform
+       • QEMU Guest Agent: enabled
+       • Named after the Trikru clan (The 100)
+  EOT
 }
 
 

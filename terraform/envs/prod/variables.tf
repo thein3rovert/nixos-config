@@ -1,4 +1,5 @@
 
+#========= Proxmox Configuration =================
 variable "target_node" {
   type        = string
   description = "The name of the target Proxmox node."
