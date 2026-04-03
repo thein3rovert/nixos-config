@@ -26,7 +26,7 @@ pages:
       - size: small
         widgets:
           - type: custom-api
-            title: Random Fact
+            title: ◆ Random Fact
             cache: 6h
             url: https://uselessfacts.jsph.pl/api/v2/facts/random
             template: |
@@ -66,7 +66,7 @@ pages:
           # Most Used - Quick Access
           - type: monitor
             cache: 1m
-            title: 🚀 Quick Access
+            title: ★ Quick Access
             sites:
               - title: Linkding
                 same-tab: true
@@ -108,7 +108,7 @@ pages:
           # Development & Code
           - type: monitor
             cache: 1m
-            title: 💻 Development & Code
+            title: ◈ Development & Code
             sites:
               - title: Forgejo
                 same-tab: true
@@ -129,7 +129,7 @@ pages:
           # Storage & Files
           - type: monitor
             cache: 1m
-            title: 💾 Storage & Files
+            title: ▦ Storage & Files
             sites:
               - title: Filebrowser
                 same-tab: true
@@ -155,7 +155,7 @@ pages:
           # Monitoring & Observability
           - type: monitor
             cache: 1m
-            title: 📊 Monitoring & Observability
+            title: ◉ Monitoring & Observability
             sites:
               - title: Dockhand
                 same-tab: true
@@ -181,7 +181,7 @@ pages:
           # Infrastructure Management
           - type: monitor
             cache: 1m
-            title: 🏗️ Infrastructure
+            title: ▣ Infrastructure
             sites:
               - title: Incus (emily)
                 same-tab: true
@@ -205,12 +205,13 @@ pages:
                 icon: sh:hashicorp-vault.svg
 
           - type: rss
-            title: thein3rovert rss feed
+            title: ◈ Thein3rovert Rss Feed
             style: horizontal-cards
             feeds:
               - url: https://freshrss.${BASE_DOMAIN}/api/query.php?user=thein3rovert&t=6d33HntnFvgHLEi43rQBMD&f=rss
 
           - type: videos
+            title: ▶ Videos
             channels:
               #- UCDAck-gFPTrgTx_qp59-bQA # Kubernetes guy
               - UCYeiozh-4QwuC1sjgCmB92w # Devops toolbox
@@ -220,6 +221,7 @@ pages:
             style: grid-cards
 
           - type: hacker-news
+            title: ◈ Hacker News
             limit: 15
             collapse-after: 5
 
@@ -230,6 +232,7 @@ pages:
             target: _self
 
           - type: clock
+            title: ◷ Time
             time-format: 24h
             date-format: d MMMM yyyy
             show-seconds: true
@@ -237,11 +240,13 @@ pages:
             timezone: Europe/London
 
           - type: weather
+            title: ◐ Weather
             location: London, UK
             units: metric
             hour-format: 24h
 
           - type: bookmarks
+            title: ★ Bookmarks
             groups:
               - title: Personal
                 links:
@@ -262,4 +267,5 @@ pages:
                     same-tab: true
                     url: https://www.torrenthr.org/login.php
           - type: calendar
+            title: ◷ Calendar
             first-day-of-week: monday
