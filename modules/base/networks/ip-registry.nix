@@ -129,7 +129,7 @@ in
     # Tailscale Services
     # ============================================
     vault = {
-      ip = hosts.emily.tailscaleIp;
+      ip = hosts.becca.tailscaleIp;
       port = networkMap.vault.port;
       url = "${config.homelab.ipRegistry.vault.ip}:${toString config.homelab.ipRegistry.vault.port}";
     };
