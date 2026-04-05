@@ -72,7 +72,7 @@ variable "extra_tags" {
 variable "vault_address" {
   type        = string
   description = "The address of the Vault server."
-  default     = "http://100.105.217.77:8200"
+  default     = "http://100.123.31.22:8200"
 }
 
 variable "vault_token" {
