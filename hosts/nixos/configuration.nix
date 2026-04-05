@@ -259,7 +259,6 @@ in
 
     services = {
       adguard.enable = false;
-      vault.enable = true;
       prometheusNode.enable = true;
       promtail.enable = true;
       zerobyte.enable = true;
