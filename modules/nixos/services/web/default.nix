@@ -6,5 +6,6 @@
     ./memos
     ./blog
     ./fossflow
+    ./termix
   ];
 }

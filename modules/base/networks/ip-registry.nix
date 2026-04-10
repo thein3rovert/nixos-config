@@ -84,6 +84,11 @@ in
       port = networkMap.kestra.port;
       url = "${config.homelab.ipRegistry.kestra.ip}:${toString config.homelab.ipRegistry.kestra.port}";
     };
+    termix = {
+      ip = hosts.emily.ip;
+      port = networkMap.termix.port;
+      url = "${config.homelab.ipRegistry.termix.ip}:${toString config.homelab.ipRegistry.termix.port}";
+    };
     fossflow = {
       ip = hosts.emily.ip;
       port = networkMap.fossflow.port;

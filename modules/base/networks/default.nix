@@ -88,6 +88,9 @@ in
       glance = 8280;
       # Automation
       kestra = 8090;
+
+      # SSH Management
+      termix = 8088;
     };
 
     # ============================================

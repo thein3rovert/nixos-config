@@ -62,6 +62,9 @@
           services.kestra.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.kestra.url}/"; }
           ];
+          services.termix.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.termix.url}/"; }
+          ];
           services.zerobyte.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.zerobyte.url}/"; }
           ];
@@ -119,6 +122,11 @@
             kestra = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.kestra.vHost}`)";
               service = "kestra";
+              entryPoints = [ "web" ];
+            };
+            termix = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.termix.vHost}`)";
+              service = "termix";
               entryPoints = [ "web" ];
             };
             zerobyte = {

@@ -66,6 +66,15 @@ in
         };
 
         # ============================================
+        # SSH Management
+        # ============================================
+        termix = {
+          hostName = "emily";
+          port = ports.containerPorts.termix;
+          vHost = "termix.${config.myDns.networkMap.name}";
+        };
+
+        # ============================================
         # Container Management
         # ============================================
         incus = {
