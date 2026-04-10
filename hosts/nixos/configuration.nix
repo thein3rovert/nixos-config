@@ -98,7 +98,7 @@ in
     iptables
     tcpdump
     cloudflared # Cloudflare tunnel
-    localsend # Local file sharing
+    # localsend # Local file sharing
     # cloudflare-warp
 
     # ---- Infrastructure ----
@@ -266,6 +266,7 @@ in
       dockhand.enable = true;
       mysql.enable = false;
       n8n.enable = true;
+      termix.enable = true;
       grafana.enable = true;
       copyparty.enable = true;
       fileshare.enable = true;

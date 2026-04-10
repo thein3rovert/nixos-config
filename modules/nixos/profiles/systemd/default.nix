@@ -5,5 +5,6 @@
     ./proxmox
     ./filebrowser
     ./kestra
+    ./termix
   ];
 }
