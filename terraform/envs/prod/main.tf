@@ -222,12 +222,12 @@ module "trikru_vm" {
   EOT
 }
 
-module "k3s_control_plane_02" {
+module "k3s_control_plane_01" {
   source = "../../modules/infra/providers/proxmox/vm"
 
   target_node    = var.target_node
-  hostname       = "trikru"
-  vmid           = 103
+  hostname       = "Raven"
+  vmid           = 111
   clone_template = "ubuntu-22.04-cloud"
 
   kvm_enabled   = true # KVM now available after BIOS update
@@ -238,7 +238,7 @@ module "k3s_control_plane_02" {
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
-  ip_address  = "10.10.10.103"
+  ip_address  = "10.10.10.111"
   cidr_suffix = var.cidr_suffix
   gateway     = var.gateway
 
@@ -251,12 +251,12 @@ module "k3s_control_plane_02" {
   EOT
 }
 
-module "k3s_control_plane_03" {
+module "k3s_control_plane_02" {
   source = "../../modules/infra/providers/proxmox/vm"
 
   target_node    = var.target_node
-  hostname       = "trikru"
-  vmid           = 104
+  hostname       = "lincoln"
+  vmid           = 112
   clone_template = "ubuntu-22.04-cloud"
 
   kvm_enabled   = true # KVM now available after BIOS update
@@ -267,7 +267,7 @@ module "k3s_control_plane_03" {
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
-  ip_address  = "10.10.10.104"
+  ip_address  = "10.10.10.112"
   cidr_suffix = var.cidr_suffix
   gateway     = var.gateway
 
