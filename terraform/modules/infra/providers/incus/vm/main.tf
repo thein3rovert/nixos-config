@@ -13,6 +13,7 @@ resource "incus_instance" "ubuntu_vm" {
   image    = var.image
   type     = "virtual-machine"
   profiles = ["default"]
+  running  = false
 
   device {
     name = "root"

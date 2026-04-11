@@ -222,4 +222,60 @@ module "trikru_vm" {
   EOT
 }
 
+module "k3s_control_plane_02" {
+  source = "../../modules/infra/providers/proxmox/vm"
 
+  target_node    = var.target_node
+  hostname       = "trikru"
+  vmid           = 103
+  clone_template = "ubuntu-22.04-cloud"
+
+  kvm_enabled   = true # KVM now available after BIOS update
+  agent_enabled = true # QEMU guest agent installed
+  cores   = 2
+  memory  = 4096
+  disk_size = "20G"
+  storage       = var.rootfs_storage
+
+  bridge      = var.bridge
+  ip_address  = "10.10.10.103"
+  cidr_suffix = var.cidr_suffix
+  gateway     = var.gateway
+
+  password   = local.root_password
+  ssh_keys   = file(var.ssh_public_key_path)
+  extra_tags = [ "k3s", "ubuntu"]
+
+  description = <<-EOT
+    k3s Server Control Plane
+  EOT
+}
+
+module "k3s_control_plane_03" {
+  source = "../../modules/infra/providers/proxmox/vm"
+
+  target_node    = var.target_node
+  hostname       = "trikru"
+  vmid           = 104
+  clone_template = "ubuntu-22.04-cloud"
+
+  kvm_enabled   = true # KVM now available after BIOS update
+  agent_enabled = true # QEMU guest agent installed
+  cores   = 2
+  memory  = 4096
+  disk_size = "20G"
+  storage       = var.rootfs_storage
+
+  bridge      = var.bridge
+  ip_address  = "10.10.10.104"
+  cidr_suffix = var.cidr_suffix
+  gateway     = var.gateway
+
+  password   = local.root_password
+  ssh_keys   = file(var.ssh_public_key_path)
+  extra_tags = [ "k3s", "ubuntu"]
+
+  description = <<-EOT
+    k3s Server Control Plane
+  EOT
+}
