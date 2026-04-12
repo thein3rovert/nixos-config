@@ -212,7 +212,7 @@ pages:
                 same-tab: true
                 timeout: 5s
                 url: http://longhorn.l.thein3rovert.com/
-                icon: sh:longhorn.svg
+                icon: sh:rancher-longhorn.svg
 
           - type: rss
             title: ◈ Thein3rovert Rss Feed
