@@ -208,6 +208,11 @@ pages:
                 timeout: 5s
                 url: http://termix.l.thein3rovert.com
                 icon: sh:termix.svg
+              - title: Longhorn
+                same-tab: true
+                timeout: 5s
+                url: http://longhorn.l.thein3rovert.com/
+                icon: sh:longhorn.svg
 
           - type: rss
             title: ◈ Thein3rovert Rss Feed

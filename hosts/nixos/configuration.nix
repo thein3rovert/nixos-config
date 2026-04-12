@@ -106,6 +106,7 @@ in
     terraform
     awscli
     minio-client
+    kubernetes-helm
     # firefox-unstable
 
     # ------ NFS --
