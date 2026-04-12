@@ -194,6 +194,15 @@ in
         };
 
         # ============================================
+        # Kubernetes
+        # ============================================
+        longhorn = {
+          hostName = "k3s-server";
+          port = ports.servicePorts.longhorn;
+          vHost = "longhorn.${config.myDns.networkMap.name}";
+        };
+
+        # ============================================
         # Version Control
         # ============================================
         forgejo = {

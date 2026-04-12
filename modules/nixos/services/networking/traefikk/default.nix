@@ -58,6 +58,9 @@
           services.linkding.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.linkding.url}/"; }
           ];
+          services.longhorn.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.longhorn.url}/"; }
+          ];
           services.n8n.loadBalancer.servers = [ { url = "http://${config.homelab.ipRegistry.n8n.url}/"; } ];
           services.kestra.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.kestra.url}/"; }
@@ -112,6 +115,11 @@
             linkding = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.linkding.vHost}`)";
               service = "linkding";
+              entryPoints = [ "web" ];
+            };
+            longhorn = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.longhorn.vHost}`)";
+              service = "longhorn";
               entryPoints = [ "web" ];
             };
             n8n = {

@@ -129,6 +129,11 @@ in
       # url = "${config.homelab.ipRegistry.linkding.ip}:${toString config.homelab.ipRegistry.linkding.port}";
       url = "${config.homelab.ipRegistry.linkding.ip}:80";
     };
+    longhorn = {
+      ip = hosts.k3s-server.tailscaleIp;
+      port = networkMap.longhorn.port;
+      url = "${config.homelab.ipRegistry.longhorn.ip}:${toString config.homelab.ipRegistry.longhorn.port}";
+    };
 
     # ============================================
     # Tailscale Services

@@ -126,6 +126,9 @@ in
       # Container Management
       hawser = 2376;
 
+      # Kubernetes
+      longhorn = 80;
+
       # Storage
       garage-api = 3900;
       garage-webui = 3909;
