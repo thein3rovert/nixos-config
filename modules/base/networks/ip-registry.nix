@@ -80,7 +80,7 @@ in
       url = "${config.homelab.ipRegistry.n8n.ip}:${toString config.homelab.ipRegistry.n8n.port}";
     };
     kestra = {
-      ip = hosts.marcus.ip;
+      ip = hosts.marcus.tailscaleIp;
       port = networkMap.kestra.port;
       url = "${config.homelab.ipRegistry.kestra.ip}:${toString config.homelab.ipRegistry.kestra.port}";
     };
