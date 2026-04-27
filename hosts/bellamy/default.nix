@@ -129,13 +129,13 @@
       };
       nfs = {
         isServer = true;
-      exports = ''
-        /backups 10.10.10.12(rw,sync,no_subtree_check)
-         /backups 100.0.0.0/8(rw,sync,no_subtree_check)
+        exports = ''
+          /backups 10.10.10.12(rw,sync,no_subtree_check)
+           /backups 100.0.0.0/8(rw,sync,no_subtree_check)
 
-         /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
-         /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
-      '';
+           /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
+           /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
+        '';
       };
     };
     containers = {
@@ -159,7 +159,8 @@
         database = "postgresql";
       };
       prometheusNode.enable = true;
-      promtail.enable = true;
+      # No longer supported and maintained swithing to alloy
+      promtail.enable = false;
 
       garage-webui =
         let
@@ -235,16 +236,12 @@
   # ==============================
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "yes";
+    settings = {
+      PermitRootLogin = "yes";
+      Banner = "/etc/motd";
+    };
     allowSFTP = true;
-    banner = ''
-          ▗▄▄▖ ▗▄▄▄▖▗▖   ▗▖    ▗▄▖ ▗▖  ▗▖▗▖  ▗▖
-          ▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌ ▐▌▐▛▚▞▜▌ ▝▚▞▘
-          ▐▛▀▚▖▐▛▀▀▘▐▌   ▐▌   ▐▛▀▜▌▐▌  ▐▌  ▐▌
-          ▐▙▄▞▘▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖▐▌ ▐▌▐▌  ▐▌  ▐▌
 
-      Welcome to Bellamy Production Server (NixOS) 🚀
-    '';
   };
 
   # ==============================
