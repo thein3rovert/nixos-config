@@ -267,7 +267,7 @@ in
       hawser.enable = false;
       dockhand.enable = true;
       mysql.enable = false;
-      n8n.enable = true;
+      n8n.enable = false;
       termix.enable = true;
       grafana.enable = true;
       copyparty.enable = true;
