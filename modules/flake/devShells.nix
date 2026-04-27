@@ -35,7 +35,7 @@ _: {
               nixd
               nil
               bash-language-server
-              nodePackages.prettier
+              prettier
 
               # Shell script tools
               shellcheck

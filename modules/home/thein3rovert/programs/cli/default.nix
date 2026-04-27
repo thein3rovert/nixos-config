@@ -101,8 +101,10 @@
           # System Information
           fastfetch # Neofetch-like tool for system information
 
-          # Desktop Utilities
-          swww # Wallpaper setter (move to desktop folder)
+          # Desktop utilities
+          awww
+          # This has been changed to awww
+          # swww # Wallpaper setter (move to desktop folder)
           pomodoro-gtk # Pomodoro timer with GTK interface
 
           # Neovim and Development Tools
