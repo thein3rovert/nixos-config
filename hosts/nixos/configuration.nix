@@ -82,7 +82,8 @@ in
     # ---- GUI Applications ----
     # TODO: MOVE TO DESKTOP MODULES
     dunst # Notification daemon
-    blueberry # Bluetooth manager
+    # blueberry has been changed to blueman
+    blueman # Bluetooth manager
     networkmanagerapplet # Network manager GUI
     # sticky-notes
 
@@ -261,12 +262,12 @@ in
     services = {
       adguard.enable = false;
       prometheusNode.enable = true;
-      promtail.enable = true;
+      promtail.enable = false;
       zerobyte.enable = true;
       hawser.enable = false;
       dockhand.enable = true;
       mysql.enable = false;
-      n8n.enable = true;
+      n8n.enable = false;
       termix.enable = true;
       grafana.enable = true;
       copyparty.enable = true;

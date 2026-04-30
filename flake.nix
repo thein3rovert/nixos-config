@@ -169,7 +169,7 @@
             # "demo"
             "nixos"
             "vps-het-1"
-            "wellsjaha"
+            # "wellsjaha"
             "marcus"
 
             # Managed by incus

@@ -12,7 +12,6 @@ jobs:
             exit 1
           fi
           echo "SSH_PRIVATE_KEY secret exists"
-
   validate-cachix:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +22,6 @@ jobs:
             exit 1
           fi
           echo "CACHIX_AUTH_TOKEN secret exists"
-
   build-nixos:
     runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
@@ -32,6 +30,8 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add GitHub to known hosts
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -45,7 +45,6 @@ jobs:
           name: thein3rovert
       - name: Build nixos
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
-
   build-marcus:
     runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
@@ -54,6 +53,8 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add GitHub to known hosts
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -67,7 +68,6 @@ jobs:
           name: thein3rovert
       - name: Build marcus
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
-
   build-bellamy:
     runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
@@ -76,6 +76,8 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add GitHub to known hosts
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -89,7 +91,6 @@ jobs:
           name: thein3rovert
       - name: Build bellamy
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
-
 name: build-nixos
 "on":
   push:

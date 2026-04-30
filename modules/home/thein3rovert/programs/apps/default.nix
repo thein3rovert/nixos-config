@@ -23,7 +23,9 @@
       vscode
 
       # TODO: Move to desktop -> hyprland when available
-      swww # Wallpaper setter (move to desktop folder)
+      awww
+      # This has been changed to awww
+      #swww # Wallpaper setter (move to desktop folder)
       rofi # Styling
       gnome-tweaks
       hyprcursor

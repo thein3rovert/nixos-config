@@ -117,7 +117,7 @@ in
 
       programs.zen-browser = {
         enable = true;
-        suppressXdgMigrationWarning = true;
+        # suppressXdgMigrationWarning = true;  # Migration is done and not needed anymore
       };
       # nativeMessagingHosts = lib.optionals pkgs.stdenv.isLinux [ pkgs.bitwarden-desktop ];
       # package = lib.mkIf pkgs.stdenv.isDarwin (lib.mkForce null);
