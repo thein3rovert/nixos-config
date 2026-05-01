@@ -72,6 +72,9 @@ in
       freshrss = 8083;
       jotty = 8382;
 
+      # Database
+      pgadmin = 5050;
+
       # Security
       vault = 8200;
 

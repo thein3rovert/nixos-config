@@ -3,5 +3,6 @@
   imports = [
     ./postgres
     ./myslql
+    ./pgadmin
   ];
 }
