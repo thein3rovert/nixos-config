@@ -280,6 +280,7 @@ in
         };
       };
       postgresql.enable = true;
+      pgadmin.enable = true;
       tailscale = {
         enable = true;
       };
