@@ -32,6 +32,7 @@ in
       environment = {
         FILEBROWSER_CONFIG = "data/config.yaml";
       };
+      extraOptions = [ "--cap-add=NET_BIND_SERVICE" ];
     };
   };
 

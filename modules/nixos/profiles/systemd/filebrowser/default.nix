@@ -27,7 +27,7 @@ in
 
           mkdir -p /var/lib/filebrowser/data/tmp
           mkdir -p /var/lib/filebrowser/files
-
+          chown -R 1000:1000 /var/lib/filebrowser
           PASSWORD=$(cat ${config.age.secrets.fileshare.path})
 
           cat > /var/lib/filebrowser/data/config.yaml << EOF
