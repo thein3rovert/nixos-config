@@ -38,9 +38,13 @@ in
       cmd = [
         "server"
         "standalone"
-        "--worker-thread=128"
+        "--worker-thread=4" # Change from 128 -> 4
         "--config"
         "/app/config.yaml"
+      ];
+      extraOptions = [
+        "--memory=512m"
+        "--memory-swap=512m"
       ];
     };
   };
