@@ -13,7 +13,7 @@ resource "incus_instance" "ubuntu_vm" {
   image    = var.image
   type     = "virtual-machine"
   profiles = ["default"]
-  running  = false
+  running  = true
 
   device {
     name = "root"
@@ -37,6 +37,13 @@ resource "incus_instance" "ubuntu_vm" {
       gateway     = var.gateway
       dns_servers = var.dns_servers
     }) : ""
+  }
+
+  lifecycle {
+    ignore_changes = [
+      config["cloud-init.network-config"],
+      config["cloud-init.user-data"],
+    ]
   }
 }
 

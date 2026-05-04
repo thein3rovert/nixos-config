@@ -239,7 +239,7 @@ module "github_runner" {
   cores       = 2
   memory      = 4096
   swap        = 1024
-  disk_size   = "80G"
+  disk_size   = "100G"
   storage     = var.rootfs_storage
   ssh_keys    = file(var.ssh_public_key_path)
 
