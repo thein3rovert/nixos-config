@@ -237,7 +237,7 @@ module "github_runner" {
   vmid        = 120
   ostemplate  = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
   cores       = 2
-  memory      = 4096
+  memory      = 8192
   swap        = 1024
   disk_size   = "100G"
   storage     = var.rootfs_storage

@@ -29,13 +29,6 @@ resource "proxmox_lxc" "ubuntu_container" {
   rootfs {
     storage = var.storage
     size    = var.disk_size
-
-    lifecycle {
-      precondition {
-        condition     = can(regex("^[0-9]+G$", var.disk_size))
-        error_message = "Disk size must be in format '100G'"
-      }
-    }
   }
 
   network {
