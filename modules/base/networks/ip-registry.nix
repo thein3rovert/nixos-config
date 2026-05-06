@@ -69,6 +69,11 @@ in
     # ============================================
     # Container LXC Services
     # ============================================
+    dbpro-studio = {
+      ip = hosts.emily.tailscaleIp;
+      port = networkMap.dbpro-studio.port;
+      url = "${config.homelab.ipRegistry.dbpro-studio.ip}:${toString config.homelab.ipRegistry.dbpro-studio.port}";
+    };
     ad-guard = {
       ip = hosts.finn.ip;
       port = networkMap.ad-guard.port;

@@ -101,6 +101,11 @@ in
           port = ports.servicePorts.postgresql;
           vHost = "postgres.${config.myDns.networkMap.name}";
         };
+        dbpro-studio = {
+          hostName = "emily";
+          port = ports.containerPorts.dbpro-studio;
+          vHost = "dbpro.${config.myDns.networkMap.name}";
+        };
 
         # ============================================
         # Development

@@ -272,6 +272,7 @@ in
       grafana.enable = true;
       copyparty.enable = true;
       fileshare.enable = true;
+      dbpro-studio.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {

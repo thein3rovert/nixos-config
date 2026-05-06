@@ -74,6 +74,7 @@ in
 
       # Database
       pgadmin = 5050;
+      dbpro-studio = 3100;
 
       # Security
       vault = 8200;
