@@ -73,6 +73,9 @@
           ];
 
           # Container LXC
+          services.dbpro-studio.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.dbpro-studio.url}/"; }
+          ];
           services.ad-guard.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.ad-guard.url}/"; }
           ];
@@ -151,6 +154,11 @@
             };
 
             ## Container LXC
+            dbpro-studio = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.dbpro-studio.vHost}`)";
+              service = "dbpro-studio";
+              entryPoints = [ "web" ];
+            };
             ad-guard = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.ad-guard.vHost}`)";
               service = "ad-guard";

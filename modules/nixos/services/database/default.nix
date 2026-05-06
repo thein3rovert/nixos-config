@@ -4,5 +4,6 @@
     ./postgres
     ./myslql
     ./pgadmin
+    ./dbpro-studio
   ];
 }
