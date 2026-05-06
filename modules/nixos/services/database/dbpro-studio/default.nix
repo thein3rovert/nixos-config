@@ -10,6 +10,7 @@ let
   port = config.homelab.containerPorts.dbpro-studio;
   # DBPro Studio volumes
   dataVolume = "/var/lib/dbpro-studio:/data";
+  dbVolume = "/home/thein3rovert/Documents/project/lifeos:/mnt/lifeos";
 in
 {
   options.nixosSetup.services.dbpro-studio = {
@@ -19,8 +20,8 @@ in
     virtualisation.oci-containers.containers.dbpro-studio = {
       image = imageName;
       ports = [ "${toString port}:3100" ];
-      volumes = [ dataVolume ];
-      extraOptions = [ "--network=host" ];
+      volumes = [ dataVolume dbVolume ];
+      user = "root:root";
     };
 
     systemd.services.init-dbpro-studio-data = {
@@ -29,7 +30,7 @@ in
       before = [ "podman-dbpro-studio.service" ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "/bin/sh -c 'mkdir -p /var/lib/dbpro-studio'";
+        ExecStart = "/bin/sh -c 'mkdir -p /var/lib/dbpro-studio && chmod -R 777 /var/lib/dbpro-studio && chmod -R 777 /home/thein3rovert/Documents/project/lifeos'";
         RemainAfterExit = true;
       };
     };
