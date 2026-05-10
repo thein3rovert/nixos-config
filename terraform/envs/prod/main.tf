@@ -189,7 +189,7 @@ module "trikru_vm" {
   kvm_enabled   = true # KVM now available after BIOS update
   agent_enabled = true # QEMU guest agent installed
   cores         = 2
-  memory        = 2048
+  memory        = 4096
   disk_size     = "20G"
   storage       = var.rootfs_storage
 
@@ -232,9 +232,9 @@ module "k3s_control_plane_01" {
 
   kvm_enabled   = true # KVM now available after BIOS update
   agent_enabled = true # QEMU guest agent installed
-  cores   = 2
-  memory  = 4096
-  disk_size = "20G"
+  cores         = 2
+  memory        = 4096
+  disk_size     = "20G"
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
@@ -244,7 +244,7 @@ module "k3s_control_plane_01" {
 
   password   = local.root_password
   ssh_keys   = file(var.ssh_public_key_path)
-  extra_tags = [ "k3s", "ubuntu"]
+  extra_tags = ["k3s", "ubuntu"]
 
   description = <<-EOT
     k3s Server Control Plane
@@ -261,9 +261,9 @@ module "k3s_control_plane_02" {
 
   kvm_enabled   = true # KVM now available after BIOS update
   agent_enabled = true # QEMU guest agent installed
-  cores   = 2
-  memory  = 4096
-  disk_size = "20G"
+  cores         = 2
+  memory        = 4096
+  disk_size     = "20G"
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
@@ -273,7 +273,7 @@ module "k3s_control_plane_02" {
 
   password   = local.root_password
   ssh_keys   = file(var.ssh_public_key_path)
-  extra_tags = [ "k3s", "ubuntu"]
+  extra_tags = ["k3s", "ubuntu"]
 
   description = <<-EOT
     k3s Server Control Plane

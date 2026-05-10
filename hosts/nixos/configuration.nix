@@ -281,7 +281,7 @@ in
         };
       };
       postgresql.enable = true;
-      pgadmin.enable = true;
+      pgadmin.enable = false; # Replace this with db pro
       tailscale = {
         enable = true;
       };
