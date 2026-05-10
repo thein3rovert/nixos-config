@@ -1,0 +1,487 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-05-10T08:06:42Z"
+    generateName: linkding-7cfff665d4-
+    generation: 1
+    labels:
+      app.kubernetes.io/name: linkding
+      pod-template-hash: 7cfff665d4
+    name: linkding-7cfff665d4-xtsb6
+    namespace: linkding
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: linkding-7cfff665d4
+      uid: 35b48b6f-b346-42e9-8533-d624ae194597
+    resourceVersion: "7280688"
+    uid: be44834b-54da-4638-be05-0091dfd5e170
+  spec:
+    containers:
+    - envFrom:
+      - secretRef:
+          name: linkding-credentials
+      image: sissbruecker/linkding:latest-plus
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: linkding
+      ports:
+      - containerPort: 9090
+        name: http
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: false
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/linkding/data
+        name: data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-f8ld6
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3s-server
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 33
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: linkding-data
+    - name: kube-api-access-f8ld6
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-10T08:16:36Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-10T08:06:42Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-10T08:16:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-10T08:16:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-10T08:06:42Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://14547472588dde897d53c03842d86541e199a07dda826c5dd459a911792a99b9
+      image: docker.io/sissbruecker/linkding:latest-plus
+      imageID: docker.io/sissbruecker/linkding@sha256:d36c779808dd0980fc60a15167ca119b8be7f90debdd068fb038f227a87c106d
+      lastState: {}
+      name: linkding
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-10T08:16:35Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 33
+          uid: 0
+      volumeMounts:
+      - mountPath: /etc/linkding/data
+        name: data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-f8ld6
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 100.85.190.19
+    hostIPs:
+    - ip: 100.85.190.19
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.42.0.42
+    podIPs:
+    - ip: 10.42.0.42
+    qosClass: Burstable
+    startTime: "2026-05-10T08:06:42Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-04-12T16:22:28Z"
+    labels:
+      app.kubernetes.io/component: service
+      app.kubernetes.io/name: linkding
+    name: linkding
+    namespace: linkding
+    resourceVersion: "372800"
+    uid: e9afaf97-3906-47f5-9f59-a7478097cacc
+  spec:
+    clusterIP: 10.43.186.223
+    clusterIPs:
+    - 10.43.186.223
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 9090
+      protocol: TCP
+      targetPort: http
+    selector:
+      app.kubernetes.io/name: linkding
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-04-12T16:22:27Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: app
+      app.kubernetes.io/name: linkding
+    name: linkding
+    namespace: linkding
+    resourceVersion: "7280692"
+    uid: 2d8b06c8-4069-46a7-a6dc-9ec5a161fb43
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: linkding
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/name: linkding
+      spec:
+        containers:
+        - envFrom:
+          - secretRef:
+              name: linkding-credentials
+          image: sissbruecker/linkding:latest-plus
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: linkding
+          ports:
+          - containerPort: 9090
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/linkding/data
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 33
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: linkding-data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-04-12T16:22:27Z"
+      lastUpdateTime: "2026-04-12T16:31:55Z"
+      message: ReplicaSet "linkding-7cfff665d4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-05-10T08:16:48Z"
+      lastUpdateTime: "2026-05-10T08:16:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-04-12T16:22:27Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/name: linkding
+      pod-template-hash: 7cfff665d4
+    name: linkding-7cfff665d4
+    namespace: linkding
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: linkding
+      uid: 2d8b06c8-4069-46a7-a6dc-9ec5a161fb43
+    resourceVersion: "7280691"
+    uid: 35b48b6f-b346-42e9-8533-d624ae194597
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: linkding
+        pod-template-hash: 7cfff665d4
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/name: linkding
+          pod-template-hash: 7cfff665d4
+      spec:
+        containers:
+        - envFrom:
+          - secretRef:
+              name: linkding-credentials
+          image: sissbruecker/linkding:latest-plus
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: linkding
+          ports:
+          - containerPort: 9090
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/linkding/data
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 33
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: linkding-data
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+      volume.kubernetes.io/storage-provisioner: driver.longhorn.io
+    creationTimestamp: "2026-04-12T16:22:26Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: storage
+      app.kubernetes.io/name: linkding
+    name: linkding-data
+    namespace: linkding
+    resourceVersion: "372781"
+    uid: 0a7e0af1-3a1a-4e9a-8fe9-ccc57a0f65d8
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: longhorn
+    volumeMode: Filesystem
+    volumeName: pvc-0a7e0af1-3a1a-4e9a-8fe9-ccc57a0f65d8
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web
+    creationTimestamp: "2026-04-12T16:22:30Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: ingress
+      app.kubernetes.io/name: linkding
+    name: linkding
+    namespace: linkding
+    resourceVersion: "7269793"
+    uid: 151d0f22-a8c6-4fb5-b03c-5b3eaa0fa5f6
+  spec:
+    ingressClassName: traefik
+    rules:
+    - host: linkding.l.thein3rovert.com
+      http:
+        paths:
+        - backend:
+            service:
+              name: linkding
+              port:
+                number: 9090
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 100.123.5.107
+      - ip: 100.85.190.19
+      - ip: 100.87.231.18
+kind: List
+metadata:
+  resourceVersion: ""
