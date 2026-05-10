@@ -61,6 +61,9 @@
           services.longhorn.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.longhorn.url}/"; }
           ];
+          services.argocd.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.argocd.url}/"; }
+          ];
           services.n8n.loadBalancer.servers = [ { url = "http://${config.homelab.ipRegistry.n8n.url}/"; } ];
           services.kestra.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.kestra.url}/"; }
@@ -123,6 +126,11 @@
             longhorn = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.longhorn.vHost}`)";
               service = "longhorn";
+              entryPoints = [ "web" ];
+            };
+            argocd = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.argocd.vHost}`)";
+              service = "argocd";
               entryPoints = [ "web" ];
             };
             n8n = {

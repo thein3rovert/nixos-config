@@ -139,6 +139,11 @@ in
       port = networkMap.longhorn.port;
       url = "${config.homelab.ipRegistry.longhorn.ip}:${toString config.homelab.ipRegistry.longhorn.port}";
     };
+    argocd = {
+      ip = hosts.k3s-server.tailscaleIp;
+      port = networkMap.argocd.port;
+      url = "${config.homelab.ipRegistry.argocd.ip}:${toString config.homelab.ipRegistry.argocd.port}";
+    };
 
     # ============================================
     # Tailscale Services

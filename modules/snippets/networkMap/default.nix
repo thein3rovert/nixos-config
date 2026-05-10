@@ -206,6 +206,11 @@ in
           port = ports.servicePorts.longhorn;
           vHost = "longhorn.${config.myDns.networkMap.name}";
         };
+        argocd = {
+          hostName = "k3s-server";
+          port = ports.servicePorts.argocd;
+          vHost = "argocd.${config.myDns.networkMap.name}";
+        };
 
         # ============================================
         # Version Control

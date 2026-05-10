@@ -132,6 +132,7 @@ in
 
       # Kubernetes
       longhorn = 80;
+      argocd = 80;
 
       # Storage
       garage-api = 3900;
