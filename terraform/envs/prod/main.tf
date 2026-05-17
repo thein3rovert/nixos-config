@@ -234,7 +234,7 @@ module "k3s_control_plane_01" {
   agent_enabled = true # QEMU guest agent installed
   cores         = 2
   memory        = 4096
-  disk_size     = "20G"
+  disk_size     = "30G"
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
@@ -263,7 +263,7 @@ module "k3s_control_plane_02" {
   agent_enabled = true # QEMU guest agent installed
   cores         = 2
   memory        = 4096
-  disk_size     = "20G"
+  disk_size     = "30G"
   storage       = var.rootfs_storage
 
   bridge      = var.bridge

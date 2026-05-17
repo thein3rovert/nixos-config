@@ -236,7 +236,7 @@ module "incus_ubuntu_vm" {
   image     = "images:ubuntu/24.04/cloud"
   cpu_cores = 4
   memory_mb = 4096
-  disk_size = "20GB"
+  disk_size = "30GB"
   ssh_keys  = [file(var.ssh_public_key_path)]
 
   # Static IP configuration for k3s
