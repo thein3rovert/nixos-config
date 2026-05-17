@@ -24,9 +24,8 @@
         file = "${self.inputs.secrets}/glance/glance.age";
       };
       tailscale = {
-        file = "${self.inputs.secrets}/tailscale/tailscale-auth.age";
+        file = "${self.inputs.secrets}/tailscale/shared/tailscale-auth.age";
         path = "/home/thein3rovert/.secrets/tailscale-auth";
-        # owner = "thein3rovert";
       };
       minio = {
         file = "${self.inputs.secrets}/minioS3/minioS3.age";
