@@ -20,4 +20,6 @@ terraform.tfvars
 claude.md
 result
 result.*
-ansible
+# ansible
+docs/k8s-cluster-state.md
+docs/proxmox-node-state.md
