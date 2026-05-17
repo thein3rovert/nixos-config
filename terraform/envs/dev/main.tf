@@ -240,7 +240,7 @@ module "github_runner" {
   memory      = 4096
   swap        = 1024
   disk_size   = "100G"
-  storage     = var.rootfs_storage
+  storage     = var.rootfs_storage  # local-lvm
   ssh_keys    = file(var.ssh_public_key_path)
 
   gateway         = var.gateway

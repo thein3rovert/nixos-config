@@ -279,3 +279,35 @@ module "k3s_control_plane_02" {
     k3s Server Control Plane
   EOT
 }
+
+
+# ====================================
+#       LXC | GITHUB-RUNNER
+# ====================================
+
+module "github_runner" {
+  source = "../../modules/infra/providers/proxmox/lxc"
+
+  target_node  = var.target_node
+  password     = local.root_password
+  hostname     = "github-runner"
+  vmid         = 120
+  ostemplate   = var.ostemplate
+  cores        = 2
+  memory       = 4096
+  swap         = 1024
+  disk_size    = "100G"
+  storage      = "LVM_MAIN"  # Use the 1TB HDD instead of LVM thin pool
+
+  bridge          = var.bridge
+  ip_base         = var.ip_base
+  cidr_suffix     = var.cidr_suffix
+  gateway         = var.gateway
+  proxmox_host_ip = var.proxmox_host_ip
+
+  ssh_keys = file(var.ssh_public_key_path)
+
+  container_id = 120
+  os_type      = "ubuntu"
+  extra_tags   = ["github-runner", "ci"]
+}
