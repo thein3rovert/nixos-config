@@ -110,6 +110,11 @@ pages:
             cache: 1m
             title: ◈ Development & Code
             sites:
+              - title: DB-pro
+                same-tab: true
+                timeout: 5s
+                url: http://dbpro.l.thein3rovert.com
+                icon: sh:influxdb.svg
               - title: Forgejo
                 same-tab: true
                 timeout: 5s
@@ -188,11 +193,11 @@ pages:
                 timeout: 5s
                 url: https://incus.l.thein3rovert.com
                 icon: di:incus.png
-              - title: Rancher
+              - title: argocd
                 same-tab: true
                 timeout: 5s
-                url: http://rancher.l.thein3rovert.com
-                icon: sh:rancher.svg
+                url: http://argocd.l.thein3rovert.com
+                icon: sh:argo-cd.png
               - title: AdGuard
                 same-tab: true
                 timeout: 5s
