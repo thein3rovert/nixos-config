@@ -265,6 +265,16 @@ in
         user = "thein3rovert";
         certFile = config.age.secrets.syncthing-cert.path;
         keyFile = config.age.secrets.syncthing-key.path;
+        settings = {
+          devices."laptop" = {
+            id = "3WZCM3M-GFOGXKA-W6SFZOD-JFG3W6Q-3KTDKJV-DBJ2OLN-FB7IKO2-O2HHPAB";
+            addresses = [ "dynamic" ];
+          };
+          folders."share" = {
+            path = "/home/thein3rovert/Documents/resources/sync";
+            devices = [ "laptop" ];
+          };
+        };
       };
 
       adguard.enable = false;

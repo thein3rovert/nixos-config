@@ -20,6 +20,12 @@
       description = "User to run Syncthing as.";
       type = lib.types.str;
     };
+
+    settings = lib.mkOption {
+      default = {};
+      description = "Additional Syncthing settings (devices, folders, etc.)";
+      type = lib.types.attrs;
+    };
   };
 
   config = lib.mkIf config.nixosSetup.services.syncthing.enable {
@@ -39,13 +45,16 @@
       guiAddress = "0.0.0.0:8384";
       inherit (cfg) user;
 
-      settings = {
-        options = {
-          localAnnounceEnabled = true;
-          relaysEnabled = true;
-          urAccepted = -1;
-        };
-      };
+      settings = lib.mkMerge [
+        {
+          options = {
+            localAnnounceEnabled = true;
+            relaysEnabled = true;
+            urAccepted = -1;
+          };
+        }
+        cfg.settings
+      ];
     };
   };
 }
