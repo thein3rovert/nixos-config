@@ -136,6 +136,11 @@ pages:
             cache: 1m
             title: ▦ Storage & Files
             sites:
+              - title: Syncthing
+                same-tab: true
+                timeout: 5s
+                url: http://syncthing.l.thein3rovert.com/
+                icon: di:syncthing.png
               - title: Filebrowser
                 same-tab: true
                 timeout: 5s
