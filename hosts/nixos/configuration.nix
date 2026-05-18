@@ -260,6 +260,13 @@ in
     };
 
     services = {
+      syncthing = {
+        enable = true;
+        user = "thein3rovert";
+        certFile = config.age.secrets.syncthing-cert.path;
+        keyFile = config.age.secrets.syncthing-key.path;
+      };
+
       adguard.enable = false;
       prometheusNode.enable = true;
       promtail.enable = false;

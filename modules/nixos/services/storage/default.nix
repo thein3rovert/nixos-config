@@ -5,5 +5,6 @@
     ./garage
     ./garage-webui
     ./fileshare
+    ./syncthing
   ];
 }
