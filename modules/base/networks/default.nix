@@ -93,7 +93,7 @@ in
       # Automation
       kestra = 8090;
 
-      # SSH Management
+# SSH Management
       termix = 8088;
     };
 
@@ -114,6 +114,9 @@ in
       # Development
       forgejo = 3002;
       n8n = 5678;
+
+      # Storage
+      syncthing = 8384;
 
       # Logging & Monitoring
       grafana = 3010;

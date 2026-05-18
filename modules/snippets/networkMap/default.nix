@@ -180,6 +180,12 @@ in
         # ============================================
         # Storage
         # ============================================
+        syncthing = {
+          hostName = "nixos";
+          port = ports.servicePorts.syncthing;
+          vHost = "syncthing.${config.myDns.networkMap.name}";
+        };
+
         garage-webui = {
           hostName = "bellamy";
           port = ports.servicePorts.garage-webui;

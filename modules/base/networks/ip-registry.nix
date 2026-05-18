@@ -148,6 +148,11 @@ in
     # ============================================
     # Tailscale Services
     # ============================================
+    syncthing = {
+      ip = hosts.nixos.tailscaleIp;
+      port = networkMap.syncthing.port;
+      url = "${config.homelab.ipRegistry.syncthing.ip}:${toString config.homelab.ipRegistry.syncthing.port}";
+    };
     vault = {
       ip = hosts.becca.tailscaleIp;
       port = networkMap.vault.port;

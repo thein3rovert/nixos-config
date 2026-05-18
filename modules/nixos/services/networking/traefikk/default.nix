@@ -97,6 +97,9 @@
           services.filebrowser.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.filebrowser.url}/"; }
           ];
+          services.syncthing.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.syncthing.url}/"; }
+          ];
 
           # Monitoring
           services.grafana.loadBalancer.servers = [
@@ -205,6 +208,11 @@
             filebrowser = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.filebrowser.vHost}`)";
               service = "filebrowser";
+              entryPoints = [ "web" ];
+            };
+            syncthing = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.syncthing.vHost}`)";
+              service = "syncthing";
               entryPoints = [ "web" ];
             };
 
