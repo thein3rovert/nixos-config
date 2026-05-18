@@ -25,6 +25,8 @@
   config = lib.mkIf config.nixosSetup.services.syncthing.enable {
     systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
+    networking.firewall.allowedTCPPorts = [ 8384 ];
+
     services.syncthing = let
       cfg = config.nixosSetup.services.syncthing;
     in {
@@ -34,6 +36,7 @@
       dataDir = "/home/${cfg.user}";
       key = cfg.keyFile;
       openDefaultPorts = true;
+      guiAddress = "0.0.0.0:8384";
       inherit (cfg) user;
 
       settings = {
