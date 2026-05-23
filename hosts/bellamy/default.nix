@@ -152,6 +152,7 @@
       uptime-kuma.enable = true;
       # jotty.enable = true; Replace with memos
       memos.enable = true;
+      say-cheese.enable = true;
       minio.enable = true;
       hawser.enable = true;
       forgejo = {

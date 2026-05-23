@@ -277,6 +277,8 @@ in
         };
       };
 
+      say-cheese.enable = true;
+
       adguard.enable = false;
       prometheusNode.enable = true;
       promtail.enable = false;

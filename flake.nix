@@ -166,20 +166,21 @@
           # Helper function to generate configurations for all Linux hosts
           forAllLinuxHosts = self.inputs.nixpkgs.lib.genAttrs [
             "bellamy"
-            # "demo"
             "nixos"
-            "vps-het-1"
-            # "wellsjaha"
             "marcus"
+
+            # Managed by Proxmox
+            "finn" # (Lxc - Killed by grounders)
+
+            # "vps-het-1"
+            # "demo"
+            # "wellsjaha"
 
             # Managed by incus
             # "lexa" (LXC)
 
             # Managed by clan
             # "octavia"
-
-            # Managed by Proxmox
-            "finn" # (Lxc - Killed by grounders)
           ];
         in
         {
