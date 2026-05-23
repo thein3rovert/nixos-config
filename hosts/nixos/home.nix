@@ -169,18 +169,37 @@ in
             user = "thein3rovert";
           };
           lexa = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "10.135.108.10";
+            hostname = "100.88.29.64";
             identityFile = "~/.ssh/thein3rovert_nixos";
             user = "thein3rovert";
           };
-          octavia = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "10.20.0.2";
+          lincoln = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.87.231.18";
             identityFile = "~/.ssh/id_ed25519";
-            user = "thein3rovert";
+            user = "root";
           };
-          # TODO: REMOVE AFTER TEST
-          ubuntu-srv-01 = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "10.10.10.14";
+          raven = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.123.5.107";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "root";
+          };
+          trikru = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.93.243.52";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "root";
+          };
+          k3s-server = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.85.190.19";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "root";
+          };
+          becca = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.123.31.22";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "root";
+          };
+          runner = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.87.59.51";
             identityFile = "~/.ssh/id_ed25519";
             user = "root";
           };
