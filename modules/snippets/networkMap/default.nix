@@ -228,6 +228,15 @@ in
         };
 
         # ============================================
+        # Gallery
+        # ============================================
+        say-cheese = {
+          hostName = "nixos";
+          port = ports.containerPorts.say-cheese;
+          vHost = "gallery.${config.myDns.networkMap.name}";
+        };
+
+        # ============================================
         # Web Applications
         # ============================================
         fossflow = {

@@ -89,6 +89,15 @@ in
       };
 
       # ============================================
+      # Gallery
+      # ============================================
+      say-cheese = {
+        hostName = "bellamy";
+        port = cfg.containerPorts.say-cheese;
+        vHost = "gallery.${baseDomain}";
+      };
+
+      # ============================================
       # Web Applications
       # ============================================
       memos = {

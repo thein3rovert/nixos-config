@@ -97,6 +97,9 @@
           services.filebrowser.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.filebrowser.url}/"; }
           ];
+          services.say-cheese.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.say-cheese.url}/"; }
+          ];
           services.syncthing.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.syncthing.url}/"; }
           ];
@@ -208,6 +211,11 @@
             filebrowser = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.filebrowser.vHost}`)";
               service = "filebrowser";
+              entryPoints = [ "web" ];
+            };
+            say-cheese = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.say-cheese.vHost}`)";
+              service = "say-cheese";
               entryPoints = [ "web" ];
             };
             syncthing = {

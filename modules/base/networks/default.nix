@@ -87,6 +87,7 @@ in
       # Web Applications
       zerobyte = 4096;
       dockhand = 3000;
+      say-cheese = 7070;
       fossflow = 8087;
       ad-guard = 3000;
       glance = 8280;

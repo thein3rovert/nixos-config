@@ -171,6 +171,11 @@ in
     # */
     #
     # ============================================
+    say-cheese = {
+      ip = "localhost";
+      port = prodMap.say-cheese.port;
+      url = "${config.homelab.ipRegistry.say-cheese.ip}:${toString config.homelab.ipRegistry.say-cheese.port}";
+    };
     garage = {
       ip = "localhost";
       port = prodMap.garage-api.port;

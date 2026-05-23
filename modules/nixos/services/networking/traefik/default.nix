@@ -88,6 +88,11 @@
               url = "http://${config.homelab.ipRegistry.blog.url}/";
             }
           ];
+          services.say-cheese.loadBalancer.servers = [
+            {
+              url = "http://${config.homelab.ipRegistry.say-cheese.url}/";
+            }
+          ];
 
           middlewares = {
             auth = {
@@ -128,6 +133,14 @@
             blog = {
               rule = "Host(`blog.thein3rovert.dev`)";
               service = "blog";
+              entryPoints = [ "websecure" ];
+              tls = {
+                certResolver = "godaddy";
+              };
+            };
+            say-cheese = {
+              rule = "Host(`gallery.thein3rovert.dev`)";
+              service = "say-cheese";
               entryPoints = [ "websecure" ];
               tls = {
                 certResolver = "godaddy";
