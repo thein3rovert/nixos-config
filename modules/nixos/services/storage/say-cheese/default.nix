@@ -6,7 +6,7 @@
 let
   if-say-cheese-enable = lib.mkIf config.nixosSetup.services.say-cheese.enable;
   imageName = "theintrovert/say-cheese";
-  imageTag = "latest";
+  imageTag = "main-e87346a";
   port = config.homelab.containerPorts.say-cheese;
 in
 {
