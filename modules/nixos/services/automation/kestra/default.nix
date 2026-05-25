@@ -43,8 +43,8 @@ in
         "/app/config.yaml"
       ];
       extraOptions = [
-        "--memory=1024m"
-        "--memory-swap=1024m"
+        "--memory=2048m"
+        "--memory-swap=2048m"
       ];
     };
   };
