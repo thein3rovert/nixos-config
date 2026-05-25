@@ -6,6 +6,5 @@
     ./garage-webui
     ./fileshare
     ./syncthing
-    ./say-cheese
   ];
 }
