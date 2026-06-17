@@ -108,6 +108,7 @@ in
     awscli
     minio-client
     kubernetes-helm
+    podman-compose
     # firefox-unstable
 
     # ------ NFS --

@@ -114,7 +114,7 @@
             hg = "history | grep ";
 
             # TMUX
-            tmux = "tmux new-session -A -s default";
+            # tmux = "tmux new-session -A -s default";
 
             # NIX
             nix-test = "nix-instantiate --eval --strict -A";
