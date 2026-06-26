@@ -103,6 +103,9 @@
           services.syncthing.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.syncthing.url}/"; }
           ];
+          services.kaneo.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.kaneo.url}/"; }
+          ];
 
           # Monitoring
           services.grafana.loadBalancer.servers = [
@@ -147,6 +150,11 @@
             kestra = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.kestra.vHost}`)";
               service = "kestra";
+              entryPoints = [ "web" ];
+            };
+            kaneo = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.kaneo.vHost}`)";
+              service = "kaneo";
               entryPoints = [ "web" ];
             };
             termix = {
