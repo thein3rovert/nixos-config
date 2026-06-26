@@ -293,6 +293,7 @@ in
       copyparty.enable = true;
       fileshare.enable = true;
       dbpro-studio.enable = true;
+      kaneo.enable = true;
       nginx = {
         enable = false;
         virtualHosts.default = {

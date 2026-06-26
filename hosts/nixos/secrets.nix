@@ -82,14 +82,18 @@
         file = "${self.inputs.secrets}/fileshare/fileshare.age";
         path = "/home/thein3rovert/.secrets/fileshare";
       };
+      kaneo-auth = {
+        file = "${self.inputs.secrets}/kaneo/kaneo-auth.age";
+        path = "/home/thein3rovert/.secrets/kaneo";
+      };
       syncthing-key = {
-              file = "${self.inputs.secrets}/syncthing/key-file.age";
-              path = "/home/thein3rovert/.secrets/syncthing/key-file";
-            };
-            syncthing-cert = {
-                          file = "${self.inputs.secrets}/syncthing/cert-file.age";
-                          path = "/home/thein3rovert/.secrets/syncthing/cert-file";
-                        };
+        file = "${self.inputs.secrets}/syncthing/key-file.age";
+        path = "/home/thein3rovert/.secrets/syncthing/key-file";
+      };
+      syncthing-cert = {
+        file = "${self.inputs.secrets}/syncthing/cert-file.age";
+        path = "/home/thein3rovert/.secrets/syncthing/cert-file";
+      };
     };
   };
 }
