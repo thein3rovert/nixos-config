@@ -11,6 +11,7 @@ let
   imageTag = "latest";
   port = config.homelab.containerPorts.kaneo;
   postgresPort = config.homelab.servicePorts.postgresql;
+  tailscaleIp = config.homelab.ipAddresses.emily.tailscaleIp;
 
 in
 {
@@ -25,7 +26,8 @@ in
       ports = [ "${toString port}:5173" ];
       environment = {
         DATABASE_URL = "postgresql://kaneo:kaneo@host.containers.internal:${toString postgresPort}/kaneo";
-        KANEO_CLIENT_URL = "http://localhost:${toString port}";
+        KANEO_CLIENT_URL = "http://${tailscaleIp}:${toString port}";
+        DEVICE_AUTH_CLIENT_IDS = "kaneo-cli,kaneo-mcp";
       };
       environmentFiles = [ config.age.secrets.kaneo-auth-secret.path ];
       autoStart = true;
