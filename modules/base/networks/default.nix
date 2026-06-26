@@ -93,8 +93,9 @@ in
       glance = 8280;
       # Automation
       kestra = 8090;
+      kaneo = 5173;
 
-# SSH Management
+      # SSH Management
       termix = 8088;
     };
 

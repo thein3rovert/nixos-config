@@ -144,6 +144,11 @@ in
       port = networkMap.argocd.port;
       url = "${config.homelab.ipRegistry.argocd.ip}:${toString config.homelab.ipRegistry.argocd.port}";
     };
+    kaneo = {
+      ip = hosts.emily-ip.tailscaleIp;
+      port = networkMap.kaneo.port;
+      url = "${config.homelab.ipRegistry.kaneo.ip}:${toString config.homelab.ipRegistry.kaneo.port}";
+    };
 
     # ============================================
     # Tailscale Services
