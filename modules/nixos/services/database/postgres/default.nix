@@ -47,6 +47,10 @@ in
         CREATE USER kestra WITH PASSWORD 'kestra';
         CREATE DATABASE kestra OWNER kestra;
         GRANT ALL PRIVILEGES ON DATABASE kestra TO kestra;
+
+        CREATE USER kaneo WITH PASSWORD 'kaneo';
+        CREATE DATABASE kaneo OWNER kaneo;
+        GRANT ALL PRIVILEGES ON DATABASE kaneo TO kaneo;
       '';
     };
 
@@ -59,6 +63,7 @@ in
         "n8n"
         "forgejo"
         "kestra"
+        "kaneo"
       ];
     };
 
