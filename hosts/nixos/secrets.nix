@@ -82,7 +82,7 @@
         file = "${self.inputs.secrets}/fileshare/fileshare.age";
         path = "/home/thein3rovert/.secrets/fileshare";
       };
-      kaneo-auth = {
+      kaneo-auth-secret = {
         file = "${self.inputs.secrets}/kaneo/kaneo-auth.age";
         path = "/home/thein3rovert/.secrets/kaneo";
       };

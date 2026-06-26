@@ -9,7 +9,7 @@ let
 
   imageName = "ghcr.io/usekaneo/kaneo:${imageTag}";
   imageTag = "latest";
-  port = config.homelab.containerPort.kaneo;
+  port = config.homelab.containerPorts.kaneo;
   postgresPort = config.homelab.servicePorts.postgresql;
 
 in
@@ -26,12 +26,9 @@ in
       environment = {
         DATABASE_URL = "postgresql://kaneo:kaneo@host.containers.internal:${toString postgresPort}/kaneo";
         KANEO_CLIENT_URL = "http://localhost:${toString port}";
-        AUTH_SECRET = ""; # TODO: Generate with: openssl rand -hex 32
       };
-      environmentFile = [ config.age.secrets.kaneo-auth.path ];
-
-      dependsOn = [ "postgres" ];
-      restart = "unless-stopped";
+      environmentFiles = [ config.age.secrets.kaneo-auth-secret.path ];
+      autoStart = true;
     };
   };
 }
