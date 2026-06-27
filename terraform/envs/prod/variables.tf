@@ -40,7 +40,7 @@ variable "container_id" {
 variable "ip_base" {
   type        = string
   description = "The IP prefix for a static IP (e.g., '10.20.0'), setting a container_id is required for this. If null, DHCP will be used."
-  default     = "192.169.0"
+  default     = "192.168.0"
 }
 
 variable "cidr_suffix" {

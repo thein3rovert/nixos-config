@@ -3,6 +3,7 @@ let
   inherit (lib) mkOption types;
   string = types.str;
   attributeSetOf = types.attrsOf;
+  ip-base = "192.168.0";
 in
 {
   # ============================================
@@ -61,7 +62,7 @@ in
         tailscaleIp = "100.105.217.77";
       };
       finn = {
-        ip = "192.168.0.51";
+        ip = "${ip-base}.51";
         tailscaleIp = "100.91.36.84";
       };
       lexa = {
@@ -69,7 +70,7 @@ in
         tailscaleIp = "100.88.29.64";
       };
       marcus = {
-        ip = "10.10.10.11";
+        ip = "${ip-base}.19";
         tailscaleIp = "100.94.20.21";
       };
 
@@ -93,7 +94,7 @@ in
         tailscaleIp = "100.85.190.19";
       };
       becca = {
-        ip = "198.168.0.101";
+        ip = "${ip-base}.101";
         tailscaleIp = "100.123.31.22";
       };
       # ============================================
