@@ -1,0 +1,127 @@
+id: test-vault-s3-connection
+namespace: ops
+
+description: Test HashiCorp Vault and S3 connectivity
+
+variables:
+  vault_address: "{{ kv('VAULT_ADDR') }}"
+  vault_token: "{{ kv('VAULT_TOKEN') }}"
+  s3_bucket: "thein3rovert-bucket"
+  s3_endpoint: "{{ kv('S3_ENDPOINT_URL') }}"
+  aws_region: "garage"
+
+tasks:
+  - id: test_vault
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+      image: alpine:latest
+    env:
+      VAULT_ADDR: "{{ vars.vault_address }}"
+      VAULT_TOKEN: "{{ vars.vault_token }}"
+    beforeCommands:
+      - apk add --no-cache curl jq
+    commands:
+      - |
+        echo "=== Testing Vault Connectivity ==="
+        echo ""
+        echo "Vault Address: $VAULT_ADDR"
+        echo ""
+        
+        # Test Vault connectivity
+        echo "Testing Vault health..."
+        curl -s $VAULT_ADDR/v1/sys/health | jq '.'
+        
+        echo ""
+        echo "Fetching AWS credentials from Vault..."
+        
+        VAULT_RESPONSE=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" \
+          "$VAULT_ADDR/v1/secret/data/s3")
+        
+        echo "Vault response:"
+        echo "$VAULT_RESPONSE" | jq '.'
+        
+        ACCESS_KEY=$(echo "$VAULT_RESPONSE" | jq -r '.data.data.access_key_id')
+        SECRET_KEY=$(echo "$VAULT_RESPONSE" | jq -r '.data.data.secret_access_key')
+        
+        if [ "$ACCESS_KEY" != "null" ] && [ "$ACCESS_KEY" != "" ]; then
+          echo ""
+          echo "✅ Successfully fetched access_key_id: ${ACCESS_KEY:0:10}..."
+        else
+          echo ""
+          echo "❌ Failed to fetch access_key_id"
+          exit 1
+        fi
+        
+        if [ "$SECRET_KEY" != "null" ] && [ "$SECRET_KEY" != "" ]; then
+          echo "✅ Successfully fetched secret_access_key: ${SECRET_KEY:0:10}..."
+        else
+          echo "❌ Failed to fetch secret_access_key"
+          exit 1
+        fi
+
+  - id: test_s3
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+      image: amazon/aws-cli:latest
+    env:
+      VAULT_ADDR: "{{ vars.vault_address }}"
+      VAULT_TOKEN: "{{ vars.vault_token }}"
+      S3_ENDPOINT: "{{ vars.s3_endpoint }}"
+      S3_BUCKET: "{{ vars.s3_bucket }}"
+      AWS_REGION: "{{ vars.aws_region }}"
+    beforeCommands:
+      - yum install -y jq
+    commands:
+      - |
+        echo "=== Testing S3 Connectivity ==="
+        echo ""
+        
+        # Fetch credentials from Vault
+        export AWS_ACCESS_KEY_ID=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" \
+          "$VAULT_ADDR/v1/secret/data/s3" | \
+          jq -r '.data.data.access_key_id')
+        
+        export AWS_SECRET_ACCESS_KEY=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" \
+          "$VAULT_ADDR/v1/secret/data/s3" | \
+          jq -r '.data.data.secret_access_key')
+        
+        export AWS_DEFAULT_REGION="$AWS_REGION"
+        
+        echo "Testing S3 bucket access..."
+        echo "Bucket: $S3_BUCKET"
+        echo "Endpoint: $S3_ENDPOINT"
+        echo "Region: $AWS_DEFAULT_REGION"
+        echo ""
+        
+        # List bucket (to verify access)
+        if aws s3 ls s3://$S3_BUCKET/ --endpoint-url $S3_ENDPOINT 2>&1; then
+          echo ""
+          echo "✅ Successfully connected to S3 bucket!"
+          
+          # Create a test file
+          echo "Test file from Kestra - $(date)" > /tmp/test.txt
+          
+          echo ""
+          echo "Uploading test file..."
+          if aws s3 cp /tmp/test.txt s3://$S3_BUCKET/kestra-test.txt --endpoint-url $S3_ENDPOINT; then
+            echo "✅ File uploaded successfully!"
+            
+            echo ""
+            echo "Verifying upload..."
+            aws s3 ls s3://$S3_BUCKET/kestra-test.txt --endpoint-url $S3_ENDPOINT
+            
+            echo ""
+            echo "Cleaning up test file..."
+            aws s3 rm s3://$S3_BUCKET/kestra-test.txt --endpoint-url $S3_ENDPOINT
+            
+            echo "✅ All S3 tests passed!"
+          else
+            echo "❌ Failed to upload file"
+            exit 1
+          fi
+        else
+          echo "❌ Failed to access S3 bucket"
+          exit 1
+        fi

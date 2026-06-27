@@ -1,0 +1,55 @@
+id: k3s-quick-check
+namespace: ops
+
+description: Quick K3S cluster health check via SSH
+
+# Uncomment to enable scheduled execution
+# triggers:
+#   - id: hourly
+#     type: io.kestra.plugin.core.trigger.Schedule
+#     cron: "0 * * * *"  # Every hour
+#     timezone: "Europe/London"
+
+variables:
+  k3s_server_host: "{{ kv('K3S_SERVER_HOST') }}"
+  k3s_server_user: "{{ kv('K3S_SERVER_USER') }}"
+
+tasks:
+  - id: quick_health_check
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+      image: willhallonline/ansible:latest
+    env:
+      SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+      K3S_HOST: "{{ kv('K3S_SERVER_HOST') }}"
+      K3S_USER: "{{ kv('K3S_SERVER_USER') }}"
+    beforeCommands:
+      - apk add --no-cache openssh-client
+      - mkdir -p ~/.ssh
+      - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+      - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+      - chmod 600 ~/.ssh/id_rsa ~/.ssh/id_ed25519
+    commands:
+      - |
+        ssh-keyscan -H $K3S_HOST >> ~/.ssh/known_hosts
+        
+        echo "=== Quick K3S Health Check ==="
+        echo ""
+        echo "📦 Nodes:"
+        ssh -i ~/.ssh/id_ed25519 $K3S_USER@$K3S_HOST "sudo kubectl get nodes" || exit 1
+        echo ""
+        echo "🐳 Pod Status Summary:"
+        ssh -i ~/.ssh/id_ed25519 $K3S_USER@$K3S_HOST "sudo kubectl get pods --all-namespaces" | \
+          awk 'NR>1{print $4}' | sort | uniq -c | sort -rn
+        echo ""
+        echo "⚠️  Problem Pods:"
+        ssh -i ~/.ssh/id_ed25519 $K3S_USER@$K3S_HOST \
+          "sudo kubectl get pods --all-namespaces --field-selector=status.phase!=Running,status.phase!=Succeeded" || echo "  None"
+        echo ""
+        echo "💻 Resource Usage:"
+        ssh -i ~/.ssh/id_ed25519 $K3S_USER@$K3S_HOST "sudo kubectl top nodes" || echo "  Metrics server unavailable"
+        echo ""
+        echo "🔄 ArgoCD Apps:"
+        ssh -i ~/.ssh/id_ed25519 $K3S_USER@$K3S_HOST \
+          "sudo kubectl get applications -n argocd -o custom-columns=NAME:.metadata.name,SYNC:.status.sync.status,HEALTH:.status.health.status 2>/dev/null" || echo "  ArgoCD not found"

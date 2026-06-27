@@ -1,0 +1,39 @@
+id: run-ansible-backup
+namespace: ops
+
+triggers:
+  - id: weekly
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 9 * * 0"
+    disabled: false
+    timezone: "Europe/London"
+
+tasks:
+  - id: working_dir
+    type: io.kestra.plugin.core.flow.WorkingDirectory
+    tasks:
+      - id: clone-repo
+        type: io.kestra.plugin.git.Clone
+        url: https://github.com/thein3rovert/playbooks
+        branch: main
+
+      - id: run-backup
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
+          SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+        beforeCommands:
+          - apk add --no-cache curl bash openssh-client
+          - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          - mkdir -p ~/.ssh
+          - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          - chmod 600 ~/.ssh/id_rsa
+          - echo "$ANSIBLE_VAULT_PASSWORD" > {{workingDir}}/.vault_pass
+          - chmod 600 {{workingDir}}/.vault_pass
+        commands:
+          - cd {{workingDir}} && just run-host backup bellamy
