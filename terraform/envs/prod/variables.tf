@@ -9,7 +9,7 @@ variable "target_node" {
 variable "proxmox_host_ip" {
   type        = string
   description = "The IP address of the Proxmox host for the CI provisioner."
-  default     = "10.10.10.8"
+  default     = "192.168.0.50"
 }
 
 variable "hostname" {
@@ -40,7 +40,7 @@ variable "container_id" {
 variable "ip_base" {
   type        = string
   description = "The IP prefix for a static IP (e.g., '10.20.0'), setting a container_id is required for this. If null, DHCP will be used."
-  default     = "10.10.10"
+  default     = "192.169.0"
 }
 
 variable "cidr_suffix" {
@@ -52,7 +52,7 @@ variable "cidr_suffix" {
 variable "gateway" {
   type        = string
   description = "The network gateway IP address. Required for static IP configuration. (e.g., 10.10.20.1)"
-  default     = "10.10.10.1"
+  default     = "192.168.0.1"
 }
 
 variable "ssh_public_key_path" {

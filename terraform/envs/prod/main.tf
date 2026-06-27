@@ -194,7 +194,7 @@ module "trikru_vm" {
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
-  ip_address  = "10.10.10.102"
+  ip_address  = "${var.ip_base}.102"
   cidr_suffix = var.cidr_suffix
   gateway     = var.gateway
 
@@ -238,7 +238,7 @@ module "k3s_control_plane_01" {
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
-  ip_address  = "10.10.10.111"
+  ip_address  = "${var.ip_base}.111"
   cidr_suffix = var.cidr_suffix
   gateway     = var.gateway
 
@@ -267,7 +267,7 @@ module "k3s_control_plane_02" {
   storage       = var.rootfs_storage
 
   bridge      = var.bridge
-  ip_address  = "10.10.10.112"
+  ip_address  = "${var.ip_base}.112"
   cidr_suffix = var.cidr_suffix
   gateway     = var.gateway
 
@@ -288,16 +288,16 @@ module "k3s_control_plane_02" {
 module "github_runner" {
   source = "../../modules/infra/providers/proxmox/lxc"
 
-  target_node  = var.target_node
-  password     = local.root_password
-  hostname     = "github-runner"
-  vmid         = 120
-  ostemplate   = var.ostemplate
-  cores        = 2
-  memory       = 4096
-  swap         = 1024
-  disk_size    = "100G"
-  storage      = "LVM_MAIN"  # Use the 1TB HDD instead of LVM thin pool
+  target_node = var.target_node
+  password    = local.root_password
+  hostname    = "github-runner"
+  vmid        = 120
+  ostemplate  = var.ostemplate
+  cores       = 2
+  memory      = 4096
+  swap        = 1024
+  disk_size   = "100G"
+  storage     = "LVM_MAIN" # Use the 1TB HDD instead of LVM thin pool
 
   bridge          = var.bridge
   ip_base         = var.ip_base
