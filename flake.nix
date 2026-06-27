@@ -402,7 +402,7 @@
             # ---- Node: Finn [ lxc 02 ] ----
             finn = {
               deployment = {
-                targetHost = "10.10.10.10";
+                targetHost = "192.168.0.51";
                 targetPort = 22;
                 targetUser = "thein3rovert";
                 buildOnTarget = true;
