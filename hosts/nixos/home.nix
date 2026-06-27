@@ -191,7 +191,7 @@ in
           k3s-server = lib.recursiveUpdate defaultSSHConfig {
             hostname = "100.85.190.19";
             identityFile = "~/.ssh/id_ed25519";
-            user = "root";
+            user = "thein3rovert";
           };
           becca = lib.recursiveUpdate defaultSSHConfig {
             hostname = "100.123.31.22";
