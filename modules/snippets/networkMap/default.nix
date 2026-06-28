@@ -252,7 +252,7 @@ in
         kaneo = {
           hostName = "emily";
           port = ports.containerPorts.kaneo;
-          vHost = "zerobyte.${config.myDns.networkMap.name}";
+          vHost = "kaneo.${config.myDns.networkMap.name}";
         };
       };
     };
