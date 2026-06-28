@@ -110,6 +110,11 @@ pages:
             cache: 1m
             title: ◈ Development & Code
             sites:
+              - title: Kaneo
+                same-tab: true
+                timeout: 5s
+                url: http://kaneo.l.thein3rovert.com
+                icon: sh:kaneo-light.png
               - title: DB-pro
                 same-tab: true
                 timeout: 5s
