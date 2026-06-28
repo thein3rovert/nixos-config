@@ -26,7 +26,9 @@ in
       ports = [ "${toString port}:5173" ];
       environment = {
         DATABASE_URL = "postgresql://kaneo:kaneo@host.containers.internal:${toString postgresPort}/kaneo";
-        KANEO_CLIENT_URL = "http://${tailscaleIp}:${toString port}";
+        # KANEO_CLIENT_URL = "http://${tailscaleIp}:${toString port}";
+        KANEO_CLIENT_URL = "http://kaneo.l.thein3rovert.com";
+        AUTH_URL = "http://kaneo.l.thein3rovert.com/api";
         DEVICE_AUTH_CLIENT_IDS = "kaneo-cli,kaneo-mcp";
       };
       environmentFiles = [ config.age.secrets.kaneo-auth-secret.path ];
