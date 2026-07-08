@@ -199,6 +199,7 @@ in
 
     profiles = {
       base.enable = true;
+      opencode-web.enable = true;
       fonts = {
         enable = true;
         customFonts = [
