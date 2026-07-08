@@ -140,6 +140,8 @@
             nvim-config = "cd /home/thein3rovert/.config/nvim";
             project = "cd /home/thein3rovert/Documents/project";
             search-files = "tv files ~/nixos-config";
+
+            k = "kubectl";
           };
         };
 
