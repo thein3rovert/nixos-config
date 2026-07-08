@@ -6,5 +6,6 @@
     ./filebrowser
     ./kestra
     ./termix
+    ./opencode-web
   ];
 }
