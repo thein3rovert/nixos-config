@@ -95,6 +95,15 @@ vault-edit:
 ini env:
   ansible-inventory --list -i ansible/inventory/{{ env }}.yml
 
+# ==============================
+#       KESTRA
+# ==============================
+
+# Restart Kestra service on marcus
+[group('kestra')]
+kestra-restart:
+    cd ansible && just kestra-restart
+
 [group('terraform')]
 init env:
   cd ./terraform/envs/{{ env }} && terraform init
