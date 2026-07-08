@@ -263,6 +263,7 @@ in
     services = {
       opencode-web = {
         enable = true;
+        hostname = "0.0.0.0"; # listen on all interfaces so podman containers can reach it via host.containers.internal
         };
       syncthing = {
         enable = true;
