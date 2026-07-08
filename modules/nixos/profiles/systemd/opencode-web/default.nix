@@ -21,7 +21,7 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStart = "/home/thein3rovert/.opencode/bin/opencode web";
+        ExecStart = "%h/.npm-global/bin/opencode web";
         Restart = "always";
         RestartSec = 10;
       };

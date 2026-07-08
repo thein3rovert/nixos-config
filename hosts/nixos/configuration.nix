@@ -199,7 +199,6 @@ in
 
     profiles = {
       base.enable = true;
-      opencode-web.enable = true;
       fonts = {
         enable = true;
         customFonts = [
@@ -262,6 +261,9 @@ in
     };
 
     services = {
+      opencode-web = {
+        enable = true;
+        };
       syncthing = {
         enable = true;
         user = "thein3rovert";
