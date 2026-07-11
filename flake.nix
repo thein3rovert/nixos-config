@@ -62,7 +62,7 @@
     polis = {
       # url = "path:/home/m3tam3re/p/AI/AGENTS";
       url = "git+ssh://git@github.com/thein3rovert/polis.git";
-      flake = false;
+      # flake = false;
     };
 
     # Zen browser
