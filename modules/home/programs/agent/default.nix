@@ -44,53 +44,54 @@
 
     programs.opencode = {
       enable = true;
-      settings = 
+      settings =
         let
           polisConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
         in
-        polisConfig // {
-        theme = "lucent-orng";
-        # plugin = [ "oh-my-opencode" ];
-        formatter = {
-          alejandra = {
-            command = [
-              "alejandra"
-              "-q"
-              "-"
-            ];
-            extensions = [ ".nix" ];
+        polisConfig
+        // {
+          theme = "lucent-orng";
+          # plugin = [ "oh-my-opencode" ];
+          formatter = {
+            alejandra = {
+              command = [
+                "alejandra"
+                "-q"
+                "-"
+              ];
+              extensions = [ ".nix" ];
+            };
           };
-        };
 
-        provider = {
-          github-copilot = {
-            models = {
-              "gpt-4.1" = {
-                name = "GPT-4.1";
-                limit = {
-                  context = 128000;
-                  output = 16384;
+          provider = {
+            github-copilot = {
+              models = {
+                "gpt-4.1" = {
+                  name = "GPT-4.1";
+                  limit = {
+                    context = 128000;
+                    output = 16384;
+                  };
+                  modalities = {
+                    input = [ "text" ];
+                    output = [ "text" ];
+                  };
                 };
-                modalities = {
-                  input = [ "text" ];
-                  output = [ "text" ];
-                };
-              };
-              "claude-sonnet-4-5" = {
-                name = "Claude Sonnet 4.5";
-                limit = {
-                  context = 128000;
-                  output = 16000;
-                };
-                modalities = {
-                  input = [ "text" ];
-                  output = [ "text" ];
+                "claude-sonnet-4-5" = {
+                  name = "Claude Sonnet 4.5";
+                  limit = {
+                    context = 128000;
+                    output = 16000;
+                  };
+                  modalities = {
+                    input = [ "text" ];
+                    output = [ "text" ];
+                  };
                 };
               };
             };
           };
         };
-      };
 
     };
     home.file.".config/opencode/oh-my-opencode.json".text = builtins.toJSON {
