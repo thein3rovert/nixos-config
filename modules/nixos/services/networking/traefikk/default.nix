@@ -88,9 +88,10 @@
           services.dockhand.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.dockhand.url}/"; }
           ];
-          services.garage-webui.loadBalancer.servers = [
-            { url = "http://${config.homelab.ipRegistry.garage-webui.url}/"; }
-          ];
+          # Disabled: garage-webui removed from nixpkgs
+          # services.garage-webui.loadBalancer.servers = [
+          #   { url = "http://${config.homelab.ipRegistry.garage-webui.url}/"; }
+          # ];
           services.copyparty.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.copyparty.url}/"; }
           ];
@@ -186,11 +187,12 @@
               service = "ad-guard";
               entryPoints = [ "web" ];
             };
-            garage-webui = {
-              rule = "Host(`${config.myDns.networkMap.localNetworkMap.garage-webui.vHost}`)";
-              service = "garage-webui";
-              entryPoints = [ "web" ];
-            };
+            # Disabled: garage-webui removed from nixpkgs
+            # garage-webui = {
+            #   rule = "Host(`${config.myDns.networkMap.localNetworkMap.garage-webui.vHost}`)";
+            #   service = "garage-webui";
+            #   entryPoints = [ "web" ];
+            # };
             dockhand = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.dockhand.vHost}`)";
               service = "dockhand";
