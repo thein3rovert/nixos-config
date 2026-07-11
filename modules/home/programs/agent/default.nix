@@ -44,10 +44,13 @@
 
     programs.opencode = {
       enable = true;
-      settings = {
+      settings = 
+        let
+          polisConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
+        in
+        polisConfig // {
         theme = "lucent-orng";
         # plugin = [ "oh-my-opencode" ];
-        agent = builtins.fromJSON (builtins.readFile "${inputs.polis}/agents/agents.json");
         formatter = {
           alejandra = {
             command = [
