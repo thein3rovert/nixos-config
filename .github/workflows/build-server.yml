@@ -38,9 +38,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-      - name: Configure Git for SSH
-        run: |
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -64,9 +61,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-      - name: Configure Git for SSH
-        run: |
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -90,9 +84,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-      - name: Configure Git for SSH
-        run: |
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
