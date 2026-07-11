@@ -32,6 +32,9 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Add GitHub to known hosts
         run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Configure Git for SSH
+        run: |
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -55,6 +58,9 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Add GitHub to known hosts
         run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Configure Git for SSH
+        run: |
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -78,6 +84,9 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Add GitHub to known hosts
         run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Configure Git for SSH
+        run: |
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Checkout
         uses: actions/checkout@main
         with:
