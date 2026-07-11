@@ -71,6 +71,21 @@
               git add .
               git commit -m "chore: $msg"
             }
+            # Create directory and cd into it
+            mkcd() {
+              mkdir -p "$1" && cd "$1"
+            }
+
+            tmux() {
+              # Create sessions if they don't exist
+              if ! command tmux has-session -t default 2>/dev/null; then
+                command tmux new-session -d -s default
+                command tmux new-session -d -s obsidian
+                command tmux new-session -d -s nixos-config
+              fi
+              # Attach to default session
+              command tmux attach -t default
+            }
 
           '';
 
