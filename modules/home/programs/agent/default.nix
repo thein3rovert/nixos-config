@@ -46,7 +46,7 @@
       enable = true;
       settings = {
         theme = "lucent-orng";
-        plugin = [ "oh-my-opencode" ];
+        # plugin = [ "oh-my-opencode" ];
         agent = builtins.fromJSON (builtins.readFile "${inputs.polis}/agents/agents.json");
         formatter = {
           alejandra = {
