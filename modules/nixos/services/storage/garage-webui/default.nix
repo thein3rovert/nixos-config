@@ -106,7 +106,9 @@ in
   config = mkIf cfg.enable {
     virtualisation.oci-containers.containers.garage-webui = {
       image = "${imageName}:${imageTag}";
-      ports = [ "127.0.0.1:${toString cfg.port}:${toString cfg.port}" ];
+      
+      # Use host network so container can reach garage on 127.0.0.1
+      extraOptions = [ "--network=host" ];
       
       volumes = lib.optionals (cfg.configFile != null) [
         "${cfg.configFile}:/app/config.yaml:ro"
@@ -123,10 +125,6 @@ in
       };
 
       environmentFiles = lib.optional (cfg.environmentFile != null) cfg.environmentFile;
-
-      extraOptions = [
-        "--pull=always"  # Always pull latest image
-      ];
     };
 
     systemd.services."${config.virtualisation.oci-containers.backend}-garage-webui" = {
