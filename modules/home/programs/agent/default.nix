@@ -19,37 +19,36 @@
       ))
     ];
 
-    xdg.configFile = {
-      "opencode/commands" = {
-        source = "${inputs.polis}/commands";
-        recursive = true;
-      };
-      "opencode/context" = {
-        source = "${inputs.polis}/context";
-        recursive = true;
-      };
-      "opencode/prompts" = {
-        source = "${inputs.polis}/prompts";
-        recursive = true;
-      };
-      "opencode/skills" = {
-        source = "${inputs.polis}/skills";
-        recursive = true;
-      };
-      # "opencode/rules" = {
-      #   source = "${inputs.agents}/rules";
-      #   recursive = true;
-      # };
-    };
+    # TODO: Re-enable once polis SSH auth is fixed in CI
+    # xdg.configFile = {
+    #   "opencode/commands" = {
+    #     source = "${inputs.polis}/commands";
+    #     recursive = true;
+    #   };
+    #   "opencode/context" = {
+    #     source = "${inputs.polis}/context";
+    #     recursive = true;
+    #   };
+    #   "opencode/prompts" = {
+    #     source = "${inputs.polis}/prompts";
+    #     recursive = true;
+    #   };
+    #   "opencode/skills" = {
+    #     source = "${inputs.polis}/skills";
+    #     recursive = true;
+    #   };
+    # };
 
     programs.opencode = {
       enable = true;
-      settings =
-        let
-          polisConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
-        in
-        polisConfig
-        // {
+      settings = 
+        # TODO: Re-enable polis config once SSH auth is fixed
+        # let
+        #   polisConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
+        # in
+        # polisConfig
+        # // {
+        {
           theme = "lucent-orng";
           # plugin = [ "oh-my-opencode" ];
           formatter = {
