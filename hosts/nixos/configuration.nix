@@ -104,7 +104,7 @@ in
 
     # ---- Infrastructure ----
     ansible
-    # terraform
+    terraform
     awscli
     minio-client
     kubernetes-helm

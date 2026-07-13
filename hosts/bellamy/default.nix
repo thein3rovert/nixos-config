@@ -172,8 +172,8 @@
           garageWebuiEnv = config.age.secrets.garage-webui-env.path;
         in
         {
-          # Disabled: package removed from nixpkgs (unmaintained)
-          enable = false;
+          # Replaced garage web ui with docker container version
+          enable = true;
           port = webuiPort;
           environmentFile = garageWebuiEnv;
           waitForServices = [ "garage.service" ];
