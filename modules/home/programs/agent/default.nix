@@ -19,75 +19,78 @@
       ))
     ];
 
-    xdg.configFile = {
-      "opencode/commands" = {
-        source = "${inputs.polis}/commands";
-        recursive = true;
-      };
-      "opencode/context" = {
-        source = "${inputs.polis}/context";
-        recursive = true;
-      };
-      "opencode/prompts" = {
-        source = "${inputs.polis}/prompts";
-        recursive = true;
-      };
-      "opencode/skills" = {
-        source = "${inputs.polis}/skills";
-        recursive = true;
-      };
-      # "opencode/rules" = {
-      #   source = "${inputs.agents}/rules";
-      #   recursive = true;
-      # };
-    };
+    # TODO: Re-enable once polis SSH auth is fixed in CI
+    # xdg.configFile = {
+    #   "opencode/commands" = {
+    #     source = "${inputs.polis}/commands";
+    #     recursive = true;
+    #   };
+    #   "opencode/context" = {
+    #     source = "${inputs.polis}/context";
+    #     recursive = true;
+    #   };
+    #   "opencode/prompts" = {
+    #     source = "${inputs.polis}/prompts";
+    #     recursive = true;
+    #   };
+    #   "opencode/skills" = {
+    #     source = "${inputs.polis}/skills";
+    #     recursive = true;
+    #   };
+    # };
 
     programs.opencode = {
       enable = true;
-      settings = {
-        theme = "lucent-orng";
-        plugin = [ "oh-my-opencode" ];
-        agent = builtins.fromJSON (builtins.readFile "${inputs.polis}/agents/agents.json");
-        formatter = {
-          alejandra = {
-            command = [
-              "alejandra"
-              "-q"
-              "-"
-            ];
-            extensions = [ ".nix" ];
+      settings = 
+        # TODO: Re-enable polis config once SSH auth is fixed
+        # let
+        #   polisConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
+        # in
+        # polisConfig
+        # // {
+        {
+          theme = "lucent-orng";
+          # plugin = [ "oh-my-opencode" ];
+          formatter = {
+            alejandra = {
+              command = [
+                "alejandra"
+                "-q"
+                "-"
+              ];
+              extensions = [ ".nix" ];
+            };
           };
-        };
 
-        provider = {
-          github-copilot = {
-            models = {
-              "gpt-4.1" = {
-                name = "GPT-4.1";
-                limit = {
-                  context = 128000;
-                  output = 16384;
+          provider = {
+            github-copilot = {
+              models = {
+                "gpt-4.1" = {
+                  name = "GPT-4.1";
+                  limit = {
+                    context = 128000;
+                    output = 16384;
+                  };
+                  modalities = {
+                    input = [ "text" ];
+                    output = [ "text" ];
+                  };
                 };
-                modalities = {
-                  input = [ "text" ];
-                  output = [ "text" ];
-                };
-              };
-              "claude-sonnet-4-5" = {
-                name = "Claude Sonnet 4.5";
-                limit = {
-                  context = 128000;
-                  output = 16000;
-                };
-                modalities = {
-                  input = [ "text" ];
-                  output = [ "text" ];
+                "claude-sonnet-4-5" = {
+                  name = "Claude Sonnet 4.5";
+                  limit = {
+                    context = 128000;
+                    output = 16000;
+                  };
+                  modalities = {
+                    input = [ "text" ];
+                    output = [ "text" ];
+                  };
                 };
               };
             };
           };
         };
-      };
 
     };
     home.file.".config/opencode/oh-my-opencode.json".text = builtins.toJSON {

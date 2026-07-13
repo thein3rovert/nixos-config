@@ -153,7 +153,8 @@
       # jotty.enable = true; Replace with memos
       memos.enable = true;
       say-cheese.enable = true;
-      minio.enable = true;
+      # Disabled: MinIO abandoned upstream with multiple CVEs, using Garage instead
+      minio.enable = false;
       hawser.enable = true;
       forgejo = {
         enable = true;
@@ -171,7 +172,8 @@
           garageWebuiEnv = config.age.secrets.garage-webui-env.path;
         in
         {
-          enable = true;
+          # Disabled: package removed from nixpkgs (unmaintained)
+          enable = false;
           port = webuiPort;
           environmentFile = garageWebuiEnv;
           waitForServices = [ "garage.service" ];
