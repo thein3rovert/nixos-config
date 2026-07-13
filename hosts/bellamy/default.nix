@@ -165,7 +165,6 @@
 
       garage-webui =
         let
-          region = "garage";
           apiPort = config.snippets.thein3rovert.networkMap.garage-api.port;
           webuiPort = 3909;
           adminPort = 3903;
@@ -177,10 +176,9 @@
           environmentFile = garageWebuiEnv;
           waitForServices = [ "garage.service" ];
 
-          # Module options (can be overridden by environmentFile)
-          apiBaseUrl = "http://127.0.0.1:${toString adminPort}";
-          s3Region = region;
-          s3EndpointUrl = "http://127.0.0.1:${toString apiPort}";
+          # New module options
+          garageEndpoint = "127.0.0.1:${toString apiPort}";
+          garageAdminEndpoint = "http://127.0.0.1:${toString adminPort}";
         };
 
       garage =
