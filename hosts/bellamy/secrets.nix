@@ -44,9 +44,16 @@
         group = "users";
         mode = "0400";
       };
+      # garage-webui-env = {
+      #   file = "${self.inputs.secrets}/garage/garage-webui-env.age";
+      #   path = "/home/thein3rovert/.secrets/.garage-webui-env";
+      #   owner = "thein3rovert";
+      #   group = "users";
+      #   mode = "0400";
+      # };
       garage-webui-env = {
-        file = "${self.inputs.secrets}/garage/garage-webui-env.age";
-        path = "/home/thein3rovert/.secrets/.garage-webui-env";
+        file = "${self.inputs.secrets}/garage/garage-webui.age";
+        path = "/home/thein3rovert/.secrets/.garage-webui";
         owner = "thein3rovert";
         group = "users";
         mode = "0400";
