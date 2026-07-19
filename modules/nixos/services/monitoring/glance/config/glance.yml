@@ -156,11 +156,11 @@ pages:
                 timeout: 5s
                 url: http://copyparty.l.thein3rovert.com/
                 icon: di:copyparty.png
-              - title: s3 Console
-                same-tab: true
-                timeout: 5s
-                url: https://minio-console.${BASE_DOMAIN}/
-                icon: di:minio.png
+              # - title: s3 Console
+              #   same-tab: true
+              #   timeout: 5s
+              #   url: https://minio-console.${BASE_DOMAIN}/
+              #   icon: di:minio.png
               - title: Garage S3
                 same-tab: true
                 timeout: 5s
