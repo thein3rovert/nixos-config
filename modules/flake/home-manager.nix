@@ -30,7 +30,8 @@
 
             modules = [
               ../../homes/thein3rovert/${host}.nix
-            ] ++ extraModules;
+            ]
+            ++ extraModules;
           };
       in
       {

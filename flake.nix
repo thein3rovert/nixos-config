@@ -23,6 +23,12 @@
     # Deployment tool for NixOS machines
     colmena.url = "github:zhaofengli/colmena";
 
+    # deploy-rs — flake-based multi-profile deploy tool (used for HM-only hosts)
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Declarative disk partitioning
     disko = {
       url = "github:nix-community/disko";
@@ -90,22 +96,23 @@
 
   outputs =
     {
-      self,
-      agenix,
-      arkadia,
-      clan-core,
-      colmena,
-      disko,
-      flake-parts,
-      home-manager,
-      nix-colors,
-      nixpkgs,
-      # nixpkgs-unstable-small,
-      zen-browser,
-      # polis,  # TODO: Re-enable once SSH auth is fixed
-      # ghostty,
-      ...
-    }@inputs:
+self,
+    agenix,
+    arkadia,
+    clan-core,
+    colmena,
+    deploy-rs,
+    disko,
+    flake-parts,
+    home-manager,
+    nix-colors,
+    nixpkgs,
+    # nixpkgs-unstable-small,
+    zen-browser,
+    # polis,  # TODO: Re-enable once SSH auth is fixed
+    # ghostty,
+    ...
+  }@inputs:
     let
       # Initialize Arkadia library
       arkadia-lib = arkadia.mkLib {
