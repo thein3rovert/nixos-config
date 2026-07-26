@@ -33,6 +33,7 @@ in
         stateVersion = "25.11";
 
         packages = with pkgs; [
+          # info: Not sure but i think this comes with the default
           curl
           rclone
           htop
@@ -50,8 +51,8 @@ in
       # ------------------------------
       # CUSTOM MODULES
       # ------------------------------
-      homeSetup.shell.enable = true;        # ZSH + Powerlevel10k
-      homeSetup.programs.agent.enable = true; # opencode + bun + python3
+      homeSetup.shell.enable = true; # ZSH + Powerlevel10k
+      homeSetup.programs.agent.enable = false; # opencode + bun + python3
     }
 
     # ------------------------------
