@@ -66,11 +66,11 @@
     };
 
     # TODO: Fix SSH authentication for private polis repo in CI
-    # polis = {
-    #   # url = "path:/home/m3tam3re/p/AI/AGENTS";
-    #   url = "git+ssh://git@github.com/thein3rovert/polis.git";
-    #   flake = false;
-    # };
+    polis = {
+      # url = "path:/home/m3tam3re/p/AI/AGENTS";
+      url = "git+ssh://git@github.com/thein3rovert/polis.git";
+      flake = false;
+    };
 
     # Zen browser
     zen-browser = {
@@ -96,23 +96,23 @@
 
   outputs =
     {
-self,
-    agenix,
-    arkadia,
-    clan-core,
-    colmena,
-    deploy-rs,
-    disko,
-    flake-parts,
-    home-manager,
-    nix-colors,
-    nixpkgs,
-    # nixpkgs-unstable-small,
-    zen-browser,
-    # polis,  # TODO: Re-enable once SSH auth is fixed
-    # ghostty,
-    ...
-  }@inputs:
+      self,
+      agenix,
+      arkadia,
+      clan-core,
+      colmena,
+      deploy-rs,
+      disko,
+      flake-parts,
+      home-manager,
+      nix-colors,
+      nixpkgs,
+      # nixpkgs-unstable-small,
+      zen-browser,
+      # polis,  # TODO: Re-enable once SSH auth is fixed
+      # ghostty,
+      ...
+    }@inputs:
     let
       # Initialize Arkadia library
       arkadia-lib = arkadia.mkLib {

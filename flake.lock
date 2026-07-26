@@ -583,6 +583,22 @@
         "type": "github"
       }
     },
+    "polis": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784415497,
+        "narHash": "sha256-emYY/hwprwliiXBfAB7Na9PQCl9VyTCJt4Msshn0dYY=",
+        "ref": "refs/heads/main",
+        "rev": "d72673547b67dcbec75cf39cc325250d88750f59",
+        "revCount": 75,
+        "type": "git",
+        "url": "ssh://git@github.com/thein3rovert/polis.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/thein3rovert/polis.git"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -595,6 +611,7 @@
         "home-manager": "home-manager_2",
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs_2",
+        "polis": "polis",
         "secrets": "secrets",
         "zen-browser": "zen-browser"
       }
