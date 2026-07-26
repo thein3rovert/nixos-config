@@ -139,6 +139,10 @@
             cl = "clan machines list";
             proxmox-env = "source ~/Documents/project/scripts/terraform/proxmox/proxmox_vault_env.sh";
 
+            # deploy-rs — push home-manager to non-NixOS hosts from this workstation
+            # Usage: deploy-trikru   (builds here, copies closure, activates on trikru)
+            deploy-trikru = "nix run github:serokell/deploy-rs -- --skip-checks .#trikru.home -- --accept-flake-config";
+
             # SYSTEMD
             sc-status = "systemctl status";
             sc-restart = "systemctl restart";
