@@ -20,35 +20,34 @@
     ];
 
     # TODO: Re-enable once polis SSH auth is fixed in CI
-    # xdg.configFile = {
-    #   "opencode/commands" = {
-    #     source = "${inputs.polis}/commands";
-    #     recursive = true;
-    #   };
-    #   "opencode/context" = {
-    #     source = "${inputs.polis}/context";
-    #     recursive = true;
-    #   };
-    #   "opencode/prompts" = {
-    #     source = "${inputs.polis}/prompts";
-    #     recursive = true;
-    #   };
-    #   "opencode/skills" = {
-    #     source = "${inputs.polis}/skills";
-    #     recursive = true;
-    #   };
-    # };
+    xdg.configFile = {
+      #   "opencode/commands" = {
+      #     source = "${inputs.polis}/commands";
+      #     recursive = true;
+      #   };
+      #   "opencode/context" = {
+      #     source = "${inputs.polis}/context";
+      #     recursive = true;
+      #   };
+      #   "opencode/prompts" = {
+      #     source = "${inputs.polis}/prompts";
+      #     recursive = true;
+      #   };
+      "opencode/skills" = {
+        source = "${inputs.polis}/skills";
+        recursive = true;
+      };
+    };
 
     programs.opencode = {
       enable = true;
-      settings = 
+      settings =
         # TODO: Re-enable polis config once SSH auth is fixed
-        # let
-        #   polisConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
-        # in
-        # polisConfig
-        # // {
-        {
+        let
+          agentConfig = builtins.fromJSON (builtins.readFile "${inputs.polis}/opencode.json");
+        in
+        agentConfig
+        // {
           theme = "lucent-orng";
           # plugin = [ "oh-my-opencode" ];
           formatter = {
@@ -93,139 +92,139 @@
         };
 
     };
-    home.file.".config/opencode/oh-my-opencode.json".text = builtins.toJSON {
-      "$schema" =
-        "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
-      google_auth = false;
-      agents = {
-
-        Prometheus = {
-          model = "github-copilot/gpt-4.1";
-          permission = {
-            edit = "allow";
-            bash = {
-              "*" = "allow";
-              "rm *" = "ask";
-              "rmdir *" = "ask";
-              "mv *" = "ask";
-              "chmod *" = "ask";
-              "chown *" = "ask";
-              "git *" = "ask";
-              "git status*" = "allow";
-              "git log*" = "allow";
-              "git diff*" = "allow";
-              "git branch*" = "allow";
-              "git show*" = "allow";
-              "git stash list*" = "allow";
-              "git remote -v" = "allow";
-              "git add *" = "allow";
-            };
-          };
-        };
-
-        Hephaestus = {
-          model = "github-copilot/gpt-4.1";
-          permission = {
-            edit = "allow";
-            bash = {
-              "*" = "allow";
-              "rm *" = "ask";
-              "rmdir *" = "ask";
-              "mv *" = "ask";
-              "chmod *" = "ask";
-              "chown *" = "ask";
-              "git *" = "ask";
-              "git status*" = "allow";
-              "git log*" = "allow";
-              "git diff*" = "allow";
-              "git branch*" = "allow";
-              "git show*" = "allow";
-              "git stash list*" = "allow";
-              "git remote -v" = "allow";
-              "git add *" = "allow";
-            };
-          };
-        };
-
-        Sisyphus = {
-          model = "github-copilot/gpt-4.1";
-          permission = {
-            edit = "allow";
-            bash = {
-              "*" = "allow";
-              "rm *" = "ask";
-              "rmdir *" = "ask";
-              "mv *" = "ask";
-              "chmod *" = "ask";
-              "chown *" = "ask";
-              "git *" = "ask";
-              "git status*" = "allow";
-              "git log*" = "allow";
-              "git diff*" = "allow";
-              "git branch*" = "allow";
-              "git show*" = "allow";
-              "git stash list*" = "allow";
-              "git remote -v" = "allow";
-              "git add *" = "allow";
-              "git commit *" = "allow";
-              "jj *" = "ask";
-              "jj status" = "allow";
-              "jj log*" = "allow";
-              "jj diff*" = "allow";
-              "jj show*" = "allow";
-              "npm *" = "ask";
-              "npx *" = "ask";
-              "bun *" = "ask";
-              "bunx *" = "ask";
-              "uv *" = "ask";
-              "pip *" = "ask";
-              "pip3 *" = "ask";
-              "yarn *" = "ask";
-              "pnpm *" = "ask";
-              "cargo *" = "ask";
-              "go *" = "ask";
-              "make *" = "ask";
-              "dd *" = "deny";
-              "mkfs*" = "deny";
-              "fdisk *" = "deny";
-              "parted *" = "deny";
-              "eval *" = "deny";
-              "source *" = "deny";
-              "curl *|*sh" = "deny";
-              "wget *|*sh" = "deny";
-              "sudo *" = "deny";
-              "su *" = "deny";
-              "systemctl *" = "deny";
-              "service *" = "deny";
-              "shutdown *" = "deny";
-              "reboot*" = "deny";
-              "init *" = "deny";
-              "> /dev/*" = "deny";
-              "cat * > /dev/*" = "deny";
-            };
-            external_directory = "ask";
-            doom_loop = "ask";
-          };
-        };
-        librarian = {
-          model = "github-copilot/gpt-4.1";
-          permission = {
-            edit = "deny";
-            bash = "deny";
-          };
-        };
-        explore = {
-          model = "github-copilot/gpt-4.1";
-          permission = {
-            edit = "deny";
-            bash = "deny";
-          };
-        };
-      };
-      disabled_mcps = [
-        "context7"
-        "websearch"
-      ];
-    };
+    # home.file.".config/opencode/oh-my-opencode.json".text = builtins.toJSON {
+    #   "$schema" =
+    #     "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
+    #   google_auth = false;
+    #   agents = {
+    #
+    #     Prometheus = {
+    #       model = "github-copilot/gpt-4.1";
+    #       permission = {
+    #         edit = "allow";
+    #         bash = {
+    #           "*" = "allow";
+    #           "rm *" = "ask";
+    #           "rmdir *" = "ask";
+    #           "mv *" = "ask";
+    #           "chmod *" = "ask";
+    #           "chown *" = "ask";
+    #           "git *" = "ask";
+    #           "git status*" = "allow";
+    #           "git log*" = "allow";
+    #           "git diff*" = "allow";
+    #           "git branch*" = "allow";
+    #           "git show*" = "allow";
+    #           "git stash list*" = "allow";
+    #           "git remote -v" = "allow";
+    #           "git add *" = "allow";
+    #         };
+    #       };
+    #     };
+    #
+    #     Hephaestus = {
+    #       model = "github-copilot/gpt-4.1";
+    #       permission = {
+    #         edit = "allow";
+    #         bash = {
+    #           "*" = "allow";
+    #           "rm *" = "ask";
+    #           "rmdir *" = "ask";
+    #           "mv *" = "ask";
+    #           "chmod *" = "ask";
+    #           "chown *" = "ask";
+    #           "git *" = "ask";
+    #           "git status*" = "allow";
+    #           "git log*" = "allow";
+    #           "git diff*" = "allow";
+    #           "git branch*" = "allow";
+    #           "git show*" = "allow";
+    #           "git stash list*" = "allow";
+    #           "git remote -v" = "allow";
+    #           "git add *" = "allow";
+    #         };
+    #       };
+    #     };
+    #
+    #     Sisyphus = {
+    #       model = "github-copilot/gpt-4.1";
+    #       permission = {
+    #         edit = "allow";
+    #         bash = {
+    #           "*" = "allow";
+    #           "rm *" = "ask";
+    #           "rmdir *" = "ask";
+    #           "mv *" = "ask";
+    #           "chmod *" = "ask";
+    #           "chown *" = "ask";
+    #           "git *" = "ask";
+    #           "git status*" = "allow";
+    #           "git log*" = "allow";
+    #           "git diff*" = "allow";
+    #           "git branch*" = "allow";
+    #           "git show*" = "allow";
+    #           "git stash list*" = "allow";
+    #           "git remote -v" = "allow";
+    #           "git add *" = "allow";
+    #           "git commit *" = "allow";
+    #           "jj *" = "ask";
+    #           "jj status" = "allow";
+    #           "jj log*" = "allow";
+    #           "jj diff*" = "allow";
+    #           "jj show*" = "allow";
+    #           "npm *" = "ask";
+    #           "npx *" = "ask";
+    #           "bun *" = "ask";
+    #           "bunx *" = "ask";
+    #           "uv *" = "ask";
+    #           "pip *" = "ask";
+    #           "pip3 *" = "ask";
+    #           "yarn *" = "ask";
+    #           "pnpm *" = "ask";
+    #           "cargo *" = "ask";
+    #           "go *" = "ask";
+    #           "make *" = "ask";
+    #           "dd *" = "deny";
+    #           "mkfs*" = "deny";
+    #           "fdisk *" = "deny";
+    #           "parted *" = "deny";
+    #           "eval *" = "deny";
+    #           "source *" = "deny";
+    #           "curl *|*sh" = "deny";
+    #           "wget *|*sh" = "deny";
+    #           "sudo *" = "deny";
+    #           "su *" = "deny";
+    #           "systemctl *" = "deny";
+    #           "service *" = "deny";
+    #           "shutdown *" = "deny";
+    #           "reboot*" = "deny";
+    #           "init *" = "deny";
+    #           "> /dev/*" = "deny";
+    #           "cat * > /dev/*" = "deny";
+    #         };
+    #         external_directory = "ask";
+    #         doom_loop = "ask";
+    #       };
+    #     };
+    #     librarian = {
+    #       model = "github-copilot/gpt-4.1";
+    #       permission = {
+    #         edit = "deny";
+    #         bash = "deny";
+    #       };
+    #     };
+    #     explore = {
+    #       model = "github-copilot/gpt-4.1";
+    #       permission = {
+    #         edit = "deny";
+    #         bash = "deny";
+    #       };
+    #     };
+    #   };
+    disabled_mcps = [
+      "context7"
+      "websearch"
+    ];
+    # };
   };
 }
