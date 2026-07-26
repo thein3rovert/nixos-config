@@ -17,6 +17,8 @@ let
     mkMerge
     mkIf
     ;
+  # Stable symlink: always points to current zsh via the home-manager profile
+  zshPath = "${config.home.homeDirectory}/.nix-profile/bin/zsh";
 in
 {
   # Pull shared base (programs: direnv, eza, fzf, tmux, shell, agent)
@@ -43,7 +45,8 @@ in
 
       programs = {
         home-manager.enable = true;
-        bash.enable = true;
+        # bash.enable = true;
+        zsh.enable = true;
       };
 
       xdg.enable = true;
@@ -63,6 +66,29 @@ in
         username = "thein3rovert";
         homeDirectory = "/home/thein3rovert";
       };
+
+      # ------------------------------
+      # DECLARATIVE LOGIN SHELL
+      # ------------------------------
+      # On non-NixOS hosts, /etc/passwd + /etc/shells are not managed by
+      # home-manager. This activation script makes the login shell follow
+      # the zsh that home-manager installs (idempotent — silent when correct).
+      # Requires NOPASSWD sudo for the user (set up at bootstrap).
+      home.activation.ensureZshLoginShell =
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          run bash -c '
+            ZSH=${zshPath}
+            # Register with /etc/shells if missing
+            if ! grep -qx "$ZSH" /etc/shells 2>/dev/null; then
+              exec sudo -n sh -c "echo $ZSH >> /etc/shells"
+            fi
+            # chsh if current shell differs
+            CURRENT=$(getent passwd thein3rovert | cut -d: -f7)
+            if [ "$CURRENT" != "$ZSH" ]; then
+              exec sudo -n chsh -s "$ZSH" thein3rovert
+            fi
+          '
+        '';
     })
   ];
 }
