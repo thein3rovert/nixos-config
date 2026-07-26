@@ -7,24 +7,35 @@
     };
 
     # INFO: Standalone home-manager configurations for non-NixOS systems
-    # Use with: home-manager switch --flake .#thein3rovert@wsl
-    # homeConfigurations = {
-    #   "thein3rovert@wsl" = self.inputs.home-manager.lib.homeManagerConfiguration {
-    #     extraSpecialArgs = { inherit self; };
-    #
-    #     modules = [
-    #       ../../homes/thein3rovert/wsl.nix
-    #     ];
-    #
-    #     pkgs = import self.inputs.nixpkgs {
-    #       system = "x86_64-linux";
-    #       config.allowUnfree = true;
-    #
-    #       overlays = [
-    #         self.overlays.default
-    #       ];
-    #     };
-    #   };
-    # };
+    # Use with: home-manager switch --flake .#thein3rovert@trikru
+    homeConfigurations =
+      let
+        mkStandalone =
+          {
+            host,
+            system ? "x86_64-linux",
+            extraModules ? [ ],
+          }:
+          self.inputs.home-manager.lib.homeManagerConfiguration {
+            pkgs = import self.inputs.nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+              overlays = [ self.overlays.default ];
+            };
+
+            extraSpecialArgs = {
+              inherit self;
+              inputs = self.inputs;
+            };
+
+            modules = [
+              ../../homes/thein3rovert/${host}.nix
+            ] ++ extraModules;
+          };
+      in
+      {
+        # Ubuntu 22.04 server (Proxmox VM) — hostname: trikru
+        "thein3rovert@trikru" = mkStandalone { host = "trikru"; };
+      };
   };
 }
