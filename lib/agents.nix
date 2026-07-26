@@ -1,7 +1,22 @@
 # Harness-agnostic agent management utilities
 #
-# This module provides functions to load canonical agent definitions and
-# render them for different AI coding tools (OpenCode, Claude Code, Pi).
+# WHAT THIS FILE IS
+# -----------------
+# Public entry-point + dispatcher for the agent-management library.
+# All heavy lifting (per-tool rendering) lives in `./agents/<tool>.nix`:
+#
+#   lib/agents/helpers.nix     — shared helpers (parseRule, renderAgentFiles)
+#   lib/agents/opencode.nix    — renderForOpencode
+#   lib/agents/pi.nix          — renderForPi
+#
+# This file just imports those and exposes the public API:
+#
+#   loadCanonical          — load canonical agent definitions from flake input
+#   renderForOpencode      — produce agents/*.md for OpenCode
+#   renderForPi            — produce AGENTS.md + SYSTEM.md + agents/ for Pi
+#   renderForTool          — dispatcher: pick the right renderer by tool name
+#   shellHookForTool       — produce a devShell shellHook that symlinks the
+#                            rendered files into the project
 #
 # Usage in your configuration:
 #
@@ -9,381 +24,46 @@
 #     m3taLib = inputs.m3ta-nixpkgs.lib.${system};
 #     canonical = m3taLib.agents.loadCanonical { agentsInput = inputs.agents; };
 #
-#     # Render for a specific tool
 #     rendered = m3taLib.agents.renderForOpencode {
 #       inherit pkgs canonical;
 #       modelOverrides = { chiron = "anthropic/claude-sonnet-4"; };
 #     };
 #   in { ... }
 { lib }:
-let
-  # ── Shared helpers ─────────────────────────────────────────────
-  # Split a rule string on the LAST colon to get { pattern, action }.
-  # e.g. "rm -rf *:ask" → pattern="rm -rf *", action="ask"
-  # e.g. "/run/agenix/**:deny" → pattern="/run/agenix/**", action="deny"
-  parseRule =
-    ruleStr:
-    let
-      parts = lib.strings.splitString ":" ruleStr;
-      action = lib.last parts;
-      pattern = lib.concatStringsSep ":" (lib.init parts);
-    in
-    {
-      inherit pattern action;
-    };
 
-  # ── Shared renderer primitives ──────────────────────────────────
-  # Render agent files from canonical definitions into a directory.
-  # Each agent gets a "<name>.md" file containing mkContent name agent.
-  #
-  # Args:
-  #   pkgs       — Nixpkgs package set with linkFarm
-  #   canonical  — Attribute set of agent definitions (keyed by slug)
-  #   mkContent  — Function: name: agent → string (file content)
-  #   name       — Derivation name (e.g. "opencode-agents")
-  #
-  # Returns:
-  #   A store path containing all agent *.md files.
-  renderAgentFiles =
-    pkgs: canonical: mkContent: name:
-    pkgs.linkFarm name (
-      lib.mapAttrsToList (n: a: {
-        name = "${n}.md";
-        path = pkgs.writeText "${n}.md" (mkContent n a);
-      }) canonical
-    );
+let
+  # ── Shared helpers (parseRule + renderAgentFiles) ─────────────
+  helpers = import ./agents/helpers.nix { inherit lib; };
+
+  # ── Per-tool renderers ────────────────────────────────────────
+  renderForOpencode = import ./agents/opencode.nix { inherit lib helpers; };
+  renderForPi = import ./agents/pi.nix { inherit lib helpers; };
+
+  # ── loadCanonical ─────────────────────────────────────────────
+  # Load canonical agent definitions from the AGENTS flake input.
+  # Returns the canonical attrset from lib.loadAgents (keyed by slug).
+  loadCanonical = { agentsInput }: agentsInput.lib.loadAgents;
 
   agentsLib = {
-    # ── loadCanonical ─────────────────────────────────────────────
-    #
-    # Load canonical agent definitions from the AGENTS flake input.
-    # Returns the canonical attrset from lib.loadAgents (keyed by slug).
-
-    loadCanonical = { agentsInput }: agentsInput.lib.loadAgents;
-
-    # ── OpenCode renderer ─────────────────────────────────────────
-    #
-    # Produces a directory of agent *.md files suitable for
-    #   ~/.config/opencode/agents/   (system-level)
-    #   .opencode/agents/            (project-level)
-    #
-    # Each file has YAML frontmatter (description, mode, optional model,
-    # optional permission) followed by the agent's systemPrompt content.
-    # The filename (without .md) becomes the agent name in OpenCode.
-
-    # ── renderForOpencode ─────────────────────────────────────────
-    #
-    # WHAT IT DOES
-    # ------------
-    # Turns canonical agent definitions into a directory of <slug>.md files
-    # that OpenCode can drop straight into ~/.config/opencode/agents/ (or
-    # .opencode/agents/ for project-level).
-    #
-    # Each file = YAML frontmatter + the agent's systemPrompt body.
-    #
-    # EXAMPLE (canonical input → produced file)
-    #
-    #   Given canonical = {
-    #     chiron = {
-    #       description = "Primary work agent";
-    #       mode        = "primary";
-    #       systemPrompt = "You are Chiron...";
-    #       permissions = {
-    #         bash = { intent = "ask";  rules = [ "git status*:allow"  "rm *:deny" ]; };
-    #         edit = { intent = "allow"; };
-    #       };
-    #     };
-    #   }
-    #   and modelOverrides = { chiron = "anthropic/claude-sonnet-4"; }
-    #
-    #   → produces chiron.md :
-    #
-    #     ---
-    #     description: "Primary work agent."
-    #     mode: primary
-    #     model: anthropic/claude-sonnet-4
-    #     permission:
-    #       bash:
-    #         "*": ask
-    #         "git status*": allow
-    #         "rm *": deny
-    #       edit: allow
-    #     ---
-    #     You are Chiron...
-    #
-    # ARGS
-    #   pkgs            nixpkgs set (provides linkFarm/writeText)
-    #   canonical        attrset of agents keyed by slug (from loadCanonical)
-    #   modelOverrides  optional { <slug> = "<provider/model>"; } — omitted
-    #                   frontmatter `model:` line if slug not in this map
-    #
-    # RETURNS
-    #   A store path (linkFarm) containing one <slug>.md per agent.
-    renderForOpencode =
-      {
-        pkgs,
-        canonical,
-        modelOverrides ? { },
-      }:
-      let
-        # ── renderPermSection ───────────────────────────────────────
-        # Turns ONE permission section (e.g. `bash` or `edit`) into a list
-        # of YAML lines. Two shapes:
-        #
-        #   1) intent-only (no `rules` or `rules = []`)
-        #      → returns a single flat line:  "  <tool>: <intent>"
-        #
-        #   2) intent + rules
-        #      → returns a nested block:
-        #          "  <tool>:"           <- starts the block
-        #          "    \"*\": <intent>"  <- wildcard catch-all (section.intent)
-        #          "    \"<pattern>\": <action>"  <- one per rule
-        #
-        # EXAMPLE
-        #   section = {
-        #     intent = "ask";
-        #     rules  = [ "git status*:allow"  "rm *:deny" ];
-        #   }
-        #   → [ "  bash:"
-        #       "    \"*\": ask"
-        #       "    \"git status*\": allow"
-        #       "    \"rm *\": deny"
-        #     ]
-        renderPermSection =
-          tool: section:
-          if !(section ? rules) || section.rules == [ ] then
-            # Shape 1 — simple intent, no per-pattern rules
-            [ "  ${tool}: ${section.intent}" ]
-          else
-            # Shape 2 — intent + rules block
-            let
-              parsedRules = map parseRule section.rules;           # ["git status*:allow"] → [{pattern="git status*"; action="allow";}]
-              wildcardLine = "    \"*\": ${section.intent}";        # the section's default intent
-              ruleLines = map (r: "    \"${r.pattern}\": ${r.action}") parsedRules;
-            in
-            [ "  ${tool}:" ] ++ [ wildcardLine ] ++ ruleLines;
-
-        # ── renderPermBlock ─────────────────────────────────────────
-        # Turns the WHOLE permissions attrset into YAML lines (or [] when
-        # empty / null so we can skip adding a permission: block later).
-        #
-        # EXAMPLE
-        #   permissions = {
-        #     bash = { intent = "ask"; rules = [ "rm *:deny" ]; };
-        #     edit = { intent = "allow"; };
-        #   }
-        #   → [ "permission:"
-        #       "  bash:"
-        #       "    \"*\": ask"
-        #       "    \"rm *\": deny"
-        #       "  edit: allow"
-        #     ]
-        renderPermBlock =
-          permissions:
-          if permissions == { } || permissions == null then
-            [ ]
-          else
-            [ "permission:" ] ++ lib.concatLists (lib.mapAttrsToList renderPermSection permissions);
-
-        # ── mkFrontmatter ───────────────────────────────────────────
-        # Assembles the YAML frontmatter for ONE agent .md file.
-        #
-        # Lines produced:
-        #   ---
-        #   description: "<agent.description>."       ← always present
-        #   mode: <agent.mode>                        ← always present
-        #   model: <value>                             ← only if modelOverrides.<name> is set
-        #   <permLines>                                ← only if agent has permissions
-        #   ---
-        #
-        # EXAMPLE (see the header example above — produces that frontmatter)
-        mkFrontmatter =
-          name: agent:
-          let
-            descLine = "description: \"${agent.description}.\"";
-            modeLine = "mode: ${agent.mode}";
-            # `lib.optionalString cond str` returns "" when cond is false — so the line
-            # is silently omitted when no modelOverride is set for this agent.
-            modelLine = lib.optionalString (modelOverrides ? ${name}) "model: ${modelOverrides.${name}}\n";
-            permBlock = renderPermBlock (agent.permissions or { });
-            # Empty permission block → no `permission:` lines in the frontmatter.
-            permLines = if permBlock == [ ] then "" else lib.concatStringsSep "\n" permBlock + "\n";
-          in
-          "---\n${descLine}\n${modeLine}\n${modelLine}${permLines}---\n";
-
-        # ── mkAgentContent ──────────────────────────────────────────
-        # Stitches frontmatter + systemPrompt into the final file body.
-        #
-        #   mkFrontmatter "chiron" agent = "---\n...\n---\n"
-        #   agent.systemPrompt            = "You are Chiron..."
-        #   → "---\n...\n---\nYou are Chiron..."
-        mkAgentContent = name: agent: (mkFrontmatter name agent) + agent.systemPrompt;
-      in
-      # Hand off to the shared primitive — produces a linkFarm directory:
-      #   /nix/store/xxx-opencode-agents/
-      #     chiron.md
-      #     explore.md
-      #     ...
-      # Each file = mkAgentContent applied to that agent.
-      renderAgentFiles pkgs canonical mkAgentContent "opencode-agents";
-
-    # ── Pi renderer ───────────────────────────────────────────────
-    #
-    # This renderer produces:
-    #   AGENTS.md              — concatenated agent descriptions + specialist listing
-    #   SYSTEM.md              — primary agent's system prompt (replaces Pi default)
-    #   agents/{name}.md       — one per agent for pi-subagents (YAML frontmatter + prompt)
-    #
-    # The agents/ files use pi-subagents frontmatter format:
-    #   name, description, tools, extensions, model, thinking, skill,
-    #   output, defaultReads, defaultProgress, interactive, maxSubagentDepth
-
-    renderForPi =
-      {
-        pkgs,
-        canonical,
-        modelOverrides ? { },
-        primaryAgent ? null,
-        codingRules ? null,
-      }:
-      let
-        # Import coding-rules lib for concatRulesMd when codingRules is provided
-        codingRulesLib = import ./coding-rules.nix { inherit lib; };
-        # Find the primary agent (there should be exactly one).
-        primaryAgents = lib.filterAttrs (_: a: a.mode == "primary") canonical;
-        primaryNames = lib.attrNames primaryAgents;
-        primaryName =
-          if primaryAgent != null then
-            primaryAgent
-          else if primaryNames == [ ] then
-            throw "lib.agents.renderForPi: no primary agent found"
-          else
-            builtins.head primaryNames;
-        primary = builtins.getAttr primaryName primaryAgents;
-
-        # Subagents for the specialist listing.
-        subagents = lib.filterAttrs (_: a: a.mode != "primary") canonical;
-
-        # ── Permission → Pi tool mapping ──────────────────────────────
-        #
-        # Pi built-in tools: read, bash, edit, write, grep, find, ls,
-        #                     mcp, subagent, web_search, fetch_content, etc.
-        # Canonical tools:   bash, edit, webfetch, websearch, question, external_directory
-        #
-        # We map canonical permissions to Pi's tool list.
-        # intent=allow → include tool; intent=deny → exclude; intent=ask → include (Pi has no ask granularity)
-        # When specific allow rules exist, the tool is always included (Pi can't restrict by pattern).
-
-        piToolsForAgent =
-          agent:
-          let
-            perms = agent.permissions or { };
-            tools = [ ];
-            # Always available: read (no permission concept in Pi)
-            addIf =
-              tool: section: if section.intent == "allow" || section.intent == "ask" then [ tool ] else [ ];
-            # bash → bash
-            withBash = tools ++ (addIf "bash" (perms.bash or { intent = "ask"; }));
-            # edit → edit
-            withEdit = withBash ++ (addIf "edit" (perms.edit or { intent = "deny"; }));
-            # webfetch → fetch_content
-            withFetch = withEdit ++ (addIf "fetch_content" (perms.webfetch or { intent = "deny"; }));
-            # websearch → web_search
-            withSearch = withFetch ++ (addIf "web_search" (perms.websearch or { intent = "deny"; }));
-          in
-          lib.unique (
-            withSearch
-            ++ [
-              "read"
-              "grep"
-              "find"
-              "ls"
-            ]
-          );
-
-        # ── Build YAML frontmatter for pi-subagents .md files ──────────
-        mkPiFrontmatter =
-          name: agent:
-          let
-            tools = piToolsForAgent agent;
-            descLine = "description: \"${agent.description}\"";
-            toolsLine = "tools: ${lib.concatStringsSep ", " tools}";
-            model = if modelOverrides ? ${name} then "model: ${modelOverrides.${name}}" else "";
-            skillsLine =
-              if (agent ? skills) && agent.skills != [ ] then
-                "skill: ${lib.concatStringsSep ", " agent.skills}"
-              else
-                "";
-          in
-          "---\n"
-          + "name: ${name}\n"
-          + "${descLine}\n"
-          + "${toolsLine}\n"
-          + (lib.optionalString (model != "") "${model}\n")
-          + (lib.optionalString (skillsLine != "") "${skillsLine}\n")
-          + "---\n";
-
-        mkPiAgentContent = name: agent: (mkPiFrontmatter name agent) + agent.systemPrompt;
-
-        piAgentFiles = renderAgentFiles pkgs canonical mkPiAgentContent "pi-agent-files";
-
-        # ── Build AGENTS.md content ───────────────────────────────────
-        primaryDn = primary.display_name or primaryName;
-        specialistEntries =
-          let
-            mkEntry =
-              name: agent:
-              let
-                dn = agent.display_name or name;
-              in
-              "- **" + dn + "**: " + agent.description;
-          in
-          lib.mapAttrsToList mkEntry subagents;
-        # ── Coding rules section (optional) ────────────────────────
-        # When codingRules is provided, append selected rules to AGENTS.md.
-        # codingRules attrset: { agents, languages, concerns, frameworks }
-        codingRulesSection =
-          if codingRules != null then
-            let
-              section = codingRulesLib.mkRulesMdSection codingRules;
-            in
-            if section != "" then "\n" + section else ""
-          else
-            "";
-
-        agentsMd =
-          "# Agent Instructions\n"
-          + "\n"
-          + "## "
-          + primaryDn
-          + "\n"
-          + "\n"
-          + primary.description
-          + "\n"
-          + "\n"
-          + (
-            if subagents == { } then
-              ""
-            else
-              "## Available Specialists\n\n" + lib.concatStringsSep "\n" specialistEntries + "\n"
-          )
-          + codingRulesSection;
-
-        agentsMdFile = pkgs.writeText "AGENTS.md" agentsMd;
-        systemMdFile = pkgs.writeText "SYSTEM.md" primary.systemPrompt;
-      in
-      pkgs.runCommand "pi-agents" { } ''
-        mkdir -p $out/agents
-        cp ${agentsMdFile} $out/AGENTS.md
-        cp ${systemMdFile} $out/SYSTEM.md
-        cp -r ${piAgentFiles}/* $out/agents/
-      '';
+    # Re-export imported renderers + loadCanonical
+    inherit
+      loadCanonical
+      renderForOpencode
+      renderForPi
+      ;
 
     # ── renderForTool dispatcher ──────────────────────────────────
     #
     # Dispatches to the correct renderer by tool name.
     # tool: "opencode" | "claude-code" | "pi"
-
+    #
+    # EXAMPLE
+    #   m3taLib.agents.renderForTool {
+    #     pkgs = pkgs;
+    #     agentsInput = inputs.agents;
+    #     tool = "opencode";
+    #     modelOverrides = { chiron = "anthropic/claude-sonnet-4"; };
+    #   }
     renderForTool =
       {
         pkgs,
@@ -396,22 +76,13 @@ let
         canonical = agentsInput.lib.loadAgents;
       in
       if tool == "opencode" then
-        agentsLib.renderForOpencode {
-          inherit pkgs canonical modelOverrides;
-        }
+        renderForOpencode { inherit pkgs canonical modelOverrides; }
       else if tool == "pi" then
-        agentsLib.renderForPi {
-          inherit
-            pkgs
-            canonical
-            modelOverrides
-            codingRules
-            ;
-        }
+        renderForPi { inherit pkgs canonical modelOverrides codingRules; }
       else
         throw "lib.agents.renderForTool: unknown tool '${tool}'. Must be opencode, claude-code, or pi.";
 
-    # ── shellHookForTool ──────────────────────────────────────────
+    # ── shellHookForTool ─────────────────────────────────────────
     #
     # Generates a shellHook string for use in devShells that symlinks
     # rendered agent files into the project directory.
@@ -425,7 +96,6 @@ let
     #       modelOverrides = { chiron = "anthropic/claude-sonnet-4"; };
     #     };
     #   };
-
     shellHookForTool =
       {
         pkgs,
