@@ -115,129 +115,6 @@ let
       in
       renderAgentFiles pkgs canonical mkAgentContent "opencode-agents";
 
-    # ── Claude Code renderer ──────────────────────────────────────
-    #
-    # Produces a directory containing:
-    #   .claude/agents/<name>.md   — one per agent with YAML frontmatter
-    #   .claude/settings.json      — permission rules in Claude Code DSL
-    #
-    # Claude Code requires:
-    #   - name field: [a-z0-9-]+ (kebab-case)
-    #   - description field: required
-    #   - All agents are subagents (no primary/subagent distinction)
-
-    renderForClaudeCode =
-      {
-        pkgs,
-        canonical,
-        modelOverrides ? { },
-      }:
-      let
-        # Claude Code permission DSL format: "Tool(pattern)" or just "Tool"
-        # Canonical bash rules → "Bash(pattern)" entries
-        # Canonical edit rules → "Edit(pattern)" entries
-        renderPermAllow =
-          permissions:
-          let
-            bashRules =
-              if !(permissions ? bash) then
-                [ ]
-              else if permissions.bash.intent == "allow" then
-                [ "Bash" ]
-              else
-                map (
-                  r:
-                  let
-                    parsed = parseRule r;
-                  in
-                  "Bash(${parsed.pattern})"
-                ) (lib.filter (r: (parseRule r).action == "allow") (permissions.bash.rules or [ ]));
-            editRules =
-              if !(permissions ? edit) then
-                [ ]
-              else if permissions.edit.intent == "allow" then
-                [ "Edit" ]
-              else
-                map (
-                  r:
-                  let
-                    parsed = parseRule r;
-                  in
-                  "Edit(${parsed.pattern})"
-                ) (lib.filter (r: (parseRule r).action == "allow") (permissions.edit.rules or [ ]));
-            webRules = lib.optional (permissions.webfetch.intent or "" == "allow") "WebFetch";
-          in
-          bashRules ++ editRules ++ webRules;
-
-        renderPermDeny =
-          permissions:
-          let
-            bashRules =
-              if !(permissions ? bash) then
-                [ ]
-              else
-                map (
-                  r:
-                  let
-                    parsed = parseRule r;
-                  in
-                  "Bash(${parsed.pattern})"
-                ) (lib.filter (r: (parseRule r).action == "deny") (permissions.bash.rules or [ ]));
-            editRules =
-              if !(permissions ? edit) then
-                [ ]
-              else
-                map (
-                  r:
-                  let
-                    parsed = parseRule r;
-                  in
-                  "Edit(${parsed.pattern})"
-                ) (lib.filter (r: (parseRule r).action == "deny") (permissions.edit.rules or [ ]));
-          in
-          bashRules ++ editRules;
-
-        # Build YAML frontmatter for one Claude Code agent .md file.
-        mkClaudeFrontmatter =
-          name: agent:
-          let
-            descLine = "description: \"${agent.description}\"";
-            modelLine = lib.optionalString (modelOverrides ? ${name}) "model: ${modelOverrides.${name}}\n";
-            skillsLine =
-              if (agent ? skills) && agent.skills != [ ] then
-                "skills:\n" + lib.concatStringsSep "\n" (map (s: "  - ${s}") agent.skills) + "\n"
-              else
-                "";
-          in
-          "---\n${descLine}\n${modelLine}${skillsLine}---\n";
-
-        mkClaudeAgentContent = name: agent: (mkClaudeFrontmatter name agent) + agent.systemPrompt;
-
-        agentFiles = renderAgentFiles pkgs canonical mkClaudeAgentContent "claude-code-agent-files";
-
-        # Build settings.json with permission rules aggregated from all agents.
-        allAllows = lib.flatten (
-          lib.mapAttrsToList (_: agent: renderPermAllow (agent.permissions or { })) canonical
-        );
-        allDenies = lib.flatten (
-          lib.mapAttrsToList (_: agent: renderPermDeny (agent.permissions or { })) canonical
-        );
-
-        settingsJson = builtins.toJSON {
-          permissions = {
-            allow = lib.unique (lib.sort (a: b: a < b) allAllows);
-            deny = lib.unique (lib.sort (a: b: a < b) allDenies);
-          };
-        };
-
-        settingsFile = pkgs.writeText "claude-settings.json" settingsJson;
-      in
-      pkgs.runCommand "claude-code-agents" { } ''
-        mkdir -p $out/.claude/agents
-        cp -r ${agentFiles}/* $out/.claude/agents/
-        cp ${settingsFile} $out/.claude/settings.json
-      '';
-
     # ── Pi renderer ───────────────────────────────────────────────
     #
     # This renderer produces:
@@ -410,10 +287,6 @@ let
         agentsLib.renderForOpencode {
           inherit pkgs canonical modelOverrides;
         }
-      else if tool == "claude-code" then
-        agentsLib.renderForClaudeCode {
-          inherit pkgs canonical modelOverrides;
-        }
       else if tool == "pi" then
         agentsLib.renderForPi {
           inherit
@@ -465,13 +338,6 @@ let
           # Agent files for OpenCode
           mkdir -p .opencode/agents
           ln -sfn ${rendered}/* .opencode/agents/
-        ''
-      else if tool == "claude-code" then
-        ''
-          # Agent files for Claude Code
-          mkdir -p .claude/agents
-          ln -sfn ${rendered}/.claude/agents/* .claude/agents/
-          ln -sfn ${rendered}/.claude/settings.json .claude/settings.json
         ''
       else if tool == "pi" then
         ''
