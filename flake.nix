@@ -84,6 +84,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Backlog.md - Task management tool
+    backlog-md = {
+      url = "github:MrLesk/Backlog.md";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   nixConfig = {
