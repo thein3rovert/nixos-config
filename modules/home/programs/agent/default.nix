@@ -221,10 +221,15 @@
     #       };
     #     };
     #   };
-    disabled_mcps = [
-      "context7"
-      "websearch"
-    ];
+
+    # TODO: I need to look into this well
+    # if the option is for opencode
+
+    # disabled_mcps = [
+    #   "context7"
+    #   "websearch"
+    # ];
+
     # };
   };
 }
