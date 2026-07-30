@@ -7,5 +7,6 @@
     ./tmux
     ./shell
     ./agent
+    ./backlog.md
   ];
 }

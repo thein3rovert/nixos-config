@@ -221,6 +221,10 @@ in
       #      Custom Module Setup
       # ==============================
       homeSetup = {
+        # TODO: Move later to Arkadia home modules
+        # can call from arkadia instead
+        programs.backlog-md.enable = true;
+
         thein3rovert = {
           programs.apps.enable = true;
           programs.cli.enable = true;
