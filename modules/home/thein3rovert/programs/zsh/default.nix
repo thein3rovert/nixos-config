@@ -41,6 +41,8 @@
             # export TERM="tmux-256color"
             export TERMINAL="kitty"
             export HOSTNAME="nixos"
+            export EDITOR="nvim"
+            export VISUAL="nvim"
 
             bindkey '^f' autosuggest-accept
             # OH-MY-POSH
