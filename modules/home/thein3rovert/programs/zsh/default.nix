@@ -87,6 +87,20 @@
               command tmux attach -t default
             }
 
+            # Backlog.md quick task creation
+            # Usage: btc "Task title" "Optional description"
+            btc() {
+              if [ -z "$1" ]; then
+                echo "Usage: btc \"Task title\" \"Optional description\""
+                return 1
+              fi
+              if [ -n "$2" ]; then
+                backlog task create "$1" -d "$2"
+              else
+                backlog task create "$1"
+              fi
+            }
+
           '';
 
           shellAliases = {
@@ -161,6 +175,12 @@
             search-files = "tv files ~/nixos-config";
 
             k = "kubectl";
+
+            # BACKLOG.MD
+            btl = "backlog task list";
+            bte = "backlog task edit";
+            bb = "backlog board";
+            bbr = "backlog browser";
           };
         };
 
