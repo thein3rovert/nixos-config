@@ -1,0 +1,6 @@
+{ ... }:
+{
+  import = [
+    ./agents.nix
+  ];
+}
