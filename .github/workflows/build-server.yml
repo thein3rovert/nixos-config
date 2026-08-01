@@ -52,6 +52,7 @@ jobs:
           NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
+          NIX_REMOTE: ""
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
   build-marcus:
     runs-on: [self-hosted, terraform]
@@ -83,6 +84,7 @@ jobs:
           NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
+          NIX_REMOTE: ""
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
   build-bellamy:
     runs-on: [self-hosted, terraform]
@@ -114,6 +116,7 @@ jobs:
           NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
+          NIX_REMOTE: ""
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
 name: build-nixos
 "on":
