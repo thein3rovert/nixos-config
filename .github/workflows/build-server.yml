@@ -42,10 +42,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-      - name: Configure Git for SSH
-        run: |
-          git config --global url."git@github.com:".insteadOf "https://github.com/"
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -53,9 +49,8 @@ jobs:
           name: thein3rovert
       - name: Build nixos
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nextra-sandbox-paths = $SSH_AUTH_SOCK"
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
-          NIX_SSHOPTS: "-o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
   build-marcus:
@@ -78,10 +73,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-      - name: Configure Git for SSH
-        run: |
-          git config --global url."git@github.com:".insteadOf "https://github.com/"
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -89,9 +80,8 @@ jobs:
           name: thein3rovert
       - name: Build marcus
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nextra-sandbox-paths = $SSH_AUTH_SOCK"
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
-          NIX_SSHOPTS: "-o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
   build-bellamy:
@@ -114,10 +104,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-      - name: Configure Git for SSH
-        run: |
-          git config --global url."git@github.com:".insteadOf "https://github.com/"
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -125,9 +111,8 @@ jobs:
           name: thein3rovert
       - name: Build bellamy
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nextra-sandbox-paths = $SSH_AUTH_SOCK"
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
-          NIX_SSHOPTS: "-o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
         run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
 name: build-nixos
