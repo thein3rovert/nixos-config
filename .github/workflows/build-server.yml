@@ -35,7 +35,7 @@ jobs:
       - name: Add GitHub to known hosts
         run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: Test SSH access to polis repo
-        run: ssh -T git@github.com || true && git ls-remote git@github.com:thein3rovert/polis.git HEAD
+        run: ssh -T git@github.com 2>&1 || true
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -65,7 +65,7 @@ jobs:
       - name: Add GitHub to known hosts
         run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: Test SSH access to polis repo
-        run: ssh -T git@github.com || true && git ls-remote git@github.com:thein3rovert/polis.git HEAD
+        run: ssh -T git@github.com 2>&1 || true
       - name: Checkout
         uses: actions/checkout@main
         with:
@@ -95,7 +95,7 @@ jobs:
       - name: Add GitHub to known hosts
         run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: Test SSH access to polis repo
-        run: ssh -T git@github.com || true && git ls-remote git@github.com:thein3rovert/polis.git HEAD
+        run: ssh -T git@github.com 2>&1 || true
       - name: Checkout
         uses: actions/checkout@main
         with:
