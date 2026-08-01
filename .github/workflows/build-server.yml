@@ -42,6 +42,10 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
+      - name: Pre-clone polis with SSH
+        run: |
+          nix profile install nixpkgs#git
+          git clone git@github.com:thein3rovert/polis.git /tmp/polis
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -49,11 +53,9 @@ jobs:
           name: thein3rovert
       - name: Build nixos
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
-          NIX_REMOTE: ""
-        run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
+        run: nix build --accept-flake-config --override-input polis path:/tmp/polis --print-out-paths .#nixosConfigurations.nixos.config.system.build.toplevel
   build-marcus:
     runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
@@ -74,6 +76,10 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
+      - name: Pre-clone polis with SSH
+        run: |
+          nix profile install nixpkgs#git
+          git clone git@github.com:thein3rovert/polis.git /tmp/polis
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -81,11 +87,9 @@ jobs:
           name: thein3rovert
       - name: Build marcus
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
-          NIX_REMOTE: ""
-        run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
+        run: nix build --accept-flake-config --override-input polis path:/tmp/polis --print-out-paths .#nixosConfigurations.marcus.config.system.build.toplevel
   build-bellamy:
     runs-on: [self-hosted, terraform]
     needs: [validate-ssh, validate-cachix]
@@ -106,6 +110,10 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
+      - name: Pre-clone polis with SSH
+        run: |
+          nix profile install nixpkgs#git
+          git clone git@github.com:thein3rovert/polis.git /tmp/polis
       - name: Cachix
         uses: cachix/cachix-action@master
         with:
@@ -113,11 +121,9 @@ jobs:
           name: thein3rovert
       - name: Build bellamy
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nsandbox = false"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
-          NIX_REMOTE: ""
-        run: nix build --accept-flake-config --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
+        run: nix build --accept-flake-config --override-input polis path:/tmp/polis --print-out-paths .#nixosConfigurations.bellamy.config.system.build.toplevel
 name: build-nixos
 "on":
   push:
