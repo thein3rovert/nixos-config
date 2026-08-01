@@ -47,9 +47,13 @@ jobs:
         with:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           name: thein3rovert
+      - name: Configure Git for SSH
+        run: |
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Build nixos
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nextra-sandbox-paths = $SSH_AUTH_SOCK"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           NIX_SSHOPTS: "-o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
@@ -79,9 +83,13 @@ jobs:
         with:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           name: thein3rovert
+      - name: Configure Git for SSH
+        run: |
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Build marcus
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nextra-sandbox-paths = $SSH_AUTH_SOCK"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           NIX_SSHOPTS: "-o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
@@ -111,9 +119,13 @@ jobs:
         with:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           name: thein3rovert
+      - name: Configure Git for SSH
+        run: |
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
       - name: Build bellamy
         env:
-          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\nextra-sandbox-paths = $SSH_AUTH_SOCK"
           GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=accept-new"
           NIX_SSHOPTS: "-o StrictHostKeyChecking=accept-new"
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
