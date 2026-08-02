@@ -78,7 +78,14 @@ let
       if tool == "opencode" then
         renderForOpencode { inherit pkgs canonical modelOverrides; }
       else if tool == "pi" then
-        renderForPi { inherit pkgs canonical modelOverrides codingRules; }
+        renderForPi {
+          inherit
+            pkgs
+            canonical
+            modelOverrides
+            codingRules
+            ;
+        }
       else
         throw "lib.agents.renderForTool: unknown tool '${tool}'. Must be opencode, claude-code, or pi.";
 

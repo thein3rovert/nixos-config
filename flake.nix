@@ -66,6 +66,7 @@
     };
 
     # TODO: Fix SSH authentication for private polis repo in CI
+    # Agent definitions and coding rules
     polis = {
       # url = "path:/home/m3tam3re/p/AI/AGENTS";
       url = "git+ssh://git@github.com/thein3rovert/polis.git";

@@ -39,11 +39,17 @@ in
   };
 
   # External SKill submodules - use by opencode, claude-code and pi modulkes
+  /*
+    This is meant to be passed to mkSkill lib,
+    mkSkill is responsible for transforming the skills dir
+    into agent compatible skills
+  */
   agentExternalSkillOption = mkOption {
     type = types.listOf (
       types.submodule {
         options = {
           # submodules = src -> dir (containing the skills)
+          # src -> skill (brainstoring) -> skill.md's
           src = mkOption {
             type = types.anything;
             description = "Flake input pointing to a skills repository root.";
