@@ -1,10 +1,10 @@
 ---
 id: HML-008
 title: Fix custom github runner memory issues
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-08-02 09:23'
-updated_date: '2026-08-02 09:55'
+updated_date: '2026-08-02 11:36'
 labels:
   - ci
   - nix
@@ -13,7 +13,7 @@ labels:
   - github-runner
 dependencies: []
 priority: medium
-ordinal: 7000
+ordinal: 2000
 ---
 
 ## Description
