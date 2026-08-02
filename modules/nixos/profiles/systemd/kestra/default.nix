@@ -67,5 +67,16 @@ in
       before = [ "podman-kestra.service" ];
       after = [ "agenix.service" ];
     };
+
+    # Add restart policy for Kestra container
+    # Automatically recovers when PostgreSQL becomes unavailable and comes back
+    systemd.services."podman-kestra" = {
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "30s";
+        StartLimitIntervalSec = "300";
+        StartLimitBurst = "5";
+      };
+    };
   };
 }
