@@ -201,7 +201,9 @@ module "github_runner" {
   ostemplate  = var.ostemplate
   cores       = 2
   memory      = 4096
-  swap        = 1024
+  # Due to 00M Hang during peaK nixos build
+  # i am upgarding the swap to 2gb
+  swap        = 2048
   disk_size   = "100G"
   storage     = "LVM_MAIN" # Use the 1TB HDD instead of LVM thin pool
 
