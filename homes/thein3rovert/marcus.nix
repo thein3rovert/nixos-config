@@ -35,7 +35,7 @@ in
         stateVersion = "25.05";
       };
 
-      homeSetup.programs.agent.enable = false;
+      # homeSetup.programs.agent.enable = false;
       # ------------------------------------
       # PROGRAM
       # -------------------------------------
