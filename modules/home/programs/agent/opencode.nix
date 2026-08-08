@@ -37,7 +37,7 @@
           source = allAgentLib.renderForOpencode {
             inherit pkgs;
             canonical = allAgentLib.loadAgents {
-              agentsDir = "${cfg.agentsInput}/agents";
+              agentsDir = "${cfg.agentsInput}/agents-nix";
             };
             modelOverrides = cfg.modelOverrides;
           };

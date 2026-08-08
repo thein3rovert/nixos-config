@@ -673,11 +673,11 @@
     "polis": {
       "flake": false,
       "locked": {
-        "lastModified": 1786208728,
-        "narHash": "sha256-H9t0xP7dC/OJW/z3Zwi17zMIL4gVM154CP1DVCKmKXQ=",
+        "lastModified": 1786211072,
+        "narHash": "sha256-hacP2SbwGU+9OxstEYJjMKHyX0NYFfpju90fFT1FIbo=",
         "ref": "refs/heads/main",
-        "rev": "77ef9875c578b553e94429c13734016cb48d5752",
-        "revCount": 90,
+        "rev": "b165f2931e632decf815f45e3d6190b9df8c575f",
+        "revCount": 91,
         "type": "git",
         "url": "ssh://git@github.com/thein3rovert/polis.git"
       },
