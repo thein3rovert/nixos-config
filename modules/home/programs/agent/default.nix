@@ -20,6 +20,9 @@ in
     ./opencode.nix
   ];
 
+  # Enable option for homeSetup namespace
+  options.homeSetup.programs.agent.enable = lib.mkEnableOption "AI agent configuration (opencode, bun, python3)";
+
   options.ai.agents.skills = {
     agentsInput = shared.mkAgentsInputOption ''
       The `agents` flake input (my personal AGENTS repo (Polis)).

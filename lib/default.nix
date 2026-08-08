@@ -1,6 +1,4 @@
-{ ... }:
+{ lib }:
 {
-  import = [
-    ./agents.nix
-  ];
+  agents = import ./agents.nix { inherit lib; };
 }

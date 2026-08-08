@@ -116,7 +116,7 @@
       nixpkgs,
       # nixpkgs-unstable-small,
       zen-browser,
-      # polis,  # TODO: Re-enable once SSH auth is fixed
+      polis,
       # ghostty,
       ...
     }@inputs:

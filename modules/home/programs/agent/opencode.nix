@@ -5,22 +5,17 @@
   ...
 }:
 {
-  imports = [
-    ./shared/common.nix
-  ];
-
   options.ai.agents.opencode =
     let
-      shared = ./shared/common.nix { inherit lib; };
+      shared = import ./shared/common.nix { inherit lib; };
     in
-
     with lib;
     {
       enable = mkEnableOption "Opencode agent management using canonical agent.toml definitions";
       agentsInput = shared.mkAgentsInputOption ''
         The `agents` flake input (my personal AGENTS repo (Polis)).
-        When set, agents are rendered from cononical agent.toml files
-        and symliked to opencode default config ~/.config/opencode/agents/.
+        When set, agents are rendered from canonical agent.toml files
+        and symlinked to opencode default config ~/.config/opencode/agents/.
       '';
 
       modelOverrides = shared.mkModelOverridesOption;
@@ -28,12 +23,10 @@
 
   config =
     with lib;
-    # let
-    #
-    #   shared = ./shared/common.nix { inherit lib; };
-    #   cfg = config.ai.agents.opencode;
-    # in
-
+    let
+      cfg = config.ai.agents.opencode;
+      shared = import ./shared/common.nix { inherit lib; };
+    in
     mkIf cfg.enable {
       # Render agent files and symlinked to opencode config in .config
       xdg.configFile."opencode/agents" =
@@ -43,15 +36,16 @@
         mkIf (cfg.agentsInput != null) {
           source = allAgentLib.renderForOpencode {
             inherit pkgs;
-            # INFO: Still dont know what load agent is yet
-            canonical = cfg.agentsInput.lib.loadAgents;
+            canonical = allAgentLib.loadAgents {
+              agentsDir = "${cfg.agentsInput}/agents";
+            };
             modelOverrides = cfg.modelOverrides;
           };
         };
 
       # Static config dirs from POLIS ( Shared Agent repo )
       xdg.configFile."opencode/context" = mkIf (cfg.agentsInput != null) {
-        sources = "${cfg.agentsInput}/context";
+        source = "${cfg.agentsInput}/context";
       };
       xdg.configFile."opencode/commands" = mkIf (cfg.agentsInput != null) {
         source = "${cfg.agentsInput}/commands";

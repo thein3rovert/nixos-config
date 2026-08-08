@@ -35,21 +35,30 @@ let
   # ── Shared helpers (parseRule + renderAgentFiles) ─────────────
   helpers = import ./agents/helpers.nix { inherit lib; };
 
-  # ── Per-tool renderers ────────────────────────────────────────
-  renderForOpencode = import ./agents/opencode.nix { inherit lib helpers; };
-  renderForPi = import ./agents/pi.nix { inherit lib helpers; };
+  # ── Per-tool modules ──────────────────────────────────────────
+  opencodeLib = import ./agents/opencode.nix { inherit lib helpers; };
+  # renderForPi = import ./agents/pi.nix { inherit lib helpers; };
 
-  # ── loadCanonical ─────────────────────────────────────────────
+  # ── Extract functions from opencode module ────────────────────
+  loadAgents = opencodeLib.loadAgents;
+  renderForOpencode = opencodeLib.renderForOpencode;
+
+  # ── loadCanonical (legacy) ────────────────────────────────────
   # Load canonical agent definitions from the AGENTS flake input.
   # Returns the canonical attrset from lib.loadAgents (keyed by slug).
-  loadCanonical = { agentsInput }: agentsInput.lib.loadAgents;
+  # NOTE: This assumes the flake input has lib.loadAgents - for polis use loadAgents directly
+  loadCanonical = { agentsInput }: 
+    if agentsInput ? lib.loadAgents 
+    then agentsInput.lib.loadAgents 
+    else loadAgents { agentsDir = "${agentsInput}/agents"; };
 
   agentsLib = {
-    # Re-export imported renderers + loadCanonical
+    # Re-export imported functions + loadCanonical
     inherit
       loadCanonical
+      loadAgents
       renderForOpencode
-      renderForPi
+      # renderForPi
       ;
 
     # ── renderForTool dispatcher ──────────────────────────────────
@@ -73,21 +82,22 @@ let
         codingRules ? null,
       }:
       let
-        canonical = agentsInput.lib.loadAgents;
+        # Load agents from polis/agents directory
+        canonical = loadAgents { agentsDir = "${agentsInput}/agents"; };
       in
       if tool == "opencode" then
         renderForOpencode { inherit pkgs canonical modelOverrides; }
-      else if tool == "pi" then
-        renderForPi {
-          inherit
-            pkgs
-            canonical
-            modelOverrides
-            codingRules
-            ;
-        }
+      # else if tool == "pi" then
+      #   renderForPi {
+      #     inherit
+      #       pkgs
+      #       canonical
+      #       modelOverrides
+      #       codingRules
+      #       ;
+      #   }
       else
-        throw "lib.agents.renderForTool: unknown tool '${tool}'. Must be opencode, claude-code, or pi.";
+        throw "lib.agents.renderForTool: unknown tool '${tool}'. Must be opencode."; # TODO: Add pi support
 
     # ── shellHookForTool ─────────────────────────────────────────
     #
