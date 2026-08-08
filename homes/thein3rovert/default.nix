@@ -57,10 +57,15 @@ in
 
       # Enable shell configuration with ZSH and Powerlevel10k
       homeSetup.shell.enable = true;
-      homeSetup.programs.agent.enable = true;
       
-      # Enable OpenCode agent management with polis (NixOS hosts only)
-      ai.agents.opencode = {
+      # Enable AI agent management with polis (NixOS hosts only)
+      homeSetup.programs.agent = {
+        enable = true;
+        agentsInput = self.inputs.polis;
+      };
+      
+      # Enable OpenCode agent management
+      homeSetup.programs.agent.opencode = {
         enable = true;
         agentsInput = self.inputs.polis;
         modelOverrides = {

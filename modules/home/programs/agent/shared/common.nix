@@ -88,6 +88,9 @@ in
     map (
       entry:
       {
+        # Go through every entry and extract it's src and agentSkillsDir
+        # src = entry.src
+        # agentSkillsDir = entry.agentSkillsDir
         inherit (entry) src agentSkillsDir;
       }
       # If selected agent skills is not null then pass into entry -> src and selected agent skills

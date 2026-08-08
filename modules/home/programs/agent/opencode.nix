@@ -5,7 +5,7 @@
   ...
 }:
 {
-  options.ai.agents.opencode =
+  options.homeSetup.programs.agent.opencode =
     let
       shared = import ./shared/common.nix { inherit lib; };
     in
@@ -24,7 +24,7 @@
   config =
     with lib;
     let
-      cfg = config.ai.agents.opencode;
+      cfg = config.homeSetup.programs.agent.opencode;
       shared = import ./shared/common.nix { inherit lib; };
     in
     mkIf cfg.enable {
