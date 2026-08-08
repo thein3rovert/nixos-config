@@ -68,11 +68,6 @@ in
           ag-blog-writer = "anthropic/claude-sonnet-4";
         };
       };
-      
-      # Deploy shared skills to ~/.agents/skills
-      ai.agents.skills = {
-        agentsInput = self.inputs.polis;
-      };
     }
 
     # ------------------------------

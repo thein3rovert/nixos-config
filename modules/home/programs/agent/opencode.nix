@@ -45,13 +45,16 @@
 
       # Static config dirs from POLIS ( Shared Agent repo )
       xdg.configFile."opencode/context" = mkIf (cfg.agentsInput != null) {
-        source = "${cfg.agentsInput}/context";
+        source = cfg.agentsInput + "/context";
       };
       xdg.configFile."opencode/commands" = mkIf (cfg.agentsInput != null) {
-        source = "${cfg.agentsInput}/commands";
+        source = cfg.agentsInput + "/commands";
       };
       xdg.configFile."opencode/prompts" = mkIf (cfg.agentsInput != null) {
-        source = "${cfg.agentsInput}/prompts";
+        source = cfg.agentsInput + "/prompts";
+      };
+      xdg.configFile."opencode/skills" = mkIf (cfg.agentsInput != null) {
+        source = cfg.agentsInput + "/skills";
       };
     };
 
