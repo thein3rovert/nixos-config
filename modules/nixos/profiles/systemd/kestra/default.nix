@@ -74,7 +74,7 @@ in
     # Container-level health checks are primary mechanism, this is a safety net
     systemd.services."podman-kestra" = {
       serviceConfig = {
-        Restart = "always";
+        Restart = mkForce "always";
         RestartSec = "30s";
         StartLimitIntervalSec = "300";
         StartLimitBurst = "5";

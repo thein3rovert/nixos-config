@@ -670,14 +670,32 @@
         "type": "github"
       }
     },
-    "polis": {
-      "flake": false,
+    "nixpkgs_3": {
       "locked": {
-        "lastModified": 1786211072,
-        "narHash": "sha256-hacP2SbwGU+9OxstEYJjMKHyX0NYFfpju90fFT1FIbo=",
+        "lastModified": 1785975029,
+        "narHash": "sha256-X44cn5rzytELc3NNoQsh0aLkjWA/QzPfc6HPQmsG3sU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "70ce234312134a463ba7728e94da2486a1d237ac",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "polis": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1786219080,
+        "narHash": "sha256-f+gtUMQAdfsyah1jiRzibI3INEyzI4C/6gZBgbTADbc=",
         "ref": "refs/heads/main",
-        "rev": "b165f2931e632decf815f45e3d6190b9df8c575f",
-        "revCount": 91,
+        "rev": "aa20debd85840390dc9454fd4113f869e59f4457",
+        "revCount": 92,
         "type": "git",
         "url": "ssh://git@github.com/thein3rovert/polis.git"
       },
