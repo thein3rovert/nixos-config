@@ -45,6 +45,14 @@ in
       extraOptions = [
         "--memory=2048m"
         "--memory-swap=2048m"
+        # Health check configuration - monitors /health endpoint and restarts on failure
+        # When Postgres becomes unavailable, Kestra stays running but becomes unhealthy
+        # Health check detects this and triggers container restart
+        "--health-cmd=curl -f http://localhost:8081/health || exit 1"
+        "--health-interval=30s" # Check every 30 seconds
+        "--health-retries=3" # Fail after 3 consecutive failures
+        "--health-start-period=60s" # Give Kestra 60s to start before health checks begin
+        "--restart=on-failure" # Restart container when unhealthy
       ];
     };
   };

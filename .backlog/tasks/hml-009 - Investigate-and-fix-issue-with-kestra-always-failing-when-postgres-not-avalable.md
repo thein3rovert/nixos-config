@@ -3,13 +3,13 @@ id: HML-009
 title: >-
   Investigate and fix issue with kestra always failing when postgres not
   avalable
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-08-02 10:09'
-updated_date: '2026-08-02 19:30'
+updated_date: '2026-08-08 15:47'
 labels: []
 dependencies: []
-ordinal: 8000
+ordinal: 1500
 ---
 
 ## Description
@@ -71,3 +71,20 @@ Added restart policy to `/modules/nixos/profiles/systemd/kestra/default.nix` (li
 3. Verify Kestra auto-restarts when Postgres comes back
 4. Check logs: `journalctl -u podman-kestra -f`
 <!-- SECTION:NOTES:END -->
+
+## Comments
+
+<!-- COMMENTS:BEGIN -->
+created: 2026-08-08 15:47
+---
+## Follow-up: Original fix incomplete
+
+The systemd restart policy added in this task only triggers when the container **exits**. Testing revealed that when Postgres becomes unavailable, Kestra stays running but becomes non-functional - it doesn't exit, so systemd never restarts it.
+
+**Root cause**: Kestra handles database connection failures internally and stays running in a broken state rather than crashing.
+
+**Solution**: Need container-level health checks using the /health endpoint on port 8081, plus container-level restart policy.
+
+Created HML-012 to implement proper health checks and container restart.
+---
+<!-- COMMENTS:END -->

@@ -68,11 +68,13 @@ in
       after = [ "agenix.service" ];
     };
 
-    # Add restart policy for Kestra container
-    # Automatically recovers when PostgreSQL becomes unavailable and comes back
+    # Restart policy for Kestra container
+    # Using "always" instead of "on-failure" because Kestra performs graceful shutdown
+    # (exit code 0) when it loses Postgres connection, which bypasses "on-failure"
+    # Container-level health checks are primary mechanism, this is a safety net
     systemd.services."podman-kestra" = {
       serviceConfig = {
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = "30s";
         StartLimitIntervalSec = "300";
         StartLimitBurst = "5";
