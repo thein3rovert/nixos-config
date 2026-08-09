@@ -1,13 +1,13 @@
 ---
 id: HML-002
 title: Create nix lib for manaing multi agent configuration accross servers
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-07-31 23:28'
-updated_date: '2026-08-01 00:12'
+updated_date: '2026-08-09 10:10'
 labels: []
 dependencies: []
-ordinal: 1000
+ordinal: 500
 ---
 
 ## Description
