@@ -19,7 +19,12 @@
 #   Use `lib.mkForce` for scalars (e.g. stateVersion).
 #   Lists (like packages) automatically concatenate with the base.
 # ============================================================================
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  self,
+  ...
+}:
 {
   # Host-specific packages (added on top of base packages from default.nix)
   home.packages = with pkgs; [ vim ];
@@ -29,4 +34,18 @@
 
   # Enable zsh for this host
   programs.zsh.enable = true;
+
+  homeSetup.programs.agent = {
+    enable = false;
+    agentsInput = self.inputs.polis;
+
+    opencode = {
+      enable = true;
+      agentsInput = self.inputs.polis;
+      modelOverrides = {
+        ag-quick-chat = "opencode-go/deepseek-v4";
+        ag-blog-writer = "anthropic/claude-sonnet-4";
+      };
+    };
+  };
 }

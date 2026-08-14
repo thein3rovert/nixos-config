@@ -63,19 +63,19 @@ in
       # Custom modules from modules/home/
       homeSetup.shell.enable = true;
 
-      homeSetup.programs.agent = {
-        enable = false;
-        agentsInput = self.inputs.polis;
-
-        opencode = {
-          enable = true;
-          agentsInput = self.inputs.polis;
-          modelOverrides = {
-            ag-quick-chat = "opencode-go/deepseek-v4";
-            ag-blog-writer = "anthropic/claude-sonnet-4";
-          };
-        };
-      };
+      # homeSetup.programs.agent = {
+      #   enable = false;
+      #   agentsInput = self.inputs.polis;
+      #
+      #   opencode = {
+      #     enable = true;
+      #     agentsInput = self.inputs.polis;
+      #     modelOverrides = {
+      #       ag-quick-chat = "opencode-go/deepseek-v4";
+      #       ag-blog-writer = "anthropic/claude-sonnet-4";
+      #     };
+      #   };
+      # };
     }
 
     #--------------------------------------
