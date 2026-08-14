@@ -1,83 +1,32 @@
-# INFO: Standalone home-manager configuration for trikru
-# (Ubuntu 22.04 LTS server, Proxmox VM)
+# ============================================================================
+# HOST-SPECIFIC HOME-MANAGER CONFIG: trikru (Ubuntu 22.04 server, Proxmox VM)
+# ============================================================================
+# This is a STANDALONE home-manager config (not NixOS integration).
+# Activate with: home-manager switch --flake .#thein3rovert@trikru
 #
-# Apply with:
-#   home-manager switch --flake .#thein3rovert@trikru
-#   (or from this repo: nix run .#home-manager -- switch --flake .#thein3rovert@trikru)
+# 📖 See docs: `doc-001 - Home-Manager-Configuration-Architecture.md`
+#
+# HOW IT'S LOADED:
+#   modules/flake/home-manager.nix loads this file AFTER
+#   self.homeManagerModules.thein3rovert (the base config), so anything
+#   defined here MERGES with / OVERRIDES the base.
+#
+# ⚠️ DO NOT wrap config in `home-manager.users.thein3rovert = { ... }`.
+#    That option only exists in NixOS integration mode. In standalone mode
+#    you configure home-manager DIRECTLY at the root level.
+#
+# TO OVERRIDE A BASE VALUE:
+#   Use `lib.mkForce` for scalars (e.g. stateVersion).
+#   Lists (like packages) automatically concatenate with the base.
+# ============================================================================
+{ pkgs, lib, ... }:
 {
-  pkgs,
-  lib,
-  self,
-  inputs,
-  ...
-}:
-let
-  inherit (lib)
-    mkMerge
-    mkIf
-    ;
-in
-{
-  # Pull shared base (programs: direnv, eza, fzf, tmux, shell, agent)
-  /*
-    This can be found in flake/home-manager modules
-    Contains the base home manager modules in the
-    modules folder, this makes sure we can enabled
-    configured modules by setting them to true
-  */
-  imports = [ self.homeManagerModules.default ];
+  # Host-specific packages (added on top of base packages from default.nix)
+  home.packages = with pkgs; [ vim ];
 
-  config = mkMerge [
-    # ------------------------------
-    # DEFAULT
-    # ------------------------------
+  # Override base stateVersion (base = "25.11", this host = "25.05")
+  home.stateVersion = lib.mkForce "25.05";
 
-    /*
-      Merge default (base) home manager coonfig for
-      trikru
-    */
-    {
-      home = {
-        username = "thein3rovert";
-        homeDirectory = "/home/thein3rovert";
-        stateVersion = "25.11";
-
-        packages = with pkgs; [
-          curl
-          rclone
-          htop
-          btop
-        ];
-      };
-
-      programs = {
-        home-manager.enable = true;
-        # bash.enable = true;
-        zsh.enable = true;
-      };
-      xdg.enable = true;
-
-      # ------------------------------
-      # CUSTOM MODULES
-      # ------------------------------
-      /*
-        Merge default (base) home manager coonfig for
-        trikru
-      */
-      homeSetup.shell.enable = true; # ZSH + Powerlevel10k
-      # TODO: This to be enabled when my agent
-      # lib is complete (Mrcus and Trikru needs it first)
-      homeSetup.programs.agent.enable = false; # opencode + bun + python3
-    }
-
-    # ------------------------------
-    # LINUX-SPECIFIC
-    # ------------------------------
-    (mkIf pkgs.stdenv.isLinux {
-      home = {
-        username = "thein3rovert";
-        homeDirectory = "/home/thein3rovert";
-      };
-    })
-  ];
+  # Enable zsh for this host
+  programs.zsh.enable = true;
 }

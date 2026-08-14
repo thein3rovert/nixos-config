@@ -1,7 +1,25 @@
-#INFO: This home-manager config is meant to be shared by all user thein3rovert
-# but is it currently broken somehow and i'm trying to fix it.
+# ============================================================================
+# BASE HOME-MANAGER CONFIG FOR USER: thein3rovert
+# ============================================================================
+# This file is the shared base config for the `thein3rovert` user across ALL
+# systems (both NixOS hosts like `marcus` AND standalone Ubuntu hosts like
+# `trikru`).
+#
+# 📖 See docs: `doc-001 - Home-Manager-Configuration-Architecture.md`
+#
+# HOW IT'S LOADED:
+#   - NixOS hosts:  hosts/<name>/home.nix does:
+#                     home-manager.users.thein3rovert = self.homeManagerModules.thein3rovert;
+#   - Standalone:   modules/flake/home-manager.nix loads it via
+#                     self.homeManagerModules.thein3rovert (which resolves to this file)
+#
+# ⚠️  INFINITE RECURSION WARNING:
+#   Options that home-manager needs during assertion checks (like `stateVersion`,
+#   `username`) MUST be set at the unconditional base level below — NEVER inside
+#   `mkIf pkgs.stdenv.isLinux { ... }` blocks. Doing so causes infinite recursion
+#   in standalone mode because pkgs → _module.args → config → stateVersion → pkgs.
+# ============================================================================
 {
-  config,
   pkgs,
   lib,
   self,
@@ -14,34 +32,25 @@ let
     ;
 in
 {
+  # Load custom modules (homeSetup.*) from modules/home/
   imports = [ self.homeManagerModules.default ];
 
-  /*
-    NOTE:
-        lib.mkMerge in Nix merges a list of attribute sets,
-        combining them left to right
-
-     The file uses lib.mkIf to apply specific configurations
-     based on the operating system: Darwin or Linux
-  */
   config = mkMerge [
     #--------------------------------------
-    # DEFAULT
+    # BASE (all systems — Linux + Darwin)
     #--------------------------------------
     {
       home = {
-        packages =
-          with pkgs;
-          [
-            curl
-            # nixos-rebuild-ng
-            rclone
-          ]
-          ++ [
-            htop
-          ];
-
+        # ⚠️ REQUIRED options — MUST stay unconditional (see recursion warning above)
+        stateVersion = "25.11";
         username = "thein3rovert";
+
+        # Packages available on every system
+        packages = with pkgs; [
+          curl
+          rclone
+          htop
+        ];
       };
 
       programs = {
@@ -51,19 +60,13 @@ in
 
       xdg.enable = true;
 
-      # ------------------------------
-      # CUSTOM MODULES IMPORT
-      # ------------------------------
-
-      # Enable shell configuration with ZSH and Powerlevel10k
+      # Custom modules from modules/home/
       homeSetup.shell.enable = true;
 
-      # Enable AI agent management with polis (NixOS hosts only)
       homeSetup.programs.agent = {
-        enable = true;
+        enable = false;
         agentsInput = self.inputs.polis;
 
-        # Enable OpenCode agent management
         opencode = {
           enable = true;
           agentsInput = self.inputs.polis;
@@ -75,40 +78,28 @@ in
       };
     }
 
-    # ------------------------------
-    # TODO: Add config for different OS (Darwin)
-    # ------------------------------
-    (lib.mkIf pkgs.stdenv.isDarwin {
+    #--------------------------------------
+    # DARWIN-ONLY (macOS)
+    # Only put things here that ACTUALLY differ on macOS.
+    # ⚠️ Do NOT put `stateVersion` or `username` here (see recursion warning).
+    #--------------------------------------
+    (mkIf pkgs.stdenv.isDarwin {
       home = {
         homeDirectory = "/Users/thein3rovert";
         shellAliases."docker" = "podman";
       };
     })
 
-    # ---------------
-    # FOR LINUX
-    # ----------------
-
-    # FIX: isLinux not working on linux system
-    # NOTE: Not applying config to linux system
-
+    #--------------------------------------
+    # LINUX-ONLY
+    # Only put things here that ACTUALLY differ on Linux.
+    # ⚠️ Do NOT put `stateVersion` or `username` here (see recursion warning).
+    #--------------------------------------
     (mkIf pkgs.stdenv.isLinux {
-      # gtk.gtk3.bookmarks = lib.mkAfter [
-      #   "file://${config.home.homeDirectory}/sync"
-      # ];
       home = {
         homeDirectory = "/home/thein3rovert";
-
-        packages = with pkgs; [
-          btop
-          # obsidian
-        ];
-
-        stateVersion = "25.11";
-        username = "thein3rovert";
+        packages = with pkgs; [ btop ];
       };
-
-      # systemd.user.startServices = true; # Needed for auto-mounting agenix secrets.
     })
   ];
 }
