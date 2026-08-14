@@ -1,11 +1,4 @@
 {
-  pkgs,
-  lib,
-  config,
-  ...
-}:
-
-{
   virtualisation.oci-containers.containers."glance" = {
     image = "glanceapp/glance";
     volumes = [

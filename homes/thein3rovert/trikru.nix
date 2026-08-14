@@ -5,7 +5,6 @@
 #   home-manager switch --flake .#thein3rovert@trikru
 #   (or from this repo: nix run .#home-manager -- switch --flake .#thein3rovert@trikru)
 {
-  config,
   pkgs,
   lib,
   self,
@@ -20,12 +19,23 @@ let
 in
 {
   # Pull shared base (programs: direnv, eza, fzf, tmux, shell, agent)
+  /*
+    This can be found in flake/home-manager modules
+    Contains the base home manager modules in the
+    modules folder, this makes sure we can enabled
+    configured modules by setting them to true
+  */
   imports = [ self.homeManagerModules.default ];
 
   config = mkMerge [
     # ------------------------------
     # DEFAULT
     # ------------------------------
+
+    /*
+      Merge default (base) home manager coonfig for
+      trikru
+    */
     {
       home = {
         username = "thein3rovert";
@@ -33,7 +43,6 @@ in
         stateVersion = "25.11";
 
         packages = with pkgs; [
-          # info: Not sure but i think this comes with the default
           curl
           rclone
           htop
@@ -46,13 +55,18 @@ in
         # bash.enable = true;
         zsh.enable = true;
       };
-
       xdg.enable = true;
 
       # ------------------------------
       # CUSTOM MODULES
       # ------------------------------
+      /*
+        Merge default (base) home manager coonfig for
+        trikru
+      */
       homeSetup.shell.enable = true; # ZSH + Powerlevel10k
+      # TODO: This to be enabled when my agent
+      # lib is complete (Mrcus and Trikru needs it first)
       homeSetup.programs.agent.enable = false; # opencode + bun + python3
     }
 
