@@ -184,7 +184,7 @@ in
             user = "root";
           };
           trikru = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "100.93.243.52";
+            hostname = "100.118.122.19";
             identityFile = "~/.ssh/id_ed25519";
             user = "root";
           };
