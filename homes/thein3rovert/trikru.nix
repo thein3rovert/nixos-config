@@ -39,7 +39,45 @@
     # Main opencode config
     opencode = {
       enable = true;
+      extraSettings = {
+        provider = {
+          opencode-go = {
+            models = {
+              "opencode-go/deepseek-v4-flash" = {
+                name = "deepseek-v4-flash";
+              };
+            };
+          };
+          github-copilot = {
+            models = {
+              "gpt-4.1" = {
+                name = "GPT-4.1";
+                limit = {
+                  context = 128000;
+                  output = 16384;
+                };
+                modalities = {
+                  input = [ "text" ];
+                  output = [ "text" ];
+                };
+              };
+              "claude-sonnet-4-5" = {
+                name = "Claude Sonnet 4.5";
+                # limit = {
+                #   context = 128000;
+                #   output = 16000;
+                # };
+                # modalities = {
+                #   input = [ "text" ];
+                #   output = [ "text" ];
+                # };
+              };
+            };
+          };
+        };
+      };
     };
+
     # Opencode agent config
     # This is independent of the agent config
     agent = {
@@ -50,8 +88,8 @@
         enable = true;
         agentsInput = self.inputs.polis;
         modelOverrides = {
-          ag-quick-chat = "opencode-go/deepseek-v4";
-          ag-blog-writer = "anthropic/claude-sonnet-4";
+          ag-quick-chat = "opencode-go/deepseek-v4-flash";
+          # ag-blog-writer = "anthropic/claude-sonnet-4";
         };
       };
     };

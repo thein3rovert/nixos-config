@@ -13,7 +13,7 @@ in
     enable = mkEnableOption "Opencode AI coding Harness";
 
     extraSettings = mkOption {
-      iype = types.attrs;
+      type = types.attrs;
       default = { };
       description = ''
         Extra opencode settings, we merge it by using the 
@@ -38,7 +38,7 @@ in
       enableMcpIntegration = true;
       settings = mkMerge [
         {
-          theme = "onedark";
+          theme = "kanagawa";
           formatter = {
             alejandra = {
               command = [

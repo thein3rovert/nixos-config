@@ -8,5 +8,6 @@
     ./shell
     ./agent
     ./backlog.md
+    ./opencode
   ];
 }
