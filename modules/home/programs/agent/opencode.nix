@@ -57,5 +57,4 @@
         source = cfg.agentsInput + "/skills";
       };
     };
-
 }
