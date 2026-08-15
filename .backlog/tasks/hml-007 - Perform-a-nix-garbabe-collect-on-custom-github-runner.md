@@ -4,8 +4,10 @@ title: Perform a nix garbabe collect on custom github runner
 status: To Do
 assignee: []
 created_date: '2026-08-01 21:38'
+updated_date: '2026-08-15 08:46'
 labels: []
 dependencies: []
+priority: high
 ordinal: 6000
 ---
 

@@ -15,7 +15,7 @@ modified_files:
   - modules/nixos/services/automation/kestra/default.nix
 priority: high
 type: bug
-ordinal: 9000
+ordinal: 16000
 ---
 
 ## Description

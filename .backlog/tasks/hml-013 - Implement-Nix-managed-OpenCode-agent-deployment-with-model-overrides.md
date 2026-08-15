@@ -1,14 +1,15 @@
 ---
 id: HML-013
 title: Implement Nix-managed OpenCode agent deployment with model overrides
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-08-08 16:59'
+updated_date: '2026-08-15 20:15'
 labels: []
 dependencies: []
 priority: high
 type: feature
-ordinal: 10000
+ordinal: 18000
 ---
 
 ## Description

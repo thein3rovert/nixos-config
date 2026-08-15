@@ -4,8 +4,10 @@ title: Create a custom nix binary cache for homelab and ci build
 status: To Do
 assignee: []
 created_date: '2026-08-02 20:08'
+updated_date: '2026-08-15 08:46'
 labels: []
 dependencies: []
+priority: low
 ordinal: 7000
 ---
 
