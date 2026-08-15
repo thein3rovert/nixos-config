@@ -691,11 +691,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1786822585,
-        "narHash": "sha256-N818TEcIkquj+SgFnIb6Aj6kCkVCDFM4y88uHV9U5a0=",
+        "lastModified": 1786826887,
+        "narHash": "sha256-JsdU5vMiPttOLCThCmqH8J3WyEAWTLiNm6EqYeOUq08=",
         "ref": "refs/heads/main",
-        "rev": "68bc00aeae908ffca941517e061c1994e59d7d2f",
-        "revCount": 98,
+        "rev": "422ae0912bd2b8ded0563aebb3d2dd905f208087",
+        "revCount": 101,
         "type": "git",
         "url": "ssh://git@github.com/thein3rovert/polis.git"
       },

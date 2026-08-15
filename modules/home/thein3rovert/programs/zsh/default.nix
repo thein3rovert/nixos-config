@@ -103,6 +103,35 @@
               fi
             }
 
+            # Backlog browser control
+            # Usage: bbr [restart|stop|status]
+            bbr() {
+              local action="''${1:-restart}"
+
+              case "$action" in
+                stop)
+                  pkill -f "backlog browser" && echo "✓ Stopped backlog browser" || echo "Not running"
+                  ;;
+                status)
+                  if pgrep -f "backlog browser" > /dev/null; then
+                    echo "✓ Running (PID: $(pgrep -f 'backlog browser'))"
+                  else
+                    echo "✗ Not running"
+                  fi
+                  ;;
+                restart|"")
+                  pkill -f "backlog browser" 2>/dev/null && sleep 0.3
+                  nohup backlog browser > /tmp/backlog-browser.log 2>&1 &
+                  disown
+                  echo "✓ Backlog browser restarted (PID: $!)"
+                  ;;
+                *)
+                  echo "Usage: bbr [restart|stop|status]"
+                  return 1
+                  ;;
+              esac
+            }
+
           '';
 
           shellAliases = {
@@ -182,7 +211,6 @@
             btl = "backlog task list";
             bte = "backlog task edit";
             bb = "backlog board";
-            bbr = "backlog browser";
           };
         };
 
