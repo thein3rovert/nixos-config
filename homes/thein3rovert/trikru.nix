@@ -36,7 +36,7 @@
   programs.zsh.enable = true;
 
   homeSetup.programs.agent = {
-    enable = false;
+    enable = true;
     agentsInput = self.inputs.polis;
 
     opencode = {
