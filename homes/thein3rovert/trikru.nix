@@ -44,6 +44,13 @@
     vaultPath = "/home/thein3rovert/vault/thein3rovert-brain";
   };
 
+  # Enable Opencode Web Interface
+  homeSetup.systemd.opencode-web = {
+    enable = true;
+    port = 3000;
+    hostname = "0.0.0.0";
+  };
+
   homeSetup.programs = {
     # Main opencode config
     opencode = {
