@@ -1,20 +1,19 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
 with lib;
 let
-  cfg = config.coding.opencode;
+  cfg = config.homeSetup.programs.opencode;
 in
 {
-  options.coding.opencode = {
+  options.homeSetup.programs.opencode = {
     enable = mkEnableOption "Opencode AI coding Harness";
 
     extraSettings = mkOption {
-      type = types.attrs;
+      iype = types.attrs;
       default = { };
       description = ''
         Extra opencode settings, we merge it by using the 
@@ -22,8 +21,15 @@ in
         to add provider configuration that is specific to a 
         machine or organisation.
       '';
+      example = literalExpression ''
+        {
+        provider.opencode-go = {
+          name = "opencode-go";
+          models."deepseek-v4" = { limit.context = 200000; };
+          };
+        }
+      '';
     };
-
   };
 
   config = mkIf cfg.enable {

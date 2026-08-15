@@ -35,16 +35,24 @@
   # Enable zsh for this host
   programs.zsh.enable = true;
 
-  homeSetup.programs.agent = {
-    enable = true;
-    agentsInput = self.inputs.polis;
-
+  homeSetup.programs = {
+    # Main opencode config
     opencode = {
       enable = true;
+    };
+    # Opencode agent config
+    # This is independent of the agent config
+    agent = {
+      enable = true;
       agentsInput = self.inputs.polis;
-      modelOverrides = {
-        ag-quick-chat = "opencode-go/deepseek-v4";
-        ag-blog-writer = "anthropic/claude-sonnet-4";
+
+      opencode = {
+        enable = true;
+        agentsInput = self.inputs.polis;
+        modelOverrides = {
+          ag-quick-chat = "opencode-go/deepseek-v4";
+          ag-blog-writer = "anthropic/claude-sonnet-4";
+        };
       };
     };
   };
