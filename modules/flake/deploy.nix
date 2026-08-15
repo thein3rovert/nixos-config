@@ -23,11 +23,14 @@ in
       # ---- Node: trikru (Ubuntu 22.04 server — Proxmox VM) ----
       # Standalone home-manager only; no NixOS system profile.
       trikru = {
-        hostname = "192.168.0.102";
+        hostname = "100.118.122.19";
         sshUser = "thein3rovert";
         # `user` defaults to `sshUser` when set, so the profile is owned by
         # thein3rovert — no sudo needed, no root SSH required.
-        sshOpts = [ "-o" "StrictHostKeyChecking=accept-new" ];
+        sshOpts = [
+          "-o"
+          "StrictHostKeyChecking=accept-new"
+        ];
 
         # Build here, push closure over SSH, activate remotely.
         # (Override with `--remote-build` on the CLI if you'd rather build on trikru.)
@@ -36,8 +39,7 @@ in
         profiles = {
           home = {
             user = "thein3rovert";
-            path = deployLib.activate.home-manager
-              self.homeConfigurations."thein3rovert@trikru";
+            path = deployLib.activate.home-manager self.homeConfigurations."thein3rovert@trikru";
           };
         };
       };
@@ -45,7 +47,5 @@ in
   };
 
   # Validate `deploy` schema with `nix flake check`
-  flake.checks = builtins.mapAttrs
-    (s: lib: lib.deployChecks self.deploy)
-    inputs.deploy-rs.lib;
+  flake.checks = builtins.mapAttrs (s: lib: lib.deployChecks self.deploy) inputs.deploy-rs.lib;
 }
