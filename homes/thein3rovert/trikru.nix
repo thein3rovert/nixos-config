@@ -27,13 +27,22 @@
 }:
 {
   # Host-specific packages (added on top of base packages from default.nix)
-  home.packages = with pkgs; [ vim ];
+  home.packages = with pkgs; [
+    vim
+    obsidian-headless
+  ];
 
   # Override base stateVersion (base = "25.11", this host = "25.05")
   home.stateVersion = lib.mkForce "25.05";
 
   # Enable zsh for this host
   programs.zsh.enable = true;
+
+  # Enable Obsidian sync service
+  homeSetup.systemd.ob-sync = {
+    enable = true;
+    vaultPath = "/home/thein3rovert/vault/thein3rovert-brain";
+  };
 
   homeSetup.programs = {
     # Main opencode config
