@@ -1,10 +1,10 @@
 ---
 id: HML-016
 title: Create GCP VM Terraform Module
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-08-16 20:38'
-updated_date: '2026-08-16 21:35'
+updated_date: '2026-08-16 22:13'
 labels:
   - terraform
   - gcp
@@ -40,4 +40,6 @@ The module will enable infrastructure-as-code deployment of GCP compute instance
 
 <!-- SECTION:NOTES:BEGIN -->
 Successfully deployed VM to GCP using the module. VM is accessible via SSH as thein3rovert@srv-prod-01. Module integrated into terraform/envs/prod with proper provider configuration and local variable for multi-user SSH keys.
+
+Secret Manager module created as subtask HML-016.01 and successfully deployed. Both VM and secrets management working in production.
 <!-- SECTION:NOTES:END -->
