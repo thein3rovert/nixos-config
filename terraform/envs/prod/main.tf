@@ -30,6 +30,12 @@ data "vault_kv_secret_v2" "proxmox" {
 # Local values for credentials from Vault
 locals {
   root_password = data.vault_kv_secret_v2.proxmox.data["root_password"]
+  
+  # Format SSH keys for GCP (username:key-content for each user)
+  gcp_ssh_keys = join("\n", [
+    for user in var.gcp_ssh_key_users : 
+    "${user}:${file(var.ssh_public_key_path)}"
+  ])
 }
 
 # Proxmox provider using Vault secrets
@@ -285,7 +291,7 @@ module "gcp_vm" {
   enable_external_ip = var.gcp_enable_external_ip
 
   # SSH access
-  ssh_keys = var.gcp_ssh_keys
+  ssh_keys = local.gcp_ssh_keys
 
   # Tags and labels
   tags   = var.gcp_tags

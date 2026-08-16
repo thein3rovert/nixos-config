@@ -180,6 +180,12 @@ variable "gcp_ssh_keys" {
   default     = ""
 }
 
+variable "gcp_ssh_key_users" {
+  type        = list(string)
+  description = "List of usernames to create with SSH access"
+  default     = ["ubuntu", "thein3rovert"]
+}
+
 variable "gcp_tags" {
   type        = list(string)
   description = "Network tags"
