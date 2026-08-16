@@ -301,3 +301,21 @@ module "gcp_vm" {
   startup_script = var.gcp_startup_script
 }
 
+# ====================================
+#       GCP | SECRET MANAGER
+# ====================================
+
+module "tailscale_secret" {
+  source = "../../modules/infra/providers/gcp/secret-manager"
+
+  project_id  = var.gcp_project_id
+  secret_id   = "tailscale-authkey"
+  secret_data = var.tailscale_authkey
+
+  labels = {
+    environment = "production"
+    managed_by  = "terraform"
+    service     = "tailscale"
+  }
+}
+

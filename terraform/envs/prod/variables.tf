@@ -207,3 +207,11 @@ variable "gcp_startup_script" {
   default     = null
 }
 
+#========= GCP Secrets =================
+
+variable "tailscale_authkey" {
+  type        = string
+  description = "Tailscale authentication key"
+  sensitive   = true
+}
+

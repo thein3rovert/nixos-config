@@ -26,3 +26,9 @@ output "gcp_vm_name" {
   value       = module.gcp_vm.instance_name
 }
 
+# Secret Manager Outputs
+output "tailscale_secret_name" {
+  description = "Tailscale secret resource name"
+  value       = module.tailscale_secret.secret_name
+}
+
