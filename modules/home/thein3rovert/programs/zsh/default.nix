@@ -105,25 +105,38 @@
 
             # Backlog browser control
             # Usage: bbr [restart|stop|status]
+            # Kills ALL backlog browsers globally, restarts in current directory
             bbr() {
               local action="''${1:-restart}"
 
               case "$action" in
                 stop)
-                  pkill -f "backlog browser" && echo "✓ Stopped backlog browser" || echo "Not running"
+                  if pgrep -f "cli.js browser" > /dev/null; then
+                    pkill -f "cli.js browser"
+                    sleep 0.3
+                    pkill -9 -f "cli.js browser" 2>/dev/null
+                    echo "✓ Stopped all backlog browsers"
+                  else
+                    echo "Not running"
+                  fi
                   ;;
                 status)
-                  if pgrep -f "backlog browser" > /dev/null; then
-                    echo "✓ Running (PID: $(pgrep -f 'backlog browser'))"
+                  local pids="$(pgrep -f 'cli.js browser' | xargs)"
+                  if [ -n "$pids" ]; then
+                    echo "✓ Running (PIDs: $pids)"
                   else
                     echo "✗ Not running"
                   fi
                   ;;
                 restart|"")
-                  pkill -f "backlog browser" 2>/dev/null && sleep 0.3
+                  if pgrep -f "cli.js browser" > /dev/null; then
+                    pkill -f "cli.js browser" 2>/dev/null
+                    sleep 0.3
+                    pkill -9 -f "cli.js browser" 2>/dev/null
+                  fi
                   nohup backlog browser > /tmp/backlog-browser.log 2>&1 &
                   disown
-                  echo "✓ Backlog browser restarted (PID: $!)"
+                  echo "✓ Backlog browser started in $PWD (PID: $!)"
                   ;;
                 *)
                   echo "Usage: bbr [restart|stop|status]"
