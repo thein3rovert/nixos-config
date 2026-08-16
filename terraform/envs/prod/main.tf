@@ -8,6 +8,10 @@ terraform {
       source  = "telmate/proxmox"
       version = "3.0.2-rc07"
     }
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.0"
+    }
   }
 }
 
@@ -34,6 +38,11 @@ provider "proxmox" {
   pm_api_token_id     = data.vault_kv_secret_v2.proxmox.data["pm_api_token_id"]
   pm_api_token_secret = data.vault_kv_secret_v2.proxmox.data["pm_api_token_secret"]
   pm_tls_insecure     = true
+}
+
+# Google Cloud provider (uses GOOGLE_CREDENTIALS from environment)
+provider "google" {
+  region = var.gcp_region
 }
 
 # ====================================
@@ -250,3 +259,39 @@ module "agent_knowledge_base" {
   os_type      = "ubuntu"
   extra_tags   = ["obsidian", "knowledge-base"]
 }
+
+# ====================================
+#       GCP | VM INSTANCE
+# ====================================
+
+module "gcp_vm" {
+  source = "../../modules/infra/providers/gcp/vm"
+
+  # Required
+  project_id    = var.gcp_project_id
+  zone          = var.gcp_zone
+  instance_name = var.gcp_instance_name
+
+  # Machine config
+  machine_type = var.gcp_machine_type
+
+  # Disk config
+  boot_disk_image = var.gcp_boot_disk_image
+  boot_disk_size  = var.gcp_boot_disk_size
+  boot_disk_type  = var.gcp_boot_disk_type
+
+  # Network config
+  network            = var.gcp_network
+  enable_external_ip = var.gcp_enable_external_ip
+
+  # SSH access
+  ssh_keys = var.gcp_ssh_keys
+
+  # Tags and labels
+  tags   = var.gcp_tags
+  labels = var.gcp_labels
+
+  # Optional startup script
+  startup_script = var.gcp_startup_script
+}
+

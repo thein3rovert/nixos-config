@@ -14,3 +14,19 @@ root_password = "your-secure-password-here"
 # Optional: Override other variables
 # container_id = 103
 # hostname = "your-hostname"
+
+#========= GCP Configuration =================
+# Required: GCP project ID (uses GOOGLE_CREDENTIALS from environment for auth)
+gcp_project_id = "your-gcp-project-id"
+
+# Optional: GCP zone and region
+# gcp_zone = "us-central1-a"
+# gcp_region = "us-central1"
+
+# Optional: VM configuration
+# gcp_instance_name = "prod-vm-01"
+# gcp_machine_type = "e2-medium"
+
+# Optional: SSH keys (format: username:ssh-rsa AAAAB3...)
+# gcp_ssh_keys = "username:ssh-rsa AAAAB3NzaC1yc2EAAAA..."
+

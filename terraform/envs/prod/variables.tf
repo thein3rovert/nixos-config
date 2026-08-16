@@ -112,3 +112,92 @@ variable "ostemplate" {
 #     error_message = "ostemplate must be either Ubuntu 22.04 or Alpine 3.22."
 #   }
 # }
+
+#========= GCP Configuration =================
+
+variable "gcp_project_id" {
+  type        = string
+  description = "GCP project ID"
+}
+
+variable "gcp_region" {
+  type        = string
+  description = "Default GCP region"
+  default     = "us-central1"
+}
+
+variable "gcp_zone" {
+  type        = string
+  description = "GCP zone"
+  default     = "us-central1-a"
+}
+
+variable "gcp_instance_name" {
+  type        = string
+  description = "Name of the GCP VM instance"
+  default     = "prod-vm-01"
+}
+
+variable "gcp_machine_type" {
+  type        = string
+  description = "GCP machine type"
+  default     = "e2-medium"
+}
+
+variable "gcp_boot_disk_image" {
+  type        = string
+  description = "Boot disk image"
+  default     = "ubuntu-os-cloud/ubuntu-2204-lts"
+}
+
+variable "gcp_boot_disk_size" {
+  type        = number
+  description = "Boot disk size in GB"
+  default     = 20
+}
+
+variable "gcp_boot_disk_type" {
+  type        = string
+  description = "Boot disk type"
+  default     = "pd-balanced"
+}
+
+variable "gcp_network" {
+  type        = string
+  description = "VPC network"
+  default     = "default"
+}
+
+variable "gcp_enable_external_ip" {
+  type        = bool
+  description = "Assign external IP"
+  default     = true
+}
+
+variable "gcp_ssh_keys" {
+  type        = string
+  description = "SSH public keys (format: username:ssh-rsa AAAAB3...)"
+  default     = ""
+}
+
+variable "gcp_tags" {
+  type        = list(string)
+  description = "Network tags"
+  default     = ["terraform-managed", "prod"]
+}
+
+variable "gcp_labels" {
+  type        = map(string)
+  description = "Resource labels"
+  default = {
+    environment = "production"
+    managed_by  = "terraform"
+  }
+}
+
+variable "gcp_startup_script" {
+  type        = string
+  description = "Startup script"
+  default     = null
+}
+
