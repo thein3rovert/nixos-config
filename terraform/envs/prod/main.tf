@@ -30,10 +30,10 @@ data "vault_kv_secret_v2" "proxmox" {
 # Local values for credentials from Vault
 locals {
   root_password = data.vault_kv_secret_v2.proxmox.data["root_password"]
-  
+
   # Format SSH keys for GCP (username:key-content for each user)
   gcp_ssh_keys = join("\n", [
-    for user in var.gcp_ssh_key_users : 
+    for user in var.gcp_ssh_key_users :
     "${user}:${file(var.ssh_public_key_path)}"
   ])
 }
@@ -68,7 +68,7 @@ module "homelab_vault" {
   # -- Resources
   cores     = 1
   memory    = 1024
-  disk_size = "2G"
+  disk_size = "3G"
   storage   = var.rootfs_storage
 
   # -- Network
