@@ -165,22 +165,65 @@ in
           #     }
           #   ];
           # }
+
+          # Node Exporter - Scrapes metrics from all hosts via HTTP on port 3021
+          # Uses Tailscale network for connectivity (hostnames resolve via MagicDNS)
+          #
+          # NOTE: Can use either hostnames OR Tailscale IPs:
+          #   targets = [ "becca:3021" ];           # Hostname (requires MagicDNS)
+          #   targets = [ "100.123.31.22:3021" ];   # Tailscale IP (more reliable, no DNS lookup)
+          #
+          # Prometheus polls these HTTP endpoints every 10 seconds (see globalConfig.scrape_interval)
+          # No SSH/agents needed - pure HTTP GET requests to /metrics endpoint
           {
             job_name = "node";
             static_configs = [
+              # NixOS hosts
+              # {
+              #   targets = [ "marcus:3021" ];
+              #   labels.instance = "marcus";
+              # }
+              # {
+              #   targets = [ "finn:3021" ];
+              #   labels.instance = "finn";
+              # }
+              # {
+              #   targets = [ "k3s-server:3021" ];
+              #   labels.instance = "k3s-server";
+              # }
               {
                 targets = [ "bellamy:3021" ];
                 labels.instance = "bellamy";
               }
               {
-                targets = [ "marcus:3021" ];
-                labels.instance = "marcus";
-              }
-              {
                 targets = [ "nixos:3021" ];
                 labels.instance = "nixos";
               }
-
+              # Ubuntu hosts
+              {
+                targets = [ "becca:3021" ];
+                labels.instance = "becca";
+              }
+              {
+                targets = [ "bellamy:3021" ];
+                labels.instance = "bellamy";
+              }
+              {
+                targets = [ "github-runner:3021" ];
+                labels.instance = "github-runner";
+              }
+              {
+                targets = [ "trikru:3021" ];
+                labels.instance = "trikru";
+              }
+              {
+                targets = [ "lincoln:3021" ];
+                labels.instance = "lincoln";
+              }
+              {
+                targets = [ "raven:3021" ];
+                labels.instance = "raven";
+              }
             ];
           }
         ];
