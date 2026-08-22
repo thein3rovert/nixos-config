@@ -34,3 +34,7 @@ gcp_project_id = "your-gcp-project-id"
 # Required: Tailscale authentication key for VPN access
 tailscale_authkey = "tskey-auth-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
 
+#========= GCP Storage =================
+# Required: Globally unique bucket name for infrastructure storage (Terraform state, configs, backups)
+gcp_infra_bucket_name = "iv3-infra-us-prod"
+

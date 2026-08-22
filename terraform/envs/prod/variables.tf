@@ -215,3 +215,10 @@ variable "tailscale_authkey" {
   sensitive   = true
 }
 
+#========= GCP Storage =================
+
+variable "gcp_infra_bucket_name" {
+  type        = string
+  description = "GCS bucket name for infrastructure storage (Terraform state, configs, backups)"
+}
+

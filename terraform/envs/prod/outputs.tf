@@ -32,3 +32,14 @@ output "tailscale_secret_name" {
   value       = module.tailscale_secret.secret_name
 }
 
+# Storage Bucket Outputs
+output "infra_bucket_name" {
+  description = "Infrastructure bucket name"
+  value       = module.infra_bucket.bucket_name
+}
+
+output "infra_bucket_url" {
+  description = "Infrastructure bucket URL"
+  value       = module.infra_bucket.bucket_url
+}
+

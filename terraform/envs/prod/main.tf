@@ -319,3 +319,25 @@ module "tailscale_secret" {
   }
 }
 
+# ====================================
+#       GCP | STORAGE BUCKET (Infrastructure)
+# ====================================
+
+module "infra_bucket" {
+  source = "../../modules/infra/providers/gcp/storage-bucket"
+
+  project_id         = var.gcp_project_id
+  bucket_name        = var.gcp_infra_bucket_name
+  location           = "US" # Always Free eligible
+  storage_class      = "STANDARD"
+  versioning_enabled = true
+  force_destroy      = false # Protect from accidental deletion
+
+  labels = {
+    purpose     = "infrastructure"
+    environment = "production"
+    region      = "us"
+    managed_by  = "terraform"
+  }
+}
+
