@@ -31,6 +31,8 @@ in
         packages = with pkgs; [
           vim
           htop
+          fastfetch
+          python3
         ];
         stateVersion = "25.05";
       };
