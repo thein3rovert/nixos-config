@@ -328,7 +328,7 @@ module "infra_bucket" {
 
   project_id         = var.gcp_project_id
   bucket_name        = var.gcp_infra_bucket_name
-  location           = "US" # Always Free eligible
+  location           = "us-central1" # Always Free eligible (regional, not multi-region)
   storage_class      = "STANDARD"
   versioning_enabled = true
   force_destroy      = false # Protect from accidental deletion
