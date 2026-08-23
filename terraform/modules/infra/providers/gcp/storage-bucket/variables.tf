@@ -10,8 +10,8 @@ variable "bucket_name" {
 
 variable "location" {
   type        = string
-  description = "Bucket location (use US, us-central1, us-east1, or us-west1 for Always Free)"
-  default     = "US"
+  description = "Bucket location (use us-central1, us-east1, or us-west1 for Always Free)"
+  default     = "us-central1"
 }
 
 variable "storage_class" {

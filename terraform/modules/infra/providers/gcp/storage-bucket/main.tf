@@ -15,9 +15,7 @@ resource "google_storage_bucket" "bucket" {
   storage_class = var.storage_class
 
   # Uniform bucket-level access
-  uniform_bucket_level_access {
-    enabled = var.uniform_bucket_level_access
-  }
+  uniform_bucket_level_access = var.uniform_bucket_level_access
 
   # Versioning
   versioning {
