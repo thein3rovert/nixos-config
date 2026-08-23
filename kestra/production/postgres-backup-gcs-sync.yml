@@ -1,0 +1,122 @@
+id: postgres-backup-gcs-sync
+namespace: ops
+
+description: Sync Postgres backups to Google Cloud Storage using Ansible
+
+triggers:
+  - id: daily-after-backup
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "15 3 * * *"  # 03:15 AM daily (after postgres backup at 03:10)
+    timezone: "Europe/London"
+
+variables:
+  gcs_bucket: "iv3-infra-us-prod"
+  gcs_prefix: "postgres-backups"
+  retention_days: 30
+
+tasks:
+  - id: working_dir
+    type: io.kestra.plugin.core.flow.WorkingDirectory
+    tasks:
+      - id: clone_repo
+        type: io.kestra.plugin.git.Clone
+        url: https://github.com/thein3rovert/playbooks
+        branch: main
+
+      - id: sync_backups
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
+          SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+          GCP_SERVICE_ACCOUNT_JSON: "{{ kv('GCP_SERVICE_ACCOUNT_JSON') }}"
+          GCS_BUCKET: "{{ vars.gcs_bucket }}"
+          RETENTION_DAYS: "{{ vars.retention_days }}"
+        beforeCommands:
+          - apk add --no-cache curl bash openssh-client py3-pip python3
+          - pip3 install --no-cache-dir gsutil
+          - mkdir -p ~/.ssh
+          - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          - chmod 600 ~/.ssh/id_rsa ~/.ssh/id_ed25519
+          # Add localhost to known_hosts for SSH
+          - ssh-keyscan -H 127.0.0.1 >> ~/.ssh/known_hosts
+          - echo "$ANSIBLE_VAULT_PASSWORD" > {{workingDir}}/.vault_pass
+          - chmod 600 {{workingDir}}/.vault_pass
+          # Write GCP service account JSON to working directory (stays in container)
+          - mkdir -p {{workingDir}}/.gcp
+          - echo "$GCP_SERVICE_ACCOUNT_JSON" > {{workingDir}}/.gcp/service-account.json
+          - chmod 600 {{workingDir}}/.gcp/service-account.json
+        commands:
+          - |
+            cd {{workingDir}}
+            
+            # Run ansible playbook - Ansible handles SSH to localhost
+            ansible-playbook -i inventory/localhost.yml \
+              site.yml \
+              --tags postgres-backup \
+              -e "retention_days=$RETENTION_DAYS" \
+              -e "gcs_bucket=$GCS_BUCKET" \
+              -e "service_account_key={{workingDir}}/.gcp/service-account.json"
+
+      - id: verify_backup_in_gcs
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: google/cloud-sdk:alpine
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: "{{ kv('GCP_SERVICE_ACCOUNT_JSON') }}"
+          GCS_BUCKET: "{{ vars.gcs_bucket }}"
+          GCS_PREFIX: "{{ vars.gcs_prefix }}"
+        beforeCommands:
+          - echo "$GCP_SERVICE_ACCOUNT_JSON" > /tmp/gcp-sa.json
+          - gcloud auth activate-service-account --key-file=/tmp/gcp-sa.json
+        commands:
+          - |
+            echo "📋 Listing backups in GCS..."
+            gsutil ls -lh gs://$GCS_BUCKET/$GCS_PREFIX/
+            
+            echo ""
+            echo "🔍 Verifying all databases present..."
+            DATABASES=("n8n" "forgejo" "kestra" "kaneo")
+            MISSING=0
+            
+            for db in "${DATABASES[@]}"; do
+              if gsutil ls gs://$GCS_BUCKET/$GCS_PREFIX/$db.sql.gz > /dev/null 2>&1; then
+                echo "  ✅ $db.sql.gz found"
+              else
+                echo "  ❌ $db.sql.gz MISSING"
+                MISSING=$((MISSING + 1))
+              fi
+            done
+            
+            if [ $MISSING -gt 0 ]; then
+              echo ""
+              echo "⚠️  WARNING: $MISSING database backup(s) missing in GCS!"
+              exit 1
+            fi
+            
+            echo ""
+            echo "✅ All database backups verified in GCS"
+            
+            # Get total backup size
+            TOTAL_SIZE=$(gsutil du -sh gs://$GCS_BUCKET/$GCS_PREFIX/ | awk '{print $1}')
+            echo "📊 Total backup size: $TOTAL_SIZE"
+
+errors:
+  - id: alert_on_failure
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      ❌ Postgres backup sync FAILED!
+      
+      Execution ID: {{ execution.id }}
+      Start time: {{ execution.startDate }}
+      
+      Check the logs for details.
+    level: ERROR
