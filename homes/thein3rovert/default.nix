@@ -50,6 +50,7 @@ in
           curl
           rclone
           htop
+          python3
         ];
       };
 
@@ -99,6 +100,8 @@ in
       home = {
         homeDirectory = "/home/thein3rovert";
         packages = with pkgs; [ btop ];
+        stateVersion = "25.11";
+        username = "thein3rovert";
       };
     })
   ];

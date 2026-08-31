@@ -154,7 +154,6 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    fastfetch
     jq
     iptables
     dig

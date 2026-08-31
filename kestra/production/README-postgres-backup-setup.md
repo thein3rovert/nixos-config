@@ -4,7 +4,7 @@ This guide explains how to set up and deploy the Postgres backup sync workflow t
 
 ## Prerequisites
 
-1. Kestra instance running (✅ you have this at `trikru`)
+1. Kestra instance running (✅ you have this at `nixos (Emily)`)
 2. Playbooks repo: https://github.com/thein3rovert/playbooks
 3. GCP service account JSON key
 4. SSH access to bellamy (postgres host)
@@ -31,6 +31,7 @@ GCP_SERVICE_ACCOUNT_JSON  # Full JSON content of GCP service account key
 ### How to Add GCP Service Account JSON
 
 **Option 1: Via Kestra UI**
+
 1. Go to Kestra → Settings → KV Store
 2. Click "Add Key"
 3. Key: `GCP_SERVICE_ACCOUNT_JSON`
@@ -48,6 +49,7 @@ GCP_SERVICE_ACCOUNT_JSON  # Full JSON content of GCP service account key
 5. Save
 
 **Option 2: Via Kestra API**
+
 ```bash
 # Read your GCP service account JSON
 GCP_JSON=$(cat ~/.gcp/terraform-key.json)
@@ -61,18 +63,21 @@ curl -X PUT "http://trikru:8080/api/v1/namespaces/ops/kv/GCP_SERVICE_ACCOUNT_JSO
 ## Step 2: Deploy Workflow to Kestra
 
 **Option 1: Via Kestra UI**
+
 1. Go to Kestra → Flows
 2. Click "Create"
 3. Copy content from `kestra/production/postgres-backup-gcs-sync.yml`
 4. Paste and save
 
 **Option 2: Via Kestra CLI (if installed)**
+
 ```bash
 kestra flow namespace update ops \
   kestra/production/postgres-backup-gcs-sync.yml
 ```
 
 **Option 3: Via API**
+
 ```bash
 curl -X POST "http://trikru:8080/api/v1/flows" \
   -H "Content-Type: application/x-yaml" \
@@ -116,11 +121,13 @@ gsutil ls -lh gs://iv3-infra-us-prod/postgres-backups/
 ## Scheduled Execution
 
 The workflow is configured to run:
+
 - **Schedule**: Daily at 03:15 AM (Europe/London timezone)
 - **Trigger**: `daily-after-backup`
 - **Why 03:15**: Postgres backups run at 03:10 AM, giving 5 minutes buffer
 
 To enable the schedule:
+
 1. Workflow is already configured with trigger
 2. Kestra will automatically execute at scheduled time
 3. Check Kestra → Executions for history
@@ -164,12 +171,14 @@ To enable the schedule:
 ## Security Notes
 
 ✅ **Credentials handled securely:**
+
 - GCP JSON stored in Kestra KV (encrypted at rest)
 - Credentials copied to bellamy only during execution
 - Cleaned up immediately after ansible runs
 - Never stored permanently on bellamy
 
 ✅ **No secrets in code:**
+
 - All secrets fetched from Kestra KV at runtime
 - Workflow YAML contains no hardcoded credentials
 
@@ -178,6 +187,7 @@ To enable the schedule:
 ### Error: "GCP service account key not found"
 
 **Fix:** Verify KV store entry
+
 ```bash
 curl "http://trikru:8080/api/v1/namespaces/ops/kv/GCP_SERVICE_ACCOUNT_JSON"
 ```
@@ -185,6 +195,7 @@ curl "http://trikru:8080/api/v1/namespaces/ops/kv/GCP_SERVICE_ACCOUNT_JSON"
 ### Error: "Permission denied" on bellamy
 
 **Fix:** Ensure SSH key is correct
+
 ```bash
 ssh -i ~/.ssh/id_ed25519 thein3rovert@bellamy "echo works"
 ```
@@ -197,6 +208,7 @@ ssh -i ~/.ssh/id_ed25519 thein3rovert@bellamy "echo works"
 
 **Cause:** Postgres backup hasn't run yet
 **Fix:** Check if postgresqlBackup service is enabled
+
 ```bash
 ssh bellamy "systemctl status postgresqlBackup.service"
 ssh bellamy "ls -lh /var/backup/postgresql/"
@@ -205,6 +217,7 @@ ssh bellamy "ls -lh /var/backup/postgresql/"
 ## Monitoring
 
 ### View Execution History
+
 1. Go to Kestra → Executions
 2. Filter by flow: `postgres-backup-gcs-sync`
 3. View success/failure rate
