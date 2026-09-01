@@ -79,6 +79,9 @@ in
     nil # Nix language server
     nixd # Another Nix language server
 
+    # Flox dev environment manager (from flake input)
+    inputs.flox.packages.${pkgs.stdenv.hostPlatform.system}.default
+
     # ---- GUI Applications ----
     # TODO: MOVE TO DESKTOP MODULES
     dunst # Notification daemon
@@ -93,7 +96,7 @@ in
     fuse # Filesystem utilities
     gparted
     banana-cursor
-
+    kanata
     # ---- Network and Tunneling ----
     dig
     iptables
@@ -184,10 +187,18 @@ in
   # ================================
   #        NIX CONFIGURATION
   # ================================
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+
+    # Flox binary cache
+    trusted-substituters = [ "https://cache.flox.dev" ];
+    trusted-public-keys = [
+      "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+    ];
+  };
 
   # ================================
   #    NIXOS CUSTOM MODULES
@@ -346,6 +357,22 @@ in
     PermitTTY yes
     PermitUserEnvironment yes
   '';
+
+  services.kanata = {
+    enable = true;
+    keyboards.default = {
+      extraDefCfg = "process-unmapped-keys yes";
+      config = ''
+        (defsrc
+          bksl
+        )
+
+        (deflayer base
+          /
+        )
+      '';
+    };
+  };
 
   # ---- Cloudflare WARP Service ----
   # systemd.services.warp-svc = {
