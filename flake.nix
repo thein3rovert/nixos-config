@@ -85,6 +85,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Flox - Dev environment manager
+    flox = {
+      url = "github:flox/flox/latest";
+    };
+
     # Backlog.md - Task management tool
     backlog-md = {
       url = "github:MrLesk/Backlog.md";
@@ -95,9 +100,13 @@
 
   nixConfig = {
     accept-flake-config = true;
-    extra-substituters = [ "https://thein3rovert.cachix.org" ];
+    extra-substituters = [
+      "https://thein3rovert.cachix.org"
+      "https://cache.flox.dev"
+    ];
     extra-trusted-public-keys = [
       "thein3rovert.cachix.org-1:gvwn/ed5w81ylC4IgBrHEvypkAybKaDlg2zdSbmyJ+o="
+      "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
     ];
   };
 
