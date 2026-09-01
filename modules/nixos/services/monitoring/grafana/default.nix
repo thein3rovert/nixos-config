@@ -152,7 +152,7 @@ in
 
       prometheus = {
         enable = true;
-        globalConfig.scrape_interval = "10s";
+        globalConfig.scrape_interval = "60s";
         inherit (config.myDns.networkMap.localNetworkMap.prometheus) port;
 
         scrapeConfigs = [
@@ -173,7 +173,7 @@ in
           #   targets = [ "becca:3021" ];           # Hostname (requires MagicDNS)
           #   targets = [ "100.123.31.22:3021" ];   # Tailscale IP (more reliable, no DNS lookup)
           #
-          # Prometheus polls these HTTP endpoints every 10 seconds (see globalConfig.scrape_interval)
+          # Prometheus polls these HTTP endpoints every 60 seconds (see globalConfig.scrape_interval)
           # No SSH/agents needed - pure HTTP GET requests to /metrics endpoint
           {
             job_name = "node";
@@ -203,10 +203,6 @@ in
               {
                 targets = [ "becca:3021" ];
                 labels.instance = "becca";
-              }
-              {
-                targets = [ "bellamy:3021" ];
-                labels.instance = "bellamy";
               }
               {
                 targets = [ "github-runner:3021" ];
