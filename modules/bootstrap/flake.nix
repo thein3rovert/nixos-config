@@ -22,7 +22,7 @@
       ...
     }:
     {
-      nixosConfigurations.runner = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.raven = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
@@ -37,15 +37,21 @@
           modules = [
             ./configuration.nix
           ];
-          format = "lxc"; # proxmox-lxc ( Used if images is for proxmox )
+          ## If image is for proxmox use (proxmos-lxc)
+          ## If image is for incus use (lxc)
+          format = "proxmox-lxc";
         };
+
         # Hoping it works for incus
-        lxc-meta = nixos-generators.nixosGenerate {
-          system = "x86_64-linux";
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          modules = [ ./configuration.nix ];
-          format = "lxc-metadata";
-        };
+        # Incus always need an extra meta data details
+
+        # lxc-meta = nixos-generators.nixosGenerate {
+        #   system = "x86_64-linux";
+        #   pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        #   modules = [ ./configuration.nix ];
+        #   format = "lxc-metadata";
+        # };
+
       };
 
       colmenaHive = colmena.lib.makeHive {
@@ -60,11 +66,13 @@
               pkgs.htop
             ];
           };
-        runner =
+        raven =
           { pkgs, ... }:
           {
+            # INFO: This was used for when i was building a custom runner
+            # for forgejo, just writing this so i dont forget..haha
             deployment = {
-              targetHost = "runner";
+              targetHost = "raven"; # runner
               targetPort = 22;
               targetUser = "thein3rovert";
               buildOnTarget = true;
