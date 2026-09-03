@@ -70,48 +70,4 @@ resource "proxmox_lxc" "container" {
   }
 
   tags = join(",", concat(["terraform", var.os_type], var.extra_tags))
-
-  # WARNING: Shrinking disk requires manual steps!
-  # This provisioner detects shrink operations and aborts with instructions
-  provisioner "local-exec" {
-    when    = create
-    command = <<-EOT
-      echo "=========================================="
-      echo "⚠️  DISK SIZE CHANGE DETECTED"
-      echo "=========================================="
-      echo ""
-      echo "Current disk size: ${var.disk_size}"
-      echo ""
-      echo "📋 INSTRUCTIONS:"
-      echo ""
-      echo "GROWING DISK (100G → 120G):"
-      echo "  1. Run: terraform apply"
-      echo "  2. SSH into container: pct enter ${var.container_id}"
-      echo "  3. Resize filesystem: resize2fs /dev/mapper/pve-vm--${var.container_id}--disk--0"
-      echo "  4. Done!"
-      echo ""
-      echo "SHRINKING DISK (120G → 100G) - MANUAL STEPS REQUIRED:"
-      echo "  ⚠️  This CANNOT be done automatically - risk of data loss!"
-      echo ""
-      echo "  Step 1 - Inside container, shrink filesystem FIRST:"
-      echo "    pct enter ${var.container_id}"
-      echo "    resize2fs /dev/mapper/pve-vm--${var.container_id}--disk--0 95G"
-      echo "    exit"
-      echo ""
-      echo "  Step 2 - Stop container:"
-      echo "    pct stop ${var.container_id}"
-      echo ""
-      echo "  Step 3 - Change disk_size in Terraform to new value"
-      echo ""
-      echo "  Step 4 - Apply changes:"
-      echo "    terraform apply"
-      echo ""
-      echo "  Step 5 - Start container and expand to fill:"
-      echo "    pct start ${var.container_id}"
-      echo "    pct enter ${var.container_id}"
-      echo "    resize2fs /dev/mapper/pve-vm--${var.container_id}--disk--0"
-      echo ""
-      echo "=========================================="
-    EOT
-  }
 }
