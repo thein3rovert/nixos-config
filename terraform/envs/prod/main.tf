@@ -247,7 +247,7 @@ module "app-container" {
   proxmox_host_ip = var.proxmox_nodes[var.proxmox_placements["app_container"]].host_ip
 
   # -- Identity
-  hostname     = "raven"
+  hostname     = "roan"
   vmid         = 103
   container_id = 103
   os_type      = "nixos"
@@ -261,9 +261,6 @@ module "app-container" {
   swap      = 1024
   disk_size = "20G"
   storage   = var.rootfs_storage
-
-  # -- Nested Podman support
-  enable_keyctl = true
 
   # -- Network
   bridge      = var.bridge
