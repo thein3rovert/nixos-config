@@ -7,7 +7,12 @@ terraform {
   }
 }
 
-resource "proxmox_lxc" "ubuntu_container" {
+moved {
+  from = proxmox_lxc.ubuntu_container
+  to   = proxmox_lxc.container
+}
+
+resource "proxmox_lxc" "container" {
   target_node  = var.target_node
   hostname     = var.hostname
   ostemplate   = var.ostemplate

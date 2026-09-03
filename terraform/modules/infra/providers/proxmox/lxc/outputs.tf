@@ -4,7 +4,6 @@ output "proxmox_host_ip" {
 }
 
 output "container_ip" {
-  description = "The IP address of the LEMP LXC container."
-  value       = split("/", proxmox_lxc.ubuntu_container.network[0].ip)[0]
+  description = "The IP address of the LXC container."
+  value       = split("/", proxmox_lxc.container.network[0].ip)[0]
 }
-
