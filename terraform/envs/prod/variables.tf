@@ -12,6 +12,23 @@ variable "proxmox_host_ip" {
   default     = "192.168.0.50"
 }
 
+variable "proxmox_nodes" {
+  type = map(object({
+    host_ip = string
+  }))
+  description = "Reusable inventory of Proxmox cluster nodes keyed by node name."
+}
+
+variable "proxmox_placements" {
+  type        = map(string)
+  description = "Proxmox node assignment for each workload, keyed by workload name."
+
+  validation {
+    condition     = alltrue([for node in values(var.proxmox_placements) : contains(keys(var.proxmox_nodes), node)])
+    error_message = "Every proxmox_placements value must match a key in proxmox_nodes."
+  }
+}
+
 variable "hostname" {
   type        = string
   description = "The hostname for the new LXC container."
@@ -221,4 +238,3 @@ variable "gcp_infra_bucket_name" {
   type        = string
   description = "GCS bucket name for infrastructure storage (Terraform state, configs, backups)"
 }
-

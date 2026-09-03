@@ -218,9 +218,9 @@ module "github_runner" {
   memory      = 4096
   # Due to 00M Hang during peaK nixos build
   # i am upgarding the swap to 2gb
-  swap        = 2048
-  disk_size   = "100G"
-  storage     = "LVM_MAIN" # Use the 1TB HDD instead of LVM thin pool
+  swap      = 2048
+  disk_size = "100G"
+  storage   = "LVM_MAIN" # Use the 1TB HDD instead of LVM thin pool
 
   bridge          = var.bridge
   ip_base         = var.ip_base
@@ -233,6 +233,49 @@ module "github_runner" {
   container_id = 120
   os_type      = "ubuntu"
   extra_tags   = ["github-runner", "ci"]
+}
+
+# ====================================
+#       LXC | NIXOS APPLICATIONS
+# ====================================
+
+module "app-container" {
+  source = "../../modules/infra/providers/proxmox/lxc"
+
+  # Select placement from the reusable Proxmox cluster node inventory.
+  target_node     = var.proxmox_placements["app_container"]
+  proxmox_host_ip = var.proxmox_nodes[var.proxmox_placements["app_container"]].host_ip
+
+  # -- Identity
+  hostname     = "raven"
+  vmid         = 103
+  container_id = 103
+  os_type      = "nixos"
+
+  # -- NixOS Proxmox LXC template uploaded to local CT template storage
+  ostemplate = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
+
+  # -- Resources
+  cores     = 2
+  memory    = 2048
+  swap      = 1024
+  disk_size = "20G"
+  storage   = var.rootfs_storage
+
+  # -- Nested Podman support
+  enable_keyctl = true
+
+  # -- Network
+  bridge      = var.bridge
+  ip_base     = var.ip_base
+  cidr_suffix = var.cidr_suffix
+  gateway     = var.gateway
+
+  # -- Auth
+  password = local.root_password
+  ssh_keys = file(var.ssh_public_key_path)
+
+  extra_tags = ["apps", "podman"]
 }
 
 # ====================================
@@ -340,4 +383,3 @@ module "infra_bucket" {
     managed_by  = "terraform"
   }
 }
-
