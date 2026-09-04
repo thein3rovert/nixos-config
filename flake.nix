@@ -466,7 +466,7 @@
               deployment = {
                 targetHost = "192.168.0.104";
                 targetPort = 22;
-                targetUser = "thein3rovert";
+                targetUser = "root";
                 buildOnTarget = false;
                 tags = [
                   "homelab"
@@ -475,7 +475,7 @@
               };
               nixpkgs.system = "x86_64-linux";
               imports = [
-                ./hosts/roan
+                ./hosts/nightblood
                 agenix.nixosModules.default
                 self.nixosModules.base
                 # self.inputs.home-manager.nixosModules.home-manager
