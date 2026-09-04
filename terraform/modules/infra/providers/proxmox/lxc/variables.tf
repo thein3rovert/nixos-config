@@ -12,6 +12,18 @@ variable "memory" { default = 2048 }
 variable "swap" { default = 512 }
 variable "storage" { default = "local-lvm" }
 variable "disk_size" { default = "8G" }
+variable "mountpoints" {
+  description = "Additional Proxmox-managed LXC mount points."
+  type = list(object({
+    key       = string
+    slot      = number
+    storage   = string
+    size      = string
+    mount_dir = string
+    backup    = optional(bool, true)
+  }))
+  default = []
+}
 variable "bridge" { default = "vmbr0" }
 variable "ssh_keys" {}
 variable "container_id" {

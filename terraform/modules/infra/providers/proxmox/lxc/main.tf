@@ -36,6 +36,18 @@ resource "proxmox_lxc" "container" {
     size    = var.disk_size
   }
 
+  dynamic "mountpoint" {
+    for_each = var.mountpoints
+    content {
+      key     = mountpoint.value.key
+      slot    = mountpoint.value.slot
+      storage = mountpoint.value.storage
+      size    = mountpoint.value.size
+      mp      = mountpoint.value.mount_dir
+      backup  = mountpoint.value.backup
+    }
+  }
+
   network {
     name     = "eth0"
     bridge   = var.bridge
