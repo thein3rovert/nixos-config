@@ -12,7 +12,6 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   users.users.thein3rovert = {
     isNormalUser = true;
-    shell = pkgs.zsh;
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -46,6 +45,13 @@
   security.sudo.wheelNeedsPassword = false;
 
   nixosSetup = {
+    profiles.nfs = {
+      enable = true;
+      isServer = true;
+      exports = ''
+        /srv/nfs 192.168.0.0/24(rw,sync,no_subtree_check,root_squash)
+      '';
+    };
     services = {
       tailscale.enable = true;
     };
@@ -58,13 +64,6 @@
     trustedInterfaces = [ "tailscale0" ];
     allowedTCPPorts = [ 2049 ];
     allowedUDPPorts = [ 2049 ];
-  };
-
-  services.nfs.server = {
-    enable = true;
-    exports = ''
-      /srv/nfs 192.168.0.0/24(rw,sync,no_subtree_check,root_squash)
-    '';
   };
 
   nix.settings = {

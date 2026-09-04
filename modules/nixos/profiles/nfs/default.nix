@@ -63,21 +63,6 @@
   };
 
   # ==============================
-  #     Backwards Compatibility
-  # ==============================
-  # If enable=true is set but neither isServer/isClient, enable both
-  config.nixosSetup.profiles.nfs.isServer = lib.mkIf (
-    config.nixosSetup.profiles.nfs.enable
-    && !config.nixosSetup.profiles.nfs.isServer
-    && !config.nixosSetup.profiles.nfs.isClient
-  ) (lib.mkDefault true);
-  config.nixosSetup.profiles.nfs.isClient = lib.mkIf (
-    config.nixosSetup.profiles.nfs.enable
-    && !config.nixosSetup.profiles.nfs.isServer
-    && !config.nixosSetup.profiles.nfs.isClient
-  ) (lib.mkDefault true);
-
-  # ==============================
   #     NFS Client Configuration
   # ==============================
   config.services.nfs.settings = lib.mkIf config.nixosSetup.profiles.nfs.isClient { };
