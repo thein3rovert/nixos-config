@@ -276,6 +276,51 @@ module "app-container" {
 }
 
 # ====================================
+#       LXC | NIXOS NFS STORAGE
+# ====================================
+
+module "nfs_storage" {
+  source = "../../modules/infra/providers/proxmox/lxc"
+
+  target_node     = var.proxmox_placements["nfs_storage"]
+  proxmox_host_ip = var.proxmox_nodes[var.proxmox_placements["nfs_storage"]].host_ip
+
+  hostname     = "nightblood"
+  vmid         = 104
+  container_id = 104
+  os_type      = "nixos"
+
+  ostemplate = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
+
+  cores     = 1
+  memory    = 512
+  swap      = 512
+  disk_size = "8G"
+  storage   = var.rootfs_storage
+
+  mountpoints = [
+    {
+      key       = "mp0"
+      slot      = 0
+      storage   = "LVM_MAIN"
+      size      = "100G"
+      mount_dir = "/srv/nfs"
+      backup    = true
+    }
+  ]
+
+  bridge      = var.bridge
+  ip_base     = var.ip_base
+  cidr_suffix = var.cidr_suffix
+  gateway     = var.gateway
+
+  password = local.root_password
+  ssh_keys = file(var.ssh_public_key_path)
+
+  extra_tags = ["nfs", "storage"]
+}
+
+# ====================================
 #  LXC | OBSIDIAN AS KNOWLEDHE BASE
 # ====================================
 
