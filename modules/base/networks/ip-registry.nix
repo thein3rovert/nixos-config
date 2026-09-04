@@ -100,7 +100,7 @@ in
       url = "${config.homelab.ipRegistry.fossflow.ip}:${toString config.homelab.ipRegistry.fossflow.port}";
     };
     dockhand = {
-      ip = hosts.emily.ip;
+      ip = hosts.roan.tailscaleIp;
       port = networkMap.dockhand.port;
       url = "${config.homelab.ipRegistry.dockhand.ip}:${toString config.homelab.ipRegistry.dockhand.port}";
     };

@@ -61,6 +61,10 @@ in
         ip = "";
         tailscaleIp = "100.105.217.77";
       };
+      roan = {
+        ip = "${ip-base}.103";
+        tailscaleIp = "100.99.235.113";
+      };
       finn = {
         ip = "${ip-base}.51";
         tailscaleIp = "100.91.36.84";
