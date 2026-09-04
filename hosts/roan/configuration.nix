@@ -59,11 +59,10 @@
       podman.enable = true;
     };
     services = {
-      # tailscale = {
-      #   enable = true;
-      # };
+      tailscale.enable = true;
     };
   };
+
   # Add to your LXC's NixOS config
   networking.firewall = {
     enable = true;
