@@ -34,6 +34,7 @@ let
     controlPersist = "no";
     hashKnownHosts = false;
     addKeysToAgent = "no";
+    identitiesOnly = true; # Stop load all keys from .ssh
   };
 in
 {

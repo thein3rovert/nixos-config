@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  #TODO: CONFIGURE AUTO CLEAN NIX CACHE
 
   # home-manager = {
   #   useUserPackages = true;
