@@ -55,11 +55,13 @@
   security.sudo.wheelNeedsPassword = false;
 
   nixosSetup = {
+    programs = {
+      podman.enable = true;
+    };
     services = {
-      ad-guard.enable = true;
-      tailscale = {
-        enable = true;
-      };
+      # tailscale = {
+      #   enable = true;
+      # };
     };
   };
   # Add to your LXC's NixOS config
@@ -79,14 +81,14 @@
     ];
   };
 
-  services.resolved = {
-    enable = true;
-    settings = {
-      Resolve = {
-        DNSStubListener = "no";
-      };
-    };
-  };
+  # services.resolved = {
+  #   enable = true;
+  #   settings = {
+  #     Resolve = {
+  #       DNSStubListener = "no";
+  #     };
+  #   };
+  # };
 
   programs.zsh.enable = true;
   system.stateVersion = "25.05";
