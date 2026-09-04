@@ -195,7 +195,7 @@
 
             # Managed by Proxmox
             "finn" # (Lxc - Killed by grounders)
-
+            "roan" # lxc for all current container on emily
             # "vps-het-1"
             # "demo"
             # "wellsjaha"
@@ -439,6 +439,24 @@
                 self.nixosModules.base
                 self.inputs.home-manager.nixosModules.home-manager
 
+                self.nixosModules.nixosOs
+              ];
+            };
+            # ---- Node: Roan [ lxc 02 ] ----
+            roan = {
+              deployment = {
+                targetHost = "192.168.0.103";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = true;
+                tags = [ "homelab" ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/roan
+                agenix.nixosModules.default
+                self.nixosModules.base
+                # self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.nixosOs
               ];
             };
