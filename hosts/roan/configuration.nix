@@ -61,6 +61,7 @@
     };
     services = {
       tailscale.enable = true;
+      dockhand.enable = true;
     };
   };
 

@@ -7,11 +7,12 @@ let
 
   if-dockhand-enable = lib.mkIf config.nixosSetup.services.dockhand.enable;
   # create-linkding-containter = virtualisation.oci-containers."linkding";
-  imageName = "fnsys/dockhand:latest";
   imageTag = "latest";
+  imageName = "fnsys/dockhand:${imageTag}";
   port = 3000;
+  dockhand_data = "/var/lib/containers/dockhand";
 
-  dataVolume = "dockhand_data:/app/data";
+  dataVolume = "${dockhand_data}:/app/data";
   socketVolume = "/run/podman/podman.sock:/var/run/docker.sock";
 in
 {
@@ -22,7 +23,7 @@ in
   config = if-dockhand-enable {
     virtualisation.oci-containers.containers.dockhand = {
       image = "${imageName}";
-      ports = [ "${toString port}:3000" ];
+      ports = [ "${toString port}:${toString port}" ];
       volumes = [
         dataVolume
         socketVolume
