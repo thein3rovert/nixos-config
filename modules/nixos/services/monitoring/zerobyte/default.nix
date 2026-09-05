@@ -49,7 +49,6 @@ in
           image = "${imageName}:${imageTag}";
           ports = [ "${host}:${toString port}:4096" ];
           volumes = [
-            "/etc/localtime:/etc/localtime:ro"
             "${dataPath}:/var/lib/zerobyte"
             # "${repository}:/var/lib/zerobyte/repositories"
           ]

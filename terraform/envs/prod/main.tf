@@ -261,6 +261,7 @@ module "app-container" {
   swap        = 1024
   disk_size   = "20G"
   storage     = var.rootfs_storage
+  enable_fuse = true
 
   # -- Network
   bridge      = var.bridge

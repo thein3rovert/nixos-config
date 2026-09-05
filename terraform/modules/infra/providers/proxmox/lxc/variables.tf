@@ -70,6 +70,12 @@ variable "enable_keyctl" {
   default     = false
 }
 
+variable "enable_fuse" {
+  description = "Allow FUSE filesystems inside the LXC."
+  type        = bool
+  default     = false
+}
+
 variable "mount_types" {
   description = "Comma-separated filesystem types the LXC may mount (for example nfs)."
   type        = string
