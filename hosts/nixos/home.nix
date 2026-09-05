@@ -171,9 +171,9 @@ in
             user = "thein3rovert";
           };
           nightblood = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "192.168.0.104";
+            hostname = "100.77.212.11";
             identityFile = "~/.ssh/id_ed25519";
-            user = "thein3rovert";
+            user = "root";
           };
           finn = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.0.51";

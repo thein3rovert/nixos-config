@@ -223,6 +223,10 @@ in
         isClient = true;
         mounts = [
           {
+            mountPoint = "/mnt/nightblood";
+            device = "100.77.212.11:/srv/nfs";
+          }
+          {
             mountPoint = "/mnt/backups";
             device = "100.105.187.63:/backups";
           }
