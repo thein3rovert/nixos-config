@@ -461,28 +461,6 @@
               ];
             };
 
-            # ---- Node: NIghtblood [ lxc 04] ----
-            nightblood = {
-              deployment = {
-                targetHost = "192.168.0.104";
-                targetPort = 22;
-                targetUser = "root";
-                buildOnTarget = false;
-                tags = [
-                  "homelab"
-                  "nas_storage"
-                ];
-              };
-              nixpkgs.system = "x86_64-linux";
-              imports = [
-                ./hosts/nightblood
-                agenix.nixosModules.default
-                self.nixosModules.base
-                # self.inputs.home-manager.nixosModules.home-manager
-                self.nixosModules.nixosOs
-              ];
-            };
-
             # ---- Node: Runner [ lxc 02 ] ----
             nixos-runner = {
               deployment = {

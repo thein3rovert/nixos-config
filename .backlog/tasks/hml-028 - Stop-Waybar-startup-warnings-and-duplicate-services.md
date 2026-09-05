@@ -1,11 +1,11 @@
 ---
 id: HML-028
 title: Stop Waybar startup warnings and duplicate services
-status: In Progress
+status: Done
 assignee:
   - opencode
 created_date: '2026-09-03 19:30'
-updated_date: '2026-09-03 19:31'
+updated_date: '2026-09-05 10:15'
 labels:
   - hyprland
   - waybar
@@ -18,7 +18,7 @@ modified_files:
   - /home/thein3rovert/.config/waybar/config
 priority: medium
 type: bug
-ordinal: 32000
+ordinal: 37000
 ---
 
 ## Description

@@ -56,12 +56,29 @@
   security.sudo.wheelNeedsPassword = false;
 
   nixosSetup = {
+    # profiles.nfs = {
+    #   isClient = true;
+    #   mounts = [
+    #     {
+    #       mountPoint = "/mnt/nightblood";
+    #       device = "100.77.212.11:/srv/nfs";
+    #     }
+    #   ];
+    # };
     programs = {
       podman.enable = true;
     };
     services = {
       tailscale.enable = true;
-      dockhand.enable = false;
+      dockhand.enable = true;
+      zerobyte = {
+        enable = true;
+        extraVolumes = [
+          # Save data to the nfs
+          "/mnt/nightblood/sources/nixos-config:/nixos-config:ro"
+          "/mnt/nightblood/sources/thein3rovert_vault:/thein3rovert_vault:ro"
+        ];
+      };
     };
   };
 

@@ -1,11 +1,11 @@
 ---
 id: HML-027
 title: Migrate Hyprland wallpaper commands to awww
-status: In Progress
+status: Done
 assignee:
   - opencode
 created_date: '2026-09-03 19:24'
-updated_date: '2026-09-03 19:38'
+updated_date: '2026-09-05 10:15'
 labels:
   - hyprland
   - wallpaper
@@ -21,7 +21,7 @@ modified_files:
   - /home/thein3rovert/.config/hypr/external/swww/set-random-wallpaper.sh
 priority: medium
 type: bug
-ordinal: 31000
+ordinal: 38000
 ---
 
 ## Description

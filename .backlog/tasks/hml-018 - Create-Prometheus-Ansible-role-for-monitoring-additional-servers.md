@@ -13,7 +13,7 @@ labels:
   - grafana
 dependencies: []
 type: feature
-ordinal: 21000
+ordinal: 22000
 ---
 
 ## Description
