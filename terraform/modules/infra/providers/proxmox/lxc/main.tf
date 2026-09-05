@@ -29,6 +29,7 @@ resource "proxmox_lxc" "container" {
   features {
     nesting = true              # Allows running Docker/containers inside the LXC container
     keyctl  = var.enable_keyctl # Enables kernel keyring operations (required by systemd and some security features)
+    mount   = var.mount_types
   }
 
   rootfs {

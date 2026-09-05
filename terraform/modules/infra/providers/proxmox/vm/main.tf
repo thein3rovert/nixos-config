@@ -38,6 +38,16 @@ resource "proxmox_vm_qemu" "vm" {
           storage = var.storage
         }
       }
+
+      dynamic "scsi1" {
+        for_each = var.data_disk == null ? [] : [var.data_disk]
+        content {
+          disk {
+            size    = scsi1.value.size
+            storage = scsi1.value.storage
+          }
+        }
+      }
     }
     ide {
       ide2 {

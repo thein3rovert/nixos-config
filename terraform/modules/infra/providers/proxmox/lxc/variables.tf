@@ -70,6 +70,12 @@ variable "enable_keyctl" {
   default     = false
 }
 
+variable "mount_types" {
+  description = "Comma-separated filesystem types the LXC may mount (for example nfs)."
+  type        = string
+  default     = null
+}
+
 variable "enable_all_devices" {
   description = "Enable all device access via cgroup2 (required for Kubernetes networking)"
   type        = bool

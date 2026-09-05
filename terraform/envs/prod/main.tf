@@ -256,11 +256,11 @@ module "app-container" {
   ostemplate = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
 
   # -- Resources
-  cores     = 2
-  memory    = 2048
-  swap      = 1024
-  disk_size = "20G"
-  storage   = var.rootfs_storage
+  cores       = 2
+  memory      = 2048
+  swap        = 1024
+  disk_size   = "20G"
+  storage     = var.rootfs_storage
 
   # -- Network
   bridge      = var.bridge
@@ -276,48 +276,44 @@ module "app-container" {
 }
 
 # ====================================
-#       LXC | NIXOS NFS STORAGE
+#       VM | UBUNTU NFS STORAGE
 # ====================================
 
+moved {
+  from = module.nightblood_vm
+  to   = module.nfs_storage
+}
+
 module "nfs_storage" {
-  source = "../../modules/infra/providers/proxmox/lxc"
+  source = "../../modules/infra/providers/proxmox/vm"
 
-  target_node     = var.proxmox_placements["nfs_storage"]
-  proxmox_host_ip = var.proxmox_nodes[var.proxmox_placements["nfs_storage"]].host_ip
+  target_node    = var.proxmox_placements["nfs_storage"]
+  hostname       = "nightblood"
+  vmid           = 105
+  clone_template = "ubuntu-cloud-template"
 
-  hostname     = "nightblood"
-  vmid         = 104
-  container_id = 104
-  os_type      = "nixos"
+  kvm_enabled   = true
+  agent_enabled = true
+  cores         = 1
+  memory        = 1024
+  disk_size     = "8G"
+  storage       = var.rootfs_storage
 
-  ostemplate = "local:vztmpl/nixos-image-lxc-proxmox-26.05.20251205.f61125a-x86_64-linux.tar.xz"
-
-  cores     = 1
-  memory    = 512
-  swap      = 512
-  disk_size = "8G"
-  storage   = var.rootfs_storage
-
-  mountpoints = [
-    {
-      key       = "mp0"
-      slot      = 0
-      storage   = "LVM_MAIN"
-      size      = "100G"
-      mount_dir = "/srv/nfs"
-      backup    = true
-    }
-  ]
+  data_disk = {
+    size    = "100G"
+    storage = "LVM_MAIN"
+  }
 
   bridge      = var.bridge
-  ip_base     = var.ip_base
+  ip_address  = "${var.ip_base}.105"
   cidr_suffix = var.cidr_suffix
   gateway     = var.gateway
 
   password = local.root_password
   ssh_keys = file(var.ssh_public_key_path)
 
-  extra_tags = ["nfs", "storage"]
+  extra_tags  = ["nfs", "storage", "ubuntu"]
+  description = "Ubuntu NFS storage VM"
 }
 
 # ====================================

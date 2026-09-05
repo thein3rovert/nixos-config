@@ -49,6 +49,15 @@ variable "disk_size" {
   default     = "20G"
 }
 
+variable "data_disk" {
+  description = "Optional additional data disk."
+  type = object({
+    size    = string
+    storage = string
+  })
+  default = null
+}
+
 variable "storage" {
   type        = string
   description = "Storage pool"
