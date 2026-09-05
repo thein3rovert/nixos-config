@@ -51,7 +51,7 @@ in
     # Local Services
     # ============================================
     zerobyte = {
-      ip = hosts.localhost.ip;
+      ip = hosts.roan.tailscaleIp;
       port = networkMap.zerobyte.port;
       url = "${config.homelab.ipRegistry.zerobyte.ip}:${toString config.homelab.ipRegistry.zerobyte.port}";
     };

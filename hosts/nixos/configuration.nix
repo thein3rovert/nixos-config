@@ -302,7 +302,7 @@ in
       adguard.enable = false;
       prometheusNode.enable = true;
       promtail.enable = false;
-      zerobyte.enable = true;
+      # zerobyte.enable = true; # move to roan
       hawser.enable = false;
       dockhand.enable = true;
       mysql.enable = false;
