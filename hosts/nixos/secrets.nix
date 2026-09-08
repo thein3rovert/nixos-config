@@ -57,6 +57,11 @@
         group = "users";
         mode = "0400";
       };
+      # NOTE: Garage migrated from bellamy to this host (HML-036)
+      garage-webui-env = {
+        file = "${self.inputs.secrets}/garage/garage-webui.age";
+        path = "/home/thein3rovert/.secrets/.garage-webui";
+      };
       garage_thein3rovert_id = {
         file = "${self.inputs.secrets}/minio-client/accessKey/iv3-garage-id.age";
         # old: file = "${self.inputs.secrets}/aws/accessKey/thein3rovert.age";

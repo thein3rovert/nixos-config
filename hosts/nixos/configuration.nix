@@ -181,7 +181,11 @@ in
   # ---- Firewall Configuration ----
   # NOTE: This is used by localsend, might consider
   # moving to localsend module sometimes
-  networking.firewall.allowedTCPPorts = [ 53317 ];
+  # 3900 = Garage S3 API (reachable from bellamy Traefik over Tailscale - HML-036)
+  networking.firewall.allowedTCPPorts = [
+    53317
+    3900
+  ];
   networking.firewall.allowedUDPPorts = [ 53317 ];
 
   # ================================
@@ -230,11 +234,7 @@ in
             mountPoint = "/mnt/backups";
             device = "100.105.187.63:/backups";
           }
-          {
-            mountPoint = "/mnt/garage";
-            device = "100.105.187.63:/var/storage/garage";
-            readOnly = true;
-          }
+          # NOTE: /mnt/garage mount removed - garage now runs locally (HML-036)
         ];
       };
       /*
@@ -298,6 +298,51 @@ in
       };
 
       say-cheese.enable = true;
+
+      # ================================
+      #      GARAGE (migrated from bellamy VPS - HML-036)
+      # ================================
+      # Storage moved here because bellamy ran out of disk space.
+      # Public S3 (s3.thein3rovert.dev) is still terminated by bellamy's
+      # Traefik, which proxies to this host's Tailscale IP over port 3900.
+      garage =
+        let
+          apiPort = 3900;
+          rpcPort = 3901;
+          adminPort = 3903;
+        in
+        {
+          enable = true;
+          user = "thein3rovert";
+          group = "users";
+          metadataDir = "/var/storage/garage/meta";
+          dataDir = "/var/storage/garage/data";
+
+          # [ ADMIN ]
+          apiBindAddr = "127.0.0.1:${toString adminPort}"; # Only accessible locally
+
+          rpcBindAddr = "0.0.0.0:${toString rpcPort}";
+          rpcPublicAddr = "${config.homelab.ipAddresses.nixos.tailscaleIp}:${toString rpcPort}";
+
+          # S3 API must be reachable from bellamy Traefik (Tailscale) and local garage-webui
+          s3Api.apiBindAddr = "0.0.0.0:${toString apiPort}";
+          s3Api.rootDomain = "s3.thein3rovert.dev";
+        };
+
+      # Garage Web UI (Noooste/garage-ui container) - now runs locally
+      garage-webui =
+        let
+          webuiPort = 3909;
+        in
+        {
+          enable = true;
+          port = webuiPort;
+          environmentFile = config.age.secrets.garage-webui-env.path;
+          waitForServices = [ "garage.service" ];
+
+          garageEndpoint = "127.0.0.1:3900";
+          garageAdminEndpoint = "http://127.0.0.1:3903";
+        };
 
       adguard.enable = false;
       prometheusNode.enable = true;

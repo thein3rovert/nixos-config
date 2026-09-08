@@ -163,8 +163,10 @@ in
       port = networkMap.vault.port;
       url = "${config.homelab.ipRegistry.vault.ip}:${toString config.homelab.ipRegistry.vault.port}";
     };
+    # NOTE: Garage migrated to the nixos host (HML-036).
+    # Bellamy's public Traefik proxies s3.thein3rovert.dev to this address over Tailscale.
     garage-webui = {
-      ip = hosts.bellamy.tailscaleIp;
+      ip = hosts.localhost.ip;
       port = networkMap.garage-webui.port;
       url = "${config.homelab.ipRegistry.garage-webui.ip}:${toString config.homelab.ipRegistry.garage-webui.port}";
     };
@@ -181,8 +183,13 @@ in
       port = prodMap.say-cheese.port;
       url = "${config.homelab.ipRegistry.say-cheese.ip}:${toString config.homelab.ipRegistry.say-cheese.port}";
     };
+    # NOTE: Garage storage now runs on the nixos host (HML-036).
+    # Bellamy Traefik terminates s3.thein3rovert.dev and proxies to this Tailscale address.
     garage = {
-      ip = "localhost";
+      # Since we're move garage from bellamy,for bellamy to
+      # access it and proxies to it..we can only do this through
+      # tailscale
+      ip = hosts.nixos.tailscaleIp;
       port = prodMap.garage-api.port;
       url = "${config.homelab.ipRegistry.garage.ip}:${toString config.homelab.ipRegistry.garage.port}";
     };
