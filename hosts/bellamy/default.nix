@@ -133,8 +133,7 @@
           /backups 10.10.10.12(rw,sync,no_subtree_check)
            /backups 100.0.0.0/8(rw,sync,no_subtree_check)
 
-           /var/storage/garage 10.10.10.12(ro,sync,no_subtree_check)
-           /var/storage/garage 100.0.0.0/8(ro,sync,no_subtree_check)
+           # NOTE: /var/storage/garage export removed - garage migrated to nixos host (HML-036)
         '';
       };
     };
@@ -153,8 +152,15 @@
       # jotty.enable = true; Replace with memos
       memos.enable = true;
       say-cheese.enable = true;
+
+      # NOTE: Garage + garage-webui migrated to the nixos host (HML-036)
+      # because this VPS ran out of disk space. This host's Traefik still
+      # terminates s3.thein3rovert.dev and proxies to the nixos host over
+      # Tailscale (via homelab.ipRegistry.garage).
       # Disabled: MinIO abandoned upstream with multiple CVEs, using Garage instead
       minio.enable = false;
+      garage.enable = false;
+      garage-webui.enable = false;
       hawser.enable = true;
       forgejo = {
         enable = true;
@@ -163,54 +169,6 @@
       prometheusNode.enable = true;
       # No longer supported and maintained swithing to alloy
       promtail.enable = false;
-
-      garage-webui =
-        let
-          apiPort = config.snippets.thein3rovert.networkMap.garage-api.port;
-          webuiPort = 3909;
-          adminPort = 3903;
-          garageWebuiEnv = config.age.secrets.garage-webui-env.path;
-        in
-        {
-          # Replaced garage web ui with docker container version
-          enable = true;
-          port = webuiPort;
-          environmentFile = garageWebuiEnv;
-          waitForServices = [ "garage.service" ];
-
-          # New module options
-          garageEndpoint = "127.0.0.1:${toString apiPort}";
-          garageAdminEndpoint = "http://127.0.0.1:${toString adminPort}";
-        };
-
-      garage =
-        let
-          apiPort = 3900;
-          rpcPort = 3901;
-          adminPort = 3903;
-        in
-        {
-          enable = true;
-          user = "thein3rovert";
-          group = "users";
-          metadataDir = "/var/storage/garage/meta";
-          dataDir = "/var/storage/garage/data";
-          # rpcSecret = builtins.readFile config.age.secrets.rpcSecret.path;
-          # adminToken = builtins.readFile config.age.secrets.adminToken.path;
-
-          # [ ADMIN ]
-          apiBindAddr = "127.0.0.1:${toString adminPort}"; # Only accessible locally
-
-          rpcBindAddr = "0.0.0.0:${toString rpcPort}";
-          rpcPublicAddr = "127.0.0.1:${toString rpcPort}";
-          # S3 API should listen on all interfaces so reverse proxy can reach it
-
-          s3Api.apiBindAddr = "127.0.0.1:${toString apiPort}"; # Only accessible locally
-          s3Api.rootDomain = "s3.thein3rovert.dev";
-
-          # s3Web.rootDomain = "s3-web.thein3rovert.dev";
-          # s3Web.bindAddr = "127.0.0.1:3902";
-        };
     };
 
     programs = {
