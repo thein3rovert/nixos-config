@@ -1,11 +1,11 @@
 ---
 id: HML-031
 title: Provision local NFS storage LXC
-status: In Progress
+status: Done
 assignee:
   - AI
 created_date: '2026-09-04 17:42'
-updated_date: '2026-09-04 19:30'
+updated_date: '2026-09-08 19:38'
 labels:
   - terraform
   - proxmox
@@ -20,7 +20,7 @@ modified_files:
   - terraform/modules/infra/providers/proxmox/lxc/variables.tf
 priority: medium
 type: feature
-ordinal: 35000
+ordinal: 41000
 ---
 
 ## Description

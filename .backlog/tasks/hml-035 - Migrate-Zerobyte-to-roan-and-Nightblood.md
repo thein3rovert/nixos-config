@@ -1,11 +1,11 @@
 ---
 id: HML-035
 title: Migrate Zerobyte to roan and Nightblood
-status: In Progress
+status: Done
 assignee:
   - AI
 created_date: '2026-09-05 10:38'
-updated_date: '2026-09-05 10:50'
+updated_date: '2026-09-08 19:38'
 labels:
   - zerobyte
   - podman
@@ -18,7 +18,7 @@ modified_files:
   - modules/nixos/services/monitoring/zerobyte/default.nix
 priority: high
 type: task
-ordinal: 39000
+ordinal: 42000
 ---
 
 ## Description

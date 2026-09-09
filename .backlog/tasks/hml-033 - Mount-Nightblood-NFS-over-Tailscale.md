@@ -1,11 +1,11 @@
 ---
 id: HML-033
 title: Mount Nightblood NFS over Tailscale
-status: In Progress
+status: Done
 assignee:
   - AI
 created_date: '2026-09-04 19:26'
-updated_date: '2026-09-05 10:30'
+updated_date: '2026-09-08 19:38'
 labels:
   - nixos
   - nfs
@@ -19,7 +19,7 @@ modified_files:
   - terraform/envs/prod/main.tf
 priority: medium
 type: enhancement
-ordinal: 37000
+ordinal: 42000
 ---
 
 ## Description
