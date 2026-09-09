@@ -36,6 +36,7 @@
     vim
     tcpdump
     htop
+    python3
   ];
 
   security.sudo.extraRules = [
