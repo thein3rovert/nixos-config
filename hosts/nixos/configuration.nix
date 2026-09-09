@@ -208,9 +208,9 @@ in
   #    NIXOS CUSTOM MODULES
   # ================================
   nixosSetup = {
-    containers = {
-      freshrss.enable = false;
-    };
+    # containers = {
+    #   freshrss.enable = false;
+    # };
 
     profiles = {
       base.enable = true;
@@ -225,6 +225,8 @@ in
       # ================================
       nfs = {
         isClient = true;
+        # Connect to nfs running
+        # on Bellamy and Nightblood
         mounts = [
           {
             mountPoint = "/mnt/nightblood";
@@ -237,6 +239,7 @@ in
           # NOTE: /mnt/garage mount removed - garage now runs locally (HML-036)
         ];
       };
+
       /*
         NOTE: I did this to avoid agenix putting the filepath to the needed credentials
         instead fo the decrypted credential itself so this way makes sure that
@@ -257,10 +260,9 @@ in
           accessKeySecretPath = config.age.secrets.garage_thein3rovert_id.path;
           secretKeySecretPath = config.age.secrets.garage_thein3rovert_secret.path;
         };
-        proxmox = {
+        proxmox-api-secrets = {
           enable = true;
         };
-
       };
     };
 
@@ -356,12 +358,16 @@ in
       dockhand.enable = false;
       mysql.enable = false;
       n8n.enable = false;
+
+      # TODO: Move to lxc on proxmox
       termix.enable = true;
       grafana.enable = true;
       copyparty.enable = true;
       fileshare.enable = true;
       dbpro-studio.enable = true;
       kaneo.enable = true;
+      postgresql.enable = true;
+
       nginx = {
         enable = false;
         virtualHosts.default = {
@@ -369,8 +375,9 @@ in
           root = "/var/www/localhost";
         };
       };
-      postgresql.enable = true;
+
       pgadmin.enable = false; # Replace this with db pro
+
       tailscale = {
         enable = true;
       };

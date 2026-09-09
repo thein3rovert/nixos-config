@@ -11,12 +11,13 @@ let
     ;
   If = mkIf;
   createEnableOption = mkEnableOption;
-  cfg = config.nixosSetup.profiles.systemd.proxmox;
+  cfg = config.nixosSetup.profiles.systemd.proxmox-api-secrets;
 
   proxmox_secret_file = config.age.secrets.proxmox_api_secrets.path;
 in
 {
-  options.nixosSetup.profiles.systemd.proxmox.enable = createEnableOption "Proxmox credentials";
+  options.nixosSetup.profiles.systemd.proxmox-api-secrets.enable =
+    createEnableOption "Proxmox credentials";
   config = If cfg.enable {
     systemd.user.services.installProxmoxSecrets = {
       description = "Install Proxmox API secrets file";
