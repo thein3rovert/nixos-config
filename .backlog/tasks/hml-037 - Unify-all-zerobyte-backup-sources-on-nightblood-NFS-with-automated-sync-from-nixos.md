@@ -3,9 +3,11 @@ id: HML-037
 title: >-
   Unify all zerobyte backup sources on nightblood NFS with automated sync from
   nixos
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - thein3rovert
 created_date: '2026-09-08 19:54'
+updated_date: '2026-09-09 16:54'
 labels: []
 milestone: Homelab
 dependencies: []
@@ -48,13 +50,20 @@ RELATED: HML-035 (Migrate Zerobyte to roan and Nightblood) — In Progress; this
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A systemd rsync timer on the nixos host syncs nixos-config, thein3rovert_vault, and /var/storage/garage to nightblood /srv/nfs/sources/ on a defined schedule (e.g. every 6h or daily)
-- [ ] #2 Synced copies on nightblood are verifiably fresh (mtimes/content match the nixos sources after a timer run, not stale manual copies)
-- [ ] #3 Roan's zerobyte container mounts /mnt/nightblood/sources/garage as a read-only volume
-- [ ] #4 Zerobyte's garage-s3-backup volume is re-pointed from the dead bellamy NFS backend to the directory backend, re-enabled, and shows status mounted
-- [ ] #5 The Garage Backup schedule runs successfully end-to-end: sources from nightblood NFS, restic repository on R2 (cloudflare-main-backup)
-- [ ] #6 Infrastructure and Second_Brain schedules continue to back up successfully from the same NFS sources
-- [ ] #7 The s3personal mirror access-denied error is diagnosed and fixed so the Infrastructure mirror to R2 succeeds
-- [ ] #8 The old bellamy NFS volume config in zerobyte is cleaned up (no dead references)
-- [ ] #9 Backups visible and healthy in the zerobyte UI
+- [ ] #1 An ansible playbook (in the playbooks project, symlinked into the repo at ansible/) syncs nixos-config, thein3rovert_vault, and /var/storage/garage from the nixos host to nightblood /srv/nfs/sources/, invoked by the orchestrator on a defined schedule instead of a systemd timer
+- [ ] #2 The orchestrator (kestra or equivalent) runs the playbook on schedule and the run is visible/monitorable
+- [ ] #3 Synced copies on nightblood are verifiably fresh (mtimes/content match the nixos sources after a run, not stale manual copies)
+- [ ] #4 Roan's zerobyte container mounts /mnt/nightblood/sources/garage as a read-only volume
+- [ ] #5 Zerobyte's garage-s3-backup volume is re-pointed from the dead bellamy NFS backend to the directory backend, re-enabled, and shows status mounted
+- [ ] #6 The Garage Backup schedule runs successfully end-to-end: sources from nightblood NFS, restic repository on R2 (cloudflare-main-backup)
+- [ ] #7 Infrastructure and Second_Brain schedules continue to back up successfully from the same NFS sources
+- [ ] #8 The s3personal mirror access-denied error is diagnosed and fixed so the Infrastructure mirror to R2 succeeds
+- [ ] #9 The old bellamy NFS volume config in zerobyte is cleaned up (no dead references)
+- [ ] #10 Backups visible and healthy in the zerobyte UI
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-09-09 (design change, user decision): Replace the systemd rsync timer approach with an ansible playbook invoked by the orchestrator — user prefers all automation through their existing ansible + orchestrator stack. Also: symlinked the playbooks project into the repo (~/nixos-config/ansible -> ~/Documents/project/playbooks) so the repo's ansible.cfg inventory path (ansible/inventory/) resolves again; verified with ansible-inventory --graph from the repo root. NOTE: symlink is untracked — user handles commits.
+<!-- SECTION:NOTES:END -->
