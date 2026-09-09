@@ -78,7 +78,8 @@ in
 
           # Hardware control
           blueman # Bluetooth manager
-          pavucontrol # Audio control
+          # pavucontrol # Audio control
+          pwvucontrol
           playerctl # Media player control
           brightnessctl # Brightness control
 
