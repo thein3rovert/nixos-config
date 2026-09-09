@@ -49,7 +49,7 @@ tasks:
           - chmod 600 {{workingDir}}/.vault_pass
           - ansible-galaxy collection install kubernetes.core
         commands:
-          - cd {{workingDir}} && ansible-playbook -i inventory/production.yml site.yml --tags k3s-inventory --limit k3s_nodes
+          - cd {{workingDir}} && ansible-playbook -i inventory/production.yml playbooks/site.yml --tags k3s-inventory --limit k3s_nodes
         outputFiles:
           - "*.json"
 

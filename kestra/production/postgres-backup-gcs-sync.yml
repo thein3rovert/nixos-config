@@ -116,7 +116,7 @@ tasks:
             export PATH=$PATH:/usr/local/google-cloud-sdk/bin
             cd {{workingDir}}
             ansible-playbook -i inventory/localhost.yml \
-              site.yml \
+              playbooks/site.yml \
               --tags postgres-backup \
               -e "retention_days=$RETENTION_DAYS" \
               -e "gcs_bucket=$GCS_BUCKET" \
