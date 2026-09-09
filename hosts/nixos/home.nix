@@ -131,21 +131,6 @@ in
         enableDefaultConfig = false;
         enable = true;
         matchBlocks = {
-          # Production VPS
-          vps-het-1 = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "95.216.211.225";
-            identityFile = "~/.ssh/id_ed25519";
-            user = "thein3rovert-cloud";
-          };
-
-          # Production VPS
-          # INFO: Using custom ssh key for reproducibility
-          bellamy = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "95.216.216.22";
-            identityFile = "~/.ssh/thein3rovert_nixos";
-            user = "thein3rovert";
-          };
-
           # Demo/development server
           demo = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.122.36";
@@ -160,14 +145,33 @@ in
             user = "git";
           };
 
+          # =================
           # Test servers
+          # =================
           wellsjaha = lib.recursiveUpdate defaultSSHConfig {
             hostname = "10.20.0.1";
             identityFile = "~/.ssh/id_ed25519";
             user = "thein3rovert";
           };
+          lexa = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.88.29.64";
+            identityFile = "~/.ssh/thein3rovert_nixos";
+            user = "thein3rovert";
+          };
+
+          # ================
+          # PRODUCTION
+          # ================
+
+          # Production VPS
+          # INFO: Using custom ssh key for reproducibility
+          bellamy = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "95.216.216.22";
+            identityFile = "~/.ssh/thein3rovert_nixos";
+            user = "thein3rovert";
+          };
           roan = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "192.168.0.103";
+            hostname = "100.99.235.113";
             identityFile = "~/.ssh/thein3rovert_nixos";
             user = "thein3rovert";
           };
@@ -178,11 +182,6 @@ in
           };
           finn = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.0.51";
-            identityFile = "~/.ssh/thein3rovert_nixos";
-            user = "thein3rovert";
-          };
-          lexa = lib.recursiveUpdate defaultSSHConfig {
-            hostname = "100.88.29.64";
             identityFile = "~/.ssh/thein3rovert_nixos";
             user = "thein3rovert";
           };
