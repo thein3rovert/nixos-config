@@ -32,13 +32,14 @@ tasks:
         env:
           ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
           SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+          ANSIBLE_VAULT_PASSWORD_FILE: /root/.config/ansible/vault-password
         beforeCommands:
           - apk add --no-cache curl bash openssh-client
           - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-          - mkdir -p ~/.ssh
+          - mkdir -p ~/.ssh /root/.config/ansible
           - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           - chmod 600 ~/.ssh/id_rsa
-          - echo "$ANSIBLE_VAULT_PASSWORD" > {{workingDir}}/.vault_pass
-          - chmod 600 {{workingDir}}/.vault_pass
+          - echo "$ANSIBLE_VAULT_PASSWORD" > /root/.config/ansible/vault-password
+          - chmod 600 /root/.config/ansible/vault-password
         commands:
           - cd {{workingDir}} && just run-host backup bellamy
