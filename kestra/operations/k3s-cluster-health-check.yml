@@ -97,11 +97,11 @@ tasks:
             jq -r '.cluster_info | "  Total Nodes: \(.total_nodes)\n  Total Pods: \(.total_pods)\n  Total PVCs: \(.total_pvcs)\n  Total Services: \(.total_services)"' k3s-report.json
             echo "  Problem Pods: $(jq '.problem_pods | length' k3s-report.json)"
             echo "  Total Log Size: $(jq -r '.summary.total_log_size_mb' k3s-report.json)MB"
-            
+
             echo ""
             echo "💻 Node Metrics:"
             jq -r '.nodes | to_entries[] | "  \(.value.hostname): CPU \(.value.metrics.cpu_percent) | Memory \(.value.metrics.memory_percent)"' k3s-report.json
-            
+
             echo ""
             echo "📦 Problem Pods:"
             if jq -e '.problem_pods | length > 0' k3s-report.json > /dev/null; then
@@ -109,11 +109,11 @@ tasks:
             else
               echo "  ✅ No problem pods"
             fi
-            
+
             echo ""
             echo "🔄 ArgoCD Applications:"
             jq -r '.argocd_apps[] | "  \(.name): \(.sync_status) | \(.health_status)"' k3s-report.json 2>/dev/null || echo "  ArgoCD not configured"
-            
+
             echo ""
             echo "📝 Full report available in Outputs tab"
             echo ""
@@ -133,7 +133,7 @@ tasks:
           - |
             cd {{workingDir}}
             CRITICAL_ALERTS=$(jq -r '.alerts[] | select(.severity=="critical")' k3s-report.json 2>/dev/null | jq -s 'length')
-            
+
             if [ "$CRITICAL_ALERTS" -gt 0 ]; then
               echo "⚠️  CRITICAL: Found $CRITICAL_ALERTS critical alert(s)!"
               jq -r '.alerts[] | select(.severity=="critical") | "  🚨 \(.message)"' k3s-report.json
@@ -154,18 +154,18 @@ tasks:
             echo "Current directory: $(pwd)"
             echo "Files in working directory:"
             ls -lh
-            
+
             if [ ! -f "k3s-report.json" ]; then
               echo "❌ k3s-report.json not found!"
               exit 1
             fi
-            
+
             python3 << 'PYTHON_SCRIPT'
             import json
-            
+
             with open('k3s-report.json', 'r') as f:
                 data = json.load(f)
-            
+
             # Build HTML with proper escaping
             html = """<!DOCTYPE html>
             <html><head><meta charset="UTF-8"><title>K3S Report</title>
@@ -209,7 +209,7 @@ tasks:
             <div class="summary-card"><h3>Total PVCs</h3><div class="value">""" + str(data.get('cluster_info', {}).get('total_pvcs', 0)) + """</div></div>
             <div class="summary-card"><h3>Log Size</h3><div class="value">""" + str(data.get('summary', {}).get('total_log_size_mb', 0)) + """ MB</div></div>
             </div><div class="section"><h2>💻 Node Metrics</h2>"""
-            
+
             # nodes is a dict, not a list
             for node_name, node_data in data.get('nodes', {}).items():
                 if not isinstance(node_data, dict):
@@ -234,7 +234,7 @@ tasks:
                 html += '<div class="metric"><div class="metric-label">Memory</div><div class="metric-value">' + mem + '%</div><div class="progress-bar"><div class="progress-fill progress-ok" style="width:' + mem + '%"></div></div></div>'
                 html += '<div class="metric"><div class="metric-label">Disk</div><div class="metric-value">' + disk + '%</div><div class="progress-bar"><div class="progress-fill progress-ok" style="width:' + disk + '%"></div></div></div>'
                 html += '</div></div>'
-            
+
             html += '</div><div class="section"><h2>⚠️ Problem Pods</h2>'
             problem_pods = data.get('problem_pods', [])
             if problem_pods and len(problem_pods) > 0:
@@ -247,7 +247,7 @@ tasks:
                     html += '<div class="pod-item"><strong>' + namespace + '/' + name + '</strong><br>Status: ' + status + '</div>'
             else:
                 html += '<div class="no-items">✅ No problem pods</div>'
-            
+
             html += '</div><div class="section"><h2>🔄 ArgoCD Applications</h2>'
             argocd_apps = data.get('argocd_apps', [])
             if argocd_apps and len(argocd_apps) > 0:
@@ -262,14 +262,14 @@ tasks:
                     html += '<div class="app-item"><strong>' + app_name + '</strong><div><span class="badge badge-' + sync_status + '">' + sync_display + '</span> <span class="badge badge-' + health_status + '">' + health_display + '</span></div></div>'
             else:
                 html += '<div class="no-items">ArgoCD not configured</div>'
-            
+
             html += '</div></div></body></html>'
-            
+
             with open('k3s-report.html', 'w') as f:
                 f.write(html)
             print("✅ HTML report generated!")
             PYTHON_SCRIPT
-            
+
             ls -lh k3s-report.html
 
       - id: upload_to_s3
@@ -291,35 +291,35 @@ tasks:
             export AWS_ACCESS_KEY_ID=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" \
               "$VAULT_ADDR/v1/secret/data/s3" | \
               jq -r '.data.data.access_key_id')
-            
+
             export AWS_SECRET_ACCESS_KEY=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" \
               "$VAULT_ADDR/v1/secret/data/s3" | \
               jq -r '.data.data.secret_access_key')
-            
+
             # Use environment variables
             export AWS_DEFAULT_REGION="$AWS_REGION"
-            
+
             TIMESTAMP="{{ execution.startDate | date('yyyy-MM-dd-HHmmss') }}"
             DATE_PATH="{{ execution.startDate | date('yyyy/MM/dd') }}"
-            
+
             echo "📤 Uploading JSON report to S3..."
             aws s3 cp k3s-report.json \
               s3://$S3_BUCKET/k3s-reports/$DATE_PATH/k3s-report-$TIMESTAMP.json \
               --endpoint-url $S3_ENDPOINT \
               --content-type "application/json"
-            
+
             echo "📤 Uploading HTML report to S3..."
             aws s3 cp k3s-report.html \
               s3://$S3_BUCKET/k3s-reports/$DATE_PATH/k3s-report-$TIMESTAMP.html \
               --endpoint-url $S3_ENDPOINT \
               --content-type "text/html"
-            
+
             echo "📤 Uploading latest HTML (for direct access)..."
             aws s3 cp k3s-report.html \
               s3://$S3_BUCKET/k3s-reports/latest.html \
               --endpoint-url $S3_ENDPOINT \
               --content-type "text/html"
-            
+
             echo ""
             echo "✅ Reports uploaded successfully!"
             echo ""

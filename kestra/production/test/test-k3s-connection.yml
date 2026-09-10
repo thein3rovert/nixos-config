@@ -1,5 +1,5 @@
 id: test-k3s-connection
-namespace: thein3rovert.ops
+namespace: ops
 
 description: Quick K3S cluster health check via SSH
 
