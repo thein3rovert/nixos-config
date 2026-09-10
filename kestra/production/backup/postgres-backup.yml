@@ -1,0 +1,182 @@
+id: postgres-backup
+namespace: ops
+
+description: Sync Postgres backups to Google Cloud Storage using Ansible
+
+triggers:
+  - id: daily-after-backup
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "15 3 * * *" # 03:15 AM daily (after postgres backup at 03:10)
+    timezone: "Europe/London"
+
+variables:
+  gcs_bucket: "iv3-infra-us-prod"
+  gcs_prefix: "postgres-backups"
+  retention_days: 30
+
+tasks:
+  - id: working_dir
+    type: io.kestra.plugin.core.flow.WorkingDirectory
+    tasks:
+      - id: clone_repo
+        type: io.kestra.plugin.git.Clone
+        url: https://github.com/thein3rovert/playbooks
+        branch: main
+
+      - id: install_deps
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        commands:
+          - echo "===> Verify ansible present"
+          - ansible --version
+          - echo "===> Deps OK"
+
+      - id: setup_ssh_key
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+        commands:
+          - echo "===> Writing SSH key to workingDir"
+          - mkdir -p {{workingDir}}/.ssh
+          - echo "$SSH_PRIVATE_KEY" > {{workingDir}}/.ssh/id_rsa
+          - chmod 600 {{workingDir}}/.ssh/id_rsa
+          - echo "===> SSH key written"
+          - ls -la {{workingDir}}/.ssh/
+
+      - id: setup_vault_pass
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
+        commands:
+          - echo "===> Writing vault password"
+          - echo "$ANSIBLE_VAULT_PASSWORD" > {{workingDir}}/.vault_pass
+          - chmod 600 {{workingDir}}/.vault_pass
+          - echo "===> Vault pass written"
+
+      - id: setup_gcp_creds
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: "{{ kv('GCP_SERVICE_ACCOUNT_JSON') }}"
+        commands:
+          - echo "===> Writing GCP service account JSON"
+          - mkdir -p {{workingDir}}/.gcp
+          - echo "$GCP_SERVICE_ACCOUNT_JSON" > {{workingDir}}/.gcp/service-account.json
+          - chmod 600 {{workingDir}}/.gcp/service-account.json
+          - echo "===> GCP creds written"
+          - ls -la {{workingDir}}/.gcp/
+
+      - id: run_ansible
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          GCS_BUCKET: "{{ vars.gcs_bucket }}"
+          RETENTION_DAYS: "{{ vars.retention_days }}"
+        commands:
+          - echo "===> A install base packages"
+          - apk add --no-cache curl bash openssh-client python3 py3-crcmod libc6-compat coreutils
+          - echo "===> B install gcloud SDK"
+          - curl -sSL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz -o /tmp/gcloud.tar.gz
+          - tar -xzf /tmp/gcloud.tar.gz -C /usr/local/
+          - /usr/local/google-cloud-sdk/install.sh --quiet --path-update=false
+          - export PATH=$PATH:/usr/local/google-cloud-sdk/bin
+          - echo "===> C auth service account"
+          - /usr/local/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file={{workingDir}}/.gcp/service-account.json
+          - echo "===> D mkdir ssh dir"
+          - mkdir -p ~/.ssh
+          - echo "===> E copy ssh key"
+          - cp {{workingDir}}/.ssh/id_rsa ~/.ssh/id_rsa
+          - chmod 600 ~/.ssh/id_rsa
+          - echo "===> F ssh-keyscan host via tailscale"
+          - ssh-keyscan -H 100.105.217.77 >> ~/.ssh/known_hosts
+          - echo "===> G run ansible-playbook"
+          - |
+            export PATH=$PATH:/usr/local/google-cloud-sdk/bin
+            cd {{workingDir}}
+            ansible-playbook -i inventory/localhost.yml \
+              playbooks/site.yml \
+              --tags postgres-backup \
+              -e "retention_days=$RETENTION_DAYS" \
+              -e "gcs_bucket=$GCS_BUCKET" \
+              -e "service_account_key={{workingDir}}/.gcp/service-account.json"
+          - echo "===> H DONE"
+
+      - id: verify_backup_in_gcs
+        type: io.kestra.plugin.scripts.shell.Commands
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: google/cloud-sdk:alpine
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: "{{ kv('GCP_SERVICE_ACCOUNT_JSON') }}"
+          GCS_BUCKET: "{{ vars.gcs_bucket }}"
+          GCS_PREFIX: "{{ vars.gcs_prefix }}"
+        beforeCommands:
+          - echo "$GCP_SERVICE_ACCOUNT_JSON" > /tmp/gcp-sa.json
+          - gcloud auth activate-service-account --key-file=/tmp/gcp-sa.json
+        commands:
+          - |
+            #!/bin/bash
+            echo "📋 Listing backups in GCS..."
+            gsutil ls -lh gs://$GCS_BUCKET/$GCS_PREFIX/
+
+            echo ""
+            echo "🔍 Verifying all databases present..."
+            MISSING=0
+
+            for db in n8n forgejo kestra kaneo; do
+              if gsutil ls gs://$GCS_BUCKET/$GCS_PREFIX/$db.sql.gz > /dev/null 2>&1; then
+                echo "  ✅ $db.sql.gz found"
+              else
+                echo "  ❌ $db.sql.gz MISSING"
+                MISSING=$((MISSING + 1))
+              fi
+            done
+
+            if [ $MISSING -gt 0 ]; then
+              echo ""
+              echo "⚠️  WARNING: $MISSING database backup(s) missing in GCS!"
+              exit 1
+            fi
+
+            echo ""
+            echo "✅ All database backups verified in GCS"
+
+            # Get total backup size
+            TOTAL_SIZE=$(gsutil du -sh gs://$GCS_BUCKET/$GCS_PREFIX/ | awk '{print $1}')
+            echo "📊 Total backup size: $TOTAL_SIZE"
+
+errors:
+  - id: alert_on_failure
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      ❌ Postgres backup sync FAILED!
+
+      Execution ID: {{ execution.id }}
+      Start time: {{ execution.startDate }}
+
+      Check the logs for details.
+    level: ERROR

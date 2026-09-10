@@ -1,0 +1,97 @@
+id: backup-to-nfs
+namespace: ops
+
+description: >-
+  Sync backup sources from the nixos host to Nightblood NFS staging using the
+  Ansible sync-sources operations playbook. Runs before Zerobyte's midnight
+  backup schedules.
+
+concurrency:
+  limit: 1
+  behavior: QUEUE
+
+triggers:
+  - id: daily-before-zerobyte
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 23 * * *"
+    timezone: "Europe/London"
+    disabled: false
+
+variables:
+  ansible_host: "100.105.217.77"
+  ansible_user: "thein3rovert"
+  expected_ed25519_fingerprint: "SHA256:0hbda+6Y0yAgVCtGvTR81nH4ZyVRRUgaTWnNcgbsl1c"
+
+tasks:
+  - id: working_dir
+    type: io.kestra.plugin.core.flow.WorkingDirectory
+    tasks:
+      - id: clone_playbooks
+        type: io.kestra.plugin.git.Clone
+        url: https://github.com/thein3rovert/playbooks
+        branch: main
+
+      - id: run_sync_sources
+        type: io.kestra.plugin.scripts.shell.Commands
+        timeout: PT2H
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+          image: willhallonline/ansible:latest
+          volumes:
+            - "{{workingDir}}:{{workingDir}}"
+        env:
+          SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+          ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
+          ANSIBLE_HOST: "{{ vars.ansible_host }}"
+          ANSIBLE_USER: "{{ vars.ansible_user }}"
+          EXPECTED_HOST_FINGERPRINT: "{{ vars.expected_ed25519_fingerprint }}"
+          # The repo ansible.cfg requires a vault password file at startup;
+          # sync-sources itself uses no vault-encrypted vars.
+          ANSIBLE_VAULT_PASSWORD_FILE: /root/.config/ansible/vault-password
+        beforeCommands:
+          - apk add --no-cache bash curl openssh-client
+          - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          - mkdir -p /root/.config/ansible
+          - echo "$ANSIBLE_VAULT_PASSWORD" > /root/.config/ansible/vault-password
+          - chmod 600 /root/.config/ansible/vault-password
+          - mkdir -p ~/.ssh
+          - printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          - chmod 600 ~/.ssh/id_rsa
+          - |
+            set -eu
+            SCANNED_KEY="$(ssh-keyscan -t ed25519 "$ANSIBLE_HOST" 2>/dev/null)"
+            ACTUAL_FINGERPRINT="$(printf '%s\n' "$SCANNED_KEY" | ssh-keygen -lf - -E sha256 | awk '{print $2}')"
+
+            if [ "$ACTUAL_FINGERPRINT" != "$EXPECTED_HOST_FINGERPRINT" ]; then
+              echo "SSH host fingerprint mismatch for $ANSIBLE_HOST"
+              echo "Expected: $EXPECTED_HOST_FINGERPRINT"
+              echo "Actual:   $ACTUAL_FINGERPRINT"
+              exit 1
+            fi
+
+            printf '%s\n' "$SCANNED_KEY" >> ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
+        commands:
+          - echo "===> Running just sync nixos_host localhost against $ANSIBLE_HOST"
+          - |
+            set -eu
+            cd {{workingDir}}
+            just sync nixos_host localhost
+          - echo "===> Source sync complete"
+          - |
+            ssh \
+              -i ~/.ssh/id_rsa \
+              "$ANSIBLE_USER@$ANSIBLE_HOST" \
+              "du -sh /mnt/nightblood/sources/nixos-config /mnt/nightblood/sources/thein3rovert_vault /mnt/nightblood/sources/garage"
+
+errors:
+  - id: alert_on_failure
+    type: io.kestra.plugin.core.log.Log
+    level: ERROR
+    message: |
+      Nightblood source sync FAILED.
+
+      Execution ID: {{ execution.id }}
+      Start time: {{ execution.startDate }}
+
+      Check the run_sync_sources task logs for SSH, NFS, or rsync errors.
