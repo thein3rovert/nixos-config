@@ -15,7 +15,7 @@ triggers:
 tasks:
   - id: send_alert
     type: io.kestra.plugin.discord.DiscordExecution
-    url: "{{ secret('DISCORD_WEBHOOK') }}"
+    url: "{{ kv('DISCORD_WEBHOOK') }}"
     # trigger is absent on manual runs - fall back to this execution's own
     # ID so the flow is testable by hand as well as by real failures.
     executionId: "{{ trigger.executionId ?? execution.id }}"
