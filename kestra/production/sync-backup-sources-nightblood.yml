@@ -41,16 +41,18 @@ tasks:
             - "{{workingDir}}:{{workingDir}}"
         env:
           SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
+          ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
           ANSIBLE_HOST: "{{ vars.ansible_host }}"
           ANSIBLE_USER: "{{ vars.ansible_user }}"
           EXPECTED_HOST_FINGERPRINT: "{{ vars.expected_ed25519_fingerprint }}"
-          # sync-sources uses no vault-encrypted vars; override the repo
-          # ansible.cfg default so ansible does not require a vault password
-          # file inside the container.
-          ANSIBLE_VAULT_PASSWORD_FILE: /dev/null
+          # The repo ansible.cfg requires a vault password file at startup;
+          # sync-sources itself uses no vault-encrypted vars.
+          ANSIBLE_VAULT_PASSWORD_FILE: "{{workingDir}}/.vault_pass"
         beforeCommands:
           - apk add --no-cache bash curl openssh-client
           - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          - echo "$ANSIBLE_VAULT_PASSWORD" > {{workingDir}}/.vault_pass
+          - chmod 600 {{workingDir}}/.vault_pass
           - mkdir -p ~/.ssh
           - printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           - chmod 600 ~/.ssh/id_rsa
