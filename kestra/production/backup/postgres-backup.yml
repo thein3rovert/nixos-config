@@ -94,6 +94,12 @@ tasks:
         env:
           GCS_BUCKET: "{{ vars.gcs_bucket }}"
           RETENTION_DAYS: "{{ vars.retention_days }}"
+          ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
+          ANSIBLE_VAULT_PASSWORD_FILE: /root/.config/ansible/vault-password
+        beforeCommands:
+          - mkdir -p /root/.config/ansible
+          - echo "$ANSIBLE_VAULT_PASSWORD" > /root/.config/ansible/vault-password
+          - chmod 600 /root/.config/ansible/vault-password
         commands:
           - echo "===> A install base packages"
           - apk add --no-cache curl bash openssh-client python3 py3-crcmod libc6-compat coreutils
