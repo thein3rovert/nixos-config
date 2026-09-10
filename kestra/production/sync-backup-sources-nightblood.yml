@@ -44,6 +44,10 @@ tasks:
           ANSIBLE_HOST: "{{ vars.ansible_host }}"
           ANSIBLE_USER: "{{ vars.ansible_user }}"
           EXPECTED_HOST_FINGERPRINT: "{{ vars.expected_ed25519_fingerprint }}"
+          # sync-sources uses no vault-encrypted vars; override the repo
+          # ansible.cfg default so ansible does not require a vault password
+          # file inside the container.
+          ANSIBLE_VAULT_PASSWORD_FILE: /dev/null
         beforeCommands:
           - apk add --no-cache bash curl openssh-client
           - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
