@@ -70,6 +70,7 @@
           # through to this unprivileged LXC; roan is not an NFS client.
           "/mnt/nightblood/sources/nixos-config:/nixos-config:ro"
           "/mnt/nightblood/sources/thein3rovert_vault:/thein3rovert_vault:ro"
+          "/mnt/nightblood/sources/garage:/garage:ro"
         ];
       };
     };

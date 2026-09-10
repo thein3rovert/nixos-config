@@ -7,7 +7,7 @@ status: In Progress
 assignee:
   - thein3rovert
 created_date: '2026-09-08 19:54'
-updated_date: '2026-09-09 16:54'
+updated_date: '2026-09-10 20:03'
 labels: []
 milestone: Homelab
 dependencies: []
@@ -17,8 +17,10 @@ references:
   - modules/nixos/profiles/nfs/default.nix
   - hosts/nixos/configuration.nix
 modified_files:
-  - hosts/nixos/configuration.nix
   - hosts/roan/configuration.nix
+  - kestra/production/sync-backup-sources-nightblood.yml
+  - ansible
+  - hosts/nixos/configuration.nix
 priority: high
 type: task
 ordinal: 43000
@@ -50,9 +52,9 @@ RELATED: HML-035 (Migrate Zerobyte to roan and Nightblood) — In Progress; this
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 An ansible playbook (in the playbooks project, symlinked into the repo at ansible/) syncs nixos-config, thein3rovert_vault, and /var/storage/garage from the nixos host to nightblood /srv/nfs/sources/, invoked by the orchestrator on a defined schedule instead of a systemd timer
-- [ ] #2 The orchestrator (kestra or equivalent) runs the playbook on schedule and the run is visible/monitorable
-- [ ] #3 Synced copies on nightblood are verifiably fresh (mtimes/content match the nixos sources after a run, not stale manual copies)
+- [x] #1 An ansible playbook (in the playbooks project, symlinked into the repo at ansible/) syncs nixos-config, thein3rovert_vault, and /var/storage/garage from the nixos host to nightblood /srv/nfs/sources/, invoked by the orchestrator on a defined schedule instead of a systemd timer
+- [x] #2 The orchestrator (kestra or equivalent) runs the playbook on schedule and the run is visible/monitorable
+- [x] #3 Synced copies on nightblood are verifiably fresh (mtimes/content match the nixos sources after a run, not stale manual copies)
 - [ ] #4 Roan's zerobyte container mounts /mnt/nightblood/sources/garage as a read-only volume
 - [ ] #5 Zerobyte's garage-s3-backup volume is re-pointed from the dead bellamy NFS backend to the directory backend, re-enabled, and shows status mounted
 - [ ] #6 The Garage Backup schedule runs successfully end-to-end: sources from nightblood NFS, restic repository on R2 (cloudflare-main-backup)
@@ -66,4 +68,8 @@ RELATED: HML-035 (Migrate Zerobyte to roan and Nightblood) — In Progress; this
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-09-09 (design change, user decision): Replace the systemd rsync timer approach with an ansible playbook invoked by the orchestrator — user prefers all automation through their existing ansible + orchestrator stack. Also: symlinked the playbooks project into the repo (~/nixos-config/ansible -> ~/Documents/project/playbooks) so the repo's ansible.cfg inventory path (ansible/inventory/) resolves again; verified with ansible-inventory --graph from the repo root. NOTE: symlink is untracked — user handles commits.
+
+2026-09-09: Added Kestra flow kestra/production/sync-backup-sources-nightblood.yml. Daily 23:00 Europe/London schedule (before Zerobyte midnight jobs), concurrency limit=1/QUEUE, 2h timeout, clones playbooks main, installs just, verifies nixos ED25519 host fingerprint, runs `just sync nixos_host localhost`, then reports staging sizes. Requires playbooks branch changes to be pushed/merged to main and Kestra flow synced before AC #2 can be verified.
+
+2026-09-10 (orchestrated run WORKS): Kestra flow sync-backup-sources-nightblood.yml executed end-to-end successfully. Fixes along the way: (1) playbooks branch merged to main (Kestra clones main - sync recipe was missing); (2) vault password via Kestra KV written to container default path /root/.config/ansible/vault-password (/dev/null rejected, {{workingDir}} not resolvable in env). Flow runs `just sync nixos_host localhost` + verifies staging sizes via du. This proves: playbook invocable by orchestrator (AC1), scheduled/monitored orchestrator runs work (AC2), staging copies refreshed by the run (AC3). Remaining: AC4-6 (zerobyte garage volume re-point + schedule run - blocked on Zerobyte moving to a VM for NFS backend), AC7 (schedules keep working), AC8 (s3personal mirror error), AC9-10.
 <!-- SECTION:NOTES:END -->
