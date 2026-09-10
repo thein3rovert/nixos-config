@@ -13,6 +13,10 @@ triggers:
     disabled: false
     timezone: "Europe/London"
 
+variables:
+  backup_host: "100.105.187.63"
+  expected_ed25519_fingerprint: "SHA256:NzrAAdiURQbcDlSe6UxRARZ6+xGb/KvLdl5TpA0PCAM"
+
 tasks:
   - id: working_dir
     type: io.kestra.plugin.core.flow.WorkingDirectory
@@ -33,6 +37,8 @@ tasks:
           ANSIBLE_VAULT_PASSWORD: "{{ kv('ANSIBLE_VAULT_PASSWORD') }}"
           SSH_PRIVATE_KEY: "{{ kv('SSH_PRIVATE_KEY') }}"
           ANSIBLE_VAULT_PASSWORD_FILE: /root/.config/ansible/vault-password
+          BACKUP_HOST: "{{ vars.backup_host }}"
+          EXPECTED_HOST_FINGERPRINT: "{{ vars.expected_ed25519_fingerprint }}"
         beforeCommands:
           - apk add --no-cache curl bash openssh-client
           - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
@@ -41,5 +47,19 @@ tasks:
           - chmod 600 ~/.ssh/id_rsa
           - echo "$ANSIBLE_VAULT_PASSWORD" > /root/.config/ansible/vault-password
           - chmod 600 /root/.config/ansible/vault-password
+          - |
+            set -eu
+            SCANNED_KEY="$(ssh-keyscan -t ed25519 "$BACKUP_HOST" 2>/dev/null)"
+            ACTUAL_FINGERPRINT="$(printf '%s\n' "$SCANNED_KEY" | ssh-keygen -lf - -E sha256 | awk '{print $2}')"
+
+            if [ "$ACTUAL_FINGERPRINT" != "$EXPECTED_HOST_FINGERPRINT" ]; then
+              echo "SSH host fingerprint mismatch for $BACKUP_HOST"
+              echo "Expected: $EXPECTED_HOST_FINGERPRINT"
+              echo "Actual:   $ACTUAL_FINGERPRINT"
+              exit 1
+            fi
+
+            printf '%s\n' "$SCANNED_KEY" >> ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
         commands:
           - cd {{workingDir}} && just run-host backup bellamy
