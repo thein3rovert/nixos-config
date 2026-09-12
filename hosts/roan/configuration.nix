@@ -64,6 +64,7 @@
     services = {
       tailscale.enable = true;
       dockhand.enable = true;
+      grafana.enable = true;
       zerobyte = {
         enable = true;
         extraVolumes = [

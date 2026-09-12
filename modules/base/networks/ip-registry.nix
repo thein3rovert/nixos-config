@@ -56,12 +56,12 @@ in
       url = "${config.homelab.ipRegistry.zerobyte.ip}:${toString config.homelab.ipRegistry.zerobyte.port}";
     };
     grafana = {
-      ip = hosts.localhost.ip;
+      ip = hosts.roan.tailscaleIp;
       port = networkMap.grafana.port;
       url = "${config.homelab.ipRegistry.grafana.ip}:${toString config.homelab.ipRegistry.grafana.port}";
     };
     loki = {
-      ip = hosts.localhost.ip;
+      ip = hosts.roan.tailscaleIp;
       port = networkMap.loki.port;
       url = "${config.homelab.ipRegistry.loki.ip}:${toString config.homelab.ipRegistry.loki.port}";
     };

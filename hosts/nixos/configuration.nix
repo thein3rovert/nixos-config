@@ -267,7 +267,7 @@ in
     };
 
     programs = {
-      fossflow.enable = true;
+      fossflow.enable = false; # move to roan
       incus.enable = true;
       jnix.enable = true;
       obs-studio.enable = true;
@@ -361,7 +361,7 @@ in
 
       # TODO: Move to lxc on proxmox
       termix.enable = true;
-      grafana.enable = true;
+      grafana.enable = false; # moved to roan (HML-039)
       copyparty.enable = true;
       fileshare.enable = true;
       dbpro-studio.enable = true;
