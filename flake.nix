@@ -456,6 +456,7 @@
                 ./hosts/roan
                 agenix.nixosModules.default
                 self.nixosModules.base
+                self.nixosModules.snippets
                 # self.inputs.home-manager.nixosModules.home-manager
                 self.nixosModules.nixosOs
               ];
