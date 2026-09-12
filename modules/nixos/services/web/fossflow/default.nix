@@ -18,7 +18,7 @@ in
       ports = [ "8087:80" ];
 
       # TODO: ADD PATH UNDER NETWORKING BASE MODULES
-      volumes = [ "/var/lib/fossflow/diagrams:/data/diagrams" ];
+      volumes = [ "/var/lib/containers/fossflow/diagrams:/data/diagrams" ];
 
       environment = {
         ENABLE_SERVER_STORAGE = "true"; # Uncomment to disable

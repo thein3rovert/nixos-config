@@ -59,6 +59,7 @@
   nixosSetup = {
     programs = {
       podman.enable = true;
+      fossflow.enable = true;
     };
     services = {
       tailscale.enable = true;
