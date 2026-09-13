@@ -110,6 +110,14 @@ in
             ingestion_rate_mb = 50000;
             ingestion_burst_size_mb = 50000;
             volume_enabled = true;
+            # 14-day retention - roan has a 20G disk (HML-041)
+            retention_period = "336h";
+          };
+
+          compactor = {
+            working_directory = "/var/lib/loki/compactor";
+            retention_enabled = true;
+            delete_request_store = "filesystem";
           };
 
           query_range = {
