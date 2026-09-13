@@ -8,8 +8,6 @@ let
   inherit (lib)
     mkIf
     mkEnableOption
-    types
-    mkOption
     ;
 
   # Custom helper functions
@@ -73,12 +71,12 @@ in
 
           common = {
             instance_addr = "0.0.0.0";
-            path_prefix = "/tmp/loki";
+            path_prefix = "/var/lib/loki";
 
             storage = {
               filesystem = {
-                chunks_directory = "/tmp/loki/chunks";
-                rules_directory = "/tmp/loki/rules";
+                chunks_directory = "/var/lib/loki/chunks";
+                rules_directory = "/var/lib/loki/rules";
               };
             };
 
