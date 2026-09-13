@@ -13,20 +13,8 @@ let
     ;
 
   # Custom helper functions
-  createOption = mkOption;
   createEnableOption = mkEnableOption;
   If = mkIf;
-  mapAttribute = lib.mapAttrs;
-
-  # Types used
-  attributeSetOf = types.attrsOf;
-  subModule = types.submodule;
-  string = types.str;
-  list = types.listOf;
-  boolean = types.bool;
-  port = types.port;
-  integer = types.int;
-
   cfg = config.nixosSetup.services.grafana;
 in
 {
