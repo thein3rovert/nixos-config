@@ -32,7 +32,12 @@
           type = "remap";
           inputs = [ "journald" ];
           source = ''
-            if .host == null { .host = get_hostname() }
+            .host, err = get_hostname()
+            if err != null {
+              if .host == null {
+                .host = "unknown"
+              }
+            }
             .unit = del(._SYSTEMD_UNIT)
             if .unit == null { .unit = "unknown" }
           '';
