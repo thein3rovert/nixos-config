@@ -5,6 +5,7 @@
     ./uptime-kuma
     ./grafana
     ./promtail
+    ./vector
     ./prometheusNode
     ./dockhand
     ./hawser
