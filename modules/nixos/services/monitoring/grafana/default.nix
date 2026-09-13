@@ -141,6 +141,22 @@ in
         globalConfig.scrape_interval = "60s";
         inherit (config.myDns.networkMap.localNetworkMap.prometheus) port;
 
+        # Blackbox exporter - HTTP probing of internal vHosts from roan.
+        # Internal domains resolve to nixos Tailscale IP via MagicDNS,
+        # so probes exercise the full traefik routing path end-to-end.
+        exporters.blackbox = {
+          enable = true;
+          port = config.homelab.servicePorts.blackbox;
+          configFile = pkgs.writeText "blackbox.yml" ''
+            modules:
+              http_2xx:
+                prober: http
+                timeout: 10s
+                http:
+                  preferred_ip_protocol: ip4
+          '';
+        };
+
         scrapeConfigs = [
           # {
           #   job_name = "smartctl";
@@ -205,6 +221,52 @@ in
               {
                 targets = [ "raven:3021" ];
                 labels.instance = "raven";
+              }
+            ];
+          }
+
+          # Blackbox - Probes internal vHosts through nixos traefik.
+          # Targets derive from networkMap so renames track automatically.
+          # Complements uptime-kuma on bellamy (public) with internal-path coverage.
+          # NOTE: n8n excluded (service off); loki probed at /ready (no homepage).
+          {
+            job_name = "blackbox-http";
+            metrics_path = "/probe";
+            params.module = [ "http_2xx" ];
+            static_configs = [
+              {
+                targets =
+                  map (name: "http://${config.myDns.networkMap.localNetworkMap.${name}.vHost}/") [
+                    "grafana"
+                    "garage-webui"
+                    "kaneo"
+                    "dockhand"
+                    "zerobyte"
+                    "fossflow"
+                    "termix"
+                    "copyparty"
+                    "filebrowser"
+                    "syncthing"
+                    "vault"
+                    "linkding"
+                    "kestra"
+                    "dbpro-studio"
+                  ]
+                  ++ [ "http://${config.myDns.networkMap.localNetworkMap.loki.vHost}/ready" ];
+              }
+            ];
+            relabel_configs = [
+              {
+                source_labels = [ "__address__" ];
+                target_label = "__param_target";
+              }
+              {
+                source_labels = [ "__param_target" ];
+                target_label = "instance";
+              }
+              {
+                target_label = "__address__";
+                replacement = "127.0.0.1:${toString config.homelab.servicePorts.blackbox}";
               }
             ];
           }

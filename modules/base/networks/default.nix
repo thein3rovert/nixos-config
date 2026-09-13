@@ -126,6 +126,7 @@ in
       promtail = 3031;
       prometheusNode = 3021;
       prometheus = 3020;
+      blackbox = 9115;
 
       # Networking
       traefik = 80;
