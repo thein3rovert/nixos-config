@@ -353,6 +353,7 @@ in
       # Move to roan
       # zerobyte.enable = true;
       # dockhand.enable = false;
+      # grafana.enable = false; # moved to roan (HML-039)
 
       hawser.enable = false;
       dockhand.enable = false;
@@ -361,7 +362,6 @@ in
 
       # TODO: Move to lxc on proxmox
       termix.enable = true;
-      grafana.enable = false; # moved to roan (HML-039)
       copyparty.enable = true;
       fileshare.enable = true;
       dbpro-studio.enable = true;
