@@ -500,7 +500,7 @@
       "id": 17,
       "type": "table",
       "title": "SSH Logins by User and IP",
-      "description": "Accepted logins in the last day (per-connection sshd units included)",
+      "description": "Accepted logins in the last day. Origin is a heuristic: lan = private/Tailscale range (this box, automation), remote = public IP (you, away from home)",
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
@@ -516,9 +516,73 @@
           "refId": "A",
           "direction": "backward",
           "queryType": "range",
-          "expr": "sum by (user, ip) (count_over_time({unit=~\"sshd.*\"} |~ \"Accepted (password|publickey)\" | regexp \"for (?P<user>\\\\S+) from (?P<ip>\\\\S+)\" [24h]))"
+          "expr": "sum by (user, ip, origin) (label_replace(count_over_time({unit=~\"sshd.*\"} |~ \"Accepted (password|publickey)\" | regexp \"for (?P<user>\\\\S+) from (?P<ip>\\\\S+)\" [24h]), \"origin\", \"lan\", \"ip\", \"192\\\\.168\\\\..*|10\\\\..*|100\\\\..*|fd.*\"))"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Logins"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "origin"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Origin"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ip"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "IP Address"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "user"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "User"
+              }
+            ]
+          }
+        ],
+        "mappings": [
+          {
+            "type": "special",
+            "options": {
+              "match": "empty",
+              "result": {
+                "text": "remote"
+              }
+            }
+          }
+        ]
+      }
     },
     {
       "id": 18,
