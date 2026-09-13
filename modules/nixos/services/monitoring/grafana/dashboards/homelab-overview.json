@@ -582,7 +582,15 @@
             }
           }
         ]
-      }
+      },
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        }
+      ]
     },
     {
       "id": 18,
@@ -605,6 +613,14 @@
           "direction": "backward",
           "queryType": "range",
           "expr": "sum by (ip) (count_over_time({unit=~\"sshd.*\"} |~ \"Failed\" | regexp \"from (?P<ip>\\\\S+)\" [24h]))"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
         }
       ]
     }

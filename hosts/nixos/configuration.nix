@@ -349,6 +349,7 @@ in
       adguard.enable = false;
       prometheusNode.enable = true;
       promtail.enable = false;
+      # Choosing vector over promtail as it still in mantainace mode
       vector.enable = true; # ships journald to Loki on roan (HML-040.03)
 
       # Move to roan

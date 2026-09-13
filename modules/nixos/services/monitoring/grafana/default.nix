@@ -52,6 +52,14 @@ in
               url = "http://127.0.0.1:${toString config.myDns.networkMap.localNetworkMap.loki.port}";
             }
           ];
+
+          # Lean fleet dashboard (HML-040.01 design) - survives fresh deploys.
+          dashboards.settings.providers = [
+            {
+              name = "homelab";
+              options.path = ./dashboards;
+            }
+          ];
         };
       };
 
