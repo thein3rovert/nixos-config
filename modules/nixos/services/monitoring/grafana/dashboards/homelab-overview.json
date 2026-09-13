@@ -1,0 +1,548 @@
+{
+  "uid": "homelab-overview",
+  "title": "Homelab Overview",
+  "tags": [
+    "homelab",
+    "provisioned"
+  ],
+  "timezone": "browser",
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "version": 1,
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "host",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(up{job=\"node\"}, instance)",
+        "query": "label_values(up{job=\"node\"}, instance)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        }
+      },
+      {
+        "name": "unit",
+        "type": "query",
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "label_values({host=~\"(?i)$host\"}, unit)",
+        "query": "label_values({host=~\"(?i)$host\"}, unit)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Fleet Status",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Hosts Up",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(up{job=\"node\"})"
+        }
+      ],
+      "description": "Nodes currently reporting to Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "green",
+                "value": 7
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Hosts Total",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(up{job=\"node\"})"
+        }
+      ],
+      "description": "Nodes configured for scraping",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Endpoint Probes Passing",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(probe_success)"
+        }
+      ],
+      "description": "Blackbox HTTP checks returning 200 via internal traefik",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "green",
+                "value": 15
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Endpoint Probes Total",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(probe_success)"
+        }
+      ],
+      "description": "vHosts probed every 60s",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "barchart",
+      "title": "Failing Service Checks (7d)",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 5
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "direction": "backward",
+          "queryType": "range",
+          "expr": "sum by (monitor_name) (\n  count_over_time(\n    {unit=\"podman-uptime-kuma.service\", host=\"Bellamy\"}\n    |= \"Failing\"\n    | regexp `Monitor #(?P<monitor_id>\\d+) '(?P<monitor_name>[^']+)'`\n    [$__range]\n  )\n)"
+        }
+      ],
+      "description": "Uptime-kuma monitors reporting Failing, grouped by monitor"
+    },
+    {
+      "id": 7,
+      "type": "row",
+      "title": "Host Details: $host",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "repeat": "host",
+      "collapsed": false
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "CPU Usage",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 22
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", instance=\"$host\"}[5m])) * 100)"
+        }
+      ],
+      "description": "Share of non-idle CPU time, 5m rate",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 1
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Memory Usage",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 22
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=\"$host\"} / node_memory_MemTotal_bytes{instance=\"$host\"})) * 100"
+        }
+      ],
+      "description": "Share of total RAM in use",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 1
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Disk Usage",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 22
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(1 - (node_filesystem_avail_bytes{instance=\"$host\", mountpoint=\"/\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|ramfs|devtmpfs|overlay|nsfs\"} / node_filesystem_size_bytes{instance=\"$host\", mountpoint=\"/\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|ramfs|devtmpfs|overlay|nsfs\"})) * 100"
+        }
+      ],
+      "description": "Share of the root filesystem in use",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 1
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "Load Average",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 22
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_load1{instance=\"$host\"}"
+        }
+      ],
+      "description": "1-minute load average (1.0 ~= one full core)",
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "decimals": 2
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": "logs",
+      "title": "Service Logs",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "direction": "backward",
+          "expr": "{host=~\"(?i)$host\", unit=~\"$unit\"}"
+        }
+      ],
+      "description": "Systemd journal entries from Vector. Narrow with the host and unit filters above."
+    },
+    {
+      "id": 13,
+      "type": "table",
+      "title": "Endpoint Latency",
+      "description": "Last blackbox probe duration per endpoint",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 5
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "probe_duration_seconds",
+          "format": "table",
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "decimals": 3
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 14,
+      "type": "row",
+      "title": "SSH Activity",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      }
+    },
+    {
+      "id": 15,
+      "type": "stat",
+      "title": "SSH Logins (24h)",
+      "description": "Accepted SSH logins across fleet in the last day",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "direction": "backward",
+          "queryType": "range",
+          "expr": "sum(count_over_time({unit=~\"sshd.*\"} |~ \"Accepted (password|publickey)\" [24h]))"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": "stat",
+      "title": "Failed SSH Attempts (24h)",
+      "description": "Rejected SSH logins in the last day - almost all bots on Bellamy",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "direction": "backward",
+          "queryType": "range",
+          "expr": "sum(count_over_time({unit=~\"sshd.*\"} |~ \"Failed\" [24h]))"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          }
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": "table",
+      "title": "SSH Logins by User and IP",
+      "description": "Accepted logins in the last day (per-connection sshd units included)",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "direction": "backward",
+          "queryType": "range",
+          "expr": "sum by (user, ip) (count_over_time({unit=~\"sshd.*\"} |~ \"Accepted (password|publickey)\" | regexp \"for (?P<user>\\\\S+) from (?P<ip>\\\\S+)\" [24h]))"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "type": "table",
+      "title": "Top SSH Offenders",
+      "description": "Source IPs behind failed logins in the last day",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 41
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "direction": "backward",
+          "queryType": "range",
+          "expr": "sum by (ip) (count_over_time({unit=~\"sshd.*\"} |~ \"Failed\" | regexp \"from (?P<ip>\\\\S+)\" [24h]))"
+        }
+      ]
+    }
+  ]
+}
