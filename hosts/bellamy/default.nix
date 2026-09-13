@@ -167,8 +167,9 @@
         database = "postgresql";
       };
       prometheusNode.enable = true;
-      # No longer supported and maintained swithing to alloy
+      # promtail retired (upstream maintenance mode) - Vector ships journals instead
       promtail.enable = false;
+      vector.enable = true; # ships journald to Loki on roan (HML-040.03)
     };
 
     programs = {
