@@ -40,6 +40,16 @@
             }
             .unit = del(._SYSTEMD_UNIT)
             if .unit == null { .unit = "unknown" }
+
+            # Drop pure noise (HML-041): login session scopes carry nothing
+            unit_str = string(.unit) ?? ""
+            if match(unit_str, r'^session-[0-9]+[.]scope$') { abort }
+
+            # Drop info/debug spam from the two chattiest units, keep warnings+
+            # (journal numeric priority: 4 = warning, 6 = info, 7 = debug)
+            pri = .PRIORITY
+            if pri == null { pri = "7" }
+            if (.unit == "podman-kestra.service" || .unit == "podman.service") && (to_int(pri) ?? 7) > 4 { abort }
           '';
         };
 
