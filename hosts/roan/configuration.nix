@@ -65,6 +65,7 @@
       tailscale.enable = true;
       dockhand.enable = true;
       grafana.enable = true;
+      vector.enable = true; # ships journald to local Loki (HML-040.03)
       zerobyte = {
         enable = true;
         extraVolumes = [

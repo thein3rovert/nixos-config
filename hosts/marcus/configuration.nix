@@ -120,6 +120,7 @@
       };
       kestra.enable = true;
       hawser.enable = true;
+      vector.enable = true; # ships journald to Loki on roan (HML-040.03)
     };
   };
 

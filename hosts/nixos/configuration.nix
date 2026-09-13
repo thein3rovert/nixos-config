@@ -349,6 +349,7 @@ in
       adguard.enable = false;
       prometheusNode.enable = true;
       promtail.enable = false;
+      vector.enable = true; # ships journald to Loki on roan (HML-040.03)
 
       # Move to roan
       # zerobyte.enable = true;
