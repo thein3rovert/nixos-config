@@ -95,7 +95,7 @@ in
       url = "${config.homelab.ipRegistry.termix.ip}:${toString config.homelab.ipRegistry.termix.port}";
     };
     fossflow = {
-      ip = hosts.emily.ip;
+      ip = hosts.roan.tailscaleIp;
       port = networkMap.fossflow.port;
       url = "${config.homelab.ipRegistry.fossflow.ip}:${toString config.homelab.ipRegistry.fossflow.port}";
     };

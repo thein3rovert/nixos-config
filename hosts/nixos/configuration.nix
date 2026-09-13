@@ -355,7 +355,7 @@ in
       # dockhand.enable = false;
       # grafana.enable = false; # moved to roan (HML-039)
 
-      hawser.enable = false;
+      hawser.enable = true;
       dockhand.enable = false;
       mysql.enable = false;
       n8n.enable = false;
