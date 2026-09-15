@@ -50,6 +50,11 @@ in
           port = ports.containerPorts.ad-guard;
           vHost = "ad-guard.${config.myDns.networkMap.name}";
         };
+        technitium = {
+          hostName = "emily";
+          port = ports.containerPorts.technitium;
+          vHost = "technitium.${config.myDns.networkMap.name}";
+        };
 
         # ============================================
         # Automation

@@ -7,5 +7,6 @@
     ./traefikk
     ./adguard
     ./ad-guard
+    ./technitium
   ];
 }

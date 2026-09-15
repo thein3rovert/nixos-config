@@ -97,6 +97,9 @@ in
 
       # SSH Management
       termix = 8088;
+
+      # DNS
+      technitium = 5380;
     };
 
     # ============================================
@@ -109,6 +112,7 @@ in
     servicePorts = {
       # DNS
       adguard = 53;
+      technitium = 53;
 
       # Database
       postgresql = 5432;
