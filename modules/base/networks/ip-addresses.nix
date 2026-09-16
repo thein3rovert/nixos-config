@@ -65,6 +65,10 @@ in
         ip = "${ip-base}.103";
         tailscaleIp = "100.99.235.113";
       };
+      zeke = {
+        ip = "${ip-base}.106";
+        tailscaleIp = ""; # TODO: fill in after Tailscale auth
+      };
       finn = {
         ip = "${ip-base}.51";
         tailscaleIp = "100.91.36.84";
