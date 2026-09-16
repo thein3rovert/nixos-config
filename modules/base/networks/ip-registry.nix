@@ -79,6 +79,11 @@ in
       port = networkMap.ad-guard.port;
       url = "${config.homelab.ipRegistry.ad-guard.ip}:${toString config.homelab.ipRegistry.ad-guard.port}";
     };
+    technitium = {
+      ip = hosts.zeke.tailscaleIp;
+      port = networkMap.technitium.port;
+      url = "${config.homelab.ipRegistry.technitium.ip}:${toString config.homelab.ipRegistry.technitium.port}";
+    };
     n8n = {
       ip = hosts.emily.ip;
       port = networkMap.n8n.port;

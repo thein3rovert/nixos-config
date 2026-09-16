@@ -180,6 +180,11 @@ in
             identityFile = "~/.ssh/id_ed25519";
             user = "root";
           };
+          zeke = lib.recursiveUpdate defaultSSHConfig {
+            hostname = "100.74.26.17";
+            identityFile = "~/.ssh/id_ed25519";
+            user = "thein3rovert";
+          };
           finn = lib.recursiveUpdate defaultSSHConfig {
             hostname = "192.168.0.51";
             identityFile = "~/.ssh/thein3rovert_nixos";

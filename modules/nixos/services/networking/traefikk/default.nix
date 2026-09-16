@@ -82,6 +82,9 @@
           services.ad-guard.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.ad-guard.url}/"; }
           ];
+          services.technitium.loadBalancer.servers = [
+            { url = "http://${config.homelab.ipRegistry.technitium.url}/"; }
+          ];
           services.fossflow.loadBalancer.servers = [
             { url = "http://${config.homelab.ipRegistry.fossflow.url}/"; }
           ];
@@ -186,6 +189,11 @@
             ad-guard = {
               rule = "Host(`${config.myDns.networkMap.localNetworkMap.ad-guard.vHost}`)";
               service = "ad-guard";
+              entryPoints = [ "web" ];
+            };
+            technitium = {
+              rule = "Host(`${config.myDns.networkMap.localNetworkMap.technitium.vHost}`)";
+              service = "technitium";
               entryPoints = [ "web" ];
             };
             # Disabled: garage-webui removed from nixpkgs - now using Noooste/garage-ui
