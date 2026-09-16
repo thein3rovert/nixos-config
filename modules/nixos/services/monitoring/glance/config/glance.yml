@@ -213,6 +213,11 @@ pages:
                 timeout: 5s
                 url: http://ad-guard.l.thein3rovert.com
                 icon: di:adguard-home.png
+              - title: Technitium
+                same-tab: true
+                timeout: 5s
+                url: http://technitium.l.thein3rovert.com
+                icon: di:technitium.png
               - title: Vault
                 same-tab: true
                 timeout: 5s
