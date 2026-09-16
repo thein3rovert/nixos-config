@@ -20,8 +20,8 @@ let
   configDir = "/var/lib/technitium"; # zones + settings -> /etc/dns
   logDir = "/var/log/technitium/dns"; # query/app logs
 
-  # Technitium expects semicolon-separated forwarders
-  forwarders = concatStringsSep ";" cfg.forwarders;
+  # Technitium expects comma-separated forwarders
+  forwarders = concatStringsSep "," cfg.forwarders;
 in
 {
   options.nixosSetup.services.technitium = {
@@ -36,12 +36,12 @@ in
     forwarders = mkOption {
       type = types.listOf types.str;
       default = [ "1.1.1.1" "8.8.8.8" ];
-      description = "Upstream forwarders (joined with ';' for Technitium)";
+      description = "Upstream forwarders (joined with ',' for Technitium)";
     };
 
     recursion = mkOption {
-      type = types.enum [ "allow" "deny" "allowOnlyForPrivateNetworks" "useSpecifiedNetworks" ];
-      default = "allowOnlyForPrivateNetworks";
+      type = types.enum [ "Allow" "Deny" "AllowOnlyForPrivateNetworks" "UseSpecifiedNetworkACL" ];
+      default = "AllowOnlyForPrivateNetworks";
       description = "Recursion policy for the resolver";
     };
 
