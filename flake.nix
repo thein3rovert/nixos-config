@@ -196,6 +196,7 @@
             # Managed by Proxmox
             "finn" # (Lxc - Killed by grounders)
             "roan" # lxc for all current container on emily
+            "zeke" # lxc - technitium dns resolver
             # "vps-het-1"
             # "demo"
             # "wellsjaha"
@@ -458,6 +459,25 @@
                 self.nixosModules.base
                 self.nixosModules.snippets
                 # self.inputs.home-manager.nixosModules.home-manager
+                self.nixosModules.nixosOs
+              ];
+            };
+
+            # ---- Node: Zeke [ lxc 04 ] ----
+            zeke = {
+              deployment = {
+                targetHost = "192.168.0.106";
+                targetPort = 22;
+                targetUser = "thein3rovert";
+                buildOnTarget = false;
+                tags = [ "homelab" ];
+              };
+              nixpkgs.system = "x86_64-linux";
+              imports = [
+                ./hosts/zeke
+                agenix.nixosModules.default
+                self.nixosModules.base
+                self.nixosModules.snippets
                 self.nixosModules.nixosOs
               ];
             };
