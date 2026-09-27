@@ -7,5 +7,7 @@
     ./starship
     ./git
     ./kitty
+    ./gtk
+    ./dunst
   ];
 }

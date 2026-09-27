@@ -38,7 +38,7 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStart = "%h/.npm-global/bin/opencode web --port ${toString cfg.port} --hostname ${cfg.hostname}";
+        ExecStart = "%h/.opencode/bin/opencode serve --port ${toString cfg.port} --hostname ${cfg.hostname}";
         Restart = "always";
         RestartSec = 10;
       };

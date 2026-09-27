@@ -84,7 +84,7 @@ in
 
     # ---- GUI Applications ----
     # TODO: MOVE TO DESKTOP MODULES
-    dunst # Notification daemon
+    # dunst removed - now managed per-user via homeSetup.thein3rovert.programs.dunst (Tokyo Night)
     # blueberry has been changed to blueman
     blueman # Bluetooth manager
     networkmanagerapplet # Network manager GUI

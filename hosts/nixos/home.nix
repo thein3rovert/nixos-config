@@ -241,6 +241,7 @@ in
         # TODO: Move later to Arkadia home modules
         # can call from arkadia instead
         programs.backlog-md.enable = true;
+        programs.fzf.enable = true;
 
         thein3rovert = {
           programs.apps.enable = true;
@@ -249,6 +250,8 @@ in
           programs.zsh.enable = true;
           programs.kitty.enable = true;
           programs.starship.enable = true;
+          programs.gtk.enable = true;
+          programs.dunst.enable = true;
         };
       };
 
