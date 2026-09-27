@@ -13,7 +13,7 @@
 
   config = lib.mkIf config.homeSetup.thein3rovert.programs.kitty.enable {
 
-    colorScheme = self.inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+    colorScheme = self.inputs.nix-colors.colorSchemes.tokyo-night-dark;
     programs.kitty = {
       enable = true;
       settings = {

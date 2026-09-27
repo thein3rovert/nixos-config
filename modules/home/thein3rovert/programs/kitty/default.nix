@@ -11,60 +11,60 @@
     programs.kitty = {
       enable = true;
       settings = {
-        # Custom color scheme
-        background = "#1d2021";
-        foreground = "#d4be98";
-        selection_background = "#d4be98";
-        selection_foreground = "#1d2021";
-        cursor = "#a89984";
+        # Tokyo Night - ported from .config preview
+        background = "#1a1b26";
+        foreground = "#c0caf5";
+        selection_background = "#7aa2f7";
+        selection_foreground = "#1a1b26";
+        cursor = "#c0caf5";
         cursor_text_color = "background";
 
         # Black
-        color0 = "#665c54";
-        color8 = "#928374";
+        color0 = "#15161e";
+        color8 = "#414868";
 
         # Red
-        color1 = "#ea6962";
-        color9 = "#ea6962";
+        color1 = "#f7768e";
+        color9 = "#f7768e";
 
         # Green
-        color2 = "#a9b665";
-        color10 = "#a9b665";
+        color2 = "#9ece6a";
+        color10 = "#9ece6a";
 
         # Yellow
-        color3 = "#e78a4e";
-        color11 = "#d8a657";
+        color3 = "#e0af68";
+        color11 = "#e0af68";
 
         # Blue
-        color4 = "#83a598";
-        color12 = "#83a598";
+        color4 = "#7aa2f7";
+        color12 = "#7aa2f7";
 
         # Magenta
-        color5 = "#d3869b";
-        color13 = "#d3869b";
+        color5 = "#bb9af7";
+        color13 = "#bb9af7";
 
         # Cyan
-        color6 = "#89b482";
-        color14 = "#89b482";
+        color6 = "#7dcfff";
+        color14 = "#7dcfff";
 
         # White
-        color7 = "#d4be98";
-        color15 = "#d4be98";
+        color7 = "#a9b1d6";
+        color15 = "#c0caf5";
 
         # Tab colors
-        active_tab_foreground = "#444444";
-        active_tab_background = "#d4be98";
-        inactive_tab_foreground = "#d4be98";
-        inactive_tab_background = "#171a1a";
+        active_tab_foreground = "#16161e";
+        active_tab_background = "#7aa2f7";
+        inactive_tab_foreground = "#545c7e";
+        inactive_tab_background = "#292e42";
 
-        url_color = "#d3869b";
+        url_color = "#73daca";
 
         # Other settings
         repaint_delay = "60";
         sync_to_monitor = "no";
         # background_opacity = "1.0";
         # background_blur = "1";
-        background_opacity = "0.80";
+        background_opacity = "0.90";
         tab_bar_style = "powerline";
         tab_powerline_style = "round";
         font_family = "JetbrainsMono Nerd Font";

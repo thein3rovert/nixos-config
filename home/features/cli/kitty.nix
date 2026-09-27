@@ -10,7 +10,7 @@
     self.inputs.nix-colors.homeManagerModule
   ];
 
-  colorScheme = self.inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+  colorScheme = self.inputs.nix-colors.colorSchemes.tokyo-night-dark;
   programs.kitty = {
     enable = true;
     settings = {
