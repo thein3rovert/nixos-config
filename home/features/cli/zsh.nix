@@ -22,10 +22,11 @@ in
       };
       initContent = ''
         bindkey '^f' autosuggest-accept
-        # OH-MY-POSH
-        if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-          eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json )"
-        fi
+        # OH-MY-POSH disabled - starship is Tokyo Night primary prompt
+        # To re-enable with Tokyo Night: eval "$(oh-my-posh init zsh --config ~/.poshthemes/tokyonight_storm.omp.json )"
+        # if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+        #   eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json )"
+        # fi
 
         export NIX_PATH="nixpkgs=channel:nixos-unstable"
         export NIX_LOG="info"
