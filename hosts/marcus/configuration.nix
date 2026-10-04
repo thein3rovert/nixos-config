@@ -17,6 +17,7 @@
   # Networking
   networking.hostName = "marcus"; # Change this
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
 
   # Locale
   time.timeZone = "Europe/London"; # Change as needed
