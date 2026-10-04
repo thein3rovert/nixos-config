@@ -346,9 +346,7 @@ in
           garageAdminEndpoint = "http://127.0.0.1:3903";
         };
 
-      adguard.enable = false;
       prometheusNode.enable = true;
-      promtail.enable = false;
       # Choosing vector over promtail as it still in mantainace mode
       vector.enable = true; # ships journald to Loki on roan (HML-040.03)
 
@@ -358,16 +356,9 @@ in
       # grafana.enable = false; # moved to roan (HML-039)
 
       hawser.enable = true;
-      dockhand.enable = false;
-      mysql.enable = false;
-      n8n.enable = false;
 
-      # TODO: Move to lxc on proxmox
-      termix.enable = false;
       copyparty.enable = false;
       fileshare.enable = true;
-      dbpro-studio.enable = true;
-      kaneo.enable = true;
       postgresql.enable = true;
 
       nginx = {
