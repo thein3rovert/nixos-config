@@ -33,6 +33,7 @@ in
         # Authenticate with Tailscale IPs
         host all all  ${config.homelab.ipAddresses.bellamy.tailscaleIp}/32 md5
         host all all  ${config.homelab.ipAddresses.marcus.tailscaleIp}/32 md5
+        host all all  ${config.homelab.ipAddresses.roan.tailscaleIp}/32 md5
       '';
       initialScript = pkgs.writeText "initialScript.sql" ''
         CREATE USER n8n WITH PASSWORD 'n8n';
