@@ -11,7 +11,7 @@ let
   port = config.homelab.containerPorts.termix;
 
   # Termix volumes
-  dataVolume = "/var/lib/termix/data:/app/data";
+  dataVolume = "/var/lib/containers/termix/data:/app/data";
 in
 {
   options.nixosSetup.services.termix = {
