@@ -67,6 +67,7 @@
       grafana.enable = true;
       vector.enable = true; # ships journald to local Loki (HML-040.03)
       termix.enable = true;
+      kaneo.enable = true;
       zerobyte = {
         enable = true;
         extraVolumes = [

@@ -150,7 +150,7 @@ in
       url = "${config.homelab.ipRegistry.argocd.ip}:${toString config.homelab.ipRegistry.argocd.port}";
     };
     kaneo = {
-      ip = hosts.emily.tailscaleIp;
+      ip = hosts.roan.tailscaleIp;
       port = networkMap.kaneo.port;
       url = "${config.homelab.ipRegistry.kaneo.ip}:${toString config.homelab.ipRegistry.kaneo.port}";
     };

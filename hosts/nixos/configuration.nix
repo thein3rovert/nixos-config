@@ -363,8 +363,8 @@ in
       n8n.enable = false;
 
       # TODO: Move to lxc on proxmox
-      termix.enable = true;
-      copyparty.enable = true;
+      termix.enable = false;
+      copyparty.enable = false;
       fileshare.enable = true;
       dbpro-studio.enable = true;
       kaneo.enable = true;
